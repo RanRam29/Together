@@ -16,6 +16,7 @@ DECLARE
   professional_id uuid := 'c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a33';
   child_id uuid := 'd0eebc99-9c0b-4ef8-bb6d-6bb9bd380a44';
   request_id uuid := 'e0eebc99-9c0b-4ef8-bb6d-6bb9bd380a55';
+  v_match_id uuid;
 BEGIN
   -- ============================================================
   -- TEST 1 - 4: VERIFY RLS IS ENABLED
@@ -48,7 +49,6 @@ BEGIN
   -- ============================================================
   -- TEST 5: ANON USER PRIVACY
   -- ============================================================
-  -- Set current user role to anon
   EXECUTE 'SET LOCAL role TO anon';
   RETURN NEXT is_empty(
     'SELECT * FROM public.children',
@@ -58,11 +58,10 @@ BEGIN
   -- ============================================================
   -- TEST 6 & 7: PARENT ACCESS
   -- ============================================================
-  -- Switch to parent_1 authentication context
   EXECUTE 'SET LOCAL role TO authenticated';
   PERFORM set_config('request.jwt.claims', json_build_object('sub', parent_1_id, 'role', 'authenticated')::text, true);
 
-  -- Parent 1 creates a child profile (TIER 0-1) and child details (TIER 2-3)
+  -- Parent 1 creates a child profile
   INSERT INTO children (id, parent_id, first_name, age, category, functioning_level, framework, published)
   VALUES (child_id, parent_1_id, 'נועם בדיקה', 8, 'autism', 2, 'regular_school', true);
 
@@ -76,13 +75,12 @@ BEGIN
 
   RETURN NEXT lives_ok(
     'SELECT * FROM public.child_details WHERE child_id = ' || quote_literal(child_id),
-    'Parent 1 can select their own child details (TIER 3)'
+    'Parent 1 can select their own child details'
   );
 
   -- ============================================================
   -- TEST 8 & 9: BOLA / IDOR PREVENTION (PARENT 2 CANNOT ACCESS)
   -- ============================================================
-  -- Switch to parent_2 context
   PERFORM set_config('request.jwt.claims', json_build_object('sub', parent_2_id, 'role', 'authenticated')::text, true);
 
   RETURN NEXT is_empty(
@@ -96,39 +94,99 @@ BEGIN
   );
 
   -- ============================================================
-  -- TEST 10 & 11: VERIFIED PROFESSIONAL ACCESS (TIER 0)
+  -- TEST 10 - 13: TIER 0 PRO LIMITATIONS (C2 & C3)
   -- ============================================================
-  -- Switch to professional context
   PERFORM set_config('request.jwt.claims', json_build_object('sub', professional_id, 'role', 'authenticated')::text, true);
 
-  RETURN NEXT lives_ok(
+  -- C2: Direct select on children table is empty for professional
+  RETURN NEXT is_empty(
     'SELECT * FROM public.children WHERE id = ' || quote_literal(child_id),
-    'Verified professional can select published child (TIER 0)'
+    'Verified professional CANNOT select directly from raw children table (TIER 0 blocked)'
   );
 
+  -- C2: View select works for professional
+  RETURN NEXT lives_ok(
+    'SELECT * FROM public.children_tier0 WHERE id = ' || quote_literal(child_id),
+    'Verified professional can select from children_tier0 view'
+  );
+
+  -- C2: View does not leak location/needs
+  RETURN NEXT ok(
+    NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'children_tier0' AND column_name = 'location'),
+    'View children_tier0 does not contain location column'
+  );
+  RETURN NEXT ok(
+    NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'children_tier0' AND column_name = 'needs'),
+    'View children_tier0 does not contain needs column'
+  );
+
+  -- C3: Direct select on child_details table is empty for professional
   RETURN NEXT is_empty(
     'SELECT * FROM public.child_details WHERE child_id = ' || quote_literal(child_id),
-    'Verified professional CANNOT select child details without relationship (TIER 2/3 blocked)'
+    'Verified professional CANNOT select child_details table directly'
   );
 
   -- ============================================================
-  -- TEST 12 & 13: TIER TRANSITION TO TIER 2 (APPROVED REQUEST)
+  -- TEST 14 - 17: REQUEST STATE MACHINE & BYPASS PROTECTION (C1)
   -- ============================================================
-  -- Switch back to parent_1 to create and approve request
+  -- Switch to parent 1 to create request
   PERFORM set_config('request.jwt.claims', json_build_object('sub', parent_1_id, 'role', 'authenticated')::text, true);
-
   INSERT INTO match_requests (id, child_id, professional_id, status, initiated_by)
   VALUES (request_id, child_id, professional_id, 'pending', 'parent');
 
-  -- Approve the request
-  UPDATE match_requests SET status = 'approved' WHERE id = request_id;
-
-  -- Switch back to professional context
+  -- Switch to professional context
   PERFORM set_config('request.jwt.claims', json_build_object('sub', professional_id, 'role', 'authenticated')::text, true);
 
+  -- C1: Professional tries to update status to approved directly (should fail/update 0 rows)
+  UPDATE match_requests SET status = 'approved' WHERE id = request_id;
+  RETURN NEXT ok(
+    EXISTS (SELECT 1 FROM match_requests WHERE id = request_id AND status = 'pending'),
+    'Direct UPDATE to status approved by professional is blocked (remains pending)'
+  );
+
+  -- C1: Professional responds with invalid status approved using RPC (should throw exception)
+  RETURN NEXT throws_ok(
+    format('SELECT respond_to_request(%L, ''approved'')', request_id),
+    'P0001',
+    NULL,
+    'RPC respond_to_request blocks invalid approved status'
+  );
+
+  -- C1: Professional responds with valid status interested using RPC
   RETURN NEXT lives_ok(
-    'SELECT * FROM public.child_details WHERE child_id = ' || quote_literal(child_id),
-    'Professional with approved request can access child details (TIER 2 unlocked)'
+    format('SELECT respond_to_request(%L, ''interested'')', request_id),
+    'Professional can express interest via respond_to_request RPC'
+  );
+
+  -- ============================================================
+  -- TEST 18 - 21: PARENT APPROVAL, SECURE ACCESS & AUDIT LOG (C3)
+  -- ============================================================
+  -- Switch back to parent_1 to approve request
+  PERFORM set_config('request.jwt.claims', json_build_object('sub', parent_1_id, 'role', 'authenticated')::text, true);
+
+  -- Parent approves request (returns match_id)
+  SELECT approve_request(request_id) INTO v_match_id;
+  RETURN NEXT ok(v_match_id IS NOT NULL, 'Parent can approve request which returns a valid match_id');
+
+  -- Switch to professional context (now Tier 3 active match)
+  PERFORM set_config('request.jwt.claims', json_build_object('sub', professional_id, 'role', 'authenticated')::text, true);
+
+  -- C3: Professional queries child_details via secure RPC
+  RETURN NEXT lives_ok(
+    format('SELECT * FROM get_child_details(%L)', child_id),
+    'Professional can query get_child_details RPC at Tier 3'
+  );
+
+  -- C3: Access registers in audit_log
+  RETURN NEXT ok(
+    EXISTS (SELECT 1 FROM audit_log WHERE user_id = professional_id AND resource = 'child_details' AND action = 'view'),
+    'Audit log successfully registers professional access to child_details'
+  );
+
+  -- C3: Direct select on child_details table is still blocked even at Tier 3
+  RETURN NEXT is_empty(
+    'SELECT * FROM public.child_details',
+    'Professional CANNOT select child_details table directly even at Tier 3'
   );
 
 END;
