@@ -37,6 +37,11 @@ module.exports = {
       borderRadius: {
         card: "14px",
       },
+      fontFamily: {
+        rubik: ["Rubik_400Regular"],
+        "rubik-medium": ["Rubik_500Medium"],
+        "rubik-bold": ["Rubik_700Bold"],
+      },
     },
   },
   plugins: [],

@@ -1,9 +1,17 @@
 import { useEffect } from "react";
 import { useRouter, useSegments } from "expo-router";
 
+import { isProfileComplete } from "@/lib/auth-api";
 import { useAuthStore } from "@/stores/auth-store";
 
 type RouteGroup = "(auth)" | "(parent)" | "(professional)" | "(active-match)";
+
+const AUTH_SETUP_SCREENS = new Set([
+  "role-select",
+  "login",
+  "verify-otp",
+  "onboarding",
+]);
 
 function getRoleGroup(role: string | undefined): RouteGroup | null {
   if (role === "parent") return "(parent)";
@@ -23,23 +31,40 @@ export function useProtectedRoute() {
     const subSegment = segments[1];
     const inAuthGroup = rootSegment === "(auth)";
     const roleGroup = getRoleGroup(profile?.role);
+    const profileComplete = isProfileComplete(profile);
 
     if (!session && !inAuthGroup) {
-      router.replace("/(auth)/login");
-      return;
-    }
-
-    if (session && !profile?.role && subSegment !== "role-select") {
       router.replace("/(auth)/role-select");
       return;
     }
 
-    if (session && roleGroup && rootSegment === "(active-match)") {
+    if (session && !profileComplete && subSegment !== "onboarding") {
+      router.replace("/(auth)/onboarding");
       return;
     }
 
-    if (session && roleGroup && inAuthGroup && subSegment !== "onboarding") {
-      router.replace(roleGroup === "(parent)" ? "/(parent)" : "/(professional)");
+    if (session && profileComplete && inAuthGroup && AUTH_SETUP_SCREENS.has(subSegment ?? "")) {
+      if (roleGroup === "(parent)") {
+        router.replace("/(parent)");
+      } else if (roleGroup === "(professional)") {
+        router.replace("/(professional)");
+      }
+      return;
+    }
+
+    // Role separation: block cross-role access to the other role's group.
+    if (session && profileComplete && roleGroup) {
+      const inParentGroup = rootSegment === "(parent)";
+      const inProfessionalGroup = rootSegment === "(professional)";
+
+      if (roleGroup === "(parent)" && inProfessionalGroup) {
+        router.replace("/(parent)");
+        return;
+      }
+      if (roleGroup === "(professional)" && inParentGroup) {
+        router.replace("/(professional)");
+        return;
+      }
     }
   }, [session, profile, segments, isHydrated, router]);
 }

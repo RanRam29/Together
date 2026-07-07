@@ -15,7 +15,7 @@
 - **חסימות**: אין.
 
 ### 🟡 Cursor (Mobile App Shell & UI)
-- **משימה נוכחית**: ✅ מסכי הורה — פרופיל ילד, בית (התאמות), בקשות, שליחת בקשה למשלבת.
+- **משימה נוכחית**: ✅ Onboarding מפוצל לפי תפקיד (הורה/משלבת) + שומרי ניווט עם הפרדת תפקידים.
 - **הצעד הבא**: מסכי בית משלבת (בקשות + Browse TIER 0).
 - **חסימות**: אין.
 
@@ -42,6 +42,8 @@
 - [x] הגדרת i18n (עברית ואנגלית עם תמיכת RTL)
 - [x] חיבור Supabase JS Client והפקת Types (`@toghther/shared`)
 - [x] מסכי Onboarding ורישום (הורה / משלבת) + Auth OTP
+- [x] Onboarding מפוצל לפי תפקיד: משלבת → `professionals`, הורה → `children` + `child_details`
+- [x] שומרי ניווט (route guards) עם הפרדת תפקידים (parent ↔ professional)
 - [x] פרופיל ילד (CRUD) + בורר ילדים
 - [x] מסכי בית הורה (התאמות מ-RPC `get_matches_for_child`)
 - [x] זרימת שליחת בקשה (TIER 1) + מסך בקשות

@@ -1,5 +1,6 @@
 import { Redirect } from "expo-router";
 
+import { isProfileComplete } from "@/lib/auth-api";
 import { useAuthStore } from "@/stores/auth-store";
 
 export default function Index() {
@@ -7,10 +8,14 @@ export default function Index() {
 
   if (!isHydrated) return null;
 
-  if (!session) return <Redirect href="/(auth)/login" />;
-  if (!profile?.role) return <Redirect href="/(auth)/role-select" />;
-  if (profile.role === "parent") return <Redirect href="/(parent)" />;
-  if (profile.role === "professional") return <Redirect href="/(professional)" />;
+  if (!session) return <Redirect href="/(auth)/role-select" />;
 
-  return <Redirect href="/(auth)/login" />;
+  if (!isProfileComplete(profile)) {
+    return <Redirect href="/(auth)/onboarding" />;
+  }
+
+  if (profile?.role === "parent") return <Redirect href="/(parent)" />;
+  if (profile?.role === "professional") return <Redirect href="/(professional)" />;
+
+  return <Redirect href="/(auth)/role-select" />;
 }

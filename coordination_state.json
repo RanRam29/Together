@@ -1,15 +1,15 @@
 {
-  "last_updated": "2026-07-07T11:27:00Z",
+  "last_updated": "2026-07-07T13:45:00Z",
   "project_id": "flrflktlltmqbiamljlm",
   "agents": {
     "antigravity": {
       "status": "in_progress",
-      "current_task": "Database schema and seed successfully deployed to remote. Starting Stitch UI design.",
+      "current_task": "Stitch design system + 6 core screens completed. RLS tests next.",
       "blocked_by": null
     },
     "cursor": {
       "status": "in_progress",
-      "current_task": "App Shell completed. Starting onboarding screens based on Stitch designs.",
+      "current_task": "Role-split onboarding (parent/professional) + role-separation route guards completed. Next: professional screens.",
       "blocked_by": null
     }
   },
@@ -20,6 +20,19 @@
     "seed_data": "completed",
     "db_migration_deploy": "completed",
     "expo_setup": "completed",
-    "ui_design_stitch": "completed"
+    "nativewind_setup": "completed",
+    "expo_router": "completed",
+    "i18n_setup": "completed",
+    "types_generate": "completed",
+    "auth_otp_flow": "completed",
+    "onboarding_screens": "completed",
+    "role_split_onboarding": "completed",
+    "route_guards_role_separation": "completed",
+    "ui_design_stitch": "completed",
+    "parent_home": "completed",
+    "child_profile": "completed",
+    "match_request_flow": "completed",
+    "professional_home": "pending",
+    "professional_browse": "pending"
   }
 }
