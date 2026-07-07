@@ -3,6 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, ScrollView, Text, View } from "react-native";
 
+import { ReviewsList, ReviewsSummary } from "@/components/shared/ReviewsList";
 import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
 import { useCreateMatchRequest } from "@/hooks/useMatchRequests";
 import { useAuthStore } from "@/stores/auth-store";
@@ -65,7 +66,11 @@ export default function MatchDetailScreen() {
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {params.bio ? (
-          <Text className="text-base text-ink-2 leading-6 mb-6">{params.bio}</Text>
+          <Text className="text-base text-ink-2 leading-6 mb-4">{params.bio}</Text>
+        ) : null}
+
+        {params.professionalId ? (
+          <ReviewsSummary professionalId={params.professionalId} />
         ) : null}
 
         {params.score ? (
@@ -73,6 +78,15 @@ export default function MatchDetailScreen() {
             <Text className="text-purple-ink font-bold text-lg font-rubik">
               {t("parent.matchScore", { score: Math.round(Number(params.score)) })}
             </Text>
+          </View>
+        ) : null}
+
+        {params.professionalId ? (
+          <View className="mb-6">
+            <Text className="text-sm font-bold text-purple mb-3 font-rubik">
+              {t("reviews.recentReviews")}
+            </Text>
+            <ReviewsList professionalId={params.professionalId} limit={3} />
           </View>
         ) : null}
 

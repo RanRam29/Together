@@ -2,11 +2,16 @@
 
 > **⚠️ עדכון ארכיטקט (2026-07-07): תיעוד מלא נוסף — נקודת הכניסה לכל משימה היא `product/00-INDEX.md`.**
 > - **`product/`** — תיק המוצר: החלטות סופיות (01), פרסונות (02), מסעות (03–04), **מפרט מסכים (05)**, קופי (06), מדדים (07), analytics ‏(08), **DoD ‏(09) — חובה לפני סימון משימה כגמורה**, אזור מנהל (10).
-> - **`docs/`** — ‏ARCHITECTURE · DEV-PROCESS (כולל סדר עדיפויות תקף) · TESTING-STRATEGY.
+> - **`docs/WORK-ALLOCATION.md`** — חלוקת העבודה המרכזית (מי אחראי על מה, לפי WP/תחום/ארטיפקט + handoffs). **מקור אמת לבעלות.**
+> - **`docs/work-orders/`** — תוכניות ביצוע מלאות (מאסטר `00-ROADMAP.md`: C4, WP1–WP7).
+> - **`docs/`** — ‏ARCHITECTURE · DEV-PROCESS (כולל סדר עדיפויות תקף) · TESTING-STRATEGY · AUTH-SPEC · SECURITY-GUIDELINES.
 > - **`docs/SECURITY-GUIDELINES.md` + `docs/AUTH-SPEC.md`** — פיתוח מונחה־אבטחה, אימות והרשאות, מטריצת הרשאות מלאה. **מחייבים לכל משימה שנוגעת בנתונים.**
 > - **`ARCHITECTURE_REVIEW.md`** — תיקוני אבטחה קריטיים שקודמים לכל פיתוח אחר. **חדש 🔴 C4: כל משתמש יכול למנות עצמו אדמין** (‏`profiles_own_update` בלי WITH CHECK על role) — התיקון הראשון בתור. בנוסף C1 (self-approve), C2/C3 (חשיפת children + audit).
 > - **חדש (D23): אזור מנהל מלא ב-MVP** — route group ‏`(admin)` ב-web; תור האימות (Admin-1) משתלב באבן דרך 3. מפרט: `product/10-ADMIN-SPEC.md`.
 > בנושאי אבטחה/ארכיטקטורה — ARCHITECTURE_REVIEW גובר; בנושאי מוצר/UX — תיק המוצר גובר על DEVELOPMENT_PLAN.md.
+>
+> **🟡 C4 — תיקון נכתב ע"י הארכיטקט (ממתין לאימות/דחיפה):** `supabase/migrations/20260707120000_c4_protect_profile_role.sql` + `supabase/tests/c4_role_escalation_test.sql`. טריגר שמקפיא `role`/`id` למשתמש מאומת + `is_admin()` מוקשח + הקשחת Storage. **טרם אומת מקומית (Docker) ולא נדחף לענן (חסר SUPABASE_DB_PASSWORD).** הרצה נדרשת: `supabase db reset` + `supabase db query --file supabase/tests/c4_role_escalation_test.sql`, ואז `supabase db push --linked`.
+> **🟠 finding חדש H4 (ARCHITECTURE_REVIEW):** `approve_request` יוצר match פעיל מיד — סטייה מ-D10. **לטיפול דו-צדדי אחרי C4** (משפיע על מסכי Cursor שכבר נבנו). אל תתקנו לבד — נתאם.
 >
 > **📮 שאלות לארכיטקט** (סוכן שנתקל בשאלה מוצרית פתוחה — רושם כאן וממשיך במשימה אחרת):
 > - (אין כרגע)
@@ -26,16 +31,12 @@
 - **חסימות**: אין.
 
 ### 🟡 Cursor (Mobile App Shell & UI)
-- **משימה נוכחית**: ✅ סגירת ה-flow המלא end-to-end:
-  - Banner "התאמה פעילה" בבית הורה + משלבת → פותח `(active-match)?matchId=<id>` דרך `useMyActiveMatch`
-  - אישור בקשה בלוח הבקשות → קריאה ל-`approve_request` RPC → יצירת match אטומרית → ניווט ישיר
-  - מסך פרטים עשירים לילד (`child_details`: diagnosis_full, what_works, what_triggers, win_definition, notes)
-  - מסך מסמכי אימות למשלבת (רשימה + סטטוס + מחיקה; העלאה בפועל תיכנס עם `expo-document-picker` כשהרשת תאפשר התקנה)
-  - מסך ביקורות עם StarRating (reliability / professionalism / childFit) המשתמש ב-`useSubmitReview`
-  - Parent home משתמש ב-Edge Function `calculate-matches` (עם Claude enrichment) כברירת מחדל, נופל ל-RPC ישיר בעת כשל
-  - התאמת קריאות ל-RPCs המאובטחים החדשים של אנטיגרביטי (`respond_to_request`, `approve_request`, `children_tier0` view) + cast עד להתחדשות ה-types
-- **הצעד הבא**: הפעלת picker בפועל (`expo-document-picker`/`expo-image-picker`) — דורש רשת יציבה להתקנת חבילות. + אולי גם UI לצפייה בביקורות (`useGetReviewsForProfessional`) בכרטיס משלבת.
-- **חסימות**: אין (רק תלוי-רשת: התקנת חבילות + `types:generate` ל-RPCs החדשים).
+- **משימה נוכחית**: ✅ הרחבת ה-flow עם פיצ'רים משלימים:
+  - **העלאת מסמכי אימות בפועל** — `expo-document-picker` + `expo-image-picker` הותקנו והוגדרו ב-`app.json`. מסך המסמכים של המשלבת מבצע pick → upload ל-`documents` bucket (path `<user_id>/<ts>-<name>`) → יצירת רשומה ב-`document_uploads`. מגבלת 5MB, הודעות שגיאה מלאות.
+  - **צפייה בביקורות** — רכיבי `ReviewsList` ו-`ReviewsSummary` שקוראים ל-`useGetReviewsForProfessional`. משולבים במסך `match-detail` כדי שההורה יראה דירוגים ופידבקים לפני שליחת בקשה.
+  - **End Match flow** — כפתור "סיום התאמה" בתחתית לוח הבקרה של active-match. עדכון `matches.status = 'ended'` ופתיחה אוטומטית של מסך `review` עם `matchId` + `professionalId`.
+- **הצעד הבא**: תכולה נוספת כשארשם עדיפויות: (1) הצגת דירוג המשלבת גם על כרטיסי ההתאמה בבית ההורה; (2) חיבור עמוקה ל-`get_child_details` RPC (עם audit) עבור משלבת שרוצה לקרוא פרטים עשירים של ילד ב-TIER 2+; (3) התראות push.
+- **חסימות**: `supabase gen types typescript --linked` עדיין נכשל ב-`TransportError` — ה-Cloud לא נגיש מהמכונה. Cast זמני על 4 קריאות RPC/view עד שה-types יסונכרנו.
 
 ---
 

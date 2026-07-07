@@ -29,7 +29,15 @@
       "expo-router",
       "expo-localization",
       "expo-secure-store",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "יש צורך בהרשאה לגלריה כדי לצרף מסמכי אימות",
+          "cameraPermission": "יש צורך בהרשאה למצלמה כדי לצלם מסמכי אימות"
+        }
+      ],
+      "expo-document-picker"
     ],
     "experiments": {
       "typedRoutes": true

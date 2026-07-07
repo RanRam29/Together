@@ -205,8 +205,9 @@
     "deleteDocumentTitle": "מחיקת מסמך",
     "deleteDocumentConfirm": "האם למחוק את המסמך?",
     "deleteDocumentAction": "מחיקה",
-    "uploadComingSoonTitle": "בקרוב",
-    "uploadComingSoonDesc": "העלאת {{type}} תיכנס לפעולה בגרסה הבאה",
+    "uploadNow": "העלאה",
+    "uploadSuccess": "המסמך הועלה בהצלחה. אנא המתינו לאישור מנהל.",
+    "uploadTooLarge": "הקובץ חורג מהמגבלה של 5MB",
     "docTypes": {
       "certificate": "תעודה מקצועית",
       "criminal_record": "תעודת יושר",
@@ -223,6 +224,10 @@
     "bannerSubtitle": "עובדים עם {{name}}",
     "bannerSubtitleChild": "עובדים עם המשפחה של {{name}}",
     "bannerAction": "פתחו לוח בקרה",
+    "endTitle": "סיום התאמה",
+    "endConfirm": "האם לסיים את ההתאמה? לאחר סיום תוכלו לדרג את חוויית העבודה.",
+    "endAction": "סיום התאמה",
+    "endHelp": "לאחר סיום תוכלו לשלוח דירוג לחוויית העבודה",
     "checkinTitle": "צ'ק-אין GPS",
     "checkinDescription": "לחצי לרישום כניסה למסגרת. המערכת תאמת מיקום בטווח של 100 מטר.",
     "checkinAction": "בצע צ'ק-אין",
@@ -266,6 +271,12 @@
     "textLabel": "משוב חופשי",
     "textPlaceholder": "מה בלט? במה תרצו לשבח או להעיר?...",
     "submit": "שליחת דירוג",
-    "saved": "הדירוג נשלח בהצלחה"
+    "saved": "הדירוג נשלח בהצלחה",
+    "recentReviews": "ביקורות אחרונות",
+    "emptyForProfessional": "עדיין אין ביקורות למשלבת זו",
+    "andMore": "ועוד {{count}} ביקורות",
+    "avgWithCount": "{{score}} ({{count}} ביקורות)",
+    "averageWithScore": "ממוצע {{score}}",
+    "anonymous": "משתמש/ת אנונימי/ת"
   }
 }

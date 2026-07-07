@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
@@ -10,6 +11,7 @@ import {
 
 import { PrimaryButton, ScreenShell } from "@/components/ui/Screen";
 import type { DocumentType } from "@/lib/api/documents";
+import { pickDocumentOrImage, uploadPickedDocument } from "@/lib/uploads";
 import { useDeleteDocument, useDocuments } from "@/hooks/useDocuments";
 import { useAuthStore } from "@/stores/auth-store";
 
@@ -28,6 +30,30 @@ export default function ProfessionalDocumentsScreen() {
 
   const { data: documents = [], isLoading, refetch } = useDocuments(userId);
   const del = useDeleteDocument(userId);
+  const [uploadingType, setUploadingType] = useState<DocumentType | null>(null);
+
+  async function handleUpload(docType: DocumentType) {
+    if (!userId) return;
+
+    try {
+      const file = await pickDocumentOrImage();
+      if (!file) return;
+
+      setUploadingType(docType);
+      await uploadPickedDocument(userId, docType, file);
+      await refetch();
+      Alert.alert(t("professional.uploadSuccess"));
+    } catch (err) {
+      const raw = err instanceof Error ? err.message : String(err);
+      const message =
+        raw === "FILE_TOO_LARGE"
+          ? t("professional.uploadTooLarge")
+          : raw;
+      Alert.alert(t("common.error"), message);
+    } finally {
+      setUploadingType(null);
+    }
+  }
 
   function handleDelete(id: string, storagePath: string) {
     Alert.alert(
@@ -55,15 +81,6 @@ export default function ProfessionalDocumentsScreen() {
     );
   }
 
-  function handleUploadPlaceholder(docType: DocumentType) {
-    Alert.alert(
-      t("professional.uploadComingSoonTitle"),
-      t("professional.uploadComingSoonDesc", {
-        type: t(`professional.docTypes.${docType}`),
-      }),
-    );
-  }
-
   return (
     <ScreenShell
       eyebrow={t("professional.documentsEyebrow")}
@@ -75,20 +92,30 @@ export default function ProfessionalDocumentsScreen() {
           <Text className="text-sm font-bold text-purple mb-3 font-rubik">
             {t("professional.uploadNewDocument")}
           </Text>
-          {DOC_TYPES.map((docType) => (
-            <Pressable
-              key={docType}
-              onPress={() => handleUploadPlaceholder(docType)}
-              className="bg-surface border border-border rounded-card px-4 py-4 mb-2 flex-row items-center justify-between active:opacity-90"
-            >
-              <Text className="text-base font-medium text-ink">
-                {t(`professional.docTypes.${docType}`)}
-              </Text>
-              <Text className="text-purple text-sm font-semibold font-rubik">
-                + {t("common.continue")}
-              </Text>
-            </Pressable>
-          ))}
+          {DOC_TYPES.map((docType) => {
+            const uploading = uploadingType === docType;
+            return (
+              <Pressable
+                key={docType}
+                onPress={() => handleUpload(docType)}
+                disabled={uploading || uploadingType !== null}
+                className={`bg-surface border border-border rounded-card px-4 py-4 mb-2 flex-row items-center justify-between active:opacity-90 ${
+                  uploadingType !== null && !uploading ? "opacity-50" : ""
+                }`}
+              >
+                <Text className="text-base font-medium text-ink">
+                  {t(`professional.docTypes.${docType}`)}
+                </Text>
+                {uploading ? (
+                  <ActivityIndicator size="small" color="#534AB7" />
+                ) : (
+                  <Text className="text-purple text-sm font-semibold font-rubik">
+                    + {t("professional.uploadNow")}
+                  </Text>
+                )}
+              </Pressable>
+            );
+          })}
         </View>
 
         <Text className="text-sm font-bold text-purple mb-3 font-rubik">

@@ -205,8 +205,9 @@
     "deleteDocumentTitle": "Delete document",
     "deleteDocumentConfirm": "Delete this document?",
     "deleteDocumentAction": "Delete",
-    "uploadComingSoonTitle": "Coming soon",
-    "uploadComingSoonDesc": "Uploading {{type}} will be enabled in the next version",
+    "uploadNow": "Upload",
+    "uploadSuccess": "Document uploaded. Awaiting admin verification.",
+    "uploadTooLarge": "File exceeds the 5MB limit",
     "docTypes": {
       "certificate": "Professional certificate",
       "criminal_record": "Background check",
@@ -223,6 +224,10 @@
     "bannerSubtitle": "Working with {{name}}",
     "bannerSubtitleChild": "Working with {{name}}'s family",
     "bannerAction": "Open dashboard",
+    "endTitle": "End match",
+    "endConfirm": "End this match? You'll be able to rate the experience afterwards.",
+    "endAction": "End match",
+    "endHelp": "You'll be able to submit a rating after ending",
     "checkinTitle": "GPS Check-in",
     "checkinDescription": "Tap to check in at the framework. Location is verified within 100 meters.",
     "checkinAction": "Check in",
@@ -266,6 +271,12 @@
     "textLabel": "Free-form feedback",
     "textPlaceholder": "What stood out? Any praise or notes?...",
     "submit": "Submit rating",
-    "saved": "Rating submitted successfully"
+    "saved": "Rating submitted successfully",
+    "recentReviews": "Recent reviews",
+    "emptyForProfessional": "No reviews yet for this professional",
+    "andMore": "and {{count}} more reviews",
+    "avgWithCount": "{{score}} ({{count}} reviews)",
+    "averageWithScore": "avg {{score}}",
+    "anonymous": "Anonymous user"
   }
 }

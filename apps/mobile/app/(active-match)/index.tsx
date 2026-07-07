@@ -13,8 +13,10 @@ import {
 import { CheckinCard } from "@/components/active-match/CheckinCard";
 import { DailyLogRow, InsightsCard } from "@/components/active-match/InsightsCard";
 import { ScreenShell } from "@/components/ui/Screen";
+import { useActiveMatchForParent, useActiveMatchForProfessional, useEndMatch } from "@/hooks/useActiveMatch";
 import { useCheckin } from "@/hooks/useCheckin";
 import { useGetDailyLogs } from "@/hooks/useDailyLogs";
+import { useMyProfessional } from "@/hooks/useProfessional";
 import { useAuthStore } from "@/stores/auth-store";
 
 function formatTime(date: Date, locale: string) {
@@ -44,6 +46,8 @@ export default function ActiveMatchScreen() {
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const profile = useAuthStore((s) => s.profile);
+  const session = useAuthStore((s) => s.session);
+  const userId = session?.user?.id;
   const params = useLocalSearchParams<{ matchId?: string }>();
   const matchId = params.matchId ?? "";
 
@@ -51,6 +55,17 @@ export default function ActiveMatchScreen() {
 
   const checkin = useCheckin(matchId);
   const logs = useGetDailyLogs(matchId);
+  const endMatch = useEndMatch();
+
+  const parentActive = useActiveMatchForParent(
+    !isProfessional ? userId : undefined,
+  );
+  const { data: myPro } = useMyProfessional(isProfessional ? userId : undefined);
+  const proActive = useActiveMatchForProfessional(
+    isProfessional ? myPro?.id : undefined,
+  );
+  const activeMatch = isProfessional ? proActive.data : parentActive.data;
+  const professionalId = activeMatch?.professional?.id;
 
   const latestLog = logs.data?.[0];
 
@@ -61,6 +76,37 @@ export default function ActiveMatchScreen() {
       const message = err instanceof Error ? err.message : t("common.tryAgain");
       Alert.alert(t("common.error"), message);
     }
+  }
+
+  function handleEndMatch() {
+    Alert.alert(
+      t("activeMatch.endTitle"),
+      t("activeMatch.endConfirm"),
+      [
+        { text: t("common.tryAgain"), style: "cancel" },
+        {
+          text: t("activeMatch.endAction"),
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await endMatch.mutateAsync({ matchId });
+              if (professionalId) {
+                router.replace({
+                  pathname: "/(active-match)/review",
+                  params: { matchId, professionalId },
+                });
+              } else {
+                router.back();
+              }
+            } catch (err) {
+              const message =
+                err instanceof Error ? err.message : t("common.tryAgain");
+              Alert.alert(t("common.error"), message);
+            }
+          },
+        },
+      ],
+    );
   }
 
   if (!matchId) {
@@ -163,7 +209,23 @@ export default function ActiveMatchScreen() {
             />
           ))
         )}
-        <View className="h-6" />
+
+        <View className="mt-8 mb-10">
+          <Pressable
+            onPress={handleEndMatch}
+            disabled={endMatch.isPending}
+            className="rounded-card border border-coral py-4 items-center active:opacity-90"
+          >
+            <Text className="text-coral font-semibold text-base font-rubik">
+              {endMatch.isPending
+                ? t("common.tryAgain")
+                : t("activeMatch.endAction")}
+            </Text>
+          </Pressable>
+          <Text className="text-xs text-ink-2 text-center mt-2 leading-5">
+            {t("activeMatch.endHelp")}
+          </Text>
+        </View>
       </ScrollView>
     </ScreenShell>
   );

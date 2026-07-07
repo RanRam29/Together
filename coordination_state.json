@@ -9,7 +9,7 @@
     },
     "cursor": {
       "status": "in_progress",
-      "current_task": "Full flow wired end-to-end: active match banner on both dashboards, approve→create match RPC, rich child details, documents list, reviews modal, Edge Function for matches. Next up: file upload picker (needs expo-document-picker install once network is available).",
+      "current_task": "Real file uploads for professional documents (expo-document/image-picker), ReviewsList/Summary on match-detail, End Match flow with auto-prompt review modal. Types regen still blocked by TransportError.",
       "blocked_by": null
     }
   },
@@ -38,11 +38,13 @@
     "professional_home": "completed",
     "professional_browse": "completed",
     "professional_profile": "completed",
-    "professional_documents_ui": "completed_without_picker",
+    "professional_documents_upload": "completed",
     "active_match_dashboard": "completed",
     "active_match_navigation": "completed",
     "daily_log_form": "completed",
     "reviews_submit": "completed",
+    "reviews_view": "completed",
+    "end_match_flow": "completed",
     "edge_function_calculate_matches": "wired"
   }
 }
