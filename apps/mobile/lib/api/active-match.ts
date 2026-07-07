@@ -54,10 +54,7 @@ export async function fetchActiveMatchForProfessional(
 export async function approveAndCreateMatch(
   requestId: string,
 ): Promise<string> {
-  const { data, error } = await (supabase.rpc as unknown as (
-    name: string,
-    args: Record<string, unknown>,
-  ) => Promise<{ data: unknown; error: Error | null }>)("approve_request", {
+  const { data, error } = await supabase.rpc("approve_request", {
     p_request_id: requestId,
   });
 

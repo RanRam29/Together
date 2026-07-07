@@ -68,23 +68,16 @@ export async function createMatchRequest(
 }
 
 export async function approveMatchRequest(requestId: string): Promise<string> {
-  // NOTE: RPC not yet reflected in generated types; cast until types regenerate.
-  const { data, error } = await (supabase.rpc as unknown as (
-    name: string,
-    args: Record<string, unknown>,
-  ) => Promise<{ data: unknown; error: Error | null }>)("approve_request", {
+  const { data, error } = await supabase.rpc("approve_request", {
     p_request_id: requestId,
   });
 
   if (error) throw error;
-  return data as string; // returns match_id
+  return data as string; // match_id
 }
 
 export async function rejectMatchRequest(requestId: string): Promise<void> {
-  const { error } = await (supabase.rpc as unknown as (
-    name: string,
-    args: Record<string, unknown>,
-  ) => Promise<{ data: unknown; error: Error | null }>)("reject_request", {
+  const { error } = await supabase.rpc("reject_request", {
     p_request_id: requestId,
   });
 

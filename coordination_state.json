@@ -8,8 +8,8 @@
       "blocked_by": null
     },
     "cursor": {
-      "status": "in_progress",
-      "current_task": "Real file uploads for professional documents (expo-document/image-picker), ReviewsList/Summary on match-detail, End Match flow with auto-prompt review modal. Types regen still blocked by TransportError.",
+      "status": "ready_for_build",
+      "current_task": "Production-ready: eas.json + app.json fully configured, BUILD.md checklist, temporary casts removed (Antigravity manually added missing types). Awaiting DevOps step: eas login + init + secrets + build --profile preview.",
       "blocked_by": null
     }
   },
@@ -45,6 +45,8 @@
     "reviews_submit": "completed",
     "reviews_view": "completed",
     "end_match_flow": "completed",
-    "edge_function_calculate_matches": "wired"
+    "edge_function_calculate_matches": "wired",
+    "eas_build_config": "completed",
+    "build_documentation": "completed"
   }
 }

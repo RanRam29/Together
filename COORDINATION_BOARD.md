@@ -10,7 +10,9 @@
 > - **חדש (D23): אזור מנהל מלא ב-MVP** — route group ‏`(admin)` ב-web; תור האימות (Admin-1) משתלב באבן דרך 3. מפרט: `product/10-ADMIN-SPEC.md`.
 > בנושאי אבטחה/ארכיטקטורה — ARCHITECTURE_REVIEW גובר; בנושאי מוצר/UX — תיק המוצר גובר על DEVELOPMENT_PLAN.md.
 >
-> **🟡 C4 — תיקון נכתב ע"י הארכיטקט (ממתין לאימות/דחיפה):** `supabase/migrations/20260707120000_c4_protect_profile_role.sql` + `supabase/tests/c4_role_escalation_test.sql`. טריגר שמקפיא `role`/`id` למשתמש מאומת + `is_admin()` מוקשח + הקשחת Storage. **טרם אומת מקומית (Docker) ולא נדחף לענן (חסר SUPABASE_DB_PASSWORD).** הרצה נדרשת: `supabase db reset` + `supabase db query --file supabase/tests/c4_role_escalation_test.sql`, ואז `supabase db push --linked`.
+> **🟡 C4 — תיקון נכתב, אימות/דחיפה חסומים בסביבה זו:** `supabase/migrations/20260707120000_c4_protect_profile_role.sql` + `supabase/tests/c4_role_escalation_test.sql`. טריגר שמקפיא `role`/`id` למשתמש מאומת + `is_admin()` מוקשח + הקשחת Storage.
+> **חסימות תשתית (2026-07-07):** (1) Docker Desktop קורס → אין `supabase start` מקומי; (2) גישת DB ישירה לענן נכשלת מהמכונה (`TransportError`, פורט 5432/6543 חסום — גם Cursor דיווח על כך ב-`gen types`). ⇒ אי אפשר `db reset` ולא `db push` מכאן.
+> **נתיב מומלץ להחלת התיקון (C4 חי ומנוצל על DB פעיל!):** להריץ את שתי ה-SQL דרך **Supabase Dashboard → SQL Editor** (HTTPS, לא חסום): קודם המיגרציה, ואז קובץ הבדיקה לאימות שכל 7 עוברות. לאחר מכן ליישב את היסטוריית המיגרציות (`db push`) כשגישת הענן תשוחזר (CI / מכונה עם גישה).
 > **🟠 finding חדש H4 (ARCHITECTURE_REVIEW):** `approve_request` יוצר match פעיל מיד — סטייה מ-D10. **לטיפול דו-צדדי אחרי C4** (משפיע על מסכי Cursor שכבר נבנו). אל תתקנו לבד — נתאם.
 >
 > **📮 שאלות לארכיטקט** (סוכן שנתקל בשאלה מוצרית פתוחה — רושם כאן וממשיך במשימה אחרת):
@@ -31,12 +33,13 @@
 - **חסימות**: אין.
 
 ### 🟡 Cursor (Mobile App Shell & UI)
-- **משימה נוכחית**: ✅ הרחבת ה-flow עם פיצ'רים משלימים:
-  - **העלאת מסמכי אימות בפועל** — `expo-document-picker` + `expo-image-picker` הותקנו והוגדרו ב-`app.json`. מסך המסמכים של המשלבת מבצע pick → upload ל-`documents` bucket (path `<user_id>/<ts>-<name>`) → יצירת רשומה ב-`document_uploads`. מגבלת 5MB, הודעות שגיאה מלאות.
-  - **צפייה בביקורות** — רכיבי `ReviewsList` ו-`ReviewsSummary` שקוראים ל-`useGetReviewsForProfessional`. משולבים במסך `match-detail` כדי שההורה יראה דירוגים ופידבקים לפני שליחת בקשה.
-  - **End Match flow** — כפתור "סיום התאמה" בתחתית לוח הבקרה של active-match. עדכון `matches.status = 'ended'` ופתיחה אוטומטית של מסך `review` עם `matchId` + `professionalId`.
-- **הצעד הבא**: תכולה נוספת כשארשם עדיפויות: (1) הצגת דירוג המשלבת גם על כרטיסי ההתאמה בבית ההורה; (2) חיבור עמוקה ל-`get_child_details` RPC (עם audit) עבור משלבת שרוצה לקרוא פרטים עשירים של ילד ב-TIER 2+; (3) התראות push.
-- **חסימות**: `supabase gen types typescript --linked` עדיין נכשל ב-`TransportError` — ה-Cloud לא נגיש מהמכונה. Cast זמני על 4 קריאות RPC/view עד שה-types יסונכרנו.
+- **משימה נוכחית**: ✅ הכנת פרודקשן (internal-only):
+  - `apps/mobile/BUILD.md` — מדריך מלא בעברית לצעדים: `eas login` → `eas init --id` → `eas secret:create` → `eas build --profile preview --platform android|ios`.
+  - `eas.json` הוגדר עם env vars propagation ל-`EXPO_PUBLIC_SUPABASE_URL`/`EXPO_PUBLIC_SUPABASE_ANON_KEY` בכל ה-profiles + `preview-simulator` ל-iOS Simulator.
+  - `app.json` — הוספת `assetBundlePatterns`, `versionCode`/`buildNumber`, `permissions` ל-Android, `infoPlist` ל-iOS (Photo/Camera/Location), הכנת placeholder ל-`extra.eas.projectId` ו-`owner`.
+  - Cast זמני על ה-RPCs הוסר לחלוטין — אנטיגרביטי הוסיף types ידניים ל-`approve_request`/`reject_request`/`respond_to_request`/`children_tier0`. הקוד נקי לחלוטין.
+- **הצעד הבא (המשתמש/DevOps)**: להריץ `eas login` + `eas init --id` + `eas secret:create ...` + `eas build --profile preview --platform android` (~15 דק' בענן) → קישור ל-APK להתקנה על בודקים.
+- **חסימות**: אין. `supabase gen types typescript --linked` עדיין נכשל ב-`TransportError` ממכונת Windows, אבל אנטיגרביטי כבר הוסיף את ה-types ידנית — אין השפעה.
 
 ---
 
