@@ -92,7 +92,7 @@ export function ParentOnboarding() {
       const profile = await fetchProfile(session.user.id);
       setProfile(profile);
       reset();
-      router.replace("/(parent)");
+      router.replace("/(parent)/(tabs)");
     } catch (err) {
       const message = err instanceof Error ? err.message : t("auth.authFailed");
       Alert.alert(t("common.error"), message);

@@ -3,17 +3,20 @@ import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
   Alert,
+  Pressable,
   RefreshControl,
   ScrollView,
   Text,
   View,
 } from "react-native";
 
-import { PrimaryButton } from "@/components/ui/Form";
 import { PlaceholderCard, ScreenShell } from "@/components/ui/Screen";
-import { useActiveMatchForParent, useApproveAndCreateMatch } from "@/hooks/useActiveMatch";
 import { useChildren } from "@/hooks/useChildren";
-import { useMatchRequests } from "@/hooks/useMatchRequests";
+import {
+  useApproveMatchRequest,
+  useMatchRequests,
+  useRejectMatchRequest,
+} from "@/hooks/useMatchRequests";
 import { useAuthStore } from "@/stores/auth-store";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -40,34 +43,52 @@ export default function ParentRequestsScreen() {
     isRefetching,
   } = useMatchRequests(parentId, childIds);
 
-  const { refetch: refetchActiveMatch } = useActiveMatchForParent(parentId);
-  const approve = useApproveAndCreateMatch(parentId);
+  const approveRequest = useApproveMatchRequest(parentId);
+  const rejectRequest = useRejectMatchRequest(parentId);
 
-  function handleApprove(requestId: string) {
-    Alert.alert(
-      t("parent.approveTitle"),
-      t("parent.approveConfirm"),
-      [
-        { text: t("common.tryAgain"), style: "cancel" },
-        {
-          text: t("parent.approveAction"),
-          style: "default",
-          onPress: async () => {
-            try {
-              const matchId = await approve.mutateAsync(requestId);
-              await refetchActiveMatch();
+  async function handleApprove(requestId: string) {
+    try {
+      const matchId = await approveRequest.mutateAsync(requestId);
+      Alert.alert(
+        t("parent.requestApproved") || "ההתאמה אושרה",
+        t("parent.requestApprovedDesc") || "ההתאמה נוצרה בהצלחה. אתה מועבר ללוח הבקרה.",
+        [
+          {
+            text: t("common.continue") || "המשך",
+            onPress: () =>
               router.push({
                 pathname: "/(active-match)",
                 params: { matchId },
-              });
+              }),
+          },
+        ]
+      );
+    } catch (err) {
+      const message = err instanceof Error ? err.message : t("common.tryAgain");
+      Alert.alert(t("common.error"), message);
+    }
+  }
+
+  async function handleReject(requestId: string) {
+    Alert.alert(
+      t("parent.rejectTitle") || "דחיית בקשה",
+      t("parent.rejectConfirm") || "האם אתה בטוח שברצונך לדחות את מועמדות המשלבת?",
+      [
+        { text: t("common.cancel") || "ביטול", style: "cancel" },
+        {
+          text: t("parent.rejectAction") || "דחה",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await rejectRequest.mutateAsync(requestId);
+              Alert.alert(t("parent.requestRejected") || "הבקשה נדחתה בהצלחה");
             } catch (err) {
-              const message =
-                err instanceof Error ? err.message : t("common.tryAgain");
+              const message = err instanceof Error ? err.message : t("common.tryAgain");
               Alert.alert(t("common.error"), message);
             }
           },
         },
-      ],
+      ]
     );
   }
 
@@ -88,7 +109,9 @@ export default function ParentRequestsScreen() {
           requests.map((request) => {
             const child = children.find((c) => c.id === request.child_id);
             const statusColor = STATUS_COLORS[request.status] ?? "text-ink-2";
-            const canApprove = request.status === "interested";
+            const showActions =
+              request.status === "interested" ||
+              (request.status === "pending" && request.initiated_by === "professional");
 
             return (
               <View
@@ -113,13 +136,28 @@ export default function ParentRequestsScreen() {
                     {request.match_reason}
                   </Text>
                 ) : null}
-                {canApprove ? (
-                  <PrimaryButton
-                    label={t("parent.approveAction")}
-                    onPress={() => handleApprove(request.id)}
-                    variant="purple"
-                    loading={approve.isPending}
-                  />
+
+                {showActions ? (
+                  <View className="flex-row gap-2 mt-4">
+                    <Pressable
+                      onPress={() => handleApprove(request.id)}
+                      disabled={approveRequest.isPending || rejectRequest.isPending}
+                      className="flex-1 bg-purple rounded-full py-2 items-center justify-center active:opacity-90"
+                    >
+                      <Text className="text-white text-sm font-semibold font-rubik">
+                        {t("parent.approveRequest") || "אשר התאמה"}
+                      </Text>
+                    </Pressable>
+                    <Pressable
+                      onPress={() => handleReject(request.id)}
+                      disabled={approveRequest.isPending || rejectRequest.isPending}
+                      className="rounded-full border border-coral px-4 py-2 items-center justify-center active:opacity-90"
+                    >
+                      <Text className="text-coral text-sm font-semibold font-rubik">
+                        {t("parent.rejectRequest") || "דחה"}
+                      </Text>
+                    </Pressable>
+                  </View>
                 ) : null}
               </View>
             );

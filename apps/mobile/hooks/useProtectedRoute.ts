@@ -45,7 +45,7 @@ export function useProtectedRoute() {
 
     if (session && profileComplete && inAuthGroup && AUTH_SETUP_SCREENS.has(subSegment ?? "")) {
       if (roleGroup === "(parent)") {
-        router.replace("/(parent)");
+        router.replace("/(parent)/(tabs)");
       } else if (roleGroup === "(professional)") {
         router.replace("/(professional)");
       }
@@ -58,7 +58,7 @@ export function useProtectedRoute() {
       const inProfessionalGroup = rootSegment === "(professional)";
 
       if (roleGroup === "(parent)" && inProfessionalGroup) {
-        router.replace("/(parent)");
+        router.replace("/(parent)/(tabs)");
         return;
       }
       if (roleGroup === "(professional)" && inParentGroup) {

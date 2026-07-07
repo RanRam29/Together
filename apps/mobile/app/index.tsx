@@ -14,7 +14,7 @@ export default function Index() {
     return <Redirect href="/(auth)/onboarding" />;
   }
 
-  if (profile?.role === "parent") return <Redirect href="/(parent)" />;
+  if (profile?.role === "parent") return <Redirect href="/(parent)/(tabs)" />;
   if (profile?.role === "professional") return <Redirect href="/(professional)" />;
 
   return <Redirect href="/(auth)/role-select" />;
