@@ -1,0 +1,16 @@
+{
+  "name": "toghther",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "cd apps/mobile && npx expo start",
+    "lint": "cd apps/mobile && npx expo lint",
+    "types:generate": "npx supabase gen types typescript --linked > packages/shared/src/types/database.ts"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

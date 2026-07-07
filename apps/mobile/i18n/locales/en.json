@@ -1,0 +1,43 @@
+{
+  "common": {
+    "appName": "Together",
+    "loading": "Loading...",
+    "continue": "Continue",
+    "back": "Back",
+    "language": "Language",
+    "hebrew": "עברית",
+    "english": "English"
+  },
+  "auth": {
+    "loginTitle": "Welcome to Together",
+    "loginSubtitle": "Sign in with your phone number",
+    "phonePlaceholder": "Phone number",
+    "sendOtp": "Send code",
+    "roleSelectTitle": "How would you like to use the platform?",
+    "roleParent": "I'm a parent",
+    "roleParentDesc": "Looking for the right integration aide for my child",
+    "roleProfessional": "I'm a professional",
+    "roleProfessionalDesc": "Looking to work with children with special needs",
+    "onboardingTitle": "Let's get started",
+    "onboardingSubtitle": "A few more details and we're ready"
+  },
+  "parent": {
+    "homeTitle": "Matching professionals",
+    "homeSubtitle": "Personalized matches based on your child's profile",
+    "childProfile": "Child profile",
+    "requests": "Requests",
+    "noMatches": "No matches yet — complete your child's profile to get started"
+  },
+  "professional": {
+    "homeTitle": "Requests & active children",
+    "homeSubtitle": "New parent requests and ongoing work",
+    "profile": "My profile",
+    "browse": "Browse",
+    "browseSubtitle": "Available child cards in your area",
+    "noRequests": "No new requests right now"
+  },
+  "activeMatch": {
+    "title": "Active match",
+    "subtitle": "Check-in, daily log, and child file"
+  }
+}

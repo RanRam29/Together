@@ -1,0 +1,43 @@
+{
+  "common": {
+    "appName": "Together",
+    "loading": "טוען...",
+    "continue": "המשך",
+    "back": "חזרה",
+    "language": "שפה",
+    "hebrew": "עברית",
+    "english": "English"
+  },
+  "auth": {
+    "loginTitle": "ברוכים הבאים ל-Together",
+    "loginSubtitle": "התחברו עם מספר הטלפון שלכם",
+    "phonePlaceholder": "מספר טלפון",
+    "sendOtp": "שליחת קוד",
+    "roleSelectTitle": "איך תרצו להשתמש בפלטפורמה?",
+    "roleParent": "אני הורה",
+    "roleParentDesc": "מחפש/ת משלבת מתאימה לילד/ה שלי",
+    "roleProfessional": "אני משלבת",
+    "roleProfessionalDesc": "מחפשת עבודה עם ילדים עם צרכים מיוחדים",
+    "onboardingTitle": "בואו נכיר",
+    "onboardingSubtitle": "עוד כמה פרטים ונתחיל"
+  },
+  "parent": {
+    "homeTitle": "המשלבות שמתאימות",
+    "homeSubtitle": "התאמות מותאמות אישית לפי פרופיל הילד",
+    "childProfile": "פרופיל ילד",
+    "requests": "בקשות",
+    "noMatches": "עדיין אין התאמות — מלאו פרופיל ילד כדי להתחיל"
+  },
+  "professional": {
+    "homeTitle": "בקשות וילדים פעילים",
+    "homeSubtitle": "בקשות חדשות מהורים ועבודה שוטפת",
+    "profile": "הפרופיל שלי",
+    "browse": "עיון",
+    "browseSubtitle": "כרטיסי ילדים זמינים באזור שלך",
+    "noRequests": "אין בקשות חדשות כרגע"
+  },
+  "activeMatch": {
+    "title": "עבודה שוטפת",
+    "subtitle": "צ'ק-אין, יומן יומי ותיק ילד"
+  }
+}

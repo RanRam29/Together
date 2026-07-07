@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>מסמך מנחה — פלטפורמת שילוב</title>
+<style>
+:root {
+  --bg: #FBFAF7;
+  --surface: #FFFFFF;
+  --surface-2: #F4F2EC;
+  --ink: #24221E;
+  --ink-2: #5F5C55;
+  --ink-3: #918D84;
+  --border: #E5E2DA;
+  --border-strong: #D0CCC2;
+  --purple: #534AB7;
+  --purple-bg: #EEEDFE;
+  --purple-ink: #3C3489;
+  --teal: #0F6E56;
+  --teal-bg: #E1F5EE;
+  --teal-ink: #085041;
+  --amber: #BA7517;
+  --amber-bg: #FAEEDA;
+  --amber-ink: #633806;
+  --coral: #D85A30;
+  --coral-bg: #FAECE7;
+  --coral-ink: #712B13;
+  --blue: #185FA5;
+  --blue-bg: #E6F1FB;
+  --blue-ink: #0C447C;
+  --green: #3B6D11;
+  --green-bg: #EAF3DE;
+  --green-ink: #27500A;
+  --red-bg: #FCEBEB;
+  --red-ink: #A32D2D;
+  --radius: 14px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+  font-size: 16px;
+}
+.layout { display: flex; max-width: 1400px; margin: 0 auto; }
+
+/* Sidebar nav */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 32px 20px;
+  border-left: 1px solid var(--border);
+  background: var(--surface);
+}
+.sidebar-brand { font-size: 18px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+.sidebar-sub { font-size: 12px; color: var(--ink-3); margin-bottom: 28px; }
+.nav-group { margin-bottom: 20px; }
+.nav-group-title { font-size: 11px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+.nav-link { display: block; font-size: 13px; color: var(--ink-2); text-decoration: none; padding: 6px 12px; border-radius: 8px; margin-bottom: 2px; transition: all 0.15s; }
+.nav-link:hover { background: var(--surface-2); color: var(--ink); }
+.nav-link.active { background: var(--purple-bg); color: var(--purple-ink); font-weight: 500; }
+
+/* Main content */
+.content { flex: 1; padding: 48px 56px; min-width: 0; }
+.hero { margin-bottom: 48px; padding-bottom: 32px; border-bottom: 2px solid var(--border); }
+.hero-eyebrow { font-size: 12px; font-weight: 700; color: var(--purple); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.hero h1 { font-size: 38px; font-weight: 700; line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.01em; }
+.hero-lead { font-size: 18px; color: var(--ink-2); max-width: 640px; }
+.hero-meta { display: flex; gap: 20px; margin-top: 24px; flex-wrap: wrap; }
+.hero-meta-item { font-size: 13px; color: var(--ink-3); }
+.hero-meta-item strong { color: var(--ink); font-weight: 500; }
+
+section { margin-bottom: 56px; scroll-margin-top: 24px; }
+.section-num { font-size: 13px; font-weight: 700; color: var(--purple); margin-bottom: 6px; }
+h2 { font-size: 28px; font-weight: 700; margin-bottom: 8px; letter-spacing: -0.01em; }
+.section-intro { font-size: 16px; color: var(--ink-2); margin-bottom: 28px; max-width: 720px; }
+h3 { font-size: 20px; font-weight: 600; margin: 32px 0 12px; }
+h4 { font-size: 16px; font-weight: 600; margin: 20px 0 8px; }
+p { margin-bottom: 14px; color: var(--ink); }
+p.muted { color: var(--ink-2); }
+ul, ol { margin: 0 0 16px; padding-right: 22px; }
+li { margin-bottom: 8px; color: var(--ink); }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+  margin-bottom: 16px;
+}
+.card-tight { padding: 18px 22px; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+
+.pill { display: inline-block; font-size: 12px; font-weight: 500; padding: 3px 12px; border-radius: 20px; margin: 2px 2px 2px 0; }
+.p-purple { background: var(--purple-bg); color: var(--purple-ink); }
+.p-teal { background: var(--teal-bg); color: var(--teal-ink); }
+.p-amber { background: var(--amber-bg); color: var(--amber-ink); }
+.p-coral { background: var(--coral-bg); color: var(--coral-ink); }
+.p-blue { background: var(--blue-bg); color: var(--blue-ink); }
+.p-green { background: var(--green-bg); color: var(--green-ink); }
+.p-gray { background: var(--surface-2); color: var(--ink-2); }
+
+.callout {
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin: 20px 0;
+  border-right: 4px solid;
+}
+.callout-purple { background: var(--purple-bg); border-color: var(--purple); }
+.callout-teal { background: var(--teal-bg); border-color: var(--teal); }
+.callout-amber { background: var(--amber-bg); border-color: var(--amber); }
+.callout-coral { background: var(--coral-bg); border-color: var(--coral); }
+.callout h4 { margin-top: 0; }
+.callout-purple h4 { color: var(--purple-ink); }
+.callout-teal h4 { color: var(--teal-ink); }
+.callout-amber h4 { color: var(--amber-ink); }
+.callout-coral h4 { color: var(--coral-ink); }
+.callout p:last-child { margin-bottom: 0; }
+
+table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+th { text-align: right; font-size: 12px; font-weight: 700; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 12px; border-bottom: 2px solid var(--border); }
+td { padding: 12px; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--ink); }
+tr:last-child td { border-bottom: none; }
+td strong { font-weight: 600; }
+
+.check { color: var(--teal); font-weight: 700; }
+.cross { color: var(--red-ink); font-weight: 700; }
+.partial { color: var(--amber); font-weight: 700; }
+
+.step { display: flex; gap: 16px; margin-bottom: 4px; position: relative; }
+.step:not(:last-child)::after { content: ''; position: absolute; right: 17px; top: 40px; bottom: -4px; width: 2px; background: var(--border); }
+.step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--purple-bg); color: var(--purple-ink); font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.step-body { flex: 1; padding-bottom: 20px; }
+.step-body h4 { margin: 4px 0 4px; }
+.step-body p { font-size: 14px; color: var(--ink-2); margin-bottom: 6px; }
+
+.tier { border-radius: var(--radius); padding: 18px 22px; margin-bottom: 12px; border: 1px solid; }
+.tier-0 { background: var(--surface-2); border-color: var(--border-strong); }
+.tier-1 { background: var(--amber-bg); border-color: #FAC775; }
+.tier-2 { background: var(--teal-bg); border-color: #5DCAA5; }
+.tier-3 { background: var(--purple-bg); border-color: #AFA9EC; }
+.tier-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.tier-badge { font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 20px; background: rgba(0,0,0,0.08); }
+.tier-title { font-size: 16px; font-weight: 600; }
+.tier-body { font-size: 14px; color: var(--ink-2); }
+.tier-fields { font-size: 13px; margin-top: 8px; }
+
+.code {
+  font-family: "SF Mono", "Courier New", monospace;
+  font-size: 13px;
+  background: #1E1B2E;
+  color: #C9C4E8;
+  border-radius: 10px;
+  padding: 18px 20px;
+  margin: 14px 0;
+  overflow-x: auto;
+  line-height: 1.6;
+  direction: ltr;
+  text-align: left;
+}
+.code .kw { color: #B39DDB; }
+.code .str { color: #9FE1CB; }
+.code .com { color: #6D6A85; }
+.code .fn { color: #F0997B; }
+
+.faq-item { border-bottom: 1px solid var(--border); padding: 18px 0; }
+.faq-item:last-child { border-bottom: none; }
+.faq-q { font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 8px; display: flex; gap: 8px; }
+.faq-q::before { content: 'ש'; background: var(--purple); color: white; width: 22px; height: 22px; border-radius: 50%; font-size: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-weight: 700; }
+.faq-a { font-size: 15px; color: var(--ink-2); padding-right: 30px; }
+
+.roadmap-phase { border-radius: var(--radius); padding: 20px 24px; margin-bottom: 14px; border: 1px solid var(--border); background: var(--surface); }
+.roadmap-phase-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.phase-tag { font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: 20px; }
+.pt-1 { background: var(--purple-bg); color: var(--purple-ink); }
+.pt-2 { background: var(--teal-bg); color: var(--teal-ink); }
+.pt-3 { background: var(--amber-bg); color: var(--amber-ink); }
+.pt-4 { background: var(--surface-2); color: var(--ink-2); }
+.phase-title { font-size: 17px; font-weight: 600; }
+.roadmap-item { font-size: 14px; color: var(--ink-2); padding: 5px 0; padding-right: 18px; position: relative; }
+.roadmap-item::before { content: ''; position: absolute; right: 0; top: 13px; width: 6px; height: 6px; border-radius: 50%; background: var(--border-strong); }
+
+.stack-layer { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--border); }
+.stack-layer:last-child { border-bottom: none; }
+.stack-label { font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 8px; flex-shrink: 0; min-width: 100px; text-align: center; }
+.stack-body h4 { margin: 0 0 4px; }
+.stack-body p { font-size: 14px; color: var(--ink-2); margin-bottom: 4px; }
+.stack-choice { font-size: 15px; font-weight: 600; color: var(--ink); }
+
+.divider { height: 1px; background: var(--border); margin: 32px 0; }
+
+footer { margin-top: 64px; padding-top: 24px; border-top: 2px solid var(--border); font-size: 13px; color: var(--ink-3); }
+
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .content { padding: 28px 20px; }
+  .hero h1 { font-size: 28px; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-brand">מסמך מנחה</div>
+  <div class="sidebar-sub">פלטפורמת שילוב לילדים עם צרכים מיוחדים</div>
+
+  <div class="nav-group">
+    <div class="nav-group-title">חזון ורעיון</div>
+    <a href="#vision" class="nav-link">1. החזון והבעיה</a>
+    <a href="#market" class="nav-link">2. מחקר שוק</a>
+    <a href="#actors" class="nav-link">3. שחקנים וצרכים</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">מוצר ותהליכים</div>
+    <a href="#workflows" class="nav-link">4. תהליכי ליבה</a>
+    <a href="#matching" class="nav-link">5. מנוע ההתאמה</a>
+    <a href="#privacy" class="nav-link">6. מודל פרטיות</a>
+    <a href="#operations" class="nav-link">7. אופרציה יומית</a>
+    <a href="#support-levels" class="nav-link">7b. רמות ליווי</a>
+    <a href="#emergency" class="nav-link">8. חמ"ל חירום</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">טכנולוגיה</div>
+    <a href="#stack" class="nav-link">9. ה-Stack</a>
+    <a href="#database" class="nav-link">10. מאגר הנתונים</a>
+    <a href="#security" class="nav-link">11. אבטחה ו-RLS</a>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-title">ביצוע</div>
+    <a href="#roadmap" class="nav-link">12. Roadmap</a>
+    <a href="#business" class="nav-link">13. מודל עסקי</a>
+    <a href="#risks" class="nav-link">14. סיכונים</a>
+    <a href="#faq" class="nav-link">15. שאלות מנחות</a>
+  </div>
+</nav>
+
+<!-- CONTENT -->
+<main class="content">
+
+<div class="hero">
+  <div class="hero-eyebrow">Master Specification · גרסה 1.1</div>
+  <h1>פלטפורמת שילוב לילדים עם צרכים מיוחדים</h1>
+  <p class="hero-lead">מערכת שמחברת בין הורים, משלבות, מטפלות ומוסדות חינוך — ומאחדת את המידע הרגולטורי, הפדגוגי והתפעולי סביב הילד. מסמך זה הוא נקודת העוגן לכל החלטה: רעיונית, מוצרית וטכנית.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item"><strong>מודל:</strong> B2C — marketplace פרטי</div>
+    <div class="hero-meta-item"><strong>מרכז הכוח:</strong> ההורה יוזם</div>
+    <div class="hero-meta-item"><strong>תמחור:</strong> סביב ה-match</div>
+    <div class="hero-meta-item"><strong>פיתוח:</strong> AI-first, מפתח בעתיד</div>
+  </div>
+</div>
+
+<!-- 1. VISION -->
+<section id="vision">
+  <div class="section-num">01</div>
+  <h2>החזון והבעיה</h2>
+  <p class="section-intro">הפלטפורמה נולדת מכאב אמיתי של הורה לילדים עם צרכים מיוחדים. שלושה כאבים מרכזיים מגדירים אותה.</p>
+
+  <div class="grid-3">
+    <div class="card card-tight">
+      <span class="pill p-purple">כאב 1</span>
+      <h4>מציאת האדם המתאים</h4>
+      <p class="muted">הורים מוצאים משלבות ומטפלות דרך המלצות פה-לאוזן בלבד. אין פרופיל, אין ביקורות, אין דרך לדעת אם יתאים לילד.</p>
+    </div>
+    <div class="card card-tight">
+      <span class="pill p-teal">כאב 2</span>
+      <h4>ניווט בזכויות ובירוקרטיה</h4>
+      <p class="muted">רוב ההורים לא יודעים מה מגיע להם מסל השילוב. ועדות, אפיון, תקציב אישי מול מוסדי — מבוך.</p>
+    </div>
+    <div class="card card-tight">
+      <span class="pill p-amber">כאב 3</span>
+      <h4>תיאום הצוות סביב הילד</h4>
+      <p class="muted">משלבת, פסיכולוג, מרפאה בעיסוק, בית ספר — כל אחד בסילו. ההורה הוא האינטגרטור היחיד, ללא כלי.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-purple">
+    <h4>ההצהרה המרכזית</h4>
+    <p>הפלטפורמה מתחילה כמערכת שנותנת מענה איכותי לחיבור בין הורה למשלבת המתאימה — ומשם מרחיבה לאיחוד המידע הרגולטורי, הפדגוגי והתפעולי. החיבור הוא ה-hook; שאר הערך נגזר ממנו.</p>
+  </div>
+
+  <h3>עקרון הכיסוי המלא</h3>
+  <p>המערכת נבנית לכלל אוכלוסיות הצרכים המיוחדים — ספקטרום האוטיזם, ADHD, לקויות למידה, מוגבלויות פיזיות, כבדי שמיעה וראייה ועוד. עם זאת, כל סגמנט מקבל תהליך עבודה מותאם: הפרמטרים של התאמת משלבת לילד עם אוטיזם בתפקוד נמוך שונים מהותית מאלה של ילד עם ADHD בתפקוד גבוה. הכיסוי רחב — ההתאמה ספציפית.</p>
+</section>
+
+<!-- 2. MARKET -->
+<section id="market">
+  <div class="section-num">02</div>
+  <h2>מחקר שוק</h2>
+  <p class="section-intro">מיפוי מה קיים בישראל ובעולם, ולמה הנישה הספציפית הזו עדיין פתוחה.</p>
+
+  <h3>מה קיים היום</h3>
+  <table>
+    <thead><tr><th>פתרון</th><th>מה הוא עושה</th><th>הפער</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Helpbook / AllJobs</strong></td><td>לוחות דרושים למשרות משלבת</td><td><span class="cross">✗</span> אין matching, פרופיל או ביקורות</td></tr>
+      <tr><td><strong>קבוצות פייסבוק/וואטסאפ</strong></td><td>פורומי הורים לפי אבחנה/אזור</td><td><span class="cross">✗</span> לא מובנה, לא אמין</td></tr>
+      <tr><td><strong>כל-זכות / משרד החינוך</strong></td><td>מידע על זכויות וסל שילוב</td><td><span class="partial">~</span> מידע בלבד, אין פעולה</td></tr>
+      <tr><td><strong>BridgingApps (ארה"ב)</strong></td><td>מאגר אפליקציות לצ"מ</td><td><span class="partial">~</span> כלי לימוד, לא שידוך</td></tr>
+      <tr><td><strong>Inclusively (ארה"ב)</strong></td><td>שידוך מוגבלויות לתעסוקה, גייסה $5.5M</td><td><span class="partial">~</span> מבוגרים, לא ילדים</td></tr>
+      <tr><td><strong>הפלטפורמה שלנו</strong></td><td>marketplace לשילוב + תיאום + זכויות</td><td><span class="check">✓</span> לא קיים בשוק</td></tr>
+    </tbody>
+  </table>
+
+  <h3>למה ניסיונות קודמים נכשלים</h3>
+  <div class="grid-3">
+    <div class="card card-tight">
+      <h4>תרנגולת–ביצה</h4>
+      <p class="muted">בלי מספיק משלבות אין הורים; בלי הורים אין משלבות. חובה להגיע עם supply לפני launch.</p>
+    </div>
+    <div class="card card-tight">
+      <h4>אמון גבוה מאוד</h4>
+      <p class="muted">הורים מוסרים מידע רפואי רגיש על ילד. cold-start של אמון קשה במיוחד.</p>
+    </div>
+    <div class="card card-tight">
+      <h4>שוק מוסדר</h4>
+      <p class="muted">ועדות, רשויות, משרד חינוך — קשה ליצור ערך מחוץ לרגולציה. פתרון: B2C פרטי.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3. ACTORS -->
+<section id="actors">
+  <div class="section-num">03</div>
+  <h2>שחקנים וצרכים</h2>
+  <p class="section-intro">שוק דו-צדדי. כל צד מחפש דבר אחר — וה-matching חייב לדבר את שתי השפות.</p>
+
+  <div class="grid-2">
+    <div class="card">
+      <span class="pill p-purple">צד הביקוש</span>
+      <h4>הורים</h4>
+      <p class="muted">משלבת מתאימה לאבחנה · קרובה גיאוגרפית · ניסיון רלוונטי · המלצות אמינות · הדרכה על זכויות · תיאום עם המטפלות</p>
+      <h4 style="margin-top:16px;">בתי ספר ורשויות</h4>
+      <p class="muted">מתאמות שילוב מוסמכות · ניהול סל שילוב · תיעוד ועמידה בחוק · מורות שילוב זמינות</p>
+    </div>
+    <div class="card">
+      <span class="pill p-teal">צד ההיצע</span>
+      <h4>משלבות / משלבים</h4>
+      <p class="muted">משרות בשעות גמישות · ילד שמתאים לניסיון · ליווי מקצועי · שכר הוגן · בניית פרופיל ומוניטין · קרבה למגורים</p>
+      <h4 style="margin-top:16px;">מטפלות ומרפאות</h4>
+      <p class="muted">לקוחות מתאימים · תיאום עם המשלבת · מעקב התקדמות · גישה למידע מהמסגרת</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4. WORKFLOWS -->
+<section id="workflows">
+  <div class="section-num">04</div>
+  <h2>תהליכי ליבה</h2>
+  <p class="section-intro">מחזור החיים של המערכת מחולק לארבעה תהליכים, כל אחד מנוע עצמאי שמזין את הבא.</p>
+
+  <div class="grid-2">
+    <div class="card card-tight">
+      <span class="pill p-coral">מנוע 1</span>
+      <h4>קליטה, אימות וציות</h4>
+      <p class="muted">שומר הסף. אימות זהות, תעודות, ותעודת יושר לפני כניסה למאגר הפעיל. סטטוס Verified רק אחרי אישור כפול — טכנולוגי (OCR) ואנושי (admin).</p>
+    </div>
+    <div class="card card-tight">
+      <span class="pill p-purple">מנוע 2</span>
+      <h4>מנוע ההתאמה</h4>
+      <p class="muted">שקלול דו-שכבתי: סינון קשיח (hard filters) ואז דירוג רך (soft scoring). פלט: 3 מועמדות מובילות עם הסבר תאימות.</p>
+    </div>
+    <div class="card card-tight">
+      <span class="pill p-teal">מנוע 3</span>
+      <h4>אופרציה יומית</h4>
+      <p class="muted">Check-in GPS (EVV), מיקרו-שאלון פדגוגי יומי, יומן שוטף, תיאום הצוות. הלב התפעולי — וה-retention.</p>
+    </div>
+    <div class="card card-tight">
+      <span class="pill p-amber">מנוע 4</span>
+      <h4>חמ"ל חירום</h4>
+      <p class="muted">זיהוי אי-הגעה אוטומטי, הפעלת pool גיבוי, push לסייעות זמינות ברדיוס. ה-differentiator המרכזי.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5. MATCHING -->
+<section id="matching">
+  <div class="section-num">05</div>
+  <h2>מנוע ההתאמה</h2>
+  <p class="section-intro">הלב של הפלטפורמה. לא לוח חיפוש — מנוע שמציג "מצאנו לך", לא "חפש בעצמך". <strong>ההורה יוזם, המשלבת מגיבה.</strong></p>
+
+  <div class="callout callout-purple">
+    <h4>מודל הכוח — ההורה מרכז המערכת</h4>
+    <p>ההורה הוא שרואה את "המשלבות שמתאימות לנועם" ופותח בקשות — לא המשלבת שגולשת ובוחרת. המשלבת יכולה להביע עניין בכרטיס (browse משני ומוגבל), אך <strong>אף פעם לא לפתוח גישה בעצמה</strong>. כל חשיפת מידע עוברת דרך אישור הורה. זה מיושם גם ב-UX וגם ב-RLS. מסך הבית של ההורה הוא ה-hero: התאמות אלגוריתמיות עם הסבר תאימות; browse למשלבת קיים אך משני.</p>
+  </div>
+
+  <h3>שתי השכבות</h3>
+  <div class="callout callout-teal">
+    <h4>שלב א' — סינון קשיח (Hard Filters)</h4>
+    <p>פסילה מוחלטת של אי-התאמות. רק מי שעובר את כולם ממשיך: גיאוגרפיה (רדיוס ק"מ) · זמינות (ימים/שעות) · סוג מסגרת · שפה · <strong>סטטוס אימות — חובה</strong>.</p>
+  </div>
+  <div class="callout callout-purple">
+    <h4>שלב ב' — דירוג רך (Soft Scoring)</h4>
+    <p>ציון 0–100 לכל מועמדת שנשארה. משקלים: ניסיון עם אבחנה ספציפית (×3) · הכשרות רלוונטיות (×2) · דירוג הורים קודמים (×2) · קרבה גיאוגרפית (×1) · ותק פלטפורמה (×1).</p>
+  </div>
+
+  <h3>התאמה אישיותית — הערה חשובה</h3>
+  <div class="callout callout-amber">
+    <h4>לא DiSC — שאלון מותאם</h4>
+    <p>DiSC פותח לסביבות עבודה ארגוניות, לא לעבודה עם ילד עם צרכים מיוחדים. השאלון האמיתי נבנה ממה שניבא הצלחה בשטח: סבלנות לחזרתיות, יכולת לקרוא רגשות של ילד לא-ורבלי, גישה לוויסות, סגנון תקשורת. את השאלון בונים משיחות עם הורים אמיתיים — "מה גרם למשלבת הכי טובה שהייתה לך להיות טובה?"</p>
+  </div>
+
+  <h3>מה צריך לדעת על הילד</h3>
+  <div class="grid-2">
+    <div class="card card-tight">
+      <h4>קריטריונים אובייקטיביים</h4>
+      <p class="muted">אבחנה ראשית ומשנית · רמת תפקוד (1/2/3) · גיל ומסגרת · שפת תקשורת · תקשורת ורבלית/לא · אתגרי ויסות · שעות נוכחות</p>
+    </div>
+    <div class="card card-tight">
+      <h4>קריטריונים סובייקטיביים</h4>
+      <p class="muted">מה עובד על הילד · מה מפעיל אותו לרעה · העדפת מגדר · סגנון שהתחבר בעבר · מה ה"ניצחון" שההורה רוצה לראות</p>
+    </div>
+  </div>
+
+  <h3>ה-flow — ההורה יוזם</h3>
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body"><h4>הורה ממלא פרופיל ילד + צרכים</h4><p>האלגוריתם מחשב התאמות מבין המשלבות המאומתות באזור.</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body"><h4>הורה רואה "המשלבות שמתאימות לנועם"</h4><p>3–5 פרופילים עם הסבר תאימות לכל אחת. ההורה בוחר, לא נבחר.</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body"><h4>הורה פותח בקשה למשלבת/ות שבחר</h4><p>המשלבת רואה TIER 0–1 ומחליטה אם להגיב.</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body"><h4>משלבת מגיבה — מעוניינת / לא</h4><p>אם מעוניינת — נפתחת שיחת היכרות (TIER 2). ההורה בשליטה על ההמשך.</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body"><h4>ערוץ משני — משלבת מביעה עניין</h4><p>משלבת שרואה כרטיס ב-browse מוגבל יכולה לסמן "אשמח" — אך ההורה הוא שמאשר פתיחה. הכוח נשאר אצלו.</p></div>
+  </div>
+</section>
+
+<!-- 6. PRIVACY -->
+<section id="privacy">
+  <div class="section-num">06</div>
+  <h2>מודל פרטיות וגישה</h2>
+  <p class="section-intro">העיקרון: ההורה שולט במידע תמיד. חשיפה הדרגתית בארבע שכבות — משלבת רואה עוד ועוד רק כשההורה מאשר.</p>
+
+  <div class="tier tier-0">
+    <div class="tier-head"><span class="tier-badge">TIER 0</span><span class="tier-title">לפני בקשה — ציבורי</span></div>
+    <div class="tier-body">משלבת מאומתת רואה: שם פרטי + גיל · אזור כללי · סוג מסגרת · קטגוריית צורך כללית · שעות. <strong>מוסתר:</strong> אבחנה ספציפית, מסמכים, פרטי קשר.</div>
+  </div>
+  <div class="tier tier-1">
+    <div class="tier-head"><span class="tier-badge">TIER 1</span><span class="tier-title">בקשה הוגשה — ממתין לאישור</span></div>
+    <div class="tier-body">המשלבת הגישה בקשה + מכתב. נפתח לה: אבחנה כללית · רמת תפקוד · תקשורת ורבלית. <strong>מוסתר עדיין:</strong> כתובת, מסמכים, פרטי קשר.</div>
+  </div>
+  <div class="tier tier-2">
+    <div class="tier-head"><span class="tier-badge">TIER 2</span><span class="tier-title">הורה אישר — שיחת היכרות</span></div>
+    <div class="tier-body">נפתח: שם מלא · אבחנה מלאה · מה עובד/מה מקשה · שם המסגרת · <strong>פרטי קשר הורה</strong>. מסמכים רפואיים עדיין מוסתרים.</div>
+  </div>
+  <div class="tier tier-3">
+    <div class="tier-head"><span class="tier-badge">TIER 3</span><span class="tier-title">match פעיל — עבודה שוטפת</span></div>
+    <div class="tier-body">תיק ילד מלא לפי בחירת ההורה · מסמכים שהורה אישר · יומן שוטף · פרטי הצוות. כל גישה מתועדת ב-audit log. הורה יכול לשלוף הרשאה בכל רגע.</div>
+  </div>
+
+  <div class="callout callout-coral">
+    <h4>ה-friction המכוון</h4>
+    <p>משלבת לא "עושה לייק" — היא מגישה בקשה עם מכתב קצר (3–5 משפטים): מי היא ולמה תתאים לילד הזה ספציפית. זה מסנן בקשות לא רציניות והופך את הבקשה לאנושית — לא דירוג של הילד כמו חפץ.</p>
+  </div>
+
+  <h3>מקרי קצה שהוכרעו</h3>
+  <ul>
+    <li><strong>הרשאות ברמת הילד, לא החשבון:</strong> הורה עם שני ילדים — כל ילד פרופיל עצמאי עם הגדרות פרסום נפרדות.</li>
+    <li><strong>הורה מחק חשבון:</strong> מחיקה מיידית מכל TIER, בקשות פתוחות מקבלות "הכרטיס הוסר" בלי פרטים.</li>
+    <li><strong>invite ישיר:</strong> הורה יכול לשלוח למשלבת ספציפית קישור שמדלג ישר ל-TIER 2.</li>
+    <li><strong>match מבוטל:</strong> מידע שנחשף כבר נחשף — הסכמה חתומה מבהירה זאת + מנגנון דיווח על שימוש לרעה.</li>
+  </ul>
+</section>
+
+<!-- 7. OPERATIONS -->
+<section id="operations">
+  <div class="section-num">07</div>
+  <h2>אופרציה יומית</h2>
+  <p class="section-intro">מה שקורה אחרי ה-match — וזה מה שמחזיק את המשתמשים בפלטפורמה במקום לעבור לוואטסאפ.</p>
+
+  <div class="step">
+    <div class="step-num">1</div>
+    <div class="step-body"><h4>Check-in מבוסס GPS (EVV)</h4><p>המשלבת מאשרת נוכחות ב-geofence של המסגרת. מוזן אוטומטית ליומן הורה + ניהול בי"ס. פותר "הגיעה? מתי?" בלי שאלות — ובסיס לחמ"ל החירום.</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">2</div>
+    <div class="step-body"><h4>מיקרו-שאלון פדגוגי יומי</h4><p>לא טקסט חופשי — סמלילי רגש + 2–3 מדדים כמותיים שהוגדרו מראש (למשל "יוזמות חברתיות בהפסקה"). AI מנתח ומציע אסטרטגיה למחר. הורה מקבל סיכום קצר.</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">3</div>
+    <div class="step-body"><h4>תיק ילד — shared profile</h4><p>מסמך חי שההורה יוצר ושולט בו. משלבת קוראת, לא עורכת. הרשאות גרנולריות פר-שדה.</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">4</div>
+    <div class="step-body"><h4>הצטרפות הצוות</h4><p>הורה מזמין מטפלות חיצוניות — כל תפקיד מקבל הרשאות שונות. פרטיות by design.</p></div>
+  </div>
+  <div class="step">
+    <div class="step-num">5</div>
+    <div class="step-body"><h4>דירוג הדדי בסיום</h4><p>לא כוכבים בלבד — קריטריונים ספציפיים (אמינות, מקצועיות, fit עם הילד). בונה את ה-trust layer.</p></div>
+  </div>
+</section>
+
+<!-- 7b. SUPPORT LEVELS -->
+<section id="support-levels">
+  <div class="section-num">07b</div>
+  <h2>רמות הליווי בזכויות</h2>
+  <p class="section-intro">הליווי הוא ה<strong>ערך המוסף</strong> — לא הליבה. השאלה הקריטית: עד לאיזו רמת עומק יורדים? ככל שעמוק יותר — יותר ערך, אך יותר אחריות משפטית ותפעולית.</p>
+
+  <div class="tier tier-0" style="background: var(--green-bg); border-color: #97C459;">
+    <div class="tier-head"><span class="tier-badge">רמה 1</span><span class="tier-title">מידע והסברה</span></div>
+    <div class="tier-body">מה זה סל שילוב, ועדת זכאות, איך מגישים. מדריכים, סרטונים, FAQ, AI לשאלות כלליות. <strong>MVP</strong> — קל, בטוח, ערך SEO גבוה, אין אחריות משפטית.</div>
+  </div>
+  <div class="tier tier-2">
+    <div class="tier-head"><span class="tier-badge">רמה 2</span><span class="tier-title">כלים אישיים</span></div>
+    <div class="tier-body">"מה מגיע לילד שלי?" — שאלון הערכת זכאות. תבניות מכתבים, checklist מסמכים לוועדה, תזכורות למועדים. <strong>v1.5</strong> — ערך גבוה, disclaimer ברור, עדיין לא ייעוץ מחייב.</div>
+  </div>
+  <div class="tier tier-1">
+    <div class="tier-head"><span class="tier-badge">רמה 3</span><span class="tier-title">ליווי אנושי מרחוק</span></div>
+    <div class="tier-body">חיבור ליועץ זכויות (עו"ד/מומחה) דרך הפלטפורמה — שיחת ייעוץ בתשלום. הפלטפורמה מתווכת, לא נותנת את הייעוץ. <strong>v2</strong> — marketplace ליועצים, לא אחריות ישירה.</div>
+  </div>
+  <div class="tier tier-0" style="background: var(--coral-bg); border-color: #F0997B;">
+    <div class="tier-head"><span class="tier-badge">רמה 4</span><span class="tier-title">ייצוג בוועדות</span></div>
+    <div class="tier-body">נציג שמגיע פיזית לוועדה, מכין תיק, מייצג. ערך עצום — אך אחריות משפטית ותפעולית גבוהה. <strong>לא בטווח הנראה</strong> — רק דרך שותפות עם ארגון קיים, לא feature עצמאי.</div>
+  </div>
+
+  <div class="callout callout-teal">
+    <h4>ההחלטה</h4>
+    <p>התחל ברמות 1–2 (מידע + כלים אישיים) — ערך אמיתי, בטוח משפטית, מצוין ל-SEO ולמשיכת הורים. אל תיגע ברמות 3–4 עד שיש PMF מוכח, וגם אז — דרך שותפות, לא בנייה עצמית.</p>
+  </div>
+</section>
+
+<!-- 8. EMERGENCY -->
+<section id="emergency">
+  <div class="section-num">08</div>
+  <h2>חמ"ל חירום</h2>
+  <p class="section-intro">מענה ממוכן לכשל השוק הקריטי ביותר — היעדרות פתאומית של משלבת בבוקר. ה-feature שאף לוח דרושים לא נותן.</p>
+
+  <div class="card">
+    <div class="code" dir="ltr">
+<span class="com">// 08:15 — pg_cron בודק אי-הגעה</span><br>
+[אין Check-in תוך 3 שעות]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+[טריגר אוטומטי — התראה שקטה]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+[הודעה מיידית להורה + רכז שילוב]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+[מנוע גיבוי גיאוגרפי — סריקת pool זמין ברדיוס]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+[push ל-3 סייעות גיבוי קרובות]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+[אישור גיבוי → פרופיל Verified מקוצר למנהל]
+    </div>
+  </div>
+
+  <div class="callout callout-amber">
+    <h4>ה-pool ב-MVP</h4>
+    <p>בשלב B2C, ה-pool אינו רשותי אלא פנימי — משלבות שסימנו עצמן "פנויה להחלפה". זה עובד בלי תלות ב-B2G. המאגר הרשותי הוא v3.</p>
+  </div>
+</section>
+
+<!-- 9. STACK -->
+<section id="stack">
+  <div class="section-num">09</div>
+  <h2>ה-Stack הטכנולוגי</h2>
+  <p class="section-intro">נבחר לפי שני עקרונות: פשטות תחזוקה, ופיתוח על ידי AI. מאגר אחד, repo אחד, ספק אחד לכל דבר.</p>
+
+  <div class="card">
+    <div class="stack-layer">
+      <span class="stack-label p-purple">Frontend</span>
+      <div class="stack-body">
+        <div class="stack-choice">React Native + Expo</div>
+        <p>קוד אחד → iOS + Android + Web Admin. GPS, push, מצלמה מובנים. native אמיתי — הכרחי ל-Check-in ולחמ"ל. repo אחד לתחזק.</p>
+      </div>
+    </div>
+    <div class="stack-layer">
+      <span class="stack-label p-teal">Backend + DB</span>
+      <div class="stack-body">
+        <div class="stack-choice">Supabase (PostgreSQL)</div>
+        <p>Postgres מלא + Auth + Storage + Realtime + Edge Functions — הכל יחד. RLS מחובר ל-Auth. dashboard אחד, billing אחד. מתועד היטב ל-AI.</p>
+      </div>
+    </div>
+    <div class="stack-layer">
+      <span class="stack-label p-amber">תזמון</span>
+      <div class="stack-body">
+        <div class="stack-choice">pg_cron + Edge Functions</div>
+        <p>חמ"ל, reminders, ניקוד — בתוך Postgres. בלי Redis, בלי מאגר שני. עיבוד אסינכרוני ב-Edge Functions.</p>
+      </div>
+    </div>
+    <div class="stack-layer">
+      <span class="stack-label p-blue">התראות</span>
+      <div class="stack-body">
+        <div class="stack-choice">Expo Push + Twilio/019 SMS</div>
+        <p>push על iOS+Android בלי APNs/FCM ידני. SMS רק לחירום ו-OTP.</p>
+      </div>
+    </div>
+    <div class="stack-layer">
+      <span class="stack-label p-coral">AI</span>
+      <div class="stack-body">
+        <div class="stack-choice">Anthropic API (Claude)</div>
+        <p>ניתוח שאלון יומי + הצעות אסטרטגיה + match scoring. API call מ-Edge Function. בלי vector DB, בלי מודל עצמי.</p>
+      </div>
+    </div>
+    <div class="stack-layer">
+      <span class="stack-label p-green">OCR</span>
+      <div class="stack-body">
+        <div class="stack-choice">Google Document AI</div>
+        <p>פענוח תעודות ישראליות. API call בלבד — המסמך נשמר רק ב-Supabase Storage.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-purple">
+    <h4>למה Supabase ולא Neon או NestJS ידני</h4>
+    <p>שלושתם Postgres. Neon הוא database מבריק אבל דורש לבנות Auth, Storage, Realtime בנפרד. NestJS ידני נותן שליטה אבל דורש לכתוב אלפי שורות של Auth ו-RLS — כל אחת נקודת באג פוטנציאלית במידע רפואי. Supabase נותן 80% מוכן, מתועד היטב ל-AI, עם RLS מחובר ל-Auth. <strong>לא ננעלים</strong> — אם יגויס מפתח מנוסה, המעבר תמיד פתוח כי בסוף זה Postgres סטנדרטי.</p>
+  </div>
+</section>
+
+<!-- 10. DATABASE -->
+<section id="database">
+  <div class="section-num">10</div>
+  <h2>מאגר הנתונים</h2>
+  <p class="section-intro">PostgreSQL יחיד כ-Single Source of Truth. כל צורך נענה בהרחבה מובנית — בלי מאגר שני.</p>
+
+  <table>
+    <thead><tr><th>צורך</th><th>פתרון ב-Postgres</th></tr></thead>
+    <tbody>
+      <tr><td>נתונים מבניים (משתמשים, matches)</td><td>Core SQL + יחסים</td></tr>
+      <tr><td>שאילתות גיאוגרפיות (רדיוס, geofence)</td><td><strong>PostGIS</strong> extension</td></tr>
+      <tr><td>דיווח פדגוגי גמיש (משתנה מילד לילד)</td><td><strong>JSONB</strong> columns</td></tr>
+      <tr><td>התאמה סמנטית (בעתיד)</td><td><strong>pgvector</strong> — כשיגיע הזמן</td></tr>
+      <tr><td>תזמון (חמ"ל, reminders)</td><td><strong>pg_cron</strong> extension</td></tr>
+      <tr><td>Real-time</td><td>Supabase Realtime על Postgres</td></tr>
+    </tbody>
+  </table>
+
+  <h3>ישויות ליבה</h3>
+  <div class="code" dir="ltr">
+<span class="kw">User</span> (הורה)  → id · phone · area · verified · subscription_tier<br>
+<span class="kw">Child</span>       → id · parent_id · age · diagnoses[] · functioning_level · framework · needs{jsonb}<br>
+<span class="kw">Professional</span> → id · type · specialties[] · certifications[] · verified · availability{} · rating<br>
+<span class="kw">Match</span>       → id · child_id · professional_id · status · score · match_reason<br>
+<span class="kw">Checkin</span>     → id · match_id · location · created_at<br>
+<span class="kw">DailyLog</span>    → id · match_id · date · metrics{jsonb} · mood · ai_summary<br>
+<span class="kw">Review</span>      → id · match_id · reliability · professionalism · child_fit · text<br>
+<span class="kw">EmergencyAlert</span> → id · match_id · type · status · resolved_by
+  </div>
+</section>
+
+<!-- 11. SECURITY -->
+<section id="security">
+  <div class="section-num">11</div>
+  <h2>אבטחה ו-RLS</h2>
+  <p class="section-intro">מודל ה-TIER מיושם ב-database עצמו — לא בקוד. אין אפשרות ל-bug שחושף מידע בטעות; ה-DB פשוט לא מחזיר נתונים לא מורשים.</p>
+
+  <div class="code" dir="ltr">
+<span class="com">-- TIER 0: כרטיס ציבורי — רק למשלבות מאומתות</span><br>
+<span class="kw">CREATE POLICY</span> <span class="str">"tier_0_public"</span> <span class="kw">ON</span> children<br>
+&nbsp;&nbsp;<span class="kw">FOR SELECT USING</span> (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;published = <span class="kw">true</span> <span class="kw">AND</span> auth.uid() <span class="kw">IN</span> (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">SELECT</span> id <span class="kw">FROM</span> professionals <span class="kw">WHERE</span> verified = <span class="kw">true</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;);<br>
+<br>
+<span class="com">-- TIER 2+: פרטים מלאים — רק אחרי אישור הורה</span><br>
+<span class="kw">CREATE POLICY</span> <span class="str">"tier_2_approved"</span> <span class="kw">ON</span> child_details<br>
+&nbsp;&nbsp;<span class="kw">FOR SELECT USING</span> (<span class="kw">EXISTS</span> (<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">SELECT</span> 1 <span class="kw">FROM</span> match_requests<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">WHERE</span> child_id = children.id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">AND</span> professional_id = auth.uid()<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">AND</span> status = <span class="str">'approved'</span><br>
+&nbsp;&nbsp;));
+  </div>
+
+  <h3>עקרונות אבטחה</h3>
+  <ul>
+    <li><strong>הצפנה ברמת שדה:</strong> מסמכים רפואיים ותעודות — מוצפנים ב-DB, לא ניתנים להורדה, אינדיקטור בינארי בלבד למשתמשים.</li>
+    <li><strong>אימות כפול:</strong> OCR + אישור אנושי לפני סטטוס Verified. פרופיל לא מאומת חסום לחלוטין.</li>
+    <li><strong>Audit log:</strong> כל גישה ל-TIER 3 מתועדת. הורה רואה מי ניגש ומתי.</li>
+    <li><strong>Revoke בכל רגע:</strong> הורה שולף הרשאה — גישת המשלבת מתבטלת מיידית.</li>
+  </ul>
+</section>
+
+<!-- 12. ROADMAP -->
+<section id="roadmap">
+  <div class="section-num">12</div>
+  <h2>Roadmap</h2>
+  <p class="section-intro">סדר בנייה שמוכיח ערך בכל שלב. ה-matching קודם — בלעדיו אין סיבה לפלטפורמה.</p>
+
+  <div class="roadmap-phase">
+    <div class="roadmap-phase-head"><span class="phase-tag pt-1">MVP</span><span class="phase-title">הליבה</span></div>
+    <div class="roadmap-item">פרופיל + matching בסיסי (TIER 0–2, hard filters, 3 תוצאות)</div>
+    <div class="roadmap-item">EVV — Check-in GPS (בסיס לכל השאר)</div>
+    <div class="roadmap-item">מיקרו-שאלון יומי + סיכום להורה (retention)</div>
+    <div class="roadmap-item">Admin dashboard לאימות מסמכים</div>
+  </div>
+  <div class="roadmap-phase">
+    <div class="roadmap-phase-head"><span class="phase-tag pt-2">v1.5</span><span class="phase-title">עומק ואמון</span></div>
+    <div class="roadmap-item">חמ"ל חירום + pool פנימי</div>
+    <div class="roadmap-item">תיק ילד + TIER 3 מלא (מסמכים, audit log)</div>
+    <div class="roadmap-item">personality matching — שאלון מותאם (לא DiSC)</div>
+  </div>
+  <div class="roadmap-phase">
+    <div class="roadmap-phase-head"><span class="phase-tag pt-3">v2</span><span class="phase-title">הרחבה</span></div>
+    <div class="roadmap-item">מיקרו-למידה + badge מקצועי למשלבות</div>
+    <div class="roadmap-item">כלי B2B — dashboard לרכזי שילוב ובתי ספר</div>
+    <div class="roadmap-item">מודול זכויות — ניווט סל שילוב ובירוקרטיה</div>
+  </div>
+  <div class="roadmap-phase">
+    <div class="roadmap-phase-head"><span class="phase-tag pt-4">v3</span><span class="phase-title">B2G</span></div>
+    <div class="roadmap-item">אינטגרציה עם רשויות מקומיות</div>
+    <div class="roadmap-item">מאגר גיבוי רשותי + ייצוא שכר</div>
+    <div class="roadmap-item">חיבור לסל שילוב ממשלתי</div>
+  </div>
+</section>
+
+<!-- 13. BUSINESS -->
+<section id="business">
+  <div class="section-num">13</div>
+  <h2>מודל עסקי</h2>
+  <p class="section-intro">B2C פרטי — מהיר לשוק, בלי תלות בתקציבי רשויות. המודל המדויק דורש מחקר על מה הורים מוכנים לשלם עליו.</p>
+
+  <div class="callout callout-teal">
+    <h4>המסלול שנבחר — A קודם, B בשלב שני</h4>
+    <p>בנה marketplace פרטי שעובד. הוכח product-market fit עם הורים ומשלבות. כשיש 200+ משלבות מאומתות ב-3 ערים — הגישה לרשות מקומית הופכת לשיחה על data ותוצאות, לא pitch.</p>
+  </div>
+
+  <h3>עקרון התמחור — התשלום סביב ה-match</h3>
+  <div class="callout callout-amber">
+    <h4>התובנה המכריעה מההורה</h4>
+    <p>"הייתי משלם על המציאה, לא על הניהול היומי." מכאן: התמחור סביב ה-match. הניהול היומי חייב להיות טוב מספיק לנצח את וואטסאפ — אבל כ-<strong>retention</strong>, לא כמקור הכנסה. לא נלחמים בוואטסאפ על הצ'אט (מפסידים) — מנצחים במה שהוא לא יכול: Check-in, חמ"ל, תיעוד לאורך זמן, תיאום צוות.</p>
+  </div>
+
+  <h3>שלוש שכבות התמחור</h3>
+  <table>
+    <thead><tr><th>שכבה</th><th>מחיר</th><th>מה כלול</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Discovery</strong></td><td>חינם</td><td>רישום, פרופיל ילד, צפייה בהתאמות. רואה שנמצאו משלבות — אך פתיחת בקשה בתשלום. זה ה-hook.</td></tr>
+      <tr><td><strong>עמלת match</strong></td><td>חד-פעמי</td><td>הליבה. תשלום סביב פתיחת בקשה / match מאושר. זה מה שההורה מוכן לשלם עליו — המציאה.</td></tr>
+      <tr><td><strong>Plus</strong></td><td>מינוי חודשי — אופציונלי</td><td>חמ"ל חירום פעיל, תיאום צוות מלא, ליווי זכויות. מי שרק רוצה למצוא — לא משלם. מי שרוצה שקט מתמשך — כן.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-purple">
+    <h4>נקודה פתוחה אחת בעמלת ה-match</h4>
+    <p>תשלום על <strong>פתיחת בקשה</strong> (מסנן רציניים, אך הורה משלם גם אם לא הצליח) מול תשלום רק על <strong>match מוצלח</strong> (פחות סיכון להורה, אך קל יותר לעקוף לוואטסאפ). החלטה זו נשארת לבדיקה מול משתמשים אמיתיים בשלב מוקדם.</p>
+  </div>
+
+  <h3>B2B / B2G — עתידי</h3>
+  <p>בתי ספר ורשויות משלמים על גיוס ותיעוד — הכנסה יציבה, שלב v2/v3. לא נכנס ל-MVP.</p>
+
+  <div class="card card-tight" style="margin-top:16px;">
+    <h4>עלות תשתית — MVP</h4>
+    <p class="muted">Supabase Pro ($25) + Expo EAS ($29) + Claude API (~$20) + Document AI (זניח) + SMS (זניח) = <strong>~$70–100/חודש עד 500 משתמשים.</strong></p>
+  </div>
+</section>
+
+<!-- 14. RISKS -->
+<section id="risks">
+  <div class="section-num">14</div>
+  <h2>סיכונים</h2>
+  <p class="section-intro">מה יכול להרוג את הפלטפורמה — ואיך מתמודדים.</p>
+
+  <table>
+    <thead><tr><th>סיכון</th><th>רמה</th><th>מענה</th></tr></thead>
+    <tbody>
+      <tr><td>דליפת מידע רפואי של ילד</td><td><span class="cross">גבוה</span></td><td>הצפנה ברמת שדה + RLS + audit log</td></tr>
+      <tr><td>משלבת לא מאומתת ליד ילד</td><td><span class="cross">גבוה</span></td><td>אימות כפול + תעודת יושר לפני כל קשר</td></tr>
+      <tr><td>עקיפת הפלטפורמה לוואטסאפ</td><td><span class="cross">גבוה</span></td><td>value post-match חזק — יומן, חמ"ל, תיק</td></tr>
+      <tr><td>Cold start — אין supply</td><td><span class="partial">בינוני</span></td><td>seeding 50+ משלבות לפני launch</td></tr>
+      <tr><td>הורה מעוניין, אין זמינות</td><td><span class="partial">בינוני</span></td><td>waitlist + הצעת חלופות + התראה</td></tr>
+      <tr><td>ביקורות לא אמינות</td><td><span class="partial">בינוני</span></td><td>אימות שביקורת ממ-match אמיתי שהסתיים</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 15. FAQ -->
+<section id="faq">
+  <div class="section-num">15</div>
+  <h2>שאלות מנחות</h2>
+  <p class="section-intro">ההחלטות המרכזיות שהתקבלו — ומה עדיין פתוח.</p>
+
+  <div class="card">
+    <div class="faq-item">
+      <div class="faq-q">למה B2C ולא לעבוד ישר עם רשויות?</div>
+      <div class="faq-a">מהירות לשוק ואי-תלות בתקציבים ציבוריים. B2C מוכיח PMF, ובונה leverage ל-B2G בשלב שני עם data אמיתי.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">למה לא להגביל לסגמנט אחד?</div>
+      <div class="faq-a">אין סיבה לסגור מראש. המנוע בנוי להתמודד עם גוון — כל סגמנט מקבל hard filters ו-scoring מותאמים. הכיסוי רחב, ההתאמה ספציפית.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">איך שומרים על פרטיות הילד?</div>
+      <div class="faq-a">חשיפה הדרגתית בארבע שכבות. ההורה מאשר כל מעבר. RLS ב-DB מבטיח שאין חשיפה לא מורשית — גם לא בטעות של קוד.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">למה Supabase ולא NestJS ידני או Neon?</div>
+      <div class="faq-a">פשטות תחזוקה ופיתוח AI. Supabase נותן 80% מוכן ומתועד, עם RLS מחובר ל-Auth. לא ננעלים — בסוף זה Postgres סטנדרטי, המעבר פתוח.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">למה React Native ולא Next.js?</div>
+      <div class="faq-a">הקהל על מובייל, וה-EVV דורש GPS ו-push native. Next.js הוא web; React Native + Expo נותן native אמיתי מ-codebase אחד.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">מי מחזיק בכוח — הורה או משלבת?</div>
+      <div class="faq-a"><strong>ההורה.</strong> הוא רואה את ההתאמות ופותח בקשות. המשלבת מגיבה, ויכולה להביע עניין — אך לעולם לא לפתוח גישה בעצמה. כל חשיפה עוברת דרך אישור הורה.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">על מה הורים משלמים?</div>
+      <div class="faq-a"><strong>על המציאה, לא על הניהול היומי.</strong> עמלת match היא הליבה. הניהול הבסיסי חינם (retention שמנצח וואטסאפ), הפרימיום (חמ"ל, ליווי) במינוי אופציונלי.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">עד לאן יורד הליווי בזכויות?</div>
+      <div class="faq-a">רמות 1–2 (מידע + כלים אישיים) ב-MVP/v1.5. ייצוג בוועדות (רמה 4) — לא feature עצמאי, רק דרך שותפות עתידית עם ארגון קיים.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">מה עדיין פתוח?</div>
+      <div class="faq-a">עמלת match — על פתיחת בקשה או על match מוצלח (לבדיקה מול משתמשים) · תוכן שאלון ה-personality matching (נבנה משיחות עם הורים אמיתיים) · המחירים המספריים המדויקים.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  מסמך מנחה · פלטפורמת שילוב לילדים עם צרכים מיוחדים · גרסה 1.1 · מסמך חי — מתעדכן ככל שהמוצר מתפתח
+</footer>
+
+</main>
+</div>
+
+<script>
+const links = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
