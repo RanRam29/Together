@@ -41,6 +41,37 @@ export async function verifyPhoneOtp(phone: string, token: string) {
   return data.session;
 }
 
+export async function signUpWithEmail(email: string, password: string, role: UserRole) {
+  if (!isSupabaseConfigured) {
+    throw new Error("Supabase is not configured. Add credentials to .env");
+  }
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { role },
+    },
+  });
+
+  if (error) throw error;
+  return data;
+}
+
+export async function signInWithEmail(email: string, password: string) {
+  if (!isSupabaseConfigured) {
+    throw new Error("Supabase is not configured. Add credentials to .env");
+  }
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) throw error;
+  return data.session;
+}
+
 export async function fetchProfile(userId: string): Promise<Profile | null> {
   const { data, error } = await supabase
     .from("profiles")
@@ -57,6 +88,7 @@ export interface BaseProfileInput {
   area: string;
   role: UserRole;
   language: AppLanguage;
+  phone?: string;
 }
 
 export async function updateBaseProfile(
@@ -70,7 +102,7 @@ export async function updateBaseProfile(
       area: input.area.trim(),
       role: input.role,
       preferred_language: input.language,
-      phone: (await supabase.auth.getUser()).data.user?.phone ?? null,
+      phone: input.phone?.trim() || (await supabase.auth.getUser()).data.user?.phone || null,
     })
     .eq("id", userId)
     .select("*")

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Platform } from "react-native";
 import { useRouter } from "expo-router";
 import * as Notifications from "expo-notifications";
 
@@ -17,6 +18,7 @@ export function usePushSetup() {
 
   useEffect(() => {
     if (!isHydrated || !session) return;
+    if (Platform.OS === "web") return;
 
     // Register token on setup
     registerForPushNotificationsAsync(session.user.id, true);
