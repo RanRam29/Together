@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Alert, View } from "react-native";
+import { Alert, View, Pressable, Text } from "react-native";
 
 import {
   LanguageToggle,
@@ -39,7 +39,7 @@ export default function RoleSelectScreen() {
 
   function continueToLogin() {
     if (!selectedRole) return;
-    router.push("/(auth)/login");
+    router.replace("/(auth)/login");
   }
 
   return (
@@ -54,6 +54,14 @@ export default function RoleSelectScreen() {
             onPress={continueToLogin}
             disabled={!selectedRole}
           />
+          <Pressable 
+            className="mt-6 self-center" 
+            onPress={() => router.replace("/(auth)/login")}
+          >
+            <Text className="text-purple font-medium text-sm font-rubik">
+              {t("auth.backToLogin")}
+            </Text>
+          </Pressable>
         </View>
       }
     >
