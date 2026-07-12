@@ -52,30 +52,30 @@ DECLARE
   v_id UUID;
 BEGIN
   -- ========== AUTH USERS (PARENTS) ==========
-  INSERT INTO auth.users (id, phone, encrypted_password, phone_confirmed_at, raw_user_meta_data, aud, role) VALUES
-    (parent_ids[1], '0501111111', crypt('password123', gen_salt('bf')), now(), '{"role": "parent"}', 'authenticated', 'authenticated'),
-    (parent_ids[2], '0502222222', crypt('password123', gen_salt('bf')), now(), '{"role": "parent"}', 'authenticated', 'authenticated'),
-    (parent_ids[3], '0503333333', crypt('password123', gen_salt('bf')), now(), '{"role": "parent"}', 'authenticated', 'authenticated'),
-    (parent_ids[4], '0504444444', crypt('password123', gen_salt('bf')), now(), '{"role": "parent"}', 'authenticated', 'authenticated'),
-    (parent_ids[5], '0505555555', crypt('password123', gen_salt('bf')), now(), '{"role": "parent"}', 'authenticated', 'authenticated');
+  INSERT INTO auth.users (id, email, phone, encrypted_password, phone_confirmed_at, raw_user_meta_data, aud, role) VALUES
+    (parent_ids[1], 'parent1@together.local', '0501111111', crypt('password123', gen_salt('bf')), now(), '{"role": "parent"}', 'authenticated', 'authenticated'),
+    (parent_ids[2], 'parent2@together.local', '0502222222', crypt('password123', gen_salt('bf')), now(), '{"role": "parent"}', 'authenticated', 'authenticated'),
+    (parent_ids[3], 'parent3@together.local', '0503333333', crypt('password123', gen_salt('bf')), now(), '{"role": "parent"}', 'authenticated', 'authenticated'),
+    (parent_ids[4], 'parent4@together.local', '0504444444', crypt('password123', gen_salt('bf')), now(), '{"role": "parent"}', 'authenticated', 'authenticated'),
+    (parent_ids[5], 'parent5@together.local', '0505555555', crypt('password123', gen_salt('bf')), now(), '{"role": "parent"}', 'authenticated', 'authenticated');
 
   -- ========== AUTH USERS (PROFESSIONALS) ==========
-  INSERT INTO auth.users (id, phone, encrypted_password, phone_confirmed_at, raw_user_meta_data, aud, role) VALUES
-    (pro_user_ids[1],  '0521111111', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[2],  '0522222222', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[3],  '0523333333', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[4],  '0524444444', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[5],  '0525555555', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[6],  '0526666666', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[7],  '0527777777', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[8],  '0528888888', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[9],  '0529999999', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[10], '0530000000', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[11], '0531111111', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[12], '0532222222', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[13], '0533333333', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[14], '0534444444', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
-    (pro_user_ids[15], '0535555555', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated');
+  INSERT INTO auth.users (id, email, phone, encrypted_password, phone_confirmed_at, raw_user_meta_data, aud, role) VALUES
+    (pro_user_ids[1],  'pro1@together.local', '0521111111', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[2],  'pro2@together.local', '0522222222', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[3],  'pro3@together.local', '0523333333', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[4],  'pro4@together.local', '0524444444', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[5],  'pro5@together.local', '0525555555', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[6],  'pro6@together.local', '0526666666', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[7],  'pro7@together.local', '0527777777', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[8],  'pro8@together.local', '0528888888', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[9],  'pro9@together.local', '0529999999', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[10], 'pro10@together.local', '0530000000', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[11], 'pro11@together.local', '0531111111', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[12], 'pro12@together.local', '0532222222', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[13], 'pro13@together.local', '0533333333', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[14], 'pro14@together.local', '0534444444', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated'),
+    (pro_user_ids[15], 'pro15@together.local', '0535555555', crypt('password123', gen_salt('bf')), now(), '{"role": "professional"}', 'authenticated', 'authenticated');
 
   -- ========== PARENT PROFILES (UPDATE) ==========
   UPDATE profiles SET full_name = 'אבי כהן', area = 'תל אביב', preferred_language = 'he' WHERE id = parent_ids[1];
