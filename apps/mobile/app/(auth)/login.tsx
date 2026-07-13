@@ -9,7 +9,14 @@ import {
   ScreenShell,
   TextField,
 } from "@/components/ui/Screen";
-import { sendPhoneOtp, signInWithEmail, signUpWithEmail } from "@/lib/auth-api";
+import {
+  fetchProfile,
+  isProfileComplete,
+  sendPhoneOtp,
+  signInWithEmail,
+  signUpWithEmail,
+} from "@/lib/auth-api";
+import { hasStaffProfileRole, staffHomeHref } from "@/lib/staff-auth";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { isValidIsraeliPhone } from "@/lib/phone";
 import { changeAppLanguage } from "@/i18n";
@@ -47,7 +54,8 @@ export default function LoginScreen() {
   }
 
   async function handleAction() {
-    if (!selectedRole) {
+    const needsRole = loginMethod === "phone" || (loginMethod === "email" && isSignUp);
+    if (needsRole && !selectedRole) {
       router.replace("/(auth)/role-select");
       return;
     }
@@ -89,7 +97,19 @@ export default function LoginScreen() {
           // Wait, if session is established, auth-store redirects to role root.
           // If the user hasn't completed onboarding, auth-store goes to onboarding.
         } else {
-          await signInWithEmail(email, password);
+          const session = await signInWithEmail(email, password);
+          const profile = session?.user
+            ? await fetchProfile(session.user.id)
+            : null;
+          if (profile && isProfileComplete(profile)) {
+            if (hasStaffProfileRole(profile)) {
+              router.replace(staffHomeHref() as never);
+            } else if (profile.role === "parent") {
+              router.replace("/(parent)/(tabs)");
+            } else if (profile.role === "professional") {
+              router.replace("/(professional)");
+            }
+          }
         }
       }
     } catch (err) {
@@ -213,6 +233,7 @@ export default function LoginScreen() {
             label={t("auth.passwordLabel")}
             placeholder={t("auth.passwordPlaceholder")}
             secureTextEntry
+            showPasswordToggle
             value={password}
             onChangeText={setPassword}
             error={error}

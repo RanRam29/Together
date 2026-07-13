@@ -1,28 +1,64 @@
+import { useState } from "react";
 import {
   ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
   Pressable,
+  ScrollView,
   Text,
   TextInput,
   View,
   type TextInputProps,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 interface TextFieldProps extends TextInputProps {
   label: string;
   error?: string;
+  showPasswordToggle?: boolean;
 }
 
-export function TextField({ label, error, className, ...props }: TextFieldProps) {
+export function TextField({
+  label,
+  error,
+  className,
+  showPasswordToggle,
+  secureTextEntry,
+  ...props
+}: TextFieldProps) {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const isSecure = showPasswordToggle ? !passwordVisible : secureTextEntry;
+
   return (
     <View className="mb-4">
       <Text className="text-sm font-medium text-ink-2 mb-2">{label}</Text>
-      <TextInput
-        placeholderTextColor="#918D84"
-        className={`bg-surface border rounded-card px-4 py-4 text-ink text-base ${
+      <View
+        className={`flex-row items-center bg-surface border rounded-card ${
           error ? "border-coral" : "border-border"
-        } ${className ?? ""}`}
-        {...props}
-      />
+        }`}
+      >
+        <TextInput
+          placeholderTextColor="#918D84"
+          className={`flex-1 px-4 py-4 text-ink text-base ${className ?? ""}`}
+          secureTextEntry={isSecure}
+          {...props}
+        />
+        {showPasswordToggle ? (
+          <Pressable
+            onPress={() => setPasswordVisible((v) => !v)}
+            className="px-4 py-4"
+            accessibilityRole="button"
+            accessibilityLabel={passwordVisible ? "Hide password" : "Show password"}
+            hitSlop={8}
+          >
+            <Ionicons
+              name={passwordVisible ? "eye-off-outline" : "eye-outline"}
+              size={22}
+              color="#918D84"
+            />
+          </Pressable>
+        ) : null}
+      </View>
       {error ? <Text className="text-coral text-sm mt-1">{error}</Text> : null}
     </View>
   );
@@ -146,24 +182,35 @@ export function ScreenShell({
   headerRight,
 }: ScreenShellProps) {
   return (
-    <View className="flex-1 bg-bg px-6 pt-16">
-      <View className="flex-row items-start justify-between">
-        <View className="flex-1">
-          {eyebrow ? (
-            <Text className="text-xs font-bold text-purple uppercase tracking-widest mb-3 font-rubik">
-              {eyebrow}
-            </Text>
-          ) : null}
-          <Text className="text-3xl font-bold text-ink mb-2 font-rubik">{title}</Text>
+    <KeyboardAvoidingView
+      className="flex-1 bg-bg"
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 8 : 0}
+    >
+      <ScrollView
+        className="flex-1"
+        contentContainerClassName="flex-grow px-6 pt-16 pb-6"
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
+        <View className="flex-row items-start justify-between">
+          <View className="flex-1">
+            {eyebrow ? (
+              <Text className="text-xs font-bold text-purple uppercase tracking-widest mb-3 font-rubik">
+                {eyebrow}
+              </Text>
+            ) : null}
+            <Text className="text-3xl font-bold text-ink mb-2 font-rubik">{title}</Text>
+          </View>
+          {headerRight && <View className="mt-2 ml-4">{headerRight}</View>}
         </View>
-        {headerRight && <View className="mt-2 ml-4">{headerRight}</View>}
-      </View>
-      {subtitle ? (
-        <Text className="text-base text-ink-2 mb-8 leading-6">{subtitle}</Text>
-      ) : null}
-      <View className="flex-1">{children}</View>
-      {footer}
-    </View>
+        {subtitle ? (
+          <Text className="text-base text-ink-2 mb-8 leading-6">{subtitle}</Text>
+        ) : null}
+        <View className="flex-grow">{children}</View>
+        {footer}
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 

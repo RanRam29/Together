@@ -3,6 +3,7 @@ import { useRouter, useSegments } from "expo-router";
 import { Platform } from "react-native";
 
 import {
+  hasStaffProfileRole,
   isAdminUser,
   isStaffUser,
   isStaffWebContext,
@@ -21,7 +22,8 @@ export function useStaffRoute() {
   const inStaffGroup = segments[0] === "(staff)";
   const currentScreen = segments[segments.length - 1] ?? "";
   const isWeb = isStaffWebContext();
-  const isStaff = isStaffUser(session, profile);
+  const isStaff =
+    isStaffUser(session, profile) || hasStaffProfileRole(profile);
   const isAdmin = isAdminUser(session, profile);
   const isSupervisor = isSupervisorUser(session, profile);
 

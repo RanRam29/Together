@@ -31,6 +31,17 @@ export function isStaffUser(
   return isAdminUser(session, profile) || isSupervisorUser(session, profile);
 }
 
+/** ניתוב בלבד — לפי profiles.role (לא דורש JWT claims טריים). */
+export function hasStaffProfileRole(
+  profile: Profile | null | undefined,
+): boolean {
+  return profile?.role === "admin" || profile?.role === "supervisor";
+}
+
+export function staffHomeHref(): "/(staff)" | "/(staff)/web-only" {
+  return Platform.OS === "web" ? "/(staff)" : "/(staff)/web-only";
+}
+
 export function isStaffWebContext(): boolean {
   return Platform.OS === "web";
 }

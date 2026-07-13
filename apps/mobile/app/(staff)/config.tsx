@@ -5,14 +5,12 @@ import {
   ActivityIndicator,
   Alert,
   Pressable,
-  Platform,
   RefreshControl,
   ScrollView,
   Text,
   TextInput,
   View,
 } from "react-native";
-import { supabase } from "@/lib/supabase";
 
 import { AdminMfaModal } from "@/components/admin/AdminMfaModal";
 import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
@@ -71,7 +69,6 @@ export default function AdminConfigScreen() {
   const [metricDraft, setMetricDraft] = useState<Record<string, MetricDraft>>(
     {},
   );
-  const [isExporting, setIsExporting] = useState(false);
 
   useEffect(() => {
     if (isReady && !isAdmin) {
@@ -116,34 +113,6 @@ export default function AdminConfigScreen() {
       if (mfa.handleRpcError(err)) return;
       const msg = err instanceof Error ? err.message : t("common.tryAgain");
       Alert.alert(t("common.error"), msg);
-    }
-  }
-
-  async function handleExport() {
-    setIsExporting(true);
-    try {
-      const { data, error } = await supabase.rpc("export_system_data");
-      if (error) throw error;
-      const json = JSON.stringify(data ?? {}, null, 2);
-      const filename = `toghther-export-${new Date().toISOString().slice(0, 10)}.json`;
-
-      if (Platform.OS === "web" && typeof document !== "undefined") {
-        const blob = new Blob([json], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.href = url;
-        anchor.download = filename;
-        anchor.click();
-        URL.revokeObjectURL(url);
-      } else {
-        Alert.alert("ייצוא הושלם", `${filename} (${json.length} bytes)`);
-      }
-    } catch (err) {
-      if (mfa.handleRpcError(err)) return;
-      const msg = err instanceof Error ? err.message : t("common.tryAgain");
-      Alert.alert(t("common.error"), msg);
-    } finally {
-      setIsExporting(false);
     }
   }
 
@@ -232,21 +201,6 @@ export default function AdminConfigScreen() {
             ))
           : null}
         <View className="h-8" />
-
-        <View className="bg-purple-bg border border-purple rounded-card p-4 mb-6">
-          <Text className="text-lg font-bold text-purple-ink mb-2 font-rubik text-right">
-            ייצוא נתונים
-          </Text>
-          <Text className="text-sm text-ink-2 mb-4 text-right">
-            הורד את כל נתוני המערכת (משתמשים, דיווחים, חיבורים) לקובץ JSON לשמירה וגיבוי מקומי. נדרשת הרשאת אדמין.
-          </Text>
-          <PrimaryButton
-            label="הורד נתונים עכשיו"
-            onPress={handleExport}
-            loading={isExporting}
-            variant="purple"
-          />
-        </View>
 
         <Text className="text-xl font-bold text-ink mb-2 font-rubik text-right">
           {t("staff.metricsTitle")}

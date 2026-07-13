@@ -89,7 +89,13 @@ export async function signInWithEmail(email: string, password: string) {
   });
 
   if (error) throw error;
-  return data.session;
+
+  // Refresh so app_metadata claims (is_admin / is_supervisor) are current in the JWT.
+  const { data: refreshed, error: refreshError } =
+    await supabase.auth.refreshSession();
+  if (refreshError) throw refreshError;
+
+  return refreshed.session ?? data.session;
 }
 
 export async function requestPasswordReset(email: string) {

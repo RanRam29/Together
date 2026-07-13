@@ -1,15 +1,15 @@
 {
-  "last_updated": "2026-07-12T07:15:00Z",
+  "last_updated": "2026-07-13T08:45:00Z",
   "project_id": "flrflktlltmqbiamljlm",
   "agents": {
     "antigravity": {
-      "status": "deployed_verified",
-      "current_task": "All migrations deployed to cloud. pgTAP 35/35 PASS locally.",
+      "status": "wp8_backend_completed_awaiting_cursor",
+      "current_task": "WP8 (D45 Field Visibility) backend COMPLETE (2026-07-13): Migration 20260713040000 created with child_field_visibility table, RLS, and set_child_field_visibility RPC. get_child_details overridden securely. 13/13 pgTAP tests green locally. Handing off to Cursor for UI implementation (Step 6).",
       "blocked_by": null
     },
     "cursor": {
-      "status": "mvp_complete",
-      "current_task": "Cloud synced, types regenerated, tsc clean, mobile .env configured. Pending: admin MFA enrollment in production, CLAUDE_API_KEY, manual E2E on device.",
+      "status": "phase1_task_1_3_complete",
+      "current_task": "PHASE 1 task 1.3 DONE: export UI removed from config.tsx; guide files + seed-test-login.sql already in repo; tsc clean. Next: admin MFA TOTP enrollment in production + manual E2E on device.",
       "blocked_by": null
     }
   },
@@ -66,7 +66,18 @@
     "push_trigger_schema_fixes": "completed",
     "secondary_parent_d31": "completed",
     "pgtap_local_suite": "completed_35_of_35",
-    "mobile_env_configured": "completed"
+    "mobile_env_configured": "completed",
+    "phase1_drop_export_rpc": "completed",
+    "phase1_live_ops_days_off": "completed",
+    "phase1_hardening_v3": "completed",
+    "phase1_pgtap_new_tests": "completed",
+    "phase1_remove_export_ui": "completed_cursor_verified_by_architect",
+    "phase1_commit_guide_files": "completed_already_in_repo",
+    "phase1_v3_migration_fixes": "completed",
+    "wp8_d45_field_visibility": "completed_backend_pending_cursor",
+    "wp9_d31_ui_and_d44": "planned_spec_ready",
+    "wp10_admin_reports": "planned_spec_ready",
+    "wp11_launch_hardening": "planned_spec_ready"
   },
   "deploy_scripts": [
     "scripts/deploy-c4-cloud.ps1",
@@ -75,8 +86,10 @@
   ],
   "manual_next_steps": [
     "Enroll admin TOTP MFA in Supabase production dashboard",
-    "Set CLAUDE_API_KEY in Supabase Edge Function secrets",
     "Manual E2E per docs/TESTING-STRATEGY.md section 4 on real devices",
     "Legal review + beta supply recruitment (non-code)"
-  ]
+  ],
+  "removed_steps": {
+    "CLAUDE_API_KEY": "REMOVED 2026-07-13 by architect — contradicts D30 (external AI fully cancelled). Do NOT set this secret."
+  }
 }

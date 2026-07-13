@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useRouter, useSegments } from "expo-router";
-import { Platform } from "react-native";
 
 import {
+  hasStaffProfileRole,
   isStaffUser,
-  isStaffWebContext,
+  staffHomeHref,
 } from "@/lib/staff-auth";
 import { isProfileComplete } from "@/lib/auth-api";
 import { useAuthStore } from "@/stores/auth-store";
@@ -44,10 +44,15 @@ export function useProtectedRoute() {
     const inAuthGroup = rootSegment === "(auth)";
     const roleGroup = getRoleGroup(profile?.role);
     const profileComplete = isProfileComplete(profile);
-    const isStaff = isStaffUser(session, profile);
+    const isStaff =
+      isStaffUser(session, profile) || hasStaffProfileRole(profile);
 
     if (!session && !inAuthGroup) {
       router.replace("/(auth)/role-select");
+      return;
+    }
+
+    if (session && profile === null) {
       return;
     }
 
@@ -62,7 +67,7 @@ export function useProtectedRoute() {
       } else if (roleGroup === "(professional)") {
         router.replace("/(professional)");
       } else if (isStaff) {
-        router.replace("/(staff)" as never);
+        router.replace(staffHomeHref() as never);
       }
       return;
     }
@@ -71,9 +76,7 @@ export function useProtectedRoute() {
       const inStaffGroup =
         rootSegment === "(staff)" || rootSegment === "(admin)";
       if (!inStaffGroup && !inAuthGroup) {
-        router.replace(
-          (Platform.OS === "web" ? "/(staff)" : "/(staff)/web-only") as never,
-        );
+        router.replace(staffHomeHref() as never);
         return;
       }
     }
@@ -93,9 +96,7 @@ export function useProtectedRoute() {
         return;
       }
       if (isStaff && (inParentGroup || inProfessionalGroup)) {
-        router.replace(
-          (Platform.OS === "web" ? "/(staff)" : "/(staff)/web-only") as never,
-        );
+        router.replace(staffHomeHref() as never);
         return;
       }
     }
