@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS public.match_hides (
 );
 
 ALTER TABLE public.match_hides ENABLE ROW LEVEL SECURITY;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.match_hides TO authenticated, anon;
 
 CREATE POLICY "Users can see their own hides" 
   ON public.match_hides FOR SELECT 
@@ -224,6 +225,7 @@ CREATE TABLE IF NOT EXISTS public.match_days_off (
 );
 
 ALTER TABLE public.match_days_off ENABLE ROW LEVEL SECURITY;
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.match_days_off TO authenticated, anon;
 
 CREATE POLICY "match_participants_read_days_off" ON public.match_days_off FOR SELECT
 USING (

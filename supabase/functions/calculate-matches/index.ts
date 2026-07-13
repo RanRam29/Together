@@ -1,12 +1,6 @@
 import "@supabase/functions-js/edge-runtime.d.ts";
 import { withSupabase } from "@supabase/server";
-
-// Standard CORS headers for mobile clients
-const corsHeaders = {
-  "Access-Control-Allow-Origin": Deno.env.get("CORS_ORIGIN") || "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
+import { getCorsHeaders } from "../_shared/cors.ts";
 
 interface MatchRequest {
   child_id: string;
@@ -17,7 +11,7 @@ export default {
   fetch: withSupabase({ auth: ["publishable", "authenticated"] }, async (req, ctx) => {
     // Handle CORS preflight requests
     if (req.method === "OPTIONS") {
-      return new Response("ok", { headers: corsHeaders });
+      return new Response("ok", { headers: getCorsHeaders(req) });
     }
 
     try {

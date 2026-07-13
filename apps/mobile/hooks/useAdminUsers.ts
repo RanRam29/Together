@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AdminUserFilters } from "@/lib/api/admin-users";
 import {
   adminRestoreUser,
+  adminSetUserEmail,
   adminSetUserPassword,
   adminSuspendUser,
   fetchAdminNotes,
@@ -72,5 +73,16 @@ export function useSetUserPassword() {
   return useMutation({
     mutationFn: ({ userId, password }: { userId: string; password: string }) =>
       adminSetUserPassword(userId, password),
+  });
+}
+
+export function useSetUserEmail() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ userId, email }: { userId: string; email: string }) =>
+      adminSetUserEmail(userId, email),
+    onSuccess: (_data, { userId }) => {
+      qc.invalidateQueries({ queryKey: ["admin", "user-login", userId] });
+    },
   });
 }

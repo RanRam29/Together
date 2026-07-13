@@ -8,6 +8,9 @@ port = 54322
 [studio]
 port = 54323
 
+[analytics]
+enabled = false
+
 [auth]
 site_url = "http://localhost:8082"
 additional_redirect_urls = [

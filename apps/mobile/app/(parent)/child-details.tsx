@@ -4,11 +4,13 @@ import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Alert, Pressable, ScrollView, Text, View } from "react-native";
 
 import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
+import { SecondaryParentSettings } from "@/components/parent/SecondaryParentSettings";
 import {
   useChildDetails,
   useUpsertChildDetails,
 } from "@/hooks/useChildDetails";
 import { useChildren } from "@/hooks/useChildren";
+import { useScreenshotProtection } from "@/hooks/useScreenshotProtection";
 import { useAuthStore } from "@/stores/auth-store";
 
 export default function ChildDetailsScreen() {
@@ -20,6 +22,11 @@ export default function ChildDetailsScreen() {
   const { children, selectedChild } = useChildren(parentId);
   const childId =
     params.childId ?? selectedChild?.id ?? children[0]?.id ?? undefined;
+
+  const isSecondary = selectedChild?.secondary_parent_id === parentId;
+  const canEdit = (selectedChild?.secondary_parent_permissions as any)?.can_edit ?? false;
+
+  useScreenshotProtection(childId);
 
   const { data: details, isLoading } = useChildDetails(childId);
   const upsert = useUpsertChildDetails(childId);
@@ -103,6 +110,7 @@ export default function ChildDetailsScreen() {
               placeholder={t("parent.diagnosisPlaceholder")}
               value={diagnosisFull}
               onChangeText={setDiagnosisFull}
+              editable={!(isSecondary && !canEdit)}
               multiline
               numberOfLines={3}
               className="min-h-[100px]"
@@ -114,6 +122,7 @@ export default function ChildDetailsScreen() {
               placeholder={t("parent.whatWorksPlaceholder")}
               value={whatWorks}
               onChangeText={setWhatWorks}
+              editable={!(isSecondary && !canEdit)}
               multiline
               numberOfLines={3}
               className="min-h-[100px]"
@@ -125,6 +134,7 @@ export default function ChildDetailsScreen() {
               placeholder={t("parent.whatTriggersPlaceholder")}
               value={whatTriggers}
               onChangeText={setWhatTriggers}
+              editable={!(isSecondary && !canEdit)}
               multiline
               numberOfLines={3}
               className="min-h-[100px]"
@@ -136,6 +146,7 @@ export default function ChildDetailsScreen() {
               placeholder={t("parent.winDefinitionPlaceholder")}
               value={winDefinition}
               onChangeText={setWinDefinition}
+              editable={!(isSecondary && !canEdit)}
               multiline
               numberOfLines={3}
               className="min-h-[100px]"
@@ -147,6 +158,7 @@ export default function ChildDetailsScreen() {
               placeholder={t("parent.notesPlaceholder")}
               value={notes}
               onChangeText={setNotes}
+              editable={!(isSecondary && !canEdit)}
               multiline
               numberOfLines={3}
               className="min-h-[100px]"
@@ -158,8 +170,11 @@ export default function ChildDetailsScreen() {
                 label={t("parent.saveDetails")}
                 onPress={handleSave}
                 loading={upsert.isPending}
+                disabled={isSecondary && !canEdit}
               />
             </View>
+            
+            {selectedChild && <SecondaryParentSettings child={selectedChild} />}
           </>
         )}
       </ScrollView>

@@ -3,8 +3,8 @@ begin;
 select plan(5);
 
 insert into auth.users (id, phone, aud, role) values
-  ('a1111111-1111-1111-1111-111111111111', '0501111111', 'authenticated', 'authenticated'),
-  ('a2222222-2222-2222-2222-222222222222', '0502222222', 'authenticated', 'authenticated');
+  ('a1111111-1111-1111-1111-111111111111', '0509991111', 'authenticated', 'authenticated'),
+  ('a2222222-2222-2222-2222-222222222222', '0509992222', 'authenticated', 'authenticated');
 
 update profiles set role = 'parent' where id = 'a1111111-1111-1111-1111-111111111111';
 update profiles set role = 'professional' where id = 'a2222222-2222-2222-2222-222222222222';

@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 
 import { BackButton } from "@/components/ui/BackButton";
+import { UsageGuide } from "@/components/guide/UsageGuide";
 import { GUIDE_STEPS, guideRole } from "@/lib/guide-content";
 import { useAuthStore } from "@/stores/auth-store";
 

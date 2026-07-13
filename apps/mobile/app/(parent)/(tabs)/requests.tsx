@@ -129,6 +129,10 @@ export default function ParentRequestsScreen() {
               request.status === "interested" ||
               (request.status === "pending" && request.initiated_by === "professional");
 
+            const isSecondary = child?.secondary_parent_id === parentId;
+            const canApprove = (child?.secondary_parent_permissions as any)?.can_approve ?? false;
+            const canManage = !isSecondary || canApprove;
+
             return (
               <View
                 key={request.id}
@@ -155,8 +159,8 @@ export default function ParentRequestsScreen() {
                   <View className="flex-row flex-wrap gap-2 mt-4 justify-end">
                     <Pressable
                       onPress={() => setPendingApproveId(request.id)}
-                      disabled={approveRequest.isPending || rejectRequest.isPending}
-                      className="bg-purple rounded-full px-5 py-2 items-center justify-center active:opacity-90"
+                      disabled={!canManage || approveRequest.isPending || rejectRequest.isPending}
+                      className={`${!canManage ? "opacity-50" : ""} bg-purple rounded-full px-5 py-2 items-center justify-center active:opacity-90`}
                     >
                       <Text className="text-white text-sm font-semibold font-rubik">
                         {t("parent.approveRequest")}
@@ -164,8 +168,8 @@ export default function ParentRequestsScreen() {
                     </Pressable>
                     <Pressable
                       onPress={() => handleReject(request.id)}
-                      disabled={approveRequest.isPending || rejectRequest.isPending}
-                      className="rounded-full border border-coral px-4 py-2 items-center justify-center active:opacity-90"
+                      disabled={!canManage || approveRequest.isPending || rejectRequest.isPending}
+                      className={`${!canManage ? "opacity-50" : ""} rounded-full border border-coral px-4 py-2 items-center justify-center active:opacity-90`}
                     >
                       <Text className="text-coral text-sm font-semibold font-rubik">
                         {t("parent.rejectRequest")}

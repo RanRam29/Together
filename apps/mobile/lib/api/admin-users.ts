@@ -133,3 +133,14 @@ export async function adminSetUserPassword(
   });
   if (error) throw error;
 }
+
+export async function adminSetUserEmail(
+  userId: string,
+  email: string,
+): Promise<void> {
+  const { error } = await supabase.rpc("admin_set_user_email", {
+    p_user_id: userId,
+    p_email: email.trim(),
+  });
+  if (error) throw error;
+}

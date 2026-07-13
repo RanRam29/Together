@@ -75,7 +75,7 @@ export default function LoginScreen() {
           setLoading(false);
           return;
         }
-        await sendPhoneOtp(phone, selectedRole);
+        await sendPhoneOtp(phone, selectedRole!);
         setPendingPhone(phone);
         router.push("/(auth)/verify-otp");
       } else {
@@ -91,7 +91,7 @@ export default function LoginScreen() {
         }
 
         if (isSignUp) {
-          await signUpWithEmail(email, password, selectedRole);
+          await signUpWithEmail(email, password, selectedRole!);
           // Auto sign-in or alert depending on confirm_email settings. Assuming auto-login:
           // The auth-store listener will catch the session and redirect.
           // Wait, if session is established, auth-store redirects to role root.

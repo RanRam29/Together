@@ -37,6 +37,9 @@ export default function IntroDetailScreen() {
   const { data: requests = [] } = useMatchRequests(parentId, childIds);
   const request = requests.find((r) => r.id === requestId);
   const child = children.find((c) => c.id === request?.child_id);
+  const isSecondary = child?.secondary_parent_id === parentId;
+  const canApprove = (child?.secondary_parent_permissions as any)?.can_approve ?? false;
+  const canManage = !isSecondary || canApprove;
 
   const professionalId = request?.professional_id;
   const { data: contact, isLoading: isLoadingContact } = useIntroContact(
@@ -252,8 +255,8 @@ export default function IntroDetailScreen() {
           <View className="gap-3 mt-4 mb-8">
             <Pressable
               onPress={handleStartWorking}
-              disabled={createMatch.isPending}
-              className="bg-teal py-4 rounded-full items-center active:opacity-90"
+              disabled={createMatch.isPending || !canManage}
+              className={`${!canManage ? "opacity-50" : ""} bg-teal py-4 rounded-full items-center active:opacity-90`}
             >
               <Text className="text-white font-bold text-lg font-rubik">
                 התחלנו לעבוד יחד! 🎉
@@ -262,7 +265,8 @@ export default function IntroDetailScreen() {
 
             <Pressable
               onPress={() => setShowDeclineInput(true)}
-              className="py-4 items-center"
+              disabled={!canManage}
+              className={`${!canManage ? "opacity-50" : ""} py-4 items-center`}
             >
               <Text className="text-ink-2 font-semibold text-base font-rubik">
                 לא התאים

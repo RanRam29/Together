@@ -73,7 +73,7 @@ BEGIN
     now() AS created_at
   FROM public.match_requests r
   JOIN public.children c ON r.child_id = c.id
-  WHERE r.status = 'pending' AND r.professional_status = 'pending'
+  WHERE r.status = 'pending'
     AND r.created_at <= now() - interval '7 days';
 END;
 $$;

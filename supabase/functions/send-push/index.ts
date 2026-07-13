@@ -1,11 +1,6 @@
 import "@supabase/functions-js/edge-runtime.d.ts";
+import { getCorsHeaders } from "../_shared/cors.ts";
 import { withSupabase } from "@supabase/server";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": Deno.env.get("CORS_ORIGIN") || "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
-};
 
 // Categories the user may opt out of. Everything else (loop events) is always sent.
 type OptOutCategory = "checkin" | "daily_summary";
@@ -25,7 +20,7 @@ const OPT_OUTABLE: ReadonlySet<string> = new Set(["checkin", "daily_summary"]);
 export default {
   fetch: withSupabase({ auth: ["secret"] }, async (req, ctx) => {
     if (req.method === "OPTIONS") {
-      return new Response("ok", { headers: corsHeaders });
+      return new Response("ok", { headers: getCorsHeaders(req) });
     }
 
     try {

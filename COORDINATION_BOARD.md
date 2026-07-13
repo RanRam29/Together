@@ -1,5 +1,28 @@
 # 🚦 Together — לוח תיאום וסטטוס סוכנים
 
+> **🛑 עדכון ארכיטקט (2026-07-13, מאוחר יותר): טיוטת `20260713030000_v3_hardening.sql` נסקרה — נמצאה רגרסיה חוסמת. אין לדחוף לענן ואין לקמט עד תיקון!**
+> בלוק `anonymize_user` בטיוטה מבוסס על עותק ישן: עמודות שלא קיימות (`reviews.author_id`, `document_uploads.professional_id` — הנכונות: `reviewer_id`, `owner_id`) ⇒ מחיקת חשבון תקרוס בזמן ריצה; הוסרה מחיקת הקבצים הפיזית (הפרת D28); הוסרה דרישת `check_admin_mfa` (הפרת H1). **הוראות תיקון מדויקות: `docs/work-orders/2026-07-13-v3-hardening-review.md`** — כולל שני תיקונים קטנים נוספים (נעילת `search_path` ב-`get_matches_for_child`, צמצום GRANT). שאר הטיוטה מאושרת כמות שהיא. ⚠️ כלל חדש מחייב: שינוי בפונקציה קיימת מתחיל תמיד מהגרסה במיגרציה האחרונה שנגעה בה — לא מזיכרון ולא מהעתק ישן.
+>
+> **🗺️ הגל השני תוכנן ופורסם:** ‏WP8 (D45 מתגי שדות) · WP9 (D31 ממשק הורה שני + D44 צילום מסך) · WP10 (דוחות מצטברים + הצעת D49) · WP11 (קדם-השקה). מפרטים מלאים ב-`docs/work-orders/`, סדר ותלויות ב-`00-ROADMAP.md` ("גל שני"). אין להתחיל WP לפני סגירת שלב 1.
+>
+> **🔴 הנחיית ארכיטקט פעילה (2026-07-13): שלב 1 — סגירת פערי ביקורת. עוצר כל פיצ'ר חדש עד לסגירה.**
+> מסמך מלא + הנמקות: **`docs/work-orders/2026-07-13-continuation-plan.md`**. ביקורת היישור אימתה שההקשחות הגדולות בוצעו נכון — אך נמצאו הפערים הבאים, והם קודמים לכל עבודה אחרת:
+>
+> **Antigravity — משימות 1.1 + 1.2 (מיגרציה אחת + בדיקות):**
+> 1. **DROP `public.export_system_data()`** — ה-RPC סותר את D25 והוכרע להסרה מלאה (לא תיקון). כולל בדיקת pgTAP שהפונקציה איננה.
+> 2. **`get_live_ops_alerts`** — להחריג תאריכים עם שורת `match_days_off` מחלון 3 הימים של INACTIVE_MATCH (השלמת D46).
+> 3. **הקשחה v3:** ‏(א) `hide_match_profile` + `mark_day_off` — להוסיף `SET search_path = public, pg_temp`; ‏(ב) להחליף `get_user_role() = 'admin'` ב-`is_admin()` ב-`get_matches_for_child` (גרסת 020000) ובמדיניות `match_days_off`; ‏(ג) מדיניות Storage ‏"Allow admins to view all documents" → `is_admin()`; ‏(ד) `anonymize_user` שלב 8 — לקבוע `ended_at = now()` בסיום matches (נדרש לנתיב 14-יום של D14); ‏(ה) `mark_day_off` — ולידציה: תאריך בטווח סביר (±14 יום) ו-match בסטטוס `active`/`paused`.
+> 4. בדיקות pgTAP חדשות: `match_hides` (משתמש רואה רק את שלו), `mark_day_off` (רק משתתף), החרגת חופשות מההתראות.
+>
+> **Cursor — משימה 1.3:**
+> 1. **למחוק לגמרי את בלוק "ייצוא נתונים" מ-`app/(staff)/config.tsx`** (state בשורה 74, ‏`handleExport` בשורות 122–148, כרטיס ה-UI בשורות 236–249, וייבוא `Platform`/`supabase` אם מתייתרים). ⚠️ **לא לתקן, לא לממש מחדש — למחוק.** ההכרעה (D25, אושררה 2026-07-13): ייצוא גולמי מרוכז אסור; דוחות מצטברים יתוכננו בשלב 3.
+> 2. לקמט את הקבצים הפתוחים: `components/guide/`, `lib/guide-content.ts`, `stores/guide-store.ts`, ותיקון `scripts/seed-test-login.sql` (נבדקו ע"י הארכיטקט — תקינים).
+> 3. לאחר מכן: הרשמת MFA TOTP לאדמין + E2E ידני (כמתוכנן).
+>
+> **בוטל:** סעיף "הגדרת `CLAUDE_API_KEY` ב-secrets" — **אין להגדיר את המפתח.** סותר את D30 (ביטול מלא של בינה מלאכותית חיצונית); הפונקציות כבר דטרמיניסטיות ולא זקוקות לו.
+>
+> **הגדרת גמר לשלב 1:** pgTAP ירוק מקומית (כולל הבדיקות החדשות) · `tsc --noEmit` נקי · מיגרציה נדחפה לענן · עדכון סטטוס כאן וב-`coordination_state.json`.
+
 > **⚠️ עדכון ארכיטקט (2026-07-07): תיעוד מלא נוסף — נקודת הכניסה לכל משימה היא `product/00-INDEX.md`.**
 > - **`product/`** — תיק המוצר: החלטות סופיות (01), פרסונות (02), מסעות (03–04), **מפרט מסכים (05)**, קופי (06), מדדים (07), analytics ‏(08), **DoD ‏(09) — חובה לפני סימון משימה כגמורה**, אזור מנהל (10).
 > - **`docs/WORK-ALLOCATION.md`** — חלוקת העבודה המרכזית (מי אחראי על מה, לפי WP/תחום/ארטיפקט + handoffs). **מקור אמת לבעלות.**
@@ -50,22 +73,28 @@
 
 > **הנחיה לסוכנים (Antigravity & Cursor):**
 > 1. **קראו** את הקובץ הזה בתחילת כל סבב עבודה כדי להבין מה הסוכן השני עושה.
-> 2. **עדכנו** את הסטטוס שלכם ואת לוח המשימות בקובץ זה וב-`coordination_state.json` בסוף כל סבב עבודה.
-> 3. **אל תגעו** במשימות המשויכות לסוכן השני ללא תיאום.
+> 2. **עדכנו** את הסטטוס שלכם ואת לוח המשימות בקובץ זה וב-`coordination_state.json` בסוף כל סבב.
 
----
+### 🚧 Current Focus: Phase 2 Rollout
+
+**Active Work Package:** `WP10` (Admin Reports)
+
+| AI Agent | Task | Status | Notes |
+|---|---|---|---|
+| **Antigravity** | `WP10: Backend` - Create aggregated reports RPCs | `completed` | `admin_report_overview`, `timeseries`, `funnel`, `sla` implemented with MFA/RLS blocks and anti-leakage tests verified. Data retention cron jobs added (D49). |
+| **Cursor** | `WP10: Frontend` - Build Admin Reports UI | `ready` | Need to build a reports tab in the `(staff)` area pulling from the new RPCs. |
 
 ## 🤖 סטטוס סוכנים נוכחי
 
 ### 🟢 Antigravity (Backend & DB & Stitch)
-- **משימה נוכחית**: ✅ מיגרציות ותיקוני מסד נתונים (seed.sql, db reset) הושלמו בהצלחה, כולל מעקף לוגין אימייל+סיסמא. כל המיגרציות פרוסות לענן ונדחפו ל-main (`git push origin main`). pgTAP מקומי **35/35 PASS**.
-- **הצעד הבא**: הגדרת `CLAUDE_API_KEY` ב-secrets של Edge Functions.
-- **חסימות**: אין.
+- **משימה נוכחית**: ✅ **WP10 (Admin Reports) הושלם ב-Backend (2026-07-13):** נוצרה מיגרציית `20260713070000_wp10_admin_reports.sql` עם ארבע פונקציות דיווח מאובטחות (MFA, נעילת search_path, ללא PII), וג'ובים של pg_cron למדיניות שמירת נתונים (D49). הבדיקות (`wp10_reports_test.sql`) עברו במלואן. הטייפים העדכניים הופקו (`types:generate`).
+- **הצעד הבא**: ממתין להנחיית הארכיטקט או תחילת WP11 (Launch Hardening). **Cursor — המסלול פנוי עבורך לממש את ממשק הדוחות ב-`(staff)` (WP10 סעיף 4).**
+- **חסימות**: המיגרציה נבדקה מקומית. ניתן לדחוף לענן מתי שתרצה.
 
 ### 🟢 Cursor (Mobile App Shell & UI)
-- **משימה נוכחית**: ✅ ענן מסונכרן, types מעודכנים, `tsc` נקי, `apps/mobile/.env` מוגדר.
-- **הצעד הבא**: E2E ידני על מכשיר + הרשמת MFA TOTP לאדמין בפרודקשן.
-- **חסימות**: אין.
+- **משימה נוכחית**: ✅ **WP8 — מתגי "מה דנה רואה" (UI) הושלם (2026-07-13).** מומש מסך `match-permissions.tsx` החדש בהתאם לסעיף 6, כולל השהיית/חידוש גישה (שמפעילים את ה-RPC עם כל המפתחות) ותרגומי Copy חמים.
+- **הצעד הבא**: ממתין לאישור ארכיטקט ולהתחלת WP9 (D31 - ממשק הורה שני). בנוסף, טרם בוצע E2E ידני לאדמין MFA מפרודקשן כפי שהוגדר בסוף שלב 1.
+- **חסימות**: אין. WP8 מוכן לחלוטין (Front + Back) וניתן לדחוף את המיגרציה לענן.
 
 ---
 
@@ -83,7 +112,18 @@
 - [x] יצירת Design System ב-Stitch
 - [x] עיצוב 6 מסכי ליבה ב-Stitch וייצוא קוד
 
-### 📱 אפליקציית מובייל (אחריות: Cursor)
+### 📱 אפליקציית מובייל (אחריות: Antigravity)
+- [x] **WP1: Closing the match loop** (Matching algorithm + DB Schema updates). 
+- [x] **WP2: Push Notification Foundation** (Push token table, Edge Function setup). 
+- [x] **WP3: Admin Panel - Verification Queue** (Admin approval queue). 
+- [x] **WP4: Engine Cleanup** (Matching fixes). 
+- [x] **WP5: Daily Ops Tooling** (Check-in logging and admin viewing). 
+- [x] **WP6: Admin Analytics** (Basic metrics for supervisors).
+- [x] **WP7: Admin MFA** (AAL2 enforcement for sensitive Admin APIs).
+- [x] **WP8: Field Visibility API** (Parent-controlled data exposure logic).
+- [x] **WP9: Screenshot Protection API** (Audit logging logic).
+- [x] **WP10: Admin Reports** (Advanced SQL aggregations for admin analytics).
+- [x] **WP11: Launch Hardening** (RPC Rate Limiting, CORS, PII Log cleanup).
 - [x] אתחול פרויקט Expo SDK 53 ב-`apps/mobile`
 - [x] הגדרת NativeWind (+ design tokens מהמפרט)
 - [x] הגדרת Expo Router (כולל role-based routing ל-parent ו-professional)

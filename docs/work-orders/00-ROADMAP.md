@@ -38,6 +38,23 @@ WP0 (C4) ──▶ WP1 ──▶ WP2 ──▶ WP3 ──▶ WP5 ──▶ WP7
 | WP6 | Admin-2 + analytics | שניהם | WP3 | [WP6-admin2-analytics.md](WP6-admin2-analytics.md) |
 | WP7 | Launch prep | שניהם | הכול | [WP7-launch-prep.md](WP7-launch-prep.md) |
 
+## גל שני (2026-07-13) — אחרי סגירת פערי הביקורת
+
+> תנאי כניסה לגל: תיקון טיוטת v3 לפי [2026-07-13-v3-hardening-review.md](2026-07-13-v3-hardening-review.md) ופריסתה, ומשימה 1.3 של Cursor (מחיקת בלוק הייצוא). תוכנית-העל: [2026-07-13-continuation-plan.md](2026-07-13-continuation-plan.md).
+
+```
+שלב 1 (ביקורת) ──▶ WP8 (D45 מתגים) ──▶ WP10 (דוחות) ──▶ WP11 (קדם-השקה)
+                └─▶ WP9 (D31 UI + D44) ─ במקביל ל-WP8 (Cursor מוביל)
+משפטי (WP11 סעיף 5) ─ במקביל לכול, חוסם פתיחה לציבור בלבד
+```
+
+| WP | כותרת | בעלים | תלוי ב־ | קובץ |
+|----|--------|--------|---------|------|
+| WP8 | D45 — מתגי "מה דנה רואה" פר-שדה פר-זוג | Antigravity→Cursor | שלב 1 | [WP8-d45-field-visibility.md](WP8-d45-field-visibility.md) |
+| WP9 | D31 ממשק הורה שני + D44 הגנת צילום מסך | Cursor (+RPC קטן) | שלב 1 | [WP9-secondary-parent-ui-d44.md](WP9-secondary-parent-ui-d44.md) |
+| WP10 | דוחות אדמין מצטברים (תחליף הייצוא) + הצעת D49 | Antigravity→Cursor | שלב 1 | [WP10-admin-reports.md](WP10-admin-reports.md) |
+| WP11 | הקשחת קדם-השקה: קצב, CORS, גיבויים, E2E, משפטי | שניהם + בעל המוצר | WP8–WP10 (חלקו מקבילי) | [WP11-launch-hardening.md](WP11-launch-hardening.md) |
+
 ## כללי עבודה לכל WP
 - לפני התחלה: `product/00-INDEX.md` → ההחלטות (01) → המסכים (05) → DoD (09) → security (docs/).
 - backend קודם ל-UI; שינוי חתימת RPC → `types:generate` + הודעה בלוח באותו סבב.

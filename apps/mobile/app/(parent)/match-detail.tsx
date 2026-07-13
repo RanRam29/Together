@@ -9,6 +9,8 @@ import { useCreateMatchRequest } from "@/hooks/useMatchRequests";
 import { AnalyticsEvents } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
 import { promptPushPermission } from "@/components/shared/PushPermissionProvider";
+import { useScreenshotProtection } from "@/hooks/useScreenshotProtection";
+import { useChildren } from "@/hooks/useChildren";
 import { useAuthStore } from "@/stores/auth-store";
 
 export default function MatchDetailScreen() {
@@ -25,6 +27,14 @@ export default function MatchDetailScreen() {
     matchReason: string;
     score: string;
   }>();
+
+  useScreenshotProtection(params.childId);
+
+  const { children } = useChildren(parentId);
+  const child = children.find((c) => c.id === params.childId);
+  const isSecondary = child?.secondary_parent_id === parentId;
+  const canApprove = (child?.secondary_parent_permissions as any)?.can_approve ?? false;
+  const canManage = !isSecondary || canApprove;
 
   const [message, setMessage] = useState("");
   const createRequest = useCreateMatchRequest(parentId);
@@ -65,38 +75,40 @@ export default function MatchDetailScreen() {
         },
       ]);
     } catch (err) {
-      const text = err instanceof Error ? err.message : t("common.tryAgain");
-      Alert.alert(t("common.error"), text);
+      const msg = err instanceof Error ? err.message : t("common.error");
+      Alert.alert(t("common.error"), msg);
     }
   }
 
   return (
-    <ScreenShell
-      title={params.displayName ?? t("parent.matchDetail")}
-      subtitle={params.matchReason}
-      showBack
-      backFallbackHref="/(parent)/(tabs)"
-    >
-      <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {params.bio ? (
-          <Text className="text-base text-ink-2 leading-6 mb-4">{params.bio}</Text>
-        ) : null}
+    <ScreenShell title={t("parent.matchProfile")} showBack>
+      <ScrollView className="flex-1 p-5" showsVerticalScrollIndicator={false}>
+        <View className="items-center mb-6">
+          <Text className="text-2xl font-bold text-ink mb-2 font-rubik text-center">
+            {params.displayName}
+          </Text>
+          <Text className="text-base text-ink-2 text-center leading-6">
+            {params.bio}
+          </Text>
+        </View>
 
-        {params.professionalId ? (
-          <ReviewsSummary professionalId={params.professionalId} />
-        ) : null}
-
-        {params.score ? (
-          <View className="bg-purple-bg rounded-card p-4 mb-6">
-            <Text className="text-purple-ink font-bold text-lg font-rubik">
-              {t("parent.matchScore", { score: Math.round(Number(params.score)) })}
+        {params.matchReason ? (
+          <View className="bg-purple/10 p-4 rounded-xl mb-6">
+            <Text className="text-purple font-semibold text-right leading-5">
+              {params.matchReason}
             </Text>
           </View>
         ) : null}
 
         {params.professionalId ? (
           <View className="mb-6">
-            <Text className="text-sm font-bold text-purple mb-3 font-rubik">
+            <Text className="text-lg font-bold text-ink mb-3 font-rubik text-right">
+              {t("reviews.ratingTitle")}
+            </Text>
+            <View className="bg-surface p-4 rounded-xl border border-border mb-4">
+              <ReviewsSummary professionalId={params.professionalId} />
+            </View>
+            <Text className="text-base font-bold text-ink mb-3 font-rubik text-right">
               {t("reviews.recentReviews")}
             </Text>
             <ReviewsList professionalId={params.professionalId} limit={3} />
@@ -118,11 +130,12 @@ export default function MatchDetailScreen() {
           textAlignVertical="top"
         />
 
-        <View className="pb-10 mt-2">
+        <View className="mb-8">
           <PrimaryButton
             label={t("parent.sendRequest")}
             onPress={handleSendRequest}
             loading={createRequest.isPending}
+            disabled={!canManage}
           />
         </View>
       </ScrollView>

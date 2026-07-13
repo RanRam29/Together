@@ -75,3 +75,48 @@ export function useResumeMatch() {
     },
   });
 }
+
+export function useFieldVisibility(childId: string | undefined, professionalId: string | undefined) {
+  return useQuery({
+    queryKey: ["fieldVisibility", childId, professionalId],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("child_field_visibility")
+        .select("hidden_fields")
+        .eq("child_id", childId!)
+        .eq("professional_id", professionalId!)
+        .maybeSingle();
+
+      if (error) throw new Error(error.message);
+      return data?.hidden_fields ?? [];
+    },
+    enabled: Boolean(childId && professionalId),
+  });
+}
+
+export function useSetFieldVisibility() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      childId,
+      professionalId,
+      hiddenFields,
+    }: {
+      childId: string;
+      professionalId: string;
+      hiddenFields: string[];
+    }) => {
+      const { error } = await supabase.rpc("set_child_field_visibility", {
+        p_child_id: childId,
+        p_professional_id: professionalId,
+        p_hidden_fields: hiddenFields,
+      });
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: ["fieldVisibility", variables.childId, variables.professionalId],
+      });
+    },
+  });
+}

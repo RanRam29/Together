@@ -9,6 +9,7 @@ import {
   useFieldVisibility,
   useSetFieldVisibility,
 } from "@/hooks/useMatchPermissions";
+import { useScreenshotProtection } from "@/hooks/useScreenshotProtection";
 import { useAuthStore } from "@/stores/auth-store";
 
 const HIDEABLE_FIELDS = [
@@ -28,6 +29,8 @@ export default function MatchPermissionsScreen() {
   const params = useLocalSearchParams<{ matchId?: string; childId?: string }>();
   const matchId = params.matchId ?? "";
   const childId = params.childId ?? "";
+
+  useScreenshotProtection(childId);
 
   const matchQuery = useMatchById(matchId);
   const resolvedChildId = childId || matchQuery.data?.child?.id;

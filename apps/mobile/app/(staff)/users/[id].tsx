@@ -22,6 +22,7 @@ import {
   useAdminUser,
   useAdminUserLogin,
   useRestoreUser,
+  useSetUserEmail,
   useSetUserPassword,
   useSuspendUser,
 } from "@/hooks/useAdminUsers";
@@ -40,11 +41,17 @@ export default function AdminUserDetailScreen() {
   const suspend = useSuspendUser();
   const restore = useRestoreUser();
   const setPassword = useSetUserPassword();
+  const setEmail = useSetUserEmail();
 
   const [suspendOpen, setSuspendOpen] = useState(false);
   const [reason, setReason] = useState("");
+  const [email, setEmailValue] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
+  useEffect(() => {
+    setEmailValue(login?.email ?? "");
+  }, [login?.email]);
 
   useEffect(() => {
     if (isReady && !isAdmin) {
@@ -85,6 +92,29 @@ export default function AdminUserDetailScreen() {
         );
       },
     });
+  }
+
+  function handleSetEmail() {
+    if (!userId) return;
+    const trimmed = email.trim();
+    if (!trimmed.includes("@")) {
+      Alert.alert(t("common.error"), t("staff.invalidEmail"));
+      return;
+    }
+
+    setEmail.mutate(
+      { userId, email: trimmed },
+      {
+        onSuccess: () => Alert.alert(t("staff.emailUpdated")),
+        onError: (err) => {
+          if (mfa.handleRpcError(err)) return;
+          Alert.alert(
+            t("common.error"),
+            err instanceof Error ? err.message : t("common.tryAgain"),
+          );
+        },
+      },
+    );
   }
 
   function handleSetPassword() {
@@ -145,13 +175,39 @@ export default function AdminUserDetailScreen() {
         <Text className="text-sm text-ink-2 text-right mb-1">
           {t(`staff.roleFilter.${user.role}`)} · {user.area ?? "—"}
         </Text>
-        <Text className="text-sm text-ink-2 text-right mb-1">{user.phone}</Text>
-        <Text className="text-xs text-ink-3 text-right mb-1 font-rubik">
-          {t("staff.username")}
-        </Text>
-        <Text className="text-sm text-ink text-right mb-6 font-rubik">
-          {login?.username ?? "—"}
-        </Text>
+        <Text className="text-sm text-ink-2 text-right mb-6">{user.phone}</Text>
+
+        <View className="bg-surface border border-border rounded-card p-4 mb-6">
+          <Text className="text-base font-bold text-ink mb-1 font-rubik text-right">
+            {t("staff.loginCredentials")}
+          </Text>
+          <Text className="text-xs text-ink-3 mb-4 text-right leading-5">
+            {t("staff.loginCredentialsHint")}
+          </Text>
+          <TextField
+            label={t("staff.emailAddress")}
+            value={email}
+            onChangeText={setEmailValue}
+            keyboardType="email-address"
+            autoCapitalize="none"
+            autoComplete="email"
+            textContentType="emailAddress"
+            textAlign="right"
+            placeholder={t("staff.emailPlaceholder")}
+          />
+          <PrimaryButton
+            label={t("staff.updateEmail")}
+            onPress={handleSetEmail}
+            loading={setEmail.isPending}
+            disabled={!email.trim() || setEmail.isPending}
+          />
+          <Text className="text-xs text-ink-3 text-right mt-4 mb-1 font-rubik">
+            {t("staff.username")}
+          </Text>
+          <Text className="text-sm text-ink text-right font-rubik">
+            {login?.username ?? "—"}
+          </Text>
+        </View>
 
         <View className="bg-surface border border-border rounded-card p-4 mb-6">
           <Text className="text-base font-bold text-ink mb-3 font-rubik text-right">

@@ -7,10 +7,30 @@
   | Json[]
 
 export type Database = {
-  // Allows to automatically instantiate createClient with right options
-  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
-  __InternalSupabase: {
-    PostgrestVersion: "14.5"
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          extensions?: Json
+          operationName?: string
+          query?: string
+          variables?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
   }
   public: {
     Tables: {
@@ -279,6 +299,62 @@ export type Database = {
           },
         ]
       }
+      child_field_visibility: {
+        Row: {
+          child_id: string
+          hidden_fields: string[]
+          id: string
+          professional_id: string
+          updated_at: string
+          updated_by: string
+        }
+        Insert: {
+          child_id: string
+          hidden_fields?: string[]
+          id?: string
+          professional_id: string
+          updated_at?: string
+          updated_by: string
+        }
+        Update: {
+          child_id?: string
+          hidden_fields?: string[]
+          id?: string
+          professional_id?: string
+          updated_at?: string
+          updated_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "child_field_visibility_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "child_field_visibility_child_id_fkey"
+            columns: ["child_id"]
+            isOneToOne: false
+            referencedRelation: "children_tier0"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "child_field_visibility_professional_id_fkey"
+            columns: ["professional_id"]
+            isOneToOne: false
+            referencedRelation: "professionals"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "child_field_visibility_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       children: {
         Row: {
           age: number
@@ -456,6 +532,65 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      match_days_off: {
+        Row: {
+          created_at: string
+          date: string
+          id: string
+          match_id: string
+          reason: string | null
+          reported_by: string
+        }
+        Insert: {
+          created_at?: string
+          date: string
+          id?: string
+          match_id: string
+          reason?: string | null
+          reported_by: string
+        }
+        Update: {
+          created_at?: string
+          date?: string
+          id?: string
+          match_id?: string
+          reason?: string | null
+          reported_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_days_off_match_id_fkey"
+            columns: ["match_id"]
+            isOneToOne: false
+            referencedRelation: "matches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      match_hides: {
+        Row: {
+          created_at: string
+          expires_at: string
+          hidden_user_id: string
+          hider_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string
+          hidden_user_id: string
+          hider_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          hidden_user_id?: string
+          hider_id?: string
+          id?: string
+        }
+        Relationships: []
       }
       match_requests: {
         Row: {
@@ -1204,6 +1339,7 @@ export type Database = {
             }
             Returns: string
           }
+      admin_get_user_login: { Args: { p_user_id: string }; Returns: Json }
       admin_log_reasoned_view: {
         Args: { p_reason: string; p_resource: string; p_resource_id: string }
         Returns: undefined
@@ -1216,9 +1352,38 @@ export type Database = {
         Args: { p_pro_id: string }
         Returns: undefined
       }
+      admin_report_funnel: {
+        Args: { p_from: string; p_to: string }
+        Returns: Json
+      }
+      admin_report_overview: { Args: never; Returns: Json }
+      admin_report_timeseries: {
+        Args: { p_from: string; p_metric: string; p_to: string }
+        Returns: {
+          bucket: string
+          value: number
+        }[]
+      }
+      admin_report_verification_sla: {
+        Args: never
+        Returns: {
+          avg_days_to_verdict: number
+          submitted: number
+          verified: number
+          week: string
+        }[]
+      }
       admin_restore_user: { Args: { p_user_id: string }; Returns: undefined }
       admin_set_config: {
         Args: { p_key: string; p_value: Json }
+        Returns: undefined
+      }
+      admin_set_user_email: {
+        Args: { p_email: string; p_user_id: string }
+        Returns: undefined
+      }
+      admin_set_user_password: {
+        Args: { p_password: string; p_user_id: string }
         Returns: undefined
       }
       admin_suspend_user: {
@@ -1260,6 +1425,7 @@ export type Database = {
         Args: { p_request_id: string }
         Returns: string
       }
+      current_verified_phone: { Args: never; Returns: string }
       decline_after_intro: {
         Args: { p_reason?: string; p_request_id: string }
         Returns: undefined
@@ -1301,7 +1467,6 @@ export type Database = {
         Returns: undefined
       }
       equals: { Args: { geom1: unknown; geom2: unknown }; Returns: boolean }
-      export_system_data: { Args: never; Returns: Json }
       geometry: { Args: { "": string }; Returns: unknown }
       geometry_above: {
         Args: { geom1: unknown; geom2: unknown }
@@ -1475,6 +1640,10 @@ export type Database = {
       }
       gettransactionid: { Args: never; Returns: unknown }
       has_active_match: { Args: { p_child_id: string }; Returns: boolean }
+      hide_match_profile: {
+        Args: { p_target_user_id: string }
+        Returns: undefined
+      }
       invite_secondary_parent: {
         Args: { p_child_id: string; p_phone: string }
         Returns: undefined
@@ -1483,7 +1652,12 @@ export type Database = {
       is_staff_verifier: { Args: never; Returns: boolean }
       is_supervisor: { Args: never; Returns: boolean }
       is_verified_professional: { Args: never; Returns: boolean }
+      log_screenshot_event: { Args: { p_child_id: string }; Returns: undefined }
       longtransactionsenabled: { Args: never; Returns: boolean }
+      mark_day_off: {
+        Args: { p_date: string; p_match_id: string; p_reason?: string }
+        Returns: undefined
+      }
       notify_push: {
         Args: {
           p_body: string
@@ -1545,7 +1719,14 @@ export type Database = {
         Returns: undefined
       }
       resume_match: { Args: { p_match_id: string }; Returns: undefined }
-      seed_test_data: { Args: never; Returns: string }
+      set_child_field_visibility: {
+        Args: {
+          p_child_id: string
+          p_hidden_fields: string[]
+          p_professional_id: string
+        }
+        Returns: undefined
+      }
       set_match_metrics: {
         Args: { p_keys: string[]; p_match_id: string }
         Returns: undefined
@@ -2371,6 +2552,9 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
+  graphql_public: {
+    Enums: {},
+  },
   public: {
     Enums: {
       document_type: [
@@ -2416,3 +2600,4 @@ export const Constants = {
     },
   },
 } as const
+
