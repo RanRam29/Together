@@ -12,7 +12,9 @@ import { GestureHandlerRootView as RNGestureHandlerRootView } from "react-native
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import i18n, { initI18n } from "@/i18n";
+import { isSupabaseConfigured } from "@/lib/supabase";
 import { queryClient } from "@/lib/query-client";
+import { ConfigErrorScreen } from "@/components/shared/ConfigErrorScreen";
 import { useAuthBootstrap } from "@/hooks/useAuthBootstrap";
 import { useProtectedRoute } from "@/hooks/useProtectedRoute";
 import { usePushSetup } from "@/hooks/usePushSetup";
@@ -66,6 +68,12 @@ export function AppProviders({ children }: { children: ReactNode }) {
         <ActivityIndicator size="large" color="#534AB7" />
       </View>
     );
+  }
+
+  // Missing/invalid backend config would otherwise leave the app pointed at an
+  // inert placeholder (silent failure) — surface it explicitly instead.
+  if (!isSupabaseConfigured) {
+    return <ConfigErrorScreen />;
   }
 
   return (

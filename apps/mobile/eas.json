@@ -8,20 +8,14 @@
       "developmentClient": true,
       "distribution": "internal",
       "channel": "development",
-      "env": {
-        "EXPO_PUBLIC_SUPABASE_URL": "$EXPO_PUBLIC_SUPABASE_URL",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "$EXPO_PUBLIC_SUPABASE_ANON_KEY"
-      }
+      "environment": "development"
     },
     "preview": {
       "distribution": "internal",
       "channel": "preview",
       "ios": { "simulator": false },
       "android": { "buildType": "apk" },
-      "env": {
-        "EXPO_PUBLIC_SUPABASE_URL": "$EXPO_PUBLIC_SUPABASE_URL",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "$EXPO_PUBLIC_SUPABASE_ANON_KEY"
-      }
+      "environment": "preview"
     },
     "preview-simulator": {
       "extends": "preview",
@@ -31,10 +25,7 @@
       "channel": "production",
       "autoIncrement": true,
       "android": { "buildType": "app-bundle" },
-      "env": {
-        "EXPO_PUBLIC_SUPABASE_URL": "$EXPO_PUBLIC_SUPABASE_URL",
-        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "$EXPO_PUBLIC_SUPABASE_ANON_KEY"
-      }
+      "environment": "production"
     }
   },
   "submit": {
