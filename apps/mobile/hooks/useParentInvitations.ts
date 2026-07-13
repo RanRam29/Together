@@ -1,5 +1,27 @@
 import { useState, useCallback } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../lib/supabase";
+import { useAuthStore } from "@/stores/auth-store";
+
+export function useMyParentInvitations() {
+  const session = useAuthStore((s) => s.session);
+  const userId = session?.user?.id;
+  const userPhone = session?.user?.phone;
+
+  return useQuery({
+    queryKey: ["my_parent_invitations", userId],
+    queryFn: async () => {
+      // The RLS policy should allow viewing if invited_phone matches the user's phone.
+      const { data, error } = await supabase
+        .from("parent_invitations")
+        .select("*, child:children(*)")
+        .eq("status", "pending");
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!userId,
+  });
+}
 
 export function useParentInvitations() {
   const [loading, setLoading] = useState(false);
