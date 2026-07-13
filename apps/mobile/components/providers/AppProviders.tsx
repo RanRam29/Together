@@ -17,6 +17,7 @@ import { useAuthBootstrap } from "@/hooks/useAuthBootstrap";
 import { useProtectedRoute } from "@/hooks/useProtectedRoute";
 import { usePushSetup } from "@/hooks/usePushSetup";
 import { PushPermissionProvider } from "@/components/shared/PushPermissionProvider";
+import { UsageGuideGate } from "@/components/guide/UsageGuideGate";
 import { OfflineBanner } from "@/components/shared/OfflineBanner";
 import { useLocaleStore } from "@/stores/auth-store";
 
@@ -31,6 +32,7 @@ function AppReady({ children }: { children: ReactNode }) {
     <>
       {children}
       <PushPermissionProvider />
+      <UsageGuideGate />
     </>
   );
 }

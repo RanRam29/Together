@@ -125,6 +125,21 @@ export default function SettingsScreen() {
 
         <View className="bg-surface rounded-card border border-border p-4 mb-6">
           <Text className="text-lg font-bold text-ink mb-4 font-rubik text-right">
+            {t("guide.howToTitle")}
+          </Text>
+          <Pressable
+            onPress={() => router.push("/how-to-use" as never)}
+            className="py-3 flex-row-reverse items-center justify-between"
+          >
+            <Text className="text-base text-purple text-right font-rubik">
+              {t("guide.openGuide")}
+            </Text>
+            <Ionicons name="help-circle-outline" size={20} color="#534AB7" />
+          </Pressable>
+        </View>
+
+        <View className="bg-surface rounded-card border border-border p-4 mb-6">
+          <Text className="text-lg font-bold text-ink mb-4 font-rubik text-right">
             {t("settings.legalTitle")}
           </Text>
           <Pressable

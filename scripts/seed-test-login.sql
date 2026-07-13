@@ -70,6 +70,31 @@ begin
 end $$;
 
 -- ------------------------------------------------------------
+-- 1b) GoTrue ROW INTEGRITY REPAIR  (critical!)
+--     Pre-existing rows can carry NULLs in columns GoTrue scans into
+--     non-nullable Go fields (instance_id / created_at / updated_at /
+--     raw_app_meta_data / *_token). A single NULL makes GoTrue unable to load
+--     the user → EVERY auth op fails with "Invalid login credentials" and the
+--     Admin API returns 404. Coalesce them so the accounts are loadable.
+-- ------------------------------------------------------------
+update auth.users set
+  instance_id                 = coalesce(instance_id, '00000000-0000-0000-0000-000000000000'),
+  created_at                  = coalesce(created_at, now() - interval '60 days'),
+  updated_at                  = coalesce(updated_at, now()),
+  email_change_confirm_status = coalesce(email_change_confirm_status, 0),
+  raw_user_meta_data          = coalesce(raw_user_meta_data, '{}'::jsonb),
+  raw_app_meta_data           = coalesce(raw_app_meta_data, '{}'::jsonb),
+  confirmation_token          = coalesce(confirmation_token, ''),
+  recovery_token              = coalesce(recovery_token, ''),
+  email_change                = coalesce(email_change, ''),
+  email_change_token_new      = coalesce(email_change_token_new, ''),
+  email_change_token_current  = coalesce(email_change_token_current, ''),
+  phone_change                = coalesce(phone_change, ''),
+  phone_change_token          = coalesce(phone_change_token, ''),
+  reauthentication_token      = coalesce(reauthentication_token, '')
+where phone in ('972524627635','972501111111','972525555555','972521111111','972522222222');
+
+-- ------------------------------------------------------------
 -- 2) profiles — role / name / area for the two NEW personas
 --    (seed-test-data.sql already set the other three)
 -- ------------------------------------------------------------
@@ -116,10 +141,8 @@ begin
       email = r.email,
       email_confirmed_at = coalesce(email_confirmed_at, now()),
       encrypted_password = extensions.crypt(r.pw, extensions.gen_salt('bf')),
-      raw_app_meta_data = raw_app_meta_data
-        || jsonb_build_object('providers',
-             (select jsonb_agg(distinct p) from jsonb_array_elements_text(
-                coalesce(raw_app_meta_data->'providers','[]'::jsonb) || '["email"]'::jsonb) p))
+      raw_app_meta_data = coalesce(raw_app_meta_data, '{}'::jsonb)
+        || jsonb_build_object('provider', 'phone', 'providers', jsonb_build_array('phone','email'))
     where id = v_uid;
 
     -- email identity (GoTrue needs one identity per provider)

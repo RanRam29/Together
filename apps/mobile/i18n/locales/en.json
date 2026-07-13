@@ -597,5 +597,91 @@
       "win_definition": "Success definition",
       "notes": "Notes"
     }
+  },
+  "guide": {
+    "skip": "Skip",
+    "next": "Next",
+    "back": "Back",
+    "done": "Done",
+    "dontShowAgain": "Don’t show again",
+    "howToTitle": "How to use",
+    "openGuide": "How to use the app",
+    "replay": "Show interactive guide",
+    "parent": {
+      "intro": "Get the most out of Together as a parent",
+      "steps": {
+        "0": {
+          "title": "Welcome",
+          "body": "Manage your child’s profile, match requests and daily support — all in one place."
+        },
+        "1": {
+          "title": "Create a child profile",
+          "body": "Add your child’s details, needs and setting. A complete profile brings better matches."
+        },
+        "2": {
+          "title": "Choose a professional",
+          "body": "Review matching candidates, read their offers and approve the best fit."
+        },
+        "3": {
+          "title": "Daily tracking",
+          "body": "Follow attendance check-ins, daily summaries, and rate the support when it ends."
+        }
+      }
+    },
+    "professional": {
+      "intro": "Start working with Together as a professional",
+      "steps": {
+        "0": {
+          "title": "Welcome",
+          "body": "Manage your professional profile, documents and shifts here."
+        },
+        "1": {
+          "title": "Verify your documents",
+          "body": "Upload your ID, police clearance and certification. Verification is required before placements."
+        },
+        "2": {
+          "title": "Browse children & requests",
+          "body": "Review matching children in your area and express interest, or respond to parent requests."
+        },
+        "3": {
+          "title": "Active shift",
+          "body": "Check in via GPS at the start of a shift, and fill the short daily report at the end."
+        }
+      }
+    },
+    "admin": {
+      "intro": "Manage the system from the staff area",
+      "steps": {
+        "0": {
+          "title": "Dashboard",
+          "body": "Overview of active matches, alerts and system activity."
+        },
+        "1": {
+          "title": "User management",
+          "body": "Search, suspend and restore users, and view account details."
+        },
+        "2": {
+          "title": "Analytics & settings",
+          "body": "Funnel metrics, reports and system settings. Sensitive actions require MFA."
+        }
+      }
+    },
+    "supervisor": {
+      "intro": "The professional verification queue",
+      "steps": {
+        "0": {
+          "title": "Verification queue",
+          "body": "Professionals awaiting verification that are assigned to you appear here."
+        },
+        "1": {
+          "title": "Review documents",
+          "body": "Open each document (ID, clearance, certification) and check it."
+        },
+        "2": {
+          "title": "Approve or reject",
+          "body": "Approve after reviewing all documents, or reject with a detailed reason."
+        }
+      }
+    }
   }
 }
