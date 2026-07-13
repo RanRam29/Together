@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
-import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 
-import { UsageGuide } from "@/components/guide/UsageGuide";
+import { BackButton } from "@/components/ui/BackButton";
 import { GUIDE_STEPS, guideRole } from "@/lib/guide-content";
 import { useAuthStore } from "@/stores/auth-store";
 
@@ -12,7 +11,6 @@ const PURPLE = "#534AB7";
 
 export default function HowToUseScreen() {
   const { t } = useTranslation();
-  const router = useRouter();
   const profile = useAuthStore((s) => s.profile);
   const gRole = guideRole(profile?.role);
   const steps = GUIDE_STEPS[gRole] ?? [];
@@ -21,9 +19,7 @@ export default function HowToUseScreen() {
   return (
     <View className="flex-1 bg-bg">
       <ScrollView className="flex-1 px-5 pt-14" contentContainerStyle={{ paddingBottom: 32 }}>
-        <Pressable onPress={() => router.back()} className="mb-4 self-start" hitSlop={8}>
-          <Text className="text-purple font-medium font-rubik">{t("common.back")}</Text>
-        </Pressable>
+        <BackButton className="self-end" />
 
         <Text className="text-2xl font-bold text-ink mb-2 font-rubik text-right">
           {t("guide.howToTitle")}

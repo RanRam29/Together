@@ -13,13 +13,16 @@ import {
 } from "react-native";
 
 import { PrimaryButton } from "@/components/ui/Screen";
+import { TextField } from "@/components/ui/Form";
 import { AdminMfaModal } from "@/components/admin/AdminMfaModal";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
 import { useAdminMfa } from "@/hooks/useAdminMfa";
 import {
   useAdminNotes,
   useAdminUser,
+  useAdminUserLogin,
   useRestoreUser,
+  useSetUserPassword,
   useSuspendUser,
 } from "@/hooks/useAdminUsers";
 
@@ -32,12 +35,16 @@ export default function AdminUserDetailScreen() {
   const mfa = useAdminMfa(isAdmin);
 
   const { data: user, isLoading } = useAdminUser(userId);
+  const { data: login } = useAdminUserLogin(userId);
   const { data: notes = [] } = useAdminNotes(userId);
   const suspend = useSuspendUser();
   const restore = useRestoreUser();
+  const setPassword = useSetUserPassword();
 
   const [suspendOpen, setSuspendOpen] = useState(false);
   const [reason, setReason] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
     if (isReady && !isAdmin) {
@@ -80,6 +87,36 @@ export default function AdminUserDetailScreen() {
     });
   }
 
+  function handleSetPassword() {
+    if (!userId) return;
+    if (newPassword.length < 8) {
+      Alert.alert(t("common.error"), t("staff.passwordTooShort"));
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      Alert.alert(t("common.error"), t("staff.passwordMismatch"));
+      return;
+    }
+
+    setPassword.mutate(
+      { userId, password: newPassword },
+      {
+        onSuccess: () => {
+          setNewPassword("");
+          setConfirmPassword("");
+          Alert.alert(t("staff.passwordChanged"));
+        },
+        onError: (err) => {
+          if (mfa.handleRpcError(err)) return;
+          Alert.alert(
+            t("common.error"),
+            err instanceof Error ? err.message : t("common.tryAgain"),
+          );
+        },
+      },
+    );
+  }
+
   if (!isReady || !isAdmin || isLoading || !user) {
     return (
       <View className="flex-1 items-center justify-center">
@@ -108,7 +145,47 @@ export default function AdminUserDetailScreen() {
         <Text className="text-sm text-ink-2 text-right mb-1">
           {t(`staff.roleFilter.${user.role}`)} · {user.area ?? "—"}
         </Text>
-        <Text className="text-sm text-ink-2 text-right mb-6">{user.phone}</Text>
+        <Text className="text-sm text-ink-2 text-right mb-1">{user.phone}</Text>
+        <Text className="text-xs text-ink-3 text-right mb-1 font-rubik">
+          {t("staff.username")}
+        </Text>
+        <Text className="text-sm text-ink text-right mb-6 font-rubik">
+          {login?.username ?? "—"}
+        </Text>
+
+        <View className="bg-surface border border-border rounded-card p-4 mb-6">
+          <Text className="text-base font-bold text-ink mb-3 font-rubik text-right">
+            {t("staff.changePassword")}
+          </Text>
+          <TextField
+            label={t("staff.newPassword")}
+            value={newPassword}
+            onChangeText={setNewPassword}
+            secureTextEntry
+            showPasswordToggle
+            autoCapitalize="none"
+            textAlign="right"
+          />
+          <TextField
+            label={t("staff.confirmPassword")}
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+            showPasswordToggle
+            autoCapitalize="none"
+            textAlign="right"
+          />
+          <PrimaryButton
+            label={t("staff.updatePassword")}
+            onPress={handleSetPassword}
+            loading={setPassword.isPending}
+            disabled={
+              !newPassword.trim() ||
+              !confirmPassword.trim() ||
+              setPassword.isPending
+            }
+          />
+        </View>
 
         {isSuspended ? (
           <View className="bg-coral-bg border border-coral rounded-card p-4 mb-4">

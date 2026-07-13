@@ -10,6 +10,12 @@ export interface AdminUserRow {
   created_at: string;
 }
 
+export interface AdminUserLogin {
+  email: string | null;
+  phone: string | null;
+  username: string;
+}
+
 export interface AdminUserFilters {
   role?: "parent" | "professional" | "admin" | "supervisor" | "all";
   search?: string;
@@ -96,4 +102,34 @@ export async function fetchAdminNotes(
     return [];
   }
   return (data ?? []) as unknown as AdminNoteRow[];
+}
+
+export async function fetchAdminUserLogin(
+  userId: string,
+): Promise<AdminUserLogin | null> {
+  const { data, error } = await supabase.rpc("admin_get_user_login", {
+    p_user_id: userId,
+  });
+  if (error) throw error;
+  if (!data || typeof data !== "object") return null;
+  const row = data as Record<string, unknown>;
+  return {
+    email: typeof row.email === "string" ? row.email : null,
+    phone: typeof row.phone === "string" ? row.phone : null,
+    username:
+      typeof row.username === "string" && row.username.trim()
+        ? row.username
+        : userId,
+  };
+}
+
+export async function adminSetUserPassword(
+  userId: string,
+  password: string,
+): Promise<void> {
+  const { error } = await supabase.rpc("admin_set_user_password", {
+    p_user_id: userId,
+    p_password: password,
+  });
+  if (error) throw error;
 }

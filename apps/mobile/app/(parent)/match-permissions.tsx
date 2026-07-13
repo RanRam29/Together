@@ -1,21 +1,22 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, Text, View } from "react-native";
+import { Alert, Pressable, ScrollView, Text, View, Switch } from "react-native";
 
 import { ScreenShell } from "@/components/ui/Screen";
 import {
   useChildDetailsPreview,
   useMatchById,
-  usePauseMatch,
-  useResumeMatch,
+  useFieldVisibility,
+  useSetFieldVisibility,
 } from "@/hooks/useMatchPermissions";
 import { useAuthStore } from "@/stores/auth-store";
 
-const FIELD_KEYS = [
-  "full_name",
+const HIDEABLE_FIELDS = [
   "diagnosis_full",
   "what_works",
   "what_triggers",
+  "gender_preference",
+  "parent_contact",
   "win_definition",
   "notes",
 ] as const;
@@ -29,41 +30,64 @@ export default function MatchPermissionsScreen() {
   const childId = params.childId ?? "";
 
   const matchQuery = useMatchById(matchId);
-  const details = useChildDetailsPreview(
-    childId || matchQuery.data?.child?.id,
-  );
-  const pause = usePauseMatch();
-  const resume = useResumeMatch();
+  const resolvedChildId = childId || matchQuery.data?.child?.id;
+  const details = useChildDetailsPreview(resolvedChildId);
+  const visibilityQuery = useFieldVisibility(resolvedChildId, matchQuery.data?.professional?.id);
+  const setVisibility = useSetFieldVisibility();
 
   const match = matchQuery.data;
-  const isPaused = match?.status === "paused";
   const proName = match?.professional?.display_name ?? "";
+  
+  const hiddenFields = visibilityQuery.data ?? [];
+  const isPaused = hiddenFields.length === HIDEABLE_FIELDS.length;
+
+  async function handleToggle(key: string, visible: boolean) {
+    if (!resolvedChildId || !match?.professional?.id) return;
+    try {
+      let newHidden = [...hiddenFields];
+      if (visible) {
+        newHidden = newHidden.filter((f) => f !== key);
+      } else {
+        if (!newHidden.includes(key)) newHidden.push(key);
+      }
+      await setVisibility.mutateAsync({
+        childId: resolvedChildId,
+        professionalId: match.professional.id,
+        hiddenFields: newHidden,
+      });
+    } catch (err) {
+      Alert.alert(
+        t("common.error"),
+        err instanceof Error ? err.message : t("common.tryAgain"),
+      );
+    }
+  }
 
   async function handlePause() {
-    if (!matchId) return;
-    Alert.alert(t("permissions.pauseTitle"), t("permissions.pauseConfirm"), [
-      { text: t("common.cancel"), style: "cancel" },
-      {
-        text: t("permissions.pauseAction"),
-        onPress: async () => {
-          try {
-            await pause.mutateAsync(matchId);
-            Alert.alert(t("permissions.pauseDone"));
-          } catch (err) {
-            Alert.alert(
-              t("common.error"),
-              err instanceof Error ? err.message : t("common.tryAgain"),
-            );
-          }
-        },
-      },
-    ]);
+    if (!resolvedChildId || !match?.professional?.id) return;
+    try {
+      await setVisibility.mutateAsync({
+        childId: resolvedChildId,
+        professionalId: match.professional.id,
+        hiddenFields: [...HIDEABLE_FIELDS],
+      });
+      Alert.alert(t("permissions.pauseDone"));
+    } catch (err) {
+      Alert.alert(
+        t("common.error"),
+        err instanceof Error ? err.message : t("common.tryAgain"),
+      );
+    }
   }
 
   async function handleResume() {
-    if (!matchId) return;
+    if (!resolvedChildId || !match?.professional?.id) return;
     try {
-      await resume.mutateAsync(matchId);
+      await setVisibility.mutateAsync({
+        childId: resolvedChildId,
+        professionalId: match.professional.id,
+        hiddenFields: [],
+      });
       Alert.alert(t("permissions.resumeDone"));
     } catch (err) {
       Alert.alert(
@@ -77,37 +101,54 @@ export default function MatchPermissionsScreen() {
     <ScreenShell
       title={t("permissions.title")}
       subtitle={t("permissions.subtitle", { name: proName })}
+      showBack
+      backFallbackHref="/(active-match)"
     >
-      <Pressable onPress={() => router.back()} className="mb-4 self-start">
-        <Text className="text-purple font-medium font-rubik">{t("common.back")}</Text>
-      </Pressable>
-
       <ScrollView showsVerticalScrollIndicator={false}>
         <Text className="text-base font-bold text-ink mb-3 font-rubik text-right">
           {t("permissions.visibleTitle")}
         </Text>
         <View className="bg-surface border border-border rounded-card p-4 mb-6">
-          {FIELD_KEYS.map((key) => {
-            const value = details.data?.[key];
-            if (!value) return null;
-            return (
-              <View key={key} className="mb-3 border-b border-border/40 pb-3">
+          {/* Full name is never hideable */}
+          {details.data?.full_name ? (
+            <View className="mb-3 border-b border-border/40 pb-3 flex-row justify-between items-center">
+              <Text className="text-sm text-ink-2 font-medium">{t("permissions.alwaysVisible")}</Text>
+              <View>
                 <Text className="text-xs text-purple font-bold mb-1 text-right">
-                  {t(`permissions.fields.${key}`)}
+                  {t("permissions.fields.full_name")}
                 </Text>
-                <Text className="text-sm text-ink-2 text-right leading-5">{value}</Text>
+                <Text className="text-sm text-ink-2 text-right leading-5">{details.data.full_name}</Text>
+              </View>
+            </View>
+          ) : null}
+
+          {HIDEABLE_FIELDS.map((key) => {
+            const isHidden = hiddenFields.includes(key);
+            return (
+              <View key={key} className="mb-3 border-b border-border/40 pb-3 flex-row justify-between items-center">
+                <Switch
+                  value={!isHidden}
+                  onValueChange={(val) => handleToggle(key, val)}
+                  trackColor={{ false: "#E2E8F0", true: "#534AB7" }}
+                  thumbColor="#FFFFFF"
+                />
+                <View className="flex-1 ml-4">
+                  <Text className="text-xs text-purple font-bold mb-1 text-right">
+                    {t(`permissions.fields.${key}`)}
+                  </Text>
+                  <Text className="text-sm text-ink-2 text-right">
+                    {isHidden ? t("permissions.hiddenState", { name: proName }) : t("permissions.visibleState", { name: proName })}
+                  </Text>
+                </View>
               </View>
             );
           })}
-          {!details.data ? (
-            <Text className="text-sm text-ink-2 text-right">{t("permissions.noDetails")}</Text>
-          ) : null}
         </View>
 
         {isPaused ? (
           <Pressable
             onPress={handleResume}
-            disabled={resume.isPending}
+            disabled={setVisibility.isPending}
             className="bg-teal rounded-full py-4 items-center mb-4 active:opacity-90"
           >
             <Text className="text-white font-bold font-rubik">
@@ -117,7 +158,7 @@ export default function MatchPermissionsScreen() {
         ) : (
           <Pressable
             onPress={handlePause}
-            disabled={pause.isPending}
+            disabled={setVisibility.isPending}
             className="rounded-full border border-amber py-4 items-center mb-4 active:opacity-90"
           >
             <Text className="text-amber font-bold font-rubik">
@@ -126,7 +167,7 @@ export default function MatchPermissionsScreen() {
           </Pressable>
         )}
 
-        <Text className="text-xs text-ink-2 text-center leading-5 px-4">
+        <Text className="text-xs text-ink-2 text-center leading-5 px-4 mb-8">
           {t("permissions.pauseHelp")}
         </Text>
       </ScrollView>

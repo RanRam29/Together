@@ -27,10 +27,10 @@ export async function fetchAuditLog(
     .limit(200);
 
   if (filters.action?.trim()) {
-    query = query.ilike("action", `%${filters.action.trim()}%`);
+    query = query.eq("action", filters.action.trim());
   }
   if (filters.resource?.trim()) {
-    query = query.ilike("resource", `%${filters.resource.trim()}%`);
+    query = query.eq("resource", filters.resource.trim());
   }
 
   const { data, error } = await query;
@@ -48,4 +48,31 @@ export async function fetchAuditLog(
     );
   }
   return rows;
+}
+
+export interface AuditFilterOptions {
+  actions: string[];
+  resources: string[];
+}
+
+export async function fetchAuditFilterOptions(): Promise<AuditFilterOptions> {
+  const { data, error } = await supabase
+    .from("audit_log")
+    .select("action, resource")
+    .order("created_at", { ascending: false })
+    .limit(500);
+
+  if (error) throw error;
+
+  const actions = new Set<string>();
+  const resources = new Set<string>();
+  for (const row of data ?? []) {
+    if (row.action) actions.add(row.action);
+    if (row.resource) resources.add(row.resource);
+  }
+
+  return {
+    actions: [...actions].sort(),
+    resources: [...resources].sort(),
+  };
 }

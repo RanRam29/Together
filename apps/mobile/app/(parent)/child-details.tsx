@@ -84,11 +84,9 @@ export default function ChildDetailsScreen() {
       eyebrow={t("parent.detailsEyebrow")}
       title={t("parent.detailsTitle")}
       subtitle={t("parent.detailsSubtitle")}
+      showBack
+      backFallbackHref="/(parent)/(tabs)"
     >
-      <Pressable onPress={() => router.back()} className="mb-4 self-start">
-        <Text className="text-purple font-medium font-rubik">{t("common.back")}</Text>
-      </Pressable>
-
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {isLoading ? (
           <ActivityIndicator size="large" color="#534AB7" className="mt-8" />

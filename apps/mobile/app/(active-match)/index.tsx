@@ -157,11 +157,17 @@ export default function ActiveMatchScreen() {
     );
   }
 
+  const backFallback = isProfessional
+    ? "/(professional)/today"
+    : "/(parent)/(tabs)";
+
   if (!matchId) {
     return (
       <ScreenShell
         title={t("activeMatch.title")}
         subtitle={t("activeMatch.subtitle")}
+        showBack
+        backFallbackHref={backFallback}
       >
         <View className="bg-surface border border-border rounded-card p-5">
           <Text className="text-ink-2 text-center leading-6">
@@ -189,6 +195,8 @@ export default function ActiveMatchScreen() {
     <ScreenShell
       title={t("activeMatch.title")}
       subtitle={t("activeMatch.subtitle")}
+      showBack
+      backFallbackHref={backFallback}
     >
       <ScrollView
         className="flex-1"

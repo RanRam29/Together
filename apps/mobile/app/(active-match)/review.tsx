@@ -54,7 +54,7 @@ export default function ReviewScreen() {
 
   if (reviewStatus.data?.hasSubmitted) {
     return (
-      <ScreenShell title={t("reviews.title")} subtitle={t("reviews.subtitle")}>
+      <ScreenShell title={t("reviews.title")} subtitle={t("reviews.subtitle")} showBack>
         <View className="bg-surface border border-border rounded-card p-5">
           <Text className="text-ink text-center leading-6">
             {reviewStatus.data.isBlind
@@ -71,11 +71,8 @@ export default function ReviewScreen() {
       eyebrow={t("reviews.eyebrow")}
       title={t("reviews.title")}
       subtitle={t("reviews.subtitle")}
+      showBack
     >
-      <Pressable onPress={() => router.back()} className="mb-4 self-start">
-        <Text className="text-purple font-medium font-rubik">{t("common.back")}</Text>
-      </Pressable>
-
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <View className="bg-amber-bg border border-amber rounded-card p-4 mb-4">
           <Text className="text-sm text-ink-2 leading-5 text-right">

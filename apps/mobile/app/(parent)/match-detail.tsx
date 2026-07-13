@@ -74,11 +74,9 @@ export default function MatchDetailScreen() {
     <ScreenShell
       title={params.displayName ?? t("parent.matchDetail")}
       subtitle={params.matchReason}
+      showBack
+      backFallbackHref="/(parent)/(tabs)"
     >
-      <Pressable onPress={() => router.back()} className="mb-4 self-start">
-        <Text className="text-purple font-medium font-rubik">{t("common.back")}</Text>
-      </Pressable>
-
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {params.bio ? (
           <Text className="text-base text-ink-2 leading-6 mb-4">{params.bio}</Text>

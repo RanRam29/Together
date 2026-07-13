@@ -23,7 +23,7 @@ export function ChildSelector({
       horizontal
       showsHorizontalScrollIndicator={false}
       className="mb-6"
-      contentContainerStyle={{ paddingHorizontal: 4, gap: 8 }}
+      contentContainerClassName="px-1 gap-2"
     >
       {children.map((child) => {
         const selected = child.id === selectedId;
@@ -87,7 +87,9 @@ export function MatchCard({
       className="bg-surface border border-border rounded-card p-5 mb-4 active:opacity-90"
     >
       <View className="flex-row items-start justify-between mb-2">
-        <Text className="text-lg font-bold text-ink font-rubik flex-1">{name}</Text>
+        <Text className="text-lg font-bold text-ink font-rubik flex-1 text-right">
+          {name}
+        </Text>
         <View className="bg-purple-bg rounded-full px-3 py-1 ms-2">
           <Text className="text-purple-ink text-sm font-bold font-rubik">
             {Math.round(score)}
@@ -95,15 +97,17 @@ export function MatchCard({
         </View>
       </View>
       {bio ? (
-        <Text className="text-sm text-ink-2 mb-3 leading-5" numberOfLines={2}>
+        <Text className="text-sm text-ink-2 mb-3 leading-5 text-right" numberOfLines={2}>
           {bio}
         </Text>
       ) : null}
       <View className="flex-row items-start gap-1 bg-teal/10 rounded-lg p-2 mb-3">
         <Ionicons name="sparkles" size={14} color="#0F6E56" className="mt-0.5" />
-        <Text className="text-xs text-teal font-medium flex-1 leading-5">{matchReason}</Text>
+        <Text className="text-xs text-teal font-medium flex-1 leading-5 text-right">
+          {matchReason}
+        </Text>
       </View>
-      <View className="flex-row gap-4">
+      <View className="flex-row gap-4 justify-end">
         <Text className="text-xs text-ink-2">{distanceLabel}</Text>
         {ratingAvg > 0 ? (
           <Text className="text-xs text-ink-2">

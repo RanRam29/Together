@@ -68,7 +68,11 @@ export default function IntroDetailScreen() {
 
   if (!request) {
     return (
-      <ScreenShell title={t("parent.introDetails") || "פרטי היכרות"}>
+      <ScreenShell
+        title={t("parent.introDetails") || "פרטי היכרות"}
+        showBack
+        backFallbackHref="/(parent)/(tabs)/requests"
+      >
         <View className="flex-1 items-center justify-center">
           <Text className="text-ink text-base">{t("common.notFound") || "לא נמצאה בקשה"}</Text>
         </View>
@@ -78,7 +82,11 @@ export default function IntroDetailScreen() {
 
   if (isLoadingContact) {
     return (
-      <ScreenShell title={t("parent.introDetails") || "פרטי היכרות"}>
+      <ScreenShell
+        title={t("parent.introDetails") || "פרטי היכרות"}
+        showBack
+        backFallbackHref="/(parent)/(tabs)/requests"
+      >
         <ActivityIndicator size="large" color="#534AB7" className="mt-8" />
       </ScreenShell>
     );
@@ -86,7 +94,11 @@ export default function IntroDetailScreen() {
 
   if (!contact) {
     return (
-      <ScreenShell title={t("parent.introDetails")}>
+      <ScreenShell
+        title={t("parent.introDetails")}
+        showBack
+        backFallbackHref="/(parent)/(tabs)/requests"
+      >
         <View className="flex-1 items-center justify-center">
           <Text className="text-ink text-base">{t("parent.introNotReady")}</Text>
         </View>
@@ -164,7 +176,11 @@ export default function IntroDetailScreen() {
 
   if (metricStep && newMatchId) {
     return (
-      <ScreenShell title={t("activeMatch.selectMetricsTitle")}>
+      <ScreenShell
+        title={t("activeMatch.selectMetricsTitle")}
+        showBack
+        backFallbackHref="/(parent)/(tabs)/requests"
+      >
         <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
           <MetricSelector
             metrics={metricsQuery.data ?? []}
@@ -191,7 +207,11 @@ export default function IntroDetailScreen() {
   }
 
   return (
-    <ScreenShell title={t("parent.introDetails") || "פרטי היכרות"}>
+    <ScreenShell
+      title={t("parent.introDetails") || "פרטי היכרות"}
+      showBack
+      backFallbackHref="/(parent)/(tabs)/requests"
+    >
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         <View className="bg-surface p-6 rounded-card border border-border mb-6">
           <Text className="text-2xl font-bold text-ink mb-2 text-center font-rubik">
@@ -262,17 +282,17 @@ export default function IntroDetailScreen() {
               value={declineReason}
               onChangeText={setDeclineReason}
             />
-            <View className="flex-row gap-3">
+            <View className="flex-row flex-wrap gap-3 justify-end">
               <Pressable
                 onPress={handleDecline}
                 disabled={declineIntro.isPending}
-                className="flex-1 bg-coral py-3 rounded-full items-center active:opacity-90"
+                className="bg-coral px-5 py-3 rounded-full items-center active:opacity-90"
               >
                 <Text className="text-white font-semibold">סיום התהליך</Text>
               </Pressable>
               <Pressable
                 onPress={() => setShowDeclineInput(false)}
-                className="flex-1 py-3 rounded-full items-center border border-ink-2"
+                className="px-5 py-3 rounded-full items-center border border-ink-2 active:opacity-90"
               >
                 <Text className="text-ink-2 font-semibold">חזור</Text>
               </Pressable>

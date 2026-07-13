@@ -60,10 +60,7 @@ export default function SettingsScreen() {
   }
 
   return (
-    <ScreenShell title={t("settings.title")}>
-      <Pressable onPress={() => router.back()} className="mb-4 self-start">
-        <Text className="text-purple font-medium font-rubik">{t("common.back")}</Text>
-      </Pressable>
+    <ScreenShell title={t("settings.title")} showBack backFallbackHref="/(parent)/(tabs)">
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         <View className="bg-surface rounded-card border border-border p-4 mb-6">
           <LanguageToggle

@@ -152,11 +152,11 @@ export default function ParentRequestsScreen() {
                 ) : null}
 
                 {showActions ? (
-                  <View className="flex-row gap-2 mt-4">
+                  <View className="flex-row flex-wrap gap-2 mt-4 justify-end">
                     <Pressable
                       onPress={() => setPendingApproveId(request.id)}
                       disabled={approveRequest.isPending || rejectRequest.isPending}
-                      className="flex-1 bg-purple rounded-full py-2 items-center justify-center active:opacity-90"
+                      className="bg-purple rounded-full px-5 py-2 items-center justify-center active:opacity-90"
                     >
                       <Text className="text-white text-sm font-semibold font-rubik">
                         {t("parent.approveRequest")}
@@ -173,7 +173,7 @@ export default function ParentRequestsScreen() {
                     </Pressable>
                   </View>
                 ) : request.status === "approved" ? (
-                  <View className="mt-4">
+                  <View className="mt-4 items-end">
                     <Pressable
                       onPress={() =>
                         router.push({
@@ -181,7 +181,7 @@ export default function ParentRequestsScreen() {
                           params: { requestId: request.id },
                         })
                       }
-                      className="bg-teal rounded-full py-2 items-center justify-center active:opacity-90"
+                      className="bg-teal rounded-full px-5 py-2 items-center justify-center active:opacity-90"
                     >
                       <Text className="text-white text-sm font-semibold font-rubik">
                         {t("parent.viewIntroDetails")}

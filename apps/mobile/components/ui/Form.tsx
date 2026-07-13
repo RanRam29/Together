@@ -12,6 +12,9 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
+import { AppPageWidth } from "@/components/ui/AppPageWidth";
+import { BackButton } from "@/components/ui/BackButton";
+
 interface TextFieldProps extends TextInputProps {
   label: string;
   error?: string;
@@ -179,6 +182,8 @@ interface ScreenShellProps {
   children?: React.ReactNode;
   footer?: React.ReactNode;
   headerRight?: React.ReactNode;
+  showBack?: boolean;
+  backFallbackHref?: string;
 }
 
 export function ScreenShell({
@@ -188,6 +193,8 @@ export function ScreenShell({
   children,
   footer,
   headerRight,
+  showBack = false,
+  backFallbackHref,
 }: ScreenShellProps) {
   return (
     <KeyboardAvoidingView
@@ -197,26 +204,33 @@ export function ScreenShell({
     >
       <ScrollView
         className="flex-1"
-        contentContainerClassName="flex-grow px-6 pt-16 pb-6"
+        contentContainerClassName="flex-grow items-center pt-16 pb-6"
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View className="flex-row items-start justify-between">
-          <View className="flex-1">
-            {eyebrow ? (
-              <Text className="text-xs font-bold text-purple uppercase tracking-widest mb-3 font-rubik">
-                {eyebrow}
+        <AppPageWidth className="flex-grow px-6">
+          {showBack ? <BackButton fallbackHref={backFallbackHref} /> : null}
+          <View className="flex-row items-start justify-between">
+            <View className="flex-1">
+              {eyebrow ? (
+                <Text className="text-xs font-bold text-purple uppercase tracking-widest mb-3 font-rubik">
+                  {eyebrow}
+                </Text>
+              ) : null}
+              <Text className="text-3xl font-bold text-ink mb-2 font-rubik text-right">
+                {title}
               </Text>
-            ) : null}
-            <Text className="text-3xl font-bold text-ink mb-2 font-rubik">{title}</Text>
+            </View>
+            {headerRight ? <View className="mt-2 ms-4">{headerRight}</View> : null}
           </View>
-          {headerRight && <View className="mt-2 ml-4">{headerRight}</View>}
-        </View>
-        {subtitle ? (
-          <Text className="text-base text-ink-2 mb-8 leading-6">{subtitle}</Text>
-        ) : null}
-        <View className="flex-grow">{children}</View>
-        {footer}
+          {subtitle ? (
+            <Text className="text-base text-ink-2 mb-8 leading-6 text-right">
+              {subtitle}
+            </Text>
+          ) : null}
+          <View className="flex-grow">{children}</View>
+          {footer}
+        </AppPageWidth>
       </ScrollView>
     </KeyboardAvoidingView>
   );

@@ -10,9 +10,10 @@ import {
   View,
 } from "react-native";
 
+import { StaffFilterSelect } from "@/components/admin/StaffFilterSelect";
 import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
-import { useAdminAudit } from "@/hooks/useAdminAudit";
+import { useAdminAudit, useAuditFilterOptions } from "@/hooks/useAdminAudit";
 
 export default function AdminAuditScreen() {
   const { t } = useTranslation();
@@ -25,6 +26,7 @@ export default function AdminAuditScreen() {
   const filters = { action, resource, search };
   const { data: rows = [], isLoading, isError, error, refetch, isRefetching } =
     useAdminAudit(filters);
+  const filterOptions = useAuditFilterOptions();
 
   useEffect(() => {
     if (isReady && !isAdmin) {
@@ -44,7 +46,13 @@ export default function AdminAuditScreen() {
     <ScrollView
       className="flex-1 px-6 py-6"
       refreshControl={
-        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        <RefreshControl
+          refreshing={isRefetching || filterOptions.isRefetching}
+          onRefresh={() => {
+            void refetch();
+            void filterOptions.refetch();
+          }}
+        />
       }
     >
       <Text className="text-2xl font-bold text-ink mb-2 font-rubik text-right">
@@ -61,20 +69,23 @@ export default function AdminAuditScreen() {
         placeholderTextColor="#918D84"
         className="bg-surface border border-border rounded-card px-4 py-3 text-ink text-right mb-3"
       />
-      <View className="flex-row gap-3 mb-4">
-        <TextInput
-          value={action}
-          onChangeText={setAction}
+
+      <View className="flex-row gap-3 mb-4 items-start">
+        <StaffFilterSelect
+          label={t("staff.auditActionFilter")}
           placeholder={t("staff.auditActionFilter")}
-          placeholderTextColor="#918D84"
-          className="flex-1 bg-surface border border-border rounded-card px-4 py-3 text-ink text-right"
+          allLabel={t("staff.auditFilterAll")}
+          value={action}
+          options={filterOptions.data?.actions ?? []}
+          onChange={setAction}
         />
-        <TextInput
-          value={resource}
-          onChangeText={setResource}
+        <StaffFilterSelect
+          label={t("staff.auditResourceFilter")}
           placeholder={t("staff.auditResourceFilter")}
-          placeholderTextColor="#918D84"
-          className="flex-1 bg-surface border border-border rounded-card px-4 py-3 text-ink text-right"
+          allLabel={t("staff.auditFilterAll")}
+          value={resource}
+          options={filterOptions.data?.resources ?? []}
+          onChange={setResource}
         />
       </View>
 

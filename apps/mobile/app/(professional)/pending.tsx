@@ -35,6 +35,8 @@ export default function PendingVerificationScreen() {
     <ScreenShell
       title={t("professional.pendingTitle")}
       subtitle={t("professional.pendingSubtitle")}
+      showBack
+      backFallbackHref="/(professional)"
     >
       <View className="bg-amber-bg border border-amber rounded-card p-5 mb-6">
         <Text className="text-amber-ink font-bold text-lg mb-2 font-rubik text-right">
