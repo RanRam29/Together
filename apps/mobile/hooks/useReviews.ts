@@ -24,7 +24,16 @@ export function useGetReviewsForProfessional(professionalId: string) {
   return useQuery({
     queryKey: ["reviews", professionalId],
     queryFn: async () => {
-      // Query reviews table and filter by professional_id inside the related match
+      const { data: matches, error: matchError } = await supabase
+        .from("matches")
+        .select("id")
+        .eq("professional_id", professionalId);
+
+      if (matchError) throw new Error(matchError.message);
+
+      const matchIds = (matches ?? []).map((m) => m.id);
+      if (matchIds.length === 0) return [];
+
       const { data, error } = await supabase
         .from("reviews")
         .select(`
@@ -37,17 +46,15 @@ export function useGetReviewsForProfessional(professionalId: string) {
           child_fit,
           text,
           created_at,
-          reviewer:profiles(full_name),
-          match:matches!inner(professional_id)
+          reviewer:profiles(full_name)
         `)
-        .eq("match.professional_id", professionalId)
+        .in("match_id", matchIds)
         .order("created_at", { ascending: false });
 
       if (error) {
         throw new Error(error.message);
       }
 
-      // Format returned object to match Review interface
       return (data || []).map((row: any) => ({
         id: row.id,
         match_id: row.match_id,

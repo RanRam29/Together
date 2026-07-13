@@ -9,9 +9,11 @@ interface MatchRequest {
 
 export default {
   fetch: withSupabase({ auth: ["publishable", "authenticated"] }, async (req, ctx) => {
+    const cors = getCorsHeaders(req);
+
     // Handle CORS preflight requests
     if (req.method === "OPTIONS") {
-      return new Response("ok", { headers: getCorsHeaders(req) });
+      return new Response("ok", { headers: cors });
     }
 
     try {
@@ -20,12 +22,10 @@ export default {
       if (!child_id) {
         return Response.json(
           { error: "child_id is required" },
-          { status: 400, headers: corsHeaders }
+          { status: 400, headers: cors }
         );
       }
 
-      // Query database using the user's context (respects RLS)
-      // Since we added "authenticated" to auth options, ctx.supabase forwards the JWT
       const { data: matches, error: dbError } = await ctx.supabase.rpc(
         "get_matches_for_child",
         {
@@ -38,23 +38,21 @@ export default {
         console.error("Database query error:", dbError);
         return Response.json(
           { error: dbError.message },
-          { status: 500, headers: corsHeaders }
+          { status: 500, headers: cors }
         );
       }
 
-      // If no matches found, return empty array immediately
       if (!matches || matches.length === 0) {
-        return Response.json({ matches: [] }, { headers: corsHeaders });
+        return Response.json({ matches: [] }, { headers: cors });
       }
 
-      // AI logic removed per D30. Returning DB-generated match_reason directly.
-      return Response.json({ matches }, { headers: corsHeaders });
+      return Response.json({ matches }, { headers: cors });
 
     } catch (err: any) {
       console.error("Edge Function unexpected error:", err);
       return Response.json(
         { error: err.message },
-        { status: 500, headers: corsHeaders }
+        { status: 500, headers: cors }
       );
     }
   }),

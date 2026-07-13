@@ -1,5 +1,7 @@
 import { Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
+import { formatMatchReason } from "@/lib/format-match-reason";
 import type { Child } from "@/lib/types";
 
 interface ChildSelectorProps {
@@ -117,6 +119,9 @@ export function MatchCard({
   distanceLabel,
   onPress,
 }: MatchCardProps) {
+  const { t } = useTranslation();
+  const reason = formatMatchReason(matchReason, t);
+
   return (
     <Pressable
       onPress={onPress}
@@ -139,7 +144,7 @@ export function MatchCard({
       ) : null}
       <View className="flex-row items-start gap-1 bg-teal/10 rounded-lg p-2 mb-3">
         <Text className="text-xs text-teal font-medium flex-1 leading-5 text-right">
-          ✦ {matchReason}
+          ✦ {reason}
         </Text>
       </View>
       <View className="flex-row gap-4 justify-end">

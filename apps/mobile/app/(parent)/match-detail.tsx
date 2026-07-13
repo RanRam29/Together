@@ -10,6 +10,7 @@ import { AnalyticsEvents } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
 import { promptPushPermission } from "@/components/shared/PushPermissionProvider";
 import { useScreenshotProtection } from "@/hooks/useScreenshotProtection";
+import { formatMatchReason } from "@/lib/format-match-reason";
 import { useChildren } from "@/hooks/useChildren";
 import { useAuthStore } from "@/stores/auth-store";
 
@@ -95,7 +96,7 @@ export default function MatchDetailScreen() {
         {params.matchReason ? (
           <View className="bg-purple/10 p-4 rounded-xl mb-6">
             <Text className="text-purple font-semibold text-right leading-5">
-              {params.matchReason}
+              {formatMatchReason(params.matchReason, t)}
             </Text>
           </View>
         ) : null}
