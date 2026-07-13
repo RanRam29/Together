@@ -286,6 +286,7 @@ export default function StaffReviewScreen() {
               onPress={() => setRejectOpen(true)}
               variant="teal"
               disabled={verify.isPending || (!isAdmin && !canReject)}
+              fullWidth
             />
           </View>
           <View className="flex-1">
@@ -294,6 +295,7 @@ export default function StaffReviewScreen() {
               onPress={handleApprove}
               loading={verify.isPending}
               disabled={!checklistDone || verify.isPending}
+              fullWidth
             />
           </View>
         </View>

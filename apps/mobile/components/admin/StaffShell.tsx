@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 
 import { AdminMfaModal } from "@/components/admin/AdminMfaModal";
 import { StaffNav } from "@/components/admin/StaffNav";
+import { StaffPageWidth } from "@/components/admin/StaffPageWidth";
 import { useAdminMfa } from "@/hooks/useAdminMfa";
 import { isAdminUser, isSupervisorUser } from "@/lib/staff-auth";
 import { supabase } from "@/lib/supabase";
@@ -39,31 +40,37 @@ export function StaffShell({ children }: StaffShellProps) {
 
   return (
     <View className="flex-1 bg-bg min-h-screen">
-      <View className="bg-surface border-b border-border px-6 py-4 flex-row items-center justify-between">
-        <Pressable onPress={handleLogout} className="active:opacity-80">
-          <Text className="text-teal font-semibold font-rubik">
-            {t("staff.logout")}
-          </Text>
-        </Pressable>
-        <View className="items-end">
-          <Text className="text-lg font-bold text-purple font-rubik">
-            {t("staff.brand")}
-          </Text>
-          <Text className="text-xs text-ink-2">{subtitle}</Text>
-        </View>
+      <View className="bg-surface border-b border-border py-4 w-full items-center">
+        <StaffPageWidth className="px-6 flex-row items-center justify-between">
+          <Pressable onPress={handleLogout} className="active:opacity-80">
+            <Text className="text-teal font-semibold font-rubik">
+              {t("staff.logout")}
+            </Text>
+          </Pressable>
+          <View className="items-end">
+            <Text className="text-lg font-bold text-purple font-rubik">
+              {t("staff.brand")}
+            </Text>
+            <Text className="text-xs text-ink-2">{subtitle}</Text>
+          </View>
+        </StaffPageWidth>
       </View>
       {isAdmin && mfa.needsMfa ? (
         <Pressable
           onPress={() => mfa.setShowModal(true)}
-          className="bg-amber/15 border-b border-amber px-6 py-3 active:opacity-90"
+          className="bg-amber/15 border-b border-amber py-3 active:opacity-90 w-full items-center"
         >
-          <Text className="text-amber text-sm font-semibold text-right font-rubik">
-            {t("staff.mfaBanner")}
-          </Text>
+          <StaffPageWidth className="px-6">
+            <Text className="text-amber text-sm font-semibold text-right font-rubik">
+              {t("staff.mfaBanner")}
+            </Text>
+          </StaffPageWidth>
         </Pressable>
       ) : null}
       {isAdmin ? <StaffNav /> : null}
-      <View className="flex-1">{children}</View>
+      <View className="flex-1 w-full items-center">
+        <StaffPageWidth className="flex-1">{children}</StaffPageWidth>
+      </View>
       <AdminMfaModal
         visible={mfa.showModal}
         onClose={() => mfa.setShowModal(false)}

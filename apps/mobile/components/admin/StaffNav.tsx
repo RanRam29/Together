@@ -2,6 +2,8 @@ import { useRouter, useSegments } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, Text, View } from "react-native";
 
+import { StaffPageWidth } from "@/components/admin/StaffPageWidth";
+
 type StaffNavItem = {
   key: string;
   label: string;
@@ -84,33 +86,37 @@ export function StaffNav() {
     : current;
 
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      className="border-b border-border bg-surface px-4"
-    >
-      {items.map((item) => {
-        const active =
-          activeSegment === item.segment ||
-          (item.segment === "verification" && segments.includes("review"));
-        return (
-          <Pressable
-            key={item.key}
-            onPress={() => router.push(item.href as never)}
-            className={`px-4 py-3 border-b-2 ${
-              active ? "border-purple" : "border-transparent"
-            }`}
-          >
-            <Text
-              className={`text-sm font-semibold font-rubik ${
-                active ? "text-purple" : "text-ink-2"
-              }`}
-            >
-              {item.label}
-            </Text>
-          </Pressable>
-        );
-      })}
-    </ScrollView>
+    <View className="border-b border-border bg-surface w-full items-center">
+      <StaffPageWidth>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerClassName="px-4"
+        >
+          {items.map((item) => {
+            const active =
+              activeSegment === item.segment ||
+              (item.segment === "verification" && segments.includes("review"));
+            return (
+              <Pressable
+                key={item.key}
+                onPress={() => router.push(item.href as never)}
+                className={`px-4 py-3 border-b-2 ${
+                  active ? "border-purple" : "border-transparent"
+                }`}
+              >
+                <Text
+                  className={`text-sm font-semibold font-rubik ${
+                    active ? "text-purple" : "text-ink-2"
+                  }`}
+                >
+                  {item.label}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      </StaffPageWidth>
+    </View>
   );
 }

@@ -122,23 +122,19 @@ export default function AdminUserDetailScreen() {
           </View>
         ) : null}
 
-        <View className="flex-row gap-3 mb-6">
+        <View className="mb-6">
           {!isSuspended ? (
-            <View className="flex-1">
-              <PrimaryButton
-                label={t("staff.suspend")}
-                onPress={() => setSuspendOpen(true)}
-                variant="teal"
-              />
-            </View>
+            <PrimaryButton
+              label={t("staff.suspend")}
+              onPress={() => setSuspendOpen(true)}
+              variant="teal"
+            />
           ) : (
-            <View className="flex-1">
-              <PrimaryButton
-                label={t("staff.restore")}
-                onPress={handleRestore}
-                loading={restore.isPending}
-              />
-            </View>
+            <PrimaryButton
+              label={t("staff.restore")}
+              onPress={handleRestore}
+              loading={restore.isPending}
+            />
           )}
         </View>
 
@@ -186,6 +182,7 @@ export default function AdminUserDetailScreen() {
                   label={t("common.cancel")}
                   onPress={() => setSuspendOpen(false)}
                   variant="teal"
+                  fullWidth
                 />
               </View>
               <View className="flex-1">
@@ -194,6 +191,7 @@ export default function AdminUserDetailScreen() {
                   onPress={handleSuspend}
                   loading={suspend.isPending}
                   disabled={!reason.trim()}
+                  fullWidth
                 />
               </View>
             </View>

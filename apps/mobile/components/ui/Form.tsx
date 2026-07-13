@@ -94,6 +94,8 @@ interface PrimaryButtonProps {
   variant?: "purple" | "teal";
   loading?: boolean;
   disabled?: boolean;
+  /** Stretch to parent width (e.g. split action rows). Default: content-sized. */
+  fullWidth?: boolean;
 }
 
 export function PrimaryButton({
@@ -102,15 +104,21 @@ export function PrimaryButton({
   variant = "purple",
   loading = false,
   disabled = false,
+  fullWidth = false,
 }: PrimaryButtonProps) {
   const bgClass = variant === "purple" ? "bg-purple" : "bg-teal";
   const isDisabled = disabled || loading;
+  const widthClass = fullWidth
+    ? "w-full self-stretch"
+    : Platform.OS === "web"
+      ? "self-start"
+      : "w-full";
 
   return (
     <Pressable
       onPress={onPress}
       disabled={isDisabled}
-      className={`${bgClass} rounded-card py-4 px-6 items-center ${
+      className={`${bgClass} rounded-card py-4 px-6 items-center ${widthClass} ${
         isDisabled ? "opacity-60" : "active:opacity-90"
       }`}
     >

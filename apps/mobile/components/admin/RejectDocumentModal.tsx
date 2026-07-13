@@ -90,6 +90,7 @@ export function RejectDocumentModal({
                 label={t("common.cancel")}
                 onPress={handleClose}
                 variant="teal"
+                fullWidth
               />
             </View>
             <View className="flex-1">
@@ -98,6 +99,7 @@ export function RejectDocumentModal({
                 onPress={handleSubmit}
                 loading={loading}
                 disabled={!selectedId || !reason.trim() || !canSubmit}
+                fullWidth
               />
             </View>
           </View>
