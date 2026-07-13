@@ -11,7 +11,7 @@ export default function ParentTabsLayout() {
       ? {
           backgroundColor: "#FFFFFF",
           borderTopColor: "#E5E2DA",
-          maxWidth: 672,
+          maxWidth: 1024,
           width: "100%" as const,
           alignSelf: "center" as const,
         }

@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
+  Platform,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -11,6 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 import { ChildSelector, MatchCard } from "@/components/parent/MatchCard";
+import { PendingInvitations } from "@/components/parent/PendingInvitations";
 import { ActiveMatchBanner } from "@/components/shared/ActiveMatchBanner";
 import { PlaceholderCard, ScreenShell } from "@/components/ui/Screen";
 import { useActiveMatchForParent } from "@/hooks/useActiveMatch";
@@ -83,7 +85,9 @@ export default function ParentHomeScreen() {
         />
       ) : null}
 
-      {children.length > 0 ? (
+      <PendingInvitations />
+
+      {children.length > 1 ? (
         <ChildSelector
           children={children}
           selectedId={selectedChildId}
@@ -109,31 +113,41 @@ export default function ParentHomeScreen() {
         ) : matches.length === 0 ? (
           <PlaceholderCard text={t("parent.noMatches")} />
         ) : (
-          matches.map((match) => (
-            <MatchCard
-              key={match.professional_id}
-              name={match.display_name}
-              bio={match.bio}
-              matchReason={match.match_reason}
-              score={match.score}
-              distanceKm={match.distance_km}
-              ratingAvg={match.rating_avg}
-              distanceLabel={t("parent.distanceKm", { km: match.distance_km })}
-              onPress={() =>
-                router.push({
-                  pathname: "/(parent)/match-detail",
-                  params: {
-                    professionalId: match.professional_id,
-                    childId: selectedChild!.id,
-                    displayName: match.display_name,
-                    bio: match.bio,
-                    matchReason: match.match_reason,
-                    score: String(match.score),
-                  },
-                })
-              }
-            />
-          ))
+          <View
+            className={
+              Platform.OS === "web" ? "flex-row flex-wrap gap-4 w-full" : "w-full"
+            }
+          >
+            {matches.map((match) => (
+              <View
+                key={match.professional_id}
+                className={Platform.OS === "web" ? "w-[calc(50%-8px)]" : "w-full"}
+              >
+                <MatchCard
+                  name={match.display_name}
+                  bio={match.bio}
+                  matchReason={match.match_reason}
+                  score={match.score}
+                  distanceKm={match.distance_km}
+                  ratingAvg={match.rating_avg}
+                  distanceLabel={t("parent.distanceKm", { km: match.distance_km })}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/(parent)/match-detail",
+                      params: {
+                        professionalId: match.professional_id,
+                        childId: selectedChild!.id,
+                        displayName: match.display_name,
+                        bio: match.bio,
+                        matchReason: match.match_reason,
+                        score: String(match.score),
+                      },
+                    })
+                  }
+                />
+              </View>
+            ))}
+          </View>
         )}
         <View className="h-6" />
       </ScrollView>

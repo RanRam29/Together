@@ -204,7 +204,11 @@ export function ScreenShell({
     >
       <ScrollView
         className="flex-1"
-        contentContainerClassName="flex-grow items-center pt-16 pb-6"
+        contentContainerClassName={
+          Platform.OS === "web"
+            ? "flex-grow items-center pt-12 pb-6 min-h-full"
+            : "flex-grow items-center pt-16 pb-6"
+        }
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
