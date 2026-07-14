@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { IncomingRequestCard } from "@/components/professional/Cards";
 import { ActiveMatchBanner } from "@/components/shared/ActiveMatchBanner";
+import { PendingInvitations } from "@/components/parent/PendingInvitations";
 import { PlaceholderCard, ScreenShell } from "@/components/ui/Screen";
 import { useActiveMatchForProfessional } from "@/hooks/useActiveMatch";
 import {
@@ -98,6 +99,8 @@ export default function ProfessionalHomeScreen() {
             }
           />
         ) : null}
+
+        <PendingInvitations />
 
         {isLoading ? (
           <ActivityIndicator size="large" color="#0F6E56" className="mt-8" />

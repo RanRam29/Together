@@ -80,6 +80,10 @@ Notifications.setNotificationHandler({
 });
 
 export async function registerForPushNotificationsAsync(userId: string, silent: boolean = false): Promise<string | undefined> {
+  if (Platform.OS === "web") {
+    return undefined;
+  }
+
   let token: string | undefined;
 
   if (Platform.OS === "android") {

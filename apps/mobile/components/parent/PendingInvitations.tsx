@@ -38,11 +38,17 @@ export function PendingInvitations() {
               name: inv.child?.first_name || "הילד",
             })}
           </Text>
-          <PrimaryButton
-            label={t("parent.acceptInvitation", "קבל הזמנה")}
-            onPress={() => handleAccept(inv.id)}
-            loading={accepting}
-          />
+          {session?.user?.user_metadata?.role === "professional" || useAuthStore.getState().profile?.role === "professional" ? (
+            <Text className="text-red-700 text-right font-medium">
+              {t("parent.professionalRoleError", "לא ניתן לאשר את ההזמנה. חשבונך רשום כמשלבת במערכת, תפקיד הורה נוסף מיועד להורים בלבד.")}
+            </Text>
+          ) : (
+            <PrimaryButton
+              label={t("parent.acceptInvitation", "קבל הזמנה")}
+              onPress={() => handleAccept(inv.id)}
+              loading={accepting}
+            />
+          )}
         </View>
       ))}
     </View>

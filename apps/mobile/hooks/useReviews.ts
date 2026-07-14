@@ -24,16 +24,6 @@ export function useGetReviewsForProfessional(professionalId: string) {
   return useQuery({
     queryKey: ["reviews", professionalId],
     queryFn: async () => {
-      const { data: matches, error: matchError } = await supabase
-        .from("matches")
-        .select("id")
-        .eq("professional_id", professionalId);
-
-      if (matchError) throw new Error(matchError.message);
-
-      const matchIds = (matches ?? []).map((m) => m.id);
-      if (matchIds.length === 0) return [];
-
       const { data, error } = await supabase
         .from("reviews")
         .select(`
@@ -46,13 +36,16 @@ export function useGetReviewsForProfessional(professionalId: string) {
           child_fit,
           text,
           created_at,
-          reviewer:profiles(full_name)
+          matches!inner (
+            professional_id
+          )
         `)
-        .in("match_id", matchIds)
+        .eq("matches.professional_id", professionalId)
         .order("created_at", { ascending: false });
 
       if (error) {
-        throw new Error(error.message);
+        console.warn("[reviews] browse query failed:", error.message);
+        return [];
       }
 
       return (data || []).map((row: any) => ({
@@ -65,7 +58,7 @@ export function useGetReviewsForProfessional(professionalId: string) {
         child_fit: row.child_fit,
         text: row.text,
         created_at: row.created_at,
-        reviewer: row.reviewer,
+        reviewer: null,
       })) as Review[];
     },
     enabled: Boolean(professionalId),
