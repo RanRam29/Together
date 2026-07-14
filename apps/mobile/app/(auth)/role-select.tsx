@@ -53,10 +53,10 @@ export default function RoleSelectScreen() {
   return (
     <ScreenShell
       hero={
-        <View className="w-full mb-6 items-center justify-center">
+        <View className="w-full mb-8 items-center justify-center bg-[#FCF6ED] rounded-3xl p-2 border border-black/5 shadow-sm">
           <VideoView 
             player={player} 
-            style={{ width: "100%", aspectRatio: 16/9, maxHeight: 250, borderRadius: 16, overflow: "hidden" }} 
+            style={{ width: "100%", aspectRatio: 16/9, borderRadius: 20, overflow: "hidden" }} 
             contentFit="contain"
             nativeControls={false} 
           />
