@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Alert, View, Pressable, Text } from "react-native";
+import { Alert, View, Pressable, Text, Image } from "react-native";
+import { useVideoPlayer, VideoView } from "expo-video";
 
 import {
   LanguageToggle,
@@ -42,8 +43,30 @@ export default function RoleSelectScreen() {
     router.replace("/(auth)/login");
   }
 
+  const videoSource = require("@/assets/videos/toghether.mp4");
+  const logoSource = require("@/assets/images/logo.jpg");
+
+  const player = useVideoPlayer(videoSource, player => {
+    player.loop = true;
+    player.play();
+  });
+
   return (
     <ScreenShell
+      hero={
+        <View className="w-full mb-2">
+          <Image 
+            source={logoSource} 
+            style={{ width: 140, height: 48, resizeMode: "contain" }} 
+            className="mb-6 rounded-lg"
+          />
+          <VideoView 
+            player={player} 
+            style={{ width: "100%", height: 200, borderRadius: 16, overflow: "hidden" }} 
+            nativeControls={false} 
+          />
+        </View>
+      }
       eyebrow={t("auth.roleSelectEyebrow")}
       title={t("auth.roleSelectTitle")}
       subtitle={t("auth.roleSelectSubtitle")}

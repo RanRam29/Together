@@ -1,6 +1,6 @@
-{
+﻿{
   "common": {
-    "appName": "Always Together",
+    "appName": "Besiluv",
     "tagline": "The safe way to find an integration aide for your child",
     "loading": "Loading...",
     "continue": "Continue",
@@ -19,13 +19,13 @@
     "privacyTitle": "Privacy policy",
     "termsTitle": "Terms of use",
     "privacyBeta": "Beta version — full document will be published before public launch.",
-    "privacyBody": "Together collects technical identifiers (phone, check-in location) and usage data for matching and operations. No data is sold to third parties. Child data is protected by RLS and tiered access.",
+    "privacyBody": "Besiluv collects technical identifiers (phone, check-in location) and usage data for matching and operations. No data is sold to third parties. Child data is protected by RLS and tiered access.",
     "termsBeta": "Beta version — for invited testers only.",
     "termsBody": "By using the app you agree to the terms of service to be published. Only verified professionals can receive requests. Parents control child profile publishing and access permissions.",
-    "contact": "Questions: support@together.app (placeholder)"
+    "contact": "Questions: support@Besiluv.app (placeholder)"
   },
   "admin": {
-    "brand": "Together Admin",
+    "brand": "Besiluv Admin",
     "verificationQueue": "Verification queue",
     "logout": "Log out",
     "queueTitle": "Professional verification queue",
@@ -65,10 +65,10 @@
     "notFound": "Professional not found",
     "webOnlyTitle": "Admin area — web only",
     "webOnlySubtitle": "System management is available in the browser only",
-    "webOnlyBody": "The admin area is browser-only. Open Together Admin via the project web URL (npx expo start --web) and sign in with an admin account."
+    "webOnlyBody": "The admin area is browser-only. Open Besiluv Admin via the project web URL (npx expo start --web) and sign in with an admin account."
   },
   "staff": {
-    "brand": "Together Staff",
+    "brand": "Besiluv Staff",
     "verificationQueue": "Verification queue",
     "adminSubtitle": "System admin",
     "supervisorSubtitle": "Verification supervisor",
@@ -215,7 +215,7 @@
     "usersEmpty": "No users found"
   },
   "auth": {
-    "loginTitle": "Welcome to Together",
+    "loginTitle": "Welcome to Besiluv",
     "loginSubtitle": "Sign in with your phone number",
     "loginEyebrow": "Sign in",
     "phoneLabel": "Phone number",
@@ -739,7 +739,7 @@
     "openGuide": "How to use the app",
     "replay": "Show interactive guide",
     "parent": {
-      "intro": "Get the most out of Together as a parent",
+      "intro": "Get the most out of Besiluv as a parent",
       "steps": {
         "0": {
           "title": "Welcome",
@@ -760,7 +760,7 @@
       }
     },
     "professional": {
-      "intro": "Start working with Together as a professional",
+      "intro": "Start working with Besiluv as a professional",
       "steps": {
         "0": {
           "title": "Welcome",

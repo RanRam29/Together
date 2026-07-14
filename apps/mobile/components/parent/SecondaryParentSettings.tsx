@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, Alert, Switch } from "react-native";
+import { View, Text, Alert, Switch, Pressable } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
@@ -198,6 +198,7 @@ export function SecondaryParentSettings({ child }: { child: Child }) {
                       {t("parent.transferPrimaryConfirmDesc", "פעולה זו בלתי הפיכה ותהפוך אותך להורה משני. כדי לאשר, הקלד את שם הילד:")}
                     </Text>
                     <TextField
+                      label=""
                       placeholder={child.first_name}
                       value={transferConfirmName}
                       onChangeText={setTransferConfirmName}

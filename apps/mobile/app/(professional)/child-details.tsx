@@ -85,16 +85,7 @@ export default function ChildDetailsProfessionalScreen() {
             </View>
           )}
 
-          {details.gender_preference && (
-            <View className="mb-4">
-              <Text className="text-xs font-bold text-teal mb-1 text-start">
-                {t("permissions.fields.gender_preference", "העדפת מין למשלבת")}
-              </Text>
-              <Text className="text-base text-ink text-start">
-                {details.gender_preference}
-              </Text>
-            </View>
-          )}
+
 
           {details.win_definition && (
             <View className="mb-4">

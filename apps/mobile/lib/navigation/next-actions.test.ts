@@ -6,9 +6,9 @@ import {
   getPrimaryNextAction,
   getSecondaryNextActions,
   getTabBadgeCounts,
-} from "./next-actions.ts";
-import { resolveLandingRoute } from "./resolve-landing.ts";
-import type { NextActionContext } from "./types.ts";
+} from "./next-actions";
+import { resolveLandingRoute } from "./resolve-landing";
+import type { NextActionContext } from "./types";
 
 function baseCtx(overrides: Partial<NextActionContext> = {}): NextActionContext {
   return {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, Text, View } from "react-native";
+import { Alert, Pressable, Text, View, Image } from "react-native";
 
 import {
   LanguageToggle,
@@ -121,8 +121,19 @@ export default function LoginScreen() {
     }
   }
 
+  const logoSource = require("@/assets/images/logo.jpg");
+
   return (
     <ScreenShell
+      hero={
+        <View className="w-full mb-2 items-start">
+          <Image 
+            source={logoSource} 
+            style={{ width: 140, height: 48, resizeMode: "contain" }} 
+            className="mb-6 rounded-lg"
+          />
+        </View>
+      }
       eyebrow={t("auth.loginEyebrow")}
       title={t("auth.loginTitle")}
       subtitle={t("auth.loginSubtitle")}

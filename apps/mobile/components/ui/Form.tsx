@@ -279,6 +279,7 @@ interface ScreenShellProps {
   children?: React.ReactNode;
   footer?: React.ReactNode;
   headerRight?: React.ReactNode;
+  hero?: React.ReactNode;
   showBack?: boolean;
   backFallbackHref?: string;
 }
@@ -290,6 +291,7 @@ export function ScreenShell({
   children,
   footer,
   headerRight,
+  hero,
   showBack = false,
   backFallbackHref,
 }: ScreenShellProps) {
@@ -313,6 +315,7 @@ export function ScreenShell({
           {showBack ? <BackButton fallbackHref={backFallbackHref} /> : null}
           <View className="flex-row items-start justify-between">
             <View className="flex-1">
+              {hero ? <View className="mb-4 items-start">{hero}</View> : null}
               {eyebrow ? (
                 <Text className="text-xs font-bold text-purple uppercase tracking-widest mb-3 font-rubik">
                   {eyebrow}

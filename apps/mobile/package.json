@@ -45,6 +45,7 @@
     "expo-sharing": "~13.1.5",
     "expo-status-bar": "~2.2.3",
     "expo-updates": "~0.28.18",
+    "expo-video": "~2.2.2",
     "i18next": "^24.2.3",
     "nativewind": "4.1.23",
     "react": "19.0.0",

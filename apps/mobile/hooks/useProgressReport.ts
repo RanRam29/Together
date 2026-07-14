@@ -32,14 +32,14 @@ export function useProgressReport(childId: string | undefined, fromDate: string,
   return useQuery({
     queryKey: ["progress_report", childId, fromDate, toDate],
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("get_child_progress_report", {
+      const { data, error } = await supabase.rpc("get_child_progress_report" as any, {
         p_child_id: childId!,
         p_from: fromDate,
         p_to: toDate,
       });
 
       if (error) throw new Error(error.message);
-      return data as ProgressReportData;
+      return data as unknown as ProgressReportData;
     },
     enabled: Boolean(childId && fromDate && toDate),
   });

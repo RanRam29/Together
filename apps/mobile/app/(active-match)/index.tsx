@@ -354,7 +354,7 @@ export default function ActiveMatchScreen() {
               noReportLabel={t("activeMatch.noReportDay")}
               onPress={() =>
                 router.push({
-                  pathname: "/(active-match)/daily-log-detail",
+                  pathname: "/(active-match)/daily-log-detail" as any,
                   params: { logId: log.id, matchId },
                 })
               }

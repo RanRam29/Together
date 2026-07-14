@@ -162,7 +162,7 @@ export default function ProfessionalTodayScreen() {
           <Pressable
             onPress={() =>
               router.push({
-                pathname: "/(professional)/child-details",
+                pathname: "/(professional)/child-details" as any,
                 params: { childId: activeMatch.child?.id },
               })
             }
@@ -296,7 +296,7 @@ export default function ProfessionalTodayScreen() {
                 notes={log.notes}
                 onPress={() =>
                   router.push({
-                    pathname: "/(active-match)/daily-log-detail",
+                    pathname: "/(active-match)/daily-log-detail" as any,
                     params: { logId: log.id, matchId },
                   })
                 }
