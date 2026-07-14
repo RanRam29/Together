@@ -1,9 +1,10 @@
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Alert, Platform, Pressable, ScrollView, Switch, Text, View } from "react-native";
+import { ActivityIndicator, Alert, Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 
+import { AppSwitch } from "@/components/ui/AppSwitch";
 import { ScreenShell } from "@/components/ui/Screen";
 import { LanguageToggle } from "@/components/ui/Form";
 import { changeAppLanguage } from "@/i18n";
@@ -84,11 +85,9 @@ export default function SettingsScreen() {
           ) : (
             <>
               <View className="flex-row items-center justify-between mb-4 border-b border-border/50 pb-4">
-                <Switch
+                <AppSwitch
                   value={prefs?.checkin ?? true}
                   onValueChange={(val) => togglePref("checkin", val)}
-                  trackColor={{ false: "#E5E2DA", true: "#534AB7" }}
-                  thumbColor="#FFFFFF"
                 />
                 <View className="flex-1 ms-3">
                   <Text className="text-base font-semibold text-ink text-start">
@@ -101,11 +100,9 @@ export default function SettingsScreen() {
               </View>
 
               <View className="flex-row items-center justify-between">
-                <Switch
+                <AppSwitch
                   value={prefs?.daily_summary ?? true}
                   onValueChange={(val) => togglePref("daily_summary", val)}
-                  trackColor={{ false: "#E5E2DA", true: "#534AB7" }}
-                  thumbColor="#FFFFFF"
                 />
                 <View className="flex-1 ms-3">
                   <Text className="text-base font-semibold text-ink text-start">

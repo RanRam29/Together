@@ -3,7 +3,6 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
-  Alert,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -20,6 +19,9 @@ import {
   useMatchRequests,
   useRejectMatchRequest,
 } from "@/hooks/useMatchRequests";
+import { formatMatchReason } from "@/lib/format-match-reason";
+import { confirmAction, errorMessage, showError, showSuccess } from "@/lib/feedback";
+import { getParentRequestStatusLabel } from "@/lib/request-labels";
 import { useAuthStore } from "@/stores/auth-store";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -50,9 +52,9 @@ export default function ParentRequestsScreen() {
   const rejectRequest = useRejectMatchRequest(parentId);
 
   const [pendingApproveId, setPendingApproveId] = useState<string | null>(null);
-  const disclosureChild = children.find(
-    (c) => c.id === requests.find((r) => r.id === pendingApproveId)?.child_id,
-  );
+  const pendingRequest = requests.find((request) => request.id === pendingApproveId);
+  const pendingProfessionalName =
+    pendingRequest?.professional?.display_name ?? t("parent.professionalFallback");
 
   const disclosureItems = [
     t("parent.disclosureFullName"),
@@ -96,37 +98,36 @@ export default function ParentRequestsScreen() {
         params: { requestId: approvedId },
       });
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("common.tryAgain");
-      Alert.alert(t("common.error"), message);
+      showError(errorMessage(err, t("common.tryAgain")));
     }
   }
 
   async function handleReject(requestId: string) {
-    Alert.alert(t("parent.rejectTitle"), t("parent.rejectConfirm"), [
-      { text: t("common.cancel"), style: "cancel" },
+    const confirmed = await confirmAction(
+      t("parent.rejectTitle"),
+      t("parent.rejectConfirm"),
       {
-        text: t("parent.rejectAction"),
-        style: "destructive",
-        onPress: async () => {
-          try {
-            await rejectRequest.mutateAsync(requestId);
-            Alert.alert(t("parent.requestRejected"));
-          } catch (err) {
-            const message = err instanceof Error ? err.message : t("common.tryAgain");
-            Alert.alert(t("common.error"), message);
-          }
-        },
+        confirmText: t("parent.rejectAction"),
+        cancelText: t("common.cancel"),
+        destructive: true,
       },
-    ]);
+    );
+    if (!confirmed) return;
+
+    try {
+      await rejectRequest.mutateAsync(requestId);
+      showSuccess({ title: t("parent.requestRejected") });
+    } catch (err) {
+      showError(errorMessage(err, t("common.tryAgain")));
+    }
   }
 
   return (
     <ScreenShell title={t("parent.requests")} subtitle={t("parent.requestsSubtitle")}>
       <ApproveDisclosureSheet
         visible={Boolean(pendingApproveId)}
-        childName={disclosureChild?.first_name ?? ""}
+        professionalName={pendingProfessionalName}
         title={t("parent.disclosureTitle")}
-        subtitle={t("parent.disclosureSubtitle")}
         items={disclosureItems}
         confirmLabel={t("parent.disclosureConfirm")}
         cancelLabel={t("common.cancel")}
@@ -155,7 +156,15 @@ export default function ParentRequestsScreen() {
 
             {otherRequests.map((request) => {
               const child = children.find((c) => c.id === request.child_id);
+              const professionalName =
+                request.professional?.display_name ?? t("parent.professionalFallback");
+              const childName = child?.first_name ?? t("parent.childProfile");
               const statusColor = STATUS_COLORS[request.status] ?? "text-ink-2";
+              const statusLabel = getParentRequestStatusLabel(
+                request,
+                professionalName,
+                t,
+              );
               const showActions =
                 request.status === "pending" &&
                 request.initiated_by === "professional";
@@ -172,11 +181,16 @@ export default function ParentRequestsScreen() {
                   className="bg-surface border border-border rounded-card p-5 mb-4"
                 >
                   <View className="flex-row items-center justify-between mb-2">
-                    <Text className="text-base font-bold text-ink font-rubik text-start flex-1">
-                      {child?.first_name ?? t("parent.childProfile")}
-                    </Text>
-                    <Text className={`text-sm font-semibold ${statusColor}`}>
-                      {t(`enums.requestStatus.${request.status}`)}
+                    <View className="flex-1 me-3">
+                      <Text className="text-base font-bold text-ink font-rubik text-start">
+                        {professionalName}
+                      </Text>
+                      <Text className="text-sm text-ink-2 text-start">
+                        {t("parent.requestForChild", { name: childName })}
+                      </Text>
+                    </View>
+                    <Text className={`text-sm font-semibold shrink-0 ${statusColor}`}>
+                      {statusLabel}
                     </Text>
                   </View>
                   {request.parent_message ? (
@@ -186,7 +200,7 @@ export default function ParentRequestsScreen() {
                   ) : null}
                   {request.match_reason ? (
                     <Text className="text-xs text-teal mb-3 text-start">
-                      {request.match_reason}
+                      {formatMatchReason(request.match_reason, t)}
                     </Text>
                   ) : null}
 

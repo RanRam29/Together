@@ -116,7 +116,7 @@ export function SwitchRow({ label, description, value, onChange }: SwitchRowProp
         ) : null}
       </View>
       <View
-        className={`w-12 h-7 rounded-full justify-center px-1 ${
+        className={`w-12 h-7 rounded-full justify-center px-1 shrink-0 ${
           value ? "bg-purple" : "bg-border"
         }`}
       >

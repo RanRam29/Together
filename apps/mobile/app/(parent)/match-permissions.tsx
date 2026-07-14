@@ -41,10 +41,14 @@ export default function MatchPermissionsScreen() {
   const match = matchQuery.data;
   const proName = match?.professional?.display_name ?? "";
   
+  const isSecondary = match?.child?.secondary_parent_id === session?.user?.id;
+  const canManageVisibility = !isSecondary || (match?.child?.secondary_parent_permissions as any)?.manage_visibility === true;
+  
   const hiddenFields = visibilityQuery.data ?? [];
   const isPaused = hiddenFields.length === HIDEABLE_FIELDS.length;
 
   async function handleToggle(key: string, visible: boolean) {
+    if (!canManageVisibility) return;
     if (!resolvedChildId || !match?.professional?.id) return;
     try {
       let newHidden = [...hiddenFields];
@@ -111,6 +115,15 @@ export default function MatchPermissionsScreen() {
         <Text className="text-base font-bold text-ink mb-3 font-rubik text-start">
           {t("permissions.visibleTitle")}
         </Text>
+        
+        {!canManageVisibility && (
+          <View className="bg-amber-50 p-4 rounded-xl border border-amber-200 mb-4">
+            <Text className="text-amber-800 text-start">
+              {t("permissions.readOnlySecondary", "ההורה הראשי לא העניק לך הרשאות ניהול חשיפה לתיק. באפשרותך לצפות בהגדרות הנוכחיות בלבד.")}
+            </Text>
+          </View>
+        )}
+
         <View className="bg-surface border border-border rounded-card p-4 mb-6">
           {/* Full name is never hideable */}
           {details.data?.full_name ? (
@@ -134,6 +147,7 @@ export default function MatchPermissionsScreen() {
                   onValueChange={(val) => handleToggle(key, val)}
                   trackColor={{ false: "#E2E8F0", true: "#534AB7" }}
                   thumbColor="#FFFFFF"
+                  disabled={!canManageVisibility}
                 />
                 <View className="flex-1 ms-4">
                   <Text className="text-xs text-purple font-bold mb-1 text-start">
@@ -148,31 +162,35 @@ export default function MatchPermissionsScreen() {
           })}
         </View>
 
-        {isPaused ? (
-          <Pressable
-            onPress={handleResume}
-            disabled={setVisibility.isPending}
-            className="bg-teal rounded-full py-4 items-center mb-4 active:opacity-90"
-          >
-            <Text className="text-white font-bold font-rubik">
-              {t("permissions.resumeAction")}
-            </Text>
-          </Pressable>
-        ) : (
-          <Pressable
-            onPress={handlePause}
-            disabled={setVisibility.isPending}
-            className="rounded-full border border-amber py-4 items-center mb-4 active:opacity-90"
-          >
-            <Text className="text-amber font-bold font-rubik">
-              {t("permissions.pauseAction")}
-            </Text>
-          </Pressable>
-        )}
+        {canManageVisibility ? (
+          <>
+            {isPaused ? (
+              <Pressable
+                onPress={handleResume}
+                disabled={setVisibility.isPending}
+                className="bg-teal rounded-full py-4 items-center mb-4 active:opacity-90"
+              >
+                <Text className="text-white font-bold font-rubik">
+                  {t("permissions.resumeAction")}
+                </Text>
+              </Pressable>
+            ) : (
+              <Pressable
+                onPress={handlePause}
+                disabled={setVisibility.isPending}
+                className="rounded-full border border-amber py-4 items-center mb-4 active:opacity-90"
+              >
+                <Text className="text-amber font-bold font-rubik">
+                  {t("permissions.pauseAction")}
+                </Text>
+              </Pressable>
+            )}
 
-        <Text className="text-xs text-ink-2 text-center leading-5 px-4 mb-8">
-          {t("permissions.pauseHelp")}
-        </Text>
+            <Text className="text-xs text-ink-2 text-center leading-5 px-4 mb-8">
+              {t("permissions.pauseHelp")}
+            </Text>
+          </>
+        ) : null}
       </ScrollView>
     </ScreenShell>
   );

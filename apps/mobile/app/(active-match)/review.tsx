@@ -6,6 +6,7 @@ import { Alert, Pressable, ScrollView, Text, View } from "react-native";
 import { StarRating } from "@/components/shared/StarRating";
 import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
 import { useMatchReviewStatus, useSubmitReview } from "@/hooks/useReviews";
+import { errorMessage, showError, showSuccess } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
 
 export default function ReviewScreen() {
@@ -31,7 +32,7 @@ export default function ReviewScreen() {
 
   async function handleSubmit() {
     if (!matchId) {
-      Alert.alert(t("common.error"), t("activeMatch.noMatchSelected"));
+      showError(t("activeMatch.noMatchSelected"));
       return;
     }
 
@@ -43,12 +44,13 @@ export default function ReviewScreen() {
         child_fit: childFit,
         text: text.trim() || undefined,
       });
-      Alert.alert(t("reviews.saved"), t("reviews.blindHidden"), [
-        { text: t("common.continue"), onPress: () => router.back() },
-      ]);
+      showSuccess({
+        title: t("reviews.saved"),
+        description: t("reviews.blindHidden"),
+        onDismiss: () => router.back(),
+      });
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("common.tryAgain");
-      Alert.alert(t("common.error"), message);
+      showError(errorMessage(err, t("common.tryAgain")));
     }
   }
 

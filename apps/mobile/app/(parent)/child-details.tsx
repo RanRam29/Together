@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Alert, Pressable, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
 
 import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
 import { SecondaryParentSettings } from "@/components/parent/SecondaryParentSettings";
@@ -11,6 +11,7 @@ import {
 } from "@/hooks/useChildDetails";
 import { useChildren } from "@/hooks/useChildren";
 import { useScreenshotProtection } from "@/hooks/useScreenshotProtection";
+import { errorMessage, showError, showSuccess } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
 
 export default function ChildDetailsScreen() {
@@ -55,7 +56,7 @@ export default function ChildDetailsScreen() {
 
   async function handleSave() {
     if (!childId) {
-      Alert.alert(t("common.error"), t("parent.noChildProfile"));
+      showError(t("parent.noChildProfile"));
       return;
     }
 
@@ -67,10 +68,9 @@ export default function ChildDetailsScreen() {
         win_definition: winDefinition.trim() || null,
         notes: notes.trim() || null,
       });
-      Alert.alert(t("parent.detailsSaved"));
+      showSuccess({ title: t("parent.detailsSaved") });
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("common.tryAgain");
-      Alert.alert(t("common.error"), message);
+      showError(errorMessage(err, t("common.tryAgain")));
     }
   }
 

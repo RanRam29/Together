@@ -21,7 +21,7 @@ export function useMatchById(matchId: string | undefined) {
         .from("matches")
         .select(
           `*,
-           child:children(id, first_name),
+           child:children(id, first_name, secondary_parent_id, secondary_parent_permissions),
            professional:professionals(id, display_name)`,
         )
         .eq("id", matchId!)
@@ -29,7 +29,7 @@ export function useMatchById(matchId: string | undefined) {
 
       if (error) throw new Error(error.message);
       return data as Match & {
-        child: { id: string; first_name: string } | null;
+        child: { id: string; first_name: string; secondary_parent_id: string | null; secondary_parent_permissions: any } | null;
         professional: { id: string; display_name: string } | null;
       };
     },
@@ -51,6 +51,21 @@ export function useChildDetailsPreview(childId: string | undefined) {
 
       if (error) throw new Error(error.message);
       return (data ?? null) as ChildDetailsPreview | null;
+    },
+    enabled: Boolean(childId),
+  });
+}
+
+export function useChildDetailsProfessional(childId: string | undefined) {
+  return useQuery({
+    queryKey: ["childDetailsProfessional", childId],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("get_child_details", {
+        p_child_id: childId!,
+      }).maybeSingle();
+
+      if (error) throw new Error(error.message);
+      return data as ChildDetailsPreview | null;
     },
     enabled: Boolean(childId),
   });

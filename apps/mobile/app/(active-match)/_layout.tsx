@@ -9,6 +9,10 @@ export default function ActiveMatchLayout() {
         options={{ presentation: "modal", animation: "slide_from_bottom" }}
       />
       <Stack.Screen
+        name="daily-log-detail"
+        options={{ presentation: "modal", animation: "slide_from_bottom" }}
+      />
+      <Stack.Screen
         name="review"
         options={{ presentation: "modal", animation: "slide_from_bottom" }}
       />

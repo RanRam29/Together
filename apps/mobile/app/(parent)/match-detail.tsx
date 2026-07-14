@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, Text, View } from "react-native";
+import { Alert, Platform, ScrollView, Text, View } from "react-native";
 
 import { ReviewsList, ReviewsSummary } from "@/components/shared/ReviewsList";
+import { SentConfirmationOverlay } from "@/components/shared/SentConfirmationOverlay";
 import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
 import { useCreateMatchRequest } from "@/hooks/useMatchRequests";
 import { AnalyticsEvents } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
 import { promptPushPermission } from "@/components/shared/PushPermissionProvider";
 import { useScreenshotProtection } from "@/hooks/useScreenshotProtection";
+import { isDuplicateKeyError } from "@/lib/api/errors";
 import { formatMatchReason } from "@/lib/format-match-reason";
+import { successHaptic } from "@/lib/motion";
 import { useChildren } from "@/hooks/useChildren";
 import { useAuthStore } from "@/stores/auth-store";
+
+const REDIRECT_DELAY_MS = 2000;
 
 export default function MatchDetailScreen() {
   const { t } = useTranslation();
@@ -38,7 +43,33 @@ export default function MatchDetailScreen() {
   const canManage = !isSecondary || canApprove;
 
   const [message, setMessage] = useState("");
+  const [formError, setFormError] = useState<string | null>(null);
+  const [sentFeedback, setSentFeedback] = useState<{
+    title: string;
+    description: string;
+  } | null>(null);
+  const redirectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const createRequest = useCreateMatchRequest(parentId);
+
+  useEffect(() => {
+    return () => {
+      if (redirectTimeoutRef.current) {
+        clearTimeout(redirectTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  function scheduleRedirectToRequests() {
+    redirectTimeoutRef.current = setTimeout(() => {
+      router.replace("/(parent)/(tabs)/requests");
+    }, REDIRECT_DELAY_MS);
+  }
+
+  function showSentFeedback(title: string, description: string) {
+    successHaptic();
+    setSentFeedback({ title, description });
+    scheduleRedirectToRequests();
+  }
 
   useEffect(() => {
     if (params.professionalId) {
@@ -52,9 +83,11 @@ export default function MatchDetailScreen() {
     if (!params.childId || !params.professionalId) return;
 
     if (!message.trim()) {
-      Alert.alert(t("common.error"), t("parent.requestMessageRequired"));
+      setFormError(t("parent.requestMessageRequired"));
       return;
     }
+
+    setFormError(null);
 
     try {
       await createRequest.mutateAsync({
@@ -69,20 +102,32 @@ export default function MatchDetailScreen() {
         void promptPushPermission(parentId);
       }
 
-      Alert.alert(t("parent.requestSent"), t("parent.requestSentDesc"), [
-        {
-          text: t("common.continue"),
-          onPress: () => router.replace("/(parent)/(tabs)/requests"),
-        },
-      ]);
+      showSentFeedback(t("parent.requestSent"), t("parent.requestSentDesc"));
     } catch (err) {
-      const msg = err instanceof Error ? err.message : t("common.error");
-      Alert.alert(t("common.error"), msg);
+      if (isDuplicateKeyError(err)) {
+        showSentFeedback(
+          t("parent.requestAlreadySent"),
+          t("parent.requestAlreadySentDesc"),
+        );
+        return;
+      }
+
+      const msg = err instanceof Error ? err.message : t("common.tryAgain");
+      setFormError(msg);
+      if (Platform.OS !== "web") {
+        Alert.alert(t("common.error"), msg);
+      }
     }
   }
 
   return (
     <ScreenShell title={t("parent.matchProfile")} showBack>
+      <SentConfirmationOverlay
+        visible={Boolean(sentFeedback)}
+        title={sentFeedback?.title ?? ""}
+        description={sentFeedback?.description ?? ""}
+        footnote={t("parent.requestSentRedirecting")}
+      />
       <ScrollView className="flex-1 p-5" showsVerticalScrollIndicator={false}>
         <View className="items-center mb-6">
           <Text className="text-2xl font-bold text-ink mb-2 font-rubik text-center">
@@ -123,12 +168,16 @@ export default function MatchDetailScreen() {
         <TextField
           label={t("parent.requestMessageLabel")}
           value={message}
-          onChangeText={setMessage}
+          onChangeText={(text) => {
+            setMessage(text);
+            if (formError) setFormError(null);
+          }}
           placeholder={t("parent.requestMessagePlaceholder")}
           multiline
           numberOfLines={4}
           className="min-h-[120px]"
           textAlignVertical="top"
+          error={formError ?? undefined}
         />
 
         <View className="mb-8">
@@ -136,7 +185,7 @@ export default function MatchDetailScreen() {
             label={t("parent.sendRequest")}
             onPress={handleSendRequest}
             loading={createRequest.isPending}
-            disabled={!canManage}
+            disabled={!canManage || Boolean(sentFeedback)}
           />
         </View>
       </ScrollView>

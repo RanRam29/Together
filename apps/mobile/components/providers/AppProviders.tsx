@@ -21,6 +21,7 @@ import { usePushSetup } from "@/hooks/usePushSetup";
 import { PushPermissionProvider } from "@/components/shared/PushPermissionProvider";
 import { UsageGuideGate } from "@/components/guide/UsageGuideGate";
 import { OfflineBanner } from "@/components/shared/OfflineBanner";
+import { ActionFeedbackHost } from "@/components/shared/ActionFeedbackHost";
 import { bindReduceMotionListener } from "@/lib/motion";
 import { useLocaleStore } from "@/stores/auth-store";
 
@@ -89,6 +90,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
               <View style={{ flex: 1 }}>
                 <AppReady>{children}</AppReady>
               </View>
+              <ActionFeedbackHost />
             </View>
           </I18nextProvider>
         </QueryClientProvider>

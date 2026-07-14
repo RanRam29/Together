@@ -1,15 +1,15 @@
 import { Modal, Pressable, ScrollView, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { PrimaryButton } from "@/components/ui/Screen";
 
 interface ApproveDisclosureSheetProps {
   visible: boolean;
-  childName: string;
+  professionalName: string;
   onConfirm: () => void;
   onCancel: () => void;
   loading?: boolean;
   title: string;
-  subtitle: string;
   items: string[];
   confirmLabel: string;
   cancelLabel: string;
@@ -17,16 +17,17 @@ interface ApproveDisclosureSheetProps {
 
 export function ApproveDisclosureSheet({
   visible,
-  childName,
+  professionalName,
   onConfirm,
   onCancel,
   loading,
   title,
-  subtitle,
   items,
   confirmLabel,
   cancelLabel,
 }: ApproveDisclosureSheetProps) {
+  const { t } = useTranslation();
+
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onCancel}>
       <View className="flex-1 justify-end bg-black/40">
@@ -35,7 +36,7 @@ export function ApproveDisclosureSheet({
             {title}
           </Text>
           <Text className="text-sm text-ink-2 mb-4 text-start leading-6">
-            {subtitle.replace("{{name}}", childName)}
+            {t("parent.disclosureSubtitle", { name: professionalName })}
           </Text>
 
           <ScrollView className="mb-6" showsVerticalScrollIndicator={false}>

@@ -69,6 +69,10 @@ function ProfessionalTabs() {
         name="pending"
         options={{ href: null, title: t("professional.pendingTitle") }}
       />
+      <Tabs.Screen
+        name="request-detail"
+        options={{ href: null, title: t("professional.childProfileTitle") }}
+      />
     </Tabs>
   );
 }

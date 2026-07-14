@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { AnimatedEntrance } from "@/components/ui/AnimatedEntrance";
 import { PrimaryButton } from "@/components/ui/Screen";
+import { formatMatchReason } from "@/lib/format-match-reason";
 import { celebrateEntering, successHaptic } from "@/lib/motion";
 import { webPressableClass } from "@/lib/platform";
 
@@ -84,6 +85,8 @@ export function InterestedRequestCards({
   requests,
   onApprove,
 }: InterestedRequestCardsProps) {
+  const { t } = useTranslation();
+
   if (requests.length === 0) return null;
 
   return (
@@ -92,7 +95,9 @@ export function InterestedRequestCards({
         const letter =
           request.cover_letter?.trim() ||
           request.parent_message?.trim() ||
-          request.match_reason?.trim();
+          (request.match_reason?.trim()
+            ? formatMatchReason(request.match_reason.trim(), t)
+            : "");
 
         if (!letter) return null;
 

@@ -2,7 +2,6 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
-  Alert,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -21,6 +20,7 @@ import {
   useRespondToRequest,
 } from "@/hooks/useProfessional";
 import { promptPushPermission } from "@/components/shared/PushPermissionProvider";
+import { errorMessage, showError } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -62,9 +62,7 @@ export default function ProfessionalHomeScreen() {
           }
         },
         onError: (err) => {
-          const message =
-            err instanceof Error ? err.message : t("common.tryAgain");
-          Alert.alert(t("common.error"), message);
+          showError(errorMessage(err, t("common.tryAgain")));
         },
       },
     );
@@ -143,6 +141,13 @@ export default function ProfessionalHomeScreen() {
                 parentMessage={request.parent_message}
                 matchReason={request.match_reason}
                 canRespond={isPending}
+                viewProfileLabel={t("professional.viewChildProfile")}
+                onViewProfile={() =>
+                  router.push({
+                    pathname: "/(professional)/request-detail",
+                    params: { requestId: request.id },
+                  } as never)
+                }
                 respondLabel={t("professional.accept")}
                 rejectLabel={t("professional.reject")}
                 onAccept={() => handleRespond(request.id, "interested")}

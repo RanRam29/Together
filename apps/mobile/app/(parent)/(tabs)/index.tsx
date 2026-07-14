@@ -53,10 +53,9 @@ export default function ParentHomeScreen() {
   );
   const approveRequest = useApproveMatchRequest(parentId);
   const [pendingApproveId, setPendingApproveId] = useState<string | null>(null);
-
-  const disclosureChild = children.find(
-    (c) => c.id === requests.find((r) => r.id === pendingApproveId)?.child_id,
-  );
+  const pendingRequest = requests.find((request) => request.id === pendingApproveId);
+  const pendingProfessionalName =
+    pendingRequest?.professional?.display_name ?? t("parent.professionalFallback");
 
   const interestedRequests = requests
     .filter((r) => r.status === "interested")
@@ -142,9 +141,8 @@ export default function ParentHomeScreen() {
     >
       <ApproveDisclosureSheet
         visible={Boolean(pendingApproveId)}
-        childName={disclosureChild?.first_name ?? ""}
+        professionalName={pendingProfessionalName}
         title={t("parent.disclosureTitle")}
-        subtitle={t("parent.disclosureSubtitle")}
         items={disclosureItems}
         confirmLabel={t("parent.disclosureConfirm")}
         cancelLabel={t("common.cancel")}
@@ -191,6 +189,22 @@ export default function ParentHomeScreen() {
         }
         showsVerticalScrollIndicator={false}
       >
+        {selectedChild?.published ? (
+          <Pressable
+            onPress={() =>
+              router.push({
+                pathname: "/(parent)/progress-report",
+                params: { childId: selectedChild.id },
+              } as never)
+            }
+            className="rounded-card border border-teal py-3 items-center mb-6 active:opacity-90 bg-teal-bg"
+          >
+            <Text className="text-teal font-bold text-base font-rubik">
+              {t("report.title", "דוח התקדמות (PDF)")}
+            </Text>
+          </Pressable>
+        ) : null}
+
         {isLoading ? (
           <ActivityIndicator size="large" color={colors.purple} className="mt-8" />
         ) : children.length === 0 ? (

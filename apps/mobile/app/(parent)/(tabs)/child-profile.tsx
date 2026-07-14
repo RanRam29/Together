@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { ChildSelector } from "@/components/parent/MatchCard";
 import { ChipSelect, SwitchRow } from "@/components/ui/ChipSelect";
@@ -15,6 +15,7 @@ import {
   type NeedCategory,
 } from "@/lib/constants/child";
 import { toGeoPoint } from "@/lib/geo";
+import { errorMessage, showError, showSuccess } from "@/lib/feedback";
 import {
   useChildren,
   useCreateChild,
@@ -96,7 +97,7 @@ export default function ChildProfileScreen() {
 
     const parsedAge = Number.parseInt(age, 10);
     if (!firstName.trim() || !parsedAge || parsedAge < 1 || parsedAge > 21) {
-      Alert.alert(t("common.error"), t("parent.childFormInvalid"));
+      showError(t("parent.childFormInvalid"));
       return;
     }
 
@@ -126,10 +127,9 @@ export default function ChildProfileScreen() {
           input: updatePayload,
         });
       }
-      Alert.alert(t("parent.childSaved"));
+      showSuccess({ title: t("parent.childSaved") });
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("common.tryAgain");
-      Alert.alert(t("common.error"), message);
+      showError(errorMessage(err, t("common.tryAgain")));
     }
   }
 

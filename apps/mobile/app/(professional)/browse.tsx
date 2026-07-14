@@ -1,7 +1,6 @@
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
-  Alert,
   RefreshControl,
   ScrollView,
   View,
@@ -14,6 +13,7 @@ import {
   useMyProfessional,
   usePublishedChildren,
 } from "@/hooks/useProfessional";
+import { errorMessage, showError, showSuccess } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
 
 export default function ProfessionalBrowseScreen() {
@@ -36,11 +36,8 @@ export default function ProfessionalBrowseScreen() {
 
   function handleInterest(childId: string) {
     interest.mutate(childId, {
-      onSuccess: () => Alert.alert(t("professional.interestSent")),
-      onError: (err) => {
-        const message = err instanceof Error ? err.message : t("common.tryAgain");
-        Alert.alert(t("common.error"), message);
-      },
+      onSuccess: () => showSuccess({ title: t("professional.interestSent") }),
+      onError: (err) => showError(errorMessage(err, t("common.tryAgain"))),
     });
   }
 

@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
-  Alert,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -26,6 +25,7 @@ import { useProfileViews } from "@/hooks/useProfileViews";
 import { useMyProfessional } from "@/hooks/useProfessional";
 import { AnalyticsEvents } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
+import { confirmAction, errorMessage, showError } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
 
 function formatTime(date: Date, locale: string) {
@@ -49,6 +49,21 @@ function formatDate(dateString: string, locale: string) {
   } catch {
     return dateString;
   }
+}
+
+function formatLogTime(iso: string, locale: string) {
+  try {
+    return new Intl.DateTimeFormat(locale, {
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(iso));
+  } catch {
+    return "";
+  }
+}
+
+function formatLogRowLabel(logDate: string, createdAt: string, locale: string) {
+  return `${formatDate(logDate, locale)} · ${formatLogTime(createdAt, locale)}`;
 }
 
 export default function ActiveMatchScreen() {
@@ -122,39 +137,34 @@ export default function ActiveMatchScreen() {
       await checkin.checkIn();
       refetchCheckins();
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("common.tryAgain");
-      Alert.alert(t("common.error"), message);
+      showError(errorMessage(err, t("common.tryAgain")));
     }
   }
 
-  function handleEndMatch() {
-    Alert.alert(
+  async function handleEndMatch() {
+    const confirmed = await confirmAction(
       t("activeMatch.endTitle"),
       t("activeMatch.endConfirm"),
-      [
-        { text: t("common.tryAgain"), style: "cancel" },
-        {
-          text: t("activeMatch.endAction"),
-          style: "destructive",
-          onPress: async () => {
-            try {
-              await endMatch.mutateAsync({ matchId });
-              router.replace({
-                pathname: "/(active-match)/review",
-                params: {
-                  matchId,
-                  professionalId: professionalId ?? activeMatch?.professional_id ?? "",
-                },
-              });
-            } catch (err) {
-              const message =
-                err instanceof Error ? err.message : t("common.tryAgain");
-              Alert.alert(t("common.error"), message);
-            }
-          },
-        },
-      ],
+      {
+        confirmText: t("activeMatch.endAction"),
+        cancelText: t("common.cancel"),
+        destructive: true,
+      },
     );
+    if (!confirmed) return;
+
+    try {
+      await endMatch.mutateAsync({ matchId });
+      router.replace({
+        pathname: "/(active-match)/review",
+        params: {
+          matchId,
+          professionalId: professionalId ?? activeMatch?.professional_id ?? "",
+        },
+      });
+    } catch (err) {
+      showError(errorMessage(err, t("common.tryAgain")));
+    }
   }
 
   const backFallback = isProfessional
@@ -274,6 +284,22 @@ export default function ActiveMatchScreen() {
           />
         ) : null}
 
+        {!isProfessional && childId ? (
+          <Pressable
+            onPress={() =>
+              router.push({
+                pathname: "/(parent)/progress-report",
+                params: { childId },
+              } as never)
+            }
+            className="rounded-card border border-teal py-3 items-center mb-6 active:opacity-90 bg-teal-bg"
+          >
+            <Text className="text-teal font-bold text-base font-rubik">
+              {t("report.title", "דוח התקדמות (PDF)")}
+            </Text>
+          </Pressable>
+        ) : null}
+
         <View className="flex-row items-center justify-between mt-2 mb-3">
           <Text className="text-base font-bold text-ink font-rubik">
             {t("activeMatch.logsTitle")}
@@ -307,11 +333,17 @@ export default function ActiveMatchScreen() {
           logs.data.map((log) => (
             <DailyLogRow
               key={log.id}
-              dateLabel={formatDate(log.log_date, i18n.language)}
+              dateLabel={formatLogRowLabel(log.log_date, log.created_at, i18n.language)}
               mood={log.mood}
               notes={log.notes}
               summary={!isProfessional ? log.ai_summary : log.ai_strategy}
               noReportLabel={t("activeMatch.noReportDay")}
+              onPress={() =>
+                router.push({
+                  pathname: "/(active-match)/daily-log-detail",
+                  params: { logId: log.id, matchId },
+                })
+              }
             />
           ))
         )}

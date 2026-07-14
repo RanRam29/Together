@@ -4,6 +4,7 @@ import { AnalyticsEvents } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
 import {
   expressInterest,
+  fetchIncomingRequestById,
   fetchIncomingRequests,
   fetchMyProfessional,
   fetchProfessionalById,
@@ -19,6 +20,8 @@ export const professionalByIdQueryKey = (professionalId: string) =>
   ["professionalById", professionalId] as const;
 export const incomingRequestsQueryKey = (professionalId: string) =>
   ["incomingRequests", professionalId] as const;
+export const incomingRequestQueryKey = (requestId: string) =>
+  ["incomingRequest", requestId] as const;
 export const publishedChildrenQueryKey = ["publishedChildren"] as const;
 
 export function useMyProfessional(userId: string | undefined) {
@@ -61,6 +64,17 @@ export function useIncomingRequests(professionalId: string | undefined) {
   });
 }
 
+export function useIncomingRequest(
+  requestId: string | undefined,
+  professionalId: string | undefined,
+) {
+  return useQuery({
+    queryKey: incomingRequestQueryKey(requestId ?? ""),
+    queryFn: () => fetchIncomingRequestById(requestId!, professionalId!),
+    enabled: Boolean(requestId && professionalId),
+  });
+}
+
 export function useRespondToRequest(professionalId: string | undefined) {
   const queryClient = useQueryClient();
 
@@ -99,6 +113,9 @@ export function useRespondToRequest(professionalId: string | undefined) {
           queryKey: incomingRequestsQueryKey(professionalId),
         });
       }
+      queryClient.invalidateQueries({
+        queryKey: incomingRequestQueryKey(result.requestId),
+      });
     },
   });
 }

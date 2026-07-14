@@ -2,7 +2,6 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
-  Alert,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -19,6 +18,7 @@ import { useMatchCheckins, useTodayCheckin } from "@/hooks/useCheckins";
 import { useGetDailyLogs } from "@/hooks/useDailyLogs";
 import { useMyProfessional } from "@/hooks/useProfessional";
 import { useAuthStore } from "@/stores/auth-store";
+import { errorMessage, showError } from "@/lib/feedback";
 
 function formatTime(iso: string, locale: string) {
   try {
@@ -29,6 +29,15 @@ function formatTime(iso: string, locale: string) {
   } catch {
     return "";
   }
+}
+
+function formatLogRowLabel(
+  logDate: string,
+  createdAt: string,
+  locale: string,
+  formatDateFn: (dateString: string, locale: string) => string,
+) {
+  return `${formatDateFn(logDate, locale)} · ${formatTime(createdAt, locale)}`;
 }
 
 function formatDate(dateString: string, locale: string) {
@@ -65,9 +74,9 @@ export default function ProfessionalTodayScreen() {
   const showQuestionnaire = isAfternoon || hasCheckedOutToday;
   const isCheckoutMode = hasCheckedInToday && !hasCheckedOutToday;
 
-  const todayLog = logs.data?.find(
-    (log) => log.log_date === new Date().toISOString().split("T")[0],
-  );
+  const todayIso = new Date().toISOString().split("T")[0];
+  const todayLogs =
+    logs.data?.filter((log) => log.log_date === todayIso) ?? [];
 
   async function handleCheckIn() {
     try {
@@ -78,8 +87,7 @@ export default function ProfessionalTodayScreen() {
       }
       weekCheckins.refetch();
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("common.tryAgain");
-      Alert.alert(t("common.error"), message);
+      showError(errorMessage(err, t("common.tryAgain")));
     }
   }
 
@@ -118,6 +126,22 @@ export default function ProfessionalTodayScreen() {
         }
         showsVerticalScrollIndicator={false}
       >
+        <View className="mb-4">
+          <Pressable
+            onPress={() =>
+              router.push({
+                pathname: "/(professional)/child-details",
+                params: { childId: activeMatch.child?.id },
+              })
+            }
+            className="bg-surface border border-teal rounded-full py-3 items-center active:opacity-90"
+          >
+            <Text className="text-teal font-bold text-base font-rubik">
+              {t("professional.viewChildDetails", "צפייה בתיק הילד")}
+            </Text>
+          </Pressable>
+        </View>
+
         {isCheckoutMode ? (
           <CheckinCard
             title={t("professional.todayCheckoutTitle", "נוכחות סוף יום")}
@@ -160,25 +184,25 @@ export default function ProfessionalTodayScreen() {
               {t("professional.todayQuestionnaireTitle")}
             </Text>
             <Text className="text-sm text-ink-2 mb-4 text-start leading-5">
-              {todayLog
-                ? t("professional.todayQuestionnaireDone")
+              {todayLogs.length > 0
+                ? t("professional.todayQuestionnaireDone", { count: todayLogs.length })
                 : t("professional.todayQuestionnaireDesc", { name: childName })}
             </Text>
-            {!todayLog ? (
-              <Pressable
-                onPress={() =>
-                  router.push({
-                    pathname: "/(active-match)/daily-log-form",
-                    params: { matchId },
-                  })
-                }
-                className="bg-purple rounded-full py-4 items-center active:opacity-90"
-              >
-                <Text className="text-white font-bold text-base font-rubik">
-                  {t("professional.todayQuestionnaireCta")}
-                </Text>
-              </Pressable>
-            ) : null}
+            <Pressable
+              onPress={() =>
+                router.push({
+                  pathname: "/(active-match)/daily-log-form",
+                  params: { matchId },
+                })
+              }
+              className="bg-purple rounded-full py-4 items-center active:opacity-90"
+            >
+              <Text className="text-white font-bold text-base font-rubik">
+                {todayLogs.length > 0
+                  ? t("professional.todayQuestionnaireAddMore")
+                  : t("professional.todayQuestionnaireCta")}
+              </Text>
+            </Pressable>
           </View>
         )}
 
@@ -222,16 +246,32 @@ export default function ProfessionalTodayScreen() {
           </Text>
         )}
 
-        {logs.data && logs.data.length > 0
-          ? logs.data.slice(0, 5).map((log) => (
+        {logs.data && logs.data.length > 0 ? (
+          <>
+            <Text className="text-base font-bold text-ink mb-3 mt-2 font-rubik text-start">
+              {t("activeMatch.todayLogsTitle")}
+            </Text>
+            {logs.data.slice(0, 5).map((log) => (
               <DailyLogRow
                 key={log.id}
-                dateLabel={formatDate(log.log_date, i18n.language)}
+                dateLabel={formatLogRowLabel(
+                  log.log_date,
+                  log.created_at,
+                  i18n.language,
+                  formatDate,
+                )}
                 mood={log.mood}
                 notes={log.notes}
+                onPress={() =>
+                  router.push({
+                    pathname: "/(active-match)/daily-log-detail",
+                    params: { logId: log.id, matchId },
+                  })
+                }
               />
-            ))
-          : null}
+            ))}
+          </>
+        ) : null}
 
         <Pressable
           onPress={() =>

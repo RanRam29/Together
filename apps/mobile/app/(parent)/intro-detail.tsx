@@ -1,9 +1,8 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
-  Alert,
   Linking,
   Pressable,
   ScrollView,
@@ -13,16 +12,21 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
-import { ScreenShell } from "@/components/ui/Screen";
 import { MetricSelector } from "@/components/active-match/MetricSelector";
-import { useChildren } from "@/hooks/useChildren";
-import { useMatchRequests, useDeclineAfterIntro } from "@/hooks/useMatchRequests";
-import { useIntroContact } from "@/hooks/useIntroContact";
+import { SentConfirmationOverlay } from "@/components/shared/SentConfirmationOverlay";
+import { PrimaryButton, ScreenShell } from "@/components/ui/Screen";
 import { useCreateMatchFromRequest } from "@/hooks/useActiveMatch";
+import { useChildren } from "@/hooks/useChildren";
+import { useIntroContact } from "@/hooks/useIntroContact";
+import { useDeclineAfterIntro, useMatchRequests } from "@/hooks/useMatchRequests";
 import { useMetricsForChild, useSetMatchMetrics } from "@/hooks/useMetrics";
 import { AnalyticsEvents } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
+import { successHaptic } from "@/lib/motion";
+import { errorMessage, showError, showSuccess } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
+
+const REDIRECT_DELAY_MS = 2000;
 
 export default function IntroDetailScreen() {
   const { t, i18n } = useTranslation();
@@ -56,6 +60,17 @@ export default function IntroDetailScreen() {
   const [metricStep, setMetricStep] = useState(false);
   const [newMatchId, setNewMatchId] = useState<string | null>(null);
   const [selectedMetrics, setSelectedMetrics] = useState<string[]>([]);
+  const [metricsError, setMetricsError] = useState<string | null>(null);
+  const [metricsConfirmed, setMetricsConfirmed] = useState(false);
+  const redirectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (redirectTimeoutRef.current) {
+        clearTimeout(redirectTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (
@@ -115,8 +130,7 @@ export default function IntroDetailScreen() {
       setNewMatchId(matchId);
       setMetricStep(true);
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("common.error");
-      Alert.alert("שגיאה", message);
+      showError(errorMessage(err, t("common.error")));
     }
   }
 
@@ -130,48 +144,41 @@ export default function IntroDetailScreen() {
 
   async function handleConfirmMetrics() {
     if (!newMatchId || selectedMetrics.length !== 3) {
-      Alert.alert("שגיאה", t("activeMatch.metricsRequired"));
+      setMetricsError(t("activeMatch.metricsRequired"));
       return;
     }
+
+    setMetricsError(null);
+
     try {
       await setMetrics.mutateAsync({ matchId: newMatchId, keys: selectedMetrics });
-      Alert.alert(
-        t("parent.matchStartedTitle") || "בשעה טובה! 🎉",
-        t("parent.matchStartedDesc") || "העבודה המשותפת החלה. אתם מועברים ללוח הבקרה.",
-        [
-          {
-            text: t("common.continue") || "המשך",
-            onPress: () => {
-              router.push({
-                pathname: "/(active-match)",
-                params: { matchId: newMatchId },
-              });
-            },
-          },
-        ],
-      );
+      successHaptic();
+      setMetricsConfirmed(true);
+      redirectTimeoutRef.current = setTimeout(() => {
+        router.replace({
+          pathname: "/(active-match)",
+          params: { matchId: newMatchId },
+        });
+      }, REDIRECT_DELAY_MS);
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("common.error");
-      Alert.alert("שגיאה", message);
+      showError(errorMessage(err, t("common.tryAgain")));
     }
   }
 
   async function handleDecline() {
     if (!declineReason.trim()) {
-      Alert.alert("שגיאה", "אנא הזן סיבה לדחייה");
+      showError(t("parent.declineReasonRequired"));
       return;
     }
     try {
       await declineIntro.mutateAsync({ requestId: requestId!, reason: declineReason });
-      Alert.alert("עודכן", "הבקשה בוטלה בהצלחה", [
-        {
-          text: "חזרה לבקשות",
-          onPress: () => router.push("/(parent)/(tabs)/requests"),
-        },
-      ]);
+      showSuccess({
+        title: t("parent.requestDeclinedTitle"),
+        description: t("parent.requestDeclinedDesc"),
+        onDismiss: () => router.push("/(parent)/(tabs)/requests"),
+      });
     } catch (err) {
-      const message = err instanceof Error ? err.message : t("common.error");
-      Alert.alert("שגיאה", message);
+      showError(errorMessage(err, t("common.tryAgain")));
     }
   }
 
@@ -184,26 +191,40 @@ export default function IntroDetailScreen() {
         showBack
         backFallbackHref="/(parent)/(tabs)/requests"
       >
+        <SentConfirmationOverlay
+          visible={metricsConfirmed}
+          title={t("activeMatch.metricsConfirmedTitle")}
+          description={t("activeMatch.metricsConfirmedDesc")}
+          footnote={t("activeMatch.metricsConfirmedRedirecting")}
+          icon="checkmark-circle"
+          iconColor="#0F6E56"
+          iconBgClass="bg-teal-bg"
+        />
         <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
           <MetricSelector
             metrics={metricsQuery.data ?? []}
             selected={selectedMetrics}
-            onToggle={toggleMetric}
+            onToggle={(key) => {
+              toggleMetric(key);
+              if (metricsError) setMetricsError(null);
+            }}
             label={t("activeMatch.selectMetricsTitle")}
             hint={t("activeMatch.selectMetricsHint")}
             getLabel={(item) =>
               i18n.language === "he" ? item.he_label : item.en_label
             }
           />
-          <Pressable
+          {metricsError ? (
+            <Text className="text-coral text-sm mb-3 text-start">{metricsError}</Text>
+          ) : null}
+          <PrimaryButton
+            label={t("activeMatch.confirmMetrics")}
             onPress={handleConfirmMetrics}
-            disabled={selectedMetrics.length !== 3 || setMetrics.isPending}
-            className="bg-teal py-4 rounded-full items-center active:opacity-90 mt-4"
-          >
-            <Text className="text-white font-bold text-lg font-rubik">
-              {t("activeMatch.confirmMetrics")}
-            </Text>
-          </Pressable>
+            loading={setMetrics.isPending}
+            disabled={selectedMetrics.length !== 3 || metricsConfirmed}
+            variant="teal"
+            fullWidth
+          />
         </ScrollView>
       </ScreenShell>
     );

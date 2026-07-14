@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { Text, View, Pressable } from "react-native";
 
 import { MoodBadge } from "./MoodPicker";
 
@@ -39,6 +39,7 @@ interface DailyLogRowProps {
   notes: string;
   summary?: string | null;
   noReportLabel?: string;
+  onPress?: () => void;
 }
 
 export function DailyLogRow({
@@ -47,9 +48,10 @@ export function DailyLogRow({
   notes,
   summary,
   noReportLabel,
+  onPress,
 }: DailyLogRowProps) {
-  return (
-    <View className="bg-surface border border-border rounded-card p-4 mb-3 flex-row items-start gap-3">
+  const content = (
+    <>
       <MoodBadge value={mood} />
       <View className="flex-1">
         <Text className="text-sm font-semibold text-ink font-rubik">{dateLabel}</Text>
@@ -65,6 +67,28 @@ export function DailyLogRow({
           <Text className="text-sm text-ink-2 mt-1 leading-5">{noReportLabel}</Text>
         ) : null}
       </View>
-    </View>
+      {onPress ? (
+        <Text className="text-ink-2 text-lg font-rubik" accessibilityElementsHidden>
+          ‹
+        </Text>
+      ) : null}
+    </>
+  );
+
+  if (!onPress) {
+    return (
+      <View className="bg-surface border border-border rounded-card p-4 mb-3 flex-row items-start gap-3">
+        {content}
+      </View>
+    );
+  }
+
+  return (
+    <Pressable
+      onPress={onPress}
+      className="bg-surface border border-border rounded-card p-4 mb-3 flex-row items-start gap-3 active:opacity-90"
+    >
+      {content}
+    </Pressable>
   );
 }

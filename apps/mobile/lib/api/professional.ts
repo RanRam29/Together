@@ -67,6 +67,21 @@ export async function updateMyProfessional(
   return data;
 }
 
+export async function fetchIncomingRequestById(
+  requestId: string,
+  professionalId: string,
+): Promise<IncomingRequest | null> {
+  const { data, error } = await supabase
+    .from("match_requests")
+    .select(`*, child:children(${CHILD_BASIC_COLUMNS})`)
+    .eq("id", requestId)
+    .eq("professional_id", professionalId)
+    .maybeSingle();
+
+  if (error) throw error;
+  return (data ?? null) as unknown as IncomingRequest | null;
+}
+
 export async function fetchIncomingRequests(
   professionalId: string,
 ): Promise<IncomingRequest[]> {

@@ -185,6 +185,52 @@ export function PrimaryButton({
   );
 }
 
+interface OutlineButtonProps {
+  label: string;
+  onPress?: () => void;
+  loading?: boolean;
+  disabled?: boolean;
+  fullWidth?: boolean;
+  variant?: "neutral" | "coral";
+}
+
+export function OutlineButton({
+  label,
+  onPress,
+  loading = false,
+  disabled = false,
+  fullWidth = false,
+  variant = "neutral",
+}: OutlineButtonProps) {
+  const isDisabled = disabled || loading;
+  const widthClass = fullWidth
+    ? "w-full self-stretch"
+    : Platform.OS === "web"
+      ? "self-start"
+      : "w-full";
+  const borderClass = variant === "coral" ? "border-coral" : "border-border";
+  const textClass = variant === "coral" ? "text-coral" : "text-ink-2";
+
+  return (
+    <Pressable
+      onPress={() => {
+        if (!isDisabled) lightHaptic();
+        onPress?.();
+      }}
+      disabled={isDisabled}
+      className={`rounded-card py-4 px-6 items-center justify-center border ${borderClass} ${widthClass} ${webPressableClass} ${
+        isDisabled ? "opacity-60" : "active:opacity-90"
+      }`}
+    >
+      {loading ? (
+        <ActivityIndicator color={variant === "coral" ? colors.coral : colors.ink2} />
+      ) : (
+        <Text className={`${textClass} text-base font-semibold font-rubik`}>{label}</Text>
+      )}
+    </Pressable>
+  );
+}
+
 interface RoleCardProps {
   title: string;
   description: string;

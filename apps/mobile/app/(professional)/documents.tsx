@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
-  Alert,
   Pressable,
   ScrollView,
   Text,
@@ -22,6 +21,7 @@ import {
 import { useDeleteDocument, useDocuments } from "@/hooks/useDocuments";
 import { useSubmitForVerification } from "@/hooks/useVerification";
 import { useMyProfessional } from "@/hooks/useProfessional";
+import { errorMessage, showError, showSuccess } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
 
 export default function ProfessionalDocumentsScreen() {
@@ -73,11 +73,11 @@ export default function ProfessionalDocumentsScreen() {
         }
       }
 
-      Alert.alert(t("professional.uploadSuccess"));
+      showSuccess({ title: t("professional.uploadSuccess") });
     } catch (err) {
       const raw = err instanceof Error ? err.message : String(err);
       const message = raw === "FILE_TOO_LARGE" ? t("professional.uploadTooLarge") : raw;
-      Alert.alert(t("common.error"), message);
+      showError(message);
     } finally {
       setUploadingType(null);
     }

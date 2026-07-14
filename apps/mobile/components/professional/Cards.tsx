@@ -1,6 +1,9 @@
 import { Pressable, Text, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
-import { PrimaryButton } from "@/components/ui/Screen";
+import { OutlineButton, PrimaryButton } from "@/components/ui/Screen";
+import { formatMatchReason } from "@/lib/format-match-reason";
+import { webPressableClass } from "@/lib/platform";
 
 interface ChildSummaryProps {
   age: number;
@@ -10,7 +13,7 @@ interface ChildSummaryProps {
   communicationLabel: string;
 }
 
-function ChildSummary({
+export function ChildSummary({
   age,
   categoryLabel,
   frameworkLabel,
@@ -51,6 +54,8 @@ interface IncomingRequestCardProps {
   canRespond: boolean;
   respondLabel: string;
   rejectLabel: string;
+  viewProfileLabel: string;
+  onViewProfile: () => void;
   onAccept: () => void;
   onReject: () => void;
   loading?: boolean;
@@ -70,14 +75,30 @@ export function IncomingRequestCard({
   canRespond,
   respondLabel,
   rejectLabel,
+  viewProfileLabel,
+  onViewProfile,
   onAccept,
   onReject,
   loading = false,
 }: IncomingRequestCardProps) {
+  const { t } = useTranslation();
+  const formattedMatchReason = matchReason
+    ? formatMatchReason(matchReason, t)
+    : null;
+
   return (
     <View className="bg-surface border border-border rounded-card p-5 mb-4">
       <View className="flex-row items-center justify-between mb-1">
-        <Text className="text-lg font-bold text-ink font-rubik">{childName}</Text>
+        <Pressable
+          onPress={onViewProfile}
+          className={`active:opacity-80 ${webPressableClass}`}
+          accessibilityRole="button"
+          accessibilityLabel={viewProfileLabel}
+        >
+          <Text className="text-lg font-bold text-teal font-rubik text-start">
+            {childName}
+          </Text>
+        </Pressable>
         <Text className={`text-sm font-semibold ${statusColor}`}>{statusLabel}</Text>
       </View>
 
@@ -90,12 +111,23 @@ export function IncomingRequestCard({
       />
 
       {parentMessage ? (
-        <Text className="text-sm text-ink-2 leading-5 mt-3">{parentMessage}</Text>
+        <Text className="text-sm text-ink-2 leading-5 mt-3 text-start" numberOfLines={3}>
+          {parentMessage}
+        </Text>
       ) : null}
 
-      {matchReason ? (
-        <Text className="text-xs text-teal mt-2">{matchReason}</Text>
+      {formattedMatchReason ? (
+        <Text className="text-xs text-teal mt-2 text-start">{formattedMatchReason}</Text>
       ) : null}
+
+      <Pressable
+        onPress={onViewProfile}
+        className={`mt-4 self-start active:opacity-80 ${webPressableClass}`}
+      >
+        <Text className="text-sm font-semibold text-purple font-rubik">
+          {viewProfileLabel}
+        </Text>
+      </Pressable>
 
       {canRespond ? (
         <View className="flex-row gap-3 mt-4">
@@ -105,17 +137,18 @@ export function IncomingRequestCard({
               onPress={onAccept}
               variant="teal"
               loading={loading}
+              fullWidth
             />
           </View>
-          <Pressable
-            onPress={onReject}
-            disabled={loading}
-            className="flex-1 rounded-card py-4 px-6 items-center border border-border active:opacity-90"
-          >
-            <Text className="text-ink-2 text-base font-semibold font-rubik">
-              {rejectLabel}
-            </Text>
-          </Pressable>
+          <View className="flex-1">
+            <OutlineButton
+              label={rejectLabel}
+              onPress={onReject}
+              disabled={loading}
+              variant="coral"
+              fullWidth
+            />
+          </View>
         </View>
       ) : null}
     </View>
