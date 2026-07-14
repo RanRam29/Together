@@ -56,7 +56,7 @@ export default function RoleSelectScreen() {
         <View className="w-full mb-8 items-center justify-center bg-[#FCF6ED] rounded-3xl p-2 border border-black/5 shadow-sm">
           <VideoView 
             player={player} 
-            style={{ width: "100%", aspectRatio: 16/9, borderRadius: 20, overflow: "hidden" }} 
+            style={{ width: "100%", maxWidth: 400, aspectRatio: 16/9, borderRadius: 20, overflow: "hidden", objectFit: "contain" } as any} 
             contentFit="contain"
             nativeControls={false} 
           />
