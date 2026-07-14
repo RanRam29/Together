@@ -7,7 +7,7 @@
       "policy": "appVersion"
     },
     "orientation": "portrait",
-    "icon": "./assets/images/logo.jpg",
+    "icon": "./assets/images/logo-transparent.png",
     "scheme": "together",
     "userInterfaceStyle": "light",
     "newArchEnabled": false,
@@ -35,7 +35,7 @@
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#EEEDFE",
-        "foregroundImage": "./assets/images/logo.jpg",
+        "foregroundImage": "./assets/images/logo-transparent.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },

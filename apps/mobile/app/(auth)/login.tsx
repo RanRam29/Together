@@ -121,7 +121,7 @@ export default function LoginScreen() {
     }
   }
 
-  const logoSource = require("@/assets/images/logo.jpg");
+  const logoSource = require("@/assets/images/logo-transparent.png");
 
   return (
     <ScreenShell
