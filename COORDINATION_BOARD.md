@@ -1,6 +1,23 @@
 # 🚦 Together — לוח תיאום וסטטוס סוכנים
 
 > ---
+> ## 📋 בריף ל-Cursor — ‏4 פערים מביקורת קוד על WP8/WP9/WP10 UI (ארכיטקט, 2026-07-14)
+>
+> **הקשר:** `coordination_state.json` מסמן את שלושתם `ui_pending`, אבל בפועל כבר קיים קוד (`match-permissions.tsx`, `SecondaryParentSettings.tsx`, `PendingInvitations.tsx`, `(staff)/analytics.tsx`). ביקורת קוד ישירה (לא מול הסטטוס) העלתה 4 ממצאים — מהם ממצא אחד מבני. סדר לפי חומרה.
+>
+> **1. 🔴 קריטי — WP8 בלי צרכן: אין מסך למשלבת שקורא ל-`get_child_details`.** נוסף מסך חדש למפרט: **`product/05-SCREENS.md` § S-PRO-09 "תיק הילד (למשלבת)"** — נגיש מ-S-PRO-06 ("היום שלי"), קורא ל-`get_child_details(match_id)`, מציג רק שדות שאינם NULL (בלי לסמן "מוסתר" — עקרון D45), מוגן צילום מסך (`useScreenshotProtection(childId)` הקיים — אותו hook כמו `match-permissions.tsx`). בלי המסך הזה כל מנגנון ההסתרה פר-שדה (WP8) חסר תצוגה בפועל.
+>
+> **2. 🔴 קריטי — WP8↔WP9 לא מחוברים: `manage_visibility` לא ניתן להענקה בשום מסך.** ה-RLS/RPC בענן (`20260713040000`, `20260713081000`) כבר בודקים `secondary_parent_permissions ? 'manage_visibility'`, אבל:
+>    - ‏`SecondaryParentSettings.tsx` (‏apps/mobile/components/parent/SecondaryParentSettings.tsx:68-81, 133-153) — יש רק שני מתגים (`can_edit`/`can_approve`); אין שלישי ל-`manage_visibility`, וה-type המקומי (`{ can_edit: boolean; can_approve: boolean }`) אפילו לא מאפשר את זה.
+>    - ‏`match-permissions.tsx` — לא בודק את הרשאת ההורה המשני בכלל; אם למשני אין `manage_visibility`, לחיצה על מתג תיכשל בשקט עם הודעת שגיאה גנרית (`common.tryAgain`) במקום מצב קריאה-בלבד עם הסבר, כפי שדורש WP8 §6 שורה אחרונה.
+>    **תיקון:** מתג שלישי ב-`SecondaryParentSettings.tsx` ("יכול לנהל מי רואה מה בתיק") + הרחבת ה-type/הקריאה ל-`update_secondary_permissions` לכלול אותו; ב-`match-permissions.tsx` — בדיקת ההרשאה (מגיעה מ-`match.child.secondary_parent_permissions` או שאילתה דומה) והצגת מצב קריאה-בלבד + טקסט הסבר כשהיא חסרה.
+>
+> **3. 🟠 בינוני — `transfer_primary_parent` כתוב ולא מחובר.** ‏`useParentInvitations.ts:96-110` מגדיר `transferPrimaryRole` אבל שום מסך לא קורא לו — אין כפתור "העברת בעלות" ב-`SecondaryParentSettings.tsx`, בניגוד למפורש ב-WP9 §א.3. להוסיף כפתור (מאחורי אישור כפול אמיתי — טקסט אישור + הקלדת שם הילד, לא רק Alert בשתי כפתורים) זמין רק להורה הראשי כשיש הורה משני מחובר.
+>
+> **4. 🟡 קטן — WP10: גרף ה-timeseries נשלף ולא מוצג, בלי בורר.** ‏`(staff)/analytics.tsx:33-34` קורא ל-`useAdminReportTimeseries("new_users", ...)` עם מדד מקובע ("new_users") וטווח מקובע (חודש אחרון) — אין רינדור של הנתון בכלל ב-JSX, ואין בורר מדד/טווח כפי שדורש WP10 §4. להוסיף: קומפוננטת גרף קו (יש `FunnelChart` קיים כתקדים) + `Picker`/כפתורי טאב לבחירת אחד מ-8 המדדים ברשימה הסגורה + בורר טווח תאריכים.
+>
+> **סדר מומלץ:** 1 → 2 (אותו איזור, תלויים זה בזה מבחינת בדיקה) → 3 → 4. אחרי כל תיקון: `tsc --noEmit` + בדיקה ידנית מול נתוני seed. עדכון סטטוס: `coordination_state.json` (`wp8_d45_field_visibility`, `wp9_d31_ui_and_d44`, `wp10_admin_reports`) ל-`ui_completed` **רק** אחרי שהארבעה נסגרו — לא לפני.
+> ---
 > ## 📋 בריף ל-Antigravity — ‏WP13: דוח התקדמות להורה (ארכיטקט, 2026-07-14, מאושר ע"י בעל המוצר)
 >
 > **הקשר:** בעל המוצר אישר היום את החלטות הגל השלישי **D51–D56 כסופיות** (הנוסח המחייב נוסף ל-`product/01-DECISIONS.md`) והורה להקדים את **WP13 — דוח התקדמות להורה** לראש הגל, לפני WP12/WP14. מפרט מלא ומחייב: **`docs/work-orders/WP13-progress-report.md`**. תוכנית-האם: `2026-07-14-wave3-retention-plan.md`.
@@ -116,14 +133,14 @@
 ## 🤖 סטטוס סוכנים נוכחי
 
 ### 🔴 Antigravity (Backend & DB & Stitch)
-- **משימה נוכחית**: משימות הפלטפורמה וההקשחה הושלמו (WP11). מיגרציית `20260713120000_fix_v3_hardening_gaps.sql` נדחפה לענן. קוד ה-CORS עודכן ב-`_shared/cors.ts` ותועד ביחד עם נוהל השחזור ב-`DEPLOYMENT.md`. מוכן לסייע ל-Cursor ב-UI של WP8/WP9/WP10.
-- **הצעד הבא**: המתנה/תמיכה ב-Cursor עד לסיום משימות ה-UI (WP8/WP9/WP10) וסיום הרשמת MFA.
+- **משימה נוכחית**: ✅ **WP13 Backend הושלם.** מיגרציית `20260714100000_wp13_progress_report.sql` נדחפה לענן יחד עם בדיקות אי-דליפה (anti-leakage). פונקציית `get_child_progress_report` מוקשחת ומוכנה.
+- **הצעד הבא**: המתנה/תמיכה ב-Cursor עד לסיום משימות ה-UI (WP8/WP9/WP10/WP13) וסיום הרשמת MFA.
 - **חסימות**: אין.
 
 ### 🟢 Cursor (Mobile App Shell & UI)
-- **משימה נוכחית**: ✅ **WP8 — מתגי "מה דנה רואה" (UI) הושלם (2026-07-13).** מומש מסך `match-permissions.tsx` החדש בהתאם לסעיף 6, כולל השהיית/חידוש גישה (שמפעילים את ה-RPC עם כל המפתחות) ותרגומי Copy חמים.
-- **הצעד הבא**: WP9 UI (D31 ממשק הורה שני + D44 חסימת צילום מסך — `docs/work-orders/WP9-secondary-parent-ui-d44.md`, ה-backend כבר מוכן), ואז WP10 UI (מסך דוחות — `docs/work-orders/WP10-admin-reports.md` סעיף 4). לבסוף: הרשמת MFA-TOTP לאדמין בפרודקשן + E2E ידני על מכשיר.
-- **חסימות**: אין. WP8 מוכן לחלוטין (Front + Back).
+- **משימה נוכחית**: ה-Backend עבור WP8, WP9, WP10, וכעת גם **WP13** מוכנים. Cursor יכול להתחיל במימוש הממשקים עבורם לפי סדר.
+- **הצעד הבא**: 1. תיקוני ה-Audit של הארכיטקט (4 הפערים בממשק מ-2026-07-14). 2. הוספת WP13 UI (מסך דוח התקדמות + PDF). 3. השלמות WP9 ו-WP10. לבסוף: הרשמת MFA-TOTP לאדמין בפרודקשן + E2E.
+- **חסימות**: אין. נדרש להריץ `npm run types:generate` כדי לקבל את טיפוסי WP13 החדשים לפני פיתוח מסך הדוח.
 
 ---
 
@@ -153,6 +170,7 @@
 - [x] **WP9: Screenshot Protection API** (Audit logging logic).
 - [x] **WP10: Admin Reports** (Advanced SQL aggregations for admin analytics).
 - [x] **WP11: Launch Hardening** (RPC Rate Limiting, CORS, PII Log cleanup).
+- [x] **WP13: Parent Progress Report Backend** (get_child_progress_report RPC and anti-leakage).
 - [x] אתחול פרויקט Expo SDK 53 ב-`apps/mobile`
 - [x] הגדרת NativeWind (+ design tokens מהמפרט)
 - [x] הגדרת Expo Router (כולל role-based routing ל-parent ו-professional)
