@@ -20,4 +20,9 @@ export const AnalyticsEvents = {
   AI_SUMMARY_VIEWED: "ai_summary_viewed",
   TREND_CHART_VIEWED: "trend_chart_viewed",
   REVIEW_SUBMITTED: "review_submitted",
+  NBA_SHOWN: "nba_shown",
+  NBA_TAPPED: "nba_tapped",
+  NBA_DISMISSED: "nba_dismissed",
+  PUSH_OPENED: "push_opened",
+  LANDING_REDIRECT: "landing_redirect",
 } as const;

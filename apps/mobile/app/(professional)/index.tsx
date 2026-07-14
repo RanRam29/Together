@@ -11,6 +11,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { IncomingRequestCard } from "@/components/professional/Cards";
 import { ActiveMatchBanner } from "@/components/shared/ActiveMatchBanner";
+import { NextActionCard } from "@/components/shared/NextActionCard";
+import { NextActionList } from "@/components/shared/NextActionList";
 import { PendingInvitations } from "@/components/parent/PendingInvitations";
 import { PlaceholderCard, ScreenShell } from "@/components/ui/Screen";
 import { useActiveMatchForProfessional } from "@/hooks/useActiveMatch";
@@ -21,6 +23,7 @@ import {
 } from "@/hooks/useProfessional";
 import { promptPushPermission } from "@/components/shared/PushPermissionProvider";
 import { errorMessage, showError } from "@/lib/feedback";
+import { useNextActionNavigation } from "@/hooks/useNextActions";
 import { useAuthStore } from "@/stores/auth-store";
 
 const STATUS_COLORS: Record<string, string> = {
@@ -51,6 +54,24 @@ export default function ProfessionalHomeScreen() {
   } = useIncomingRequests(professionalId);
 
   const respond = useRespondToRequest(professionalId);
+  const { primary, secondary, navigateToAction } = useNextActionNavigation({
+    role: "professional",
+    screen: "pro_home",
+  });
+
+  const nbaRequestId =
+    primary?.id === "pro_pending_request"
+      ? primary.params?.requestId
+      : undefined;
+  const visibleRequests = nbaRequestId
+    ? requests.filter((r) => r.id !== nbaRequestId)
+    : requests;
+
+  const hideMatchBanner =
+    primary &&
+    ["pro_checkin", "pro_checkout", "pro_daily_log", "pro_add_log"].includes(
+      primary.id,
+    );
 
   function handleRespond(requestId: string, status: "interested" | "rejected") {
     respond.mutate(
@@ -85,7 +106,19 @@ export default function ProfessionalHomeScreen() {
         }
         showsVerticalScrollIndicator={false}
       >
-        {activeMatch ? (
+        {primary ? (
+          <NextActionCard
+            action={primary}
+            onPress={() => navigateToAction(primary)}
+          />
+        ) : null}
+
+        <NextActionList
+          actions={secondary}
+          onPress={(action) => navigateToAction(action)}
+        />
+
+        {activeMatch && !hideMatchBanner ? (
           <ActiveMatchBanner
             title={t("activeMatch.bannerEyebrow")}
             subtitle={t("activeMatch.bannerSubtitleChild", {
@@ -102,10 +135,16 @@ export default function ProfessionalHomeScreen() {
 
         {isLoading ? (
           <ActivityIndicator size="large" color="#0F6E56" className="mt-8" />
-        ) : requests.length === 0 ? (
-          <PlaceholderCard text={t("professional.noRequests")} />
+        ) : visibleRequests.length === 0 ? (
+          <PlaceholderCard
+            text={
+              primary?.id === "pro_browse"
+                ? t("professional.noRequestsBrowseHint")
+                : t("professional.noRequests")
+            }
+          />
         ) : (
-          requests.map((request) => {
+          visibleRequests.map((request) => {
             const child = request.child;
             const isPending = request.status === "pending";
 

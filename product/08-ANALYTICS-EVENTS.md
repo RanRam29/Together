@@ -42,6 +42,18 @@
 
 **KPI-י retention:** ‏% ימי match עם check-in · % עם שאלון · % סיכומים שנקראו תוך 24 שעות · D7/D30 של הורים עם match פעיל.
 
+## ניווט הקשרי (WP17 — מתוכנן 2026-07-14)
+
+| אירוע | properties | מודד |
+|-------|-----------|------|
+| `nba_shown` | action_id, stage, screen, priority | כמה פעמים הצענו "מה עכשיו" |
+| `nba_tapped` | action_id, stage, screen | המרה מהצעה לפעולה |
+| `nba_dismissed` | action_id, screen | רעש / דחייה מכוונת |
+| `push_opened` | type, routed_to | האם deep link הגיע ליעד |
+| `landing_redirect` | from, to_tab, stage | נחיתה חכמה בפתיחה |
+
+**KPI:** `nba_tapped` / `nba_shown` ≥ 40% למשלבות עם match פעיל (שבועי).
+
 ## כללים
 1. אירוע נורה פעם אחת בנקודת האמת (הצלחת RPC, לא לחיצת כפתור).
 2. שמות snake_case, בזמן עבר.

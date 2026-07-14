@@ -73,16 +73,7 @@ export default function ActiveMatchScreen() {
   const session = useAuthStore((s) => s.session);
   const userId = session?.user?.id;
   const params = useLocalSearchParams<{ matchId?: string }>();
-  const matchId = params.matchId ?? "";
-
   const isProfessional = profile?.role === "professional";
-
-  const checkin = useCheckin(matchId);
-  const { todayCheckin, refetch: refetchCheckins } = useTodayCheckin(matchId);
-  const logs = useGetDailyLogs(matchId);
-  const endMatch = useEndMatch();
-  const matchMetrics = useMatchMetricKeys(matchId);
-  const catalog = useMetricsForChild(matchMetrics.data?.childId);
 
   const parentActive = useActiveMatchForParent(
     !isProfessional ? userId : undefined,
@@ -92,6 +83,16 @@ export default function ActiveMatchScreen() {
     isProfessional ? myPro?.id : undefined,
   );
   const activeMatch = isProfessional ? proActive.data : parentActive.data;
+  const activeLoading = isProfessional ? proActive.isLoading : parentActive.isLoading;
+  const matchId = params.matchId ?? activeMatch?.id ?? "";
+
+  const checkin = useCheckin(matchId);
+  const { todayCheckin, refetch: refetchCheckins } = useTodayCheckin(matchId);
+  const logs = useGetDailyLogs(matchId);
+  const endMatch = useEndMatch();
+  const matchMetrics = useMatchMetricKeys(matchId);
+  const catalog = useMetricsForChild(matchMetrics.data?.childId);
+
   const professionalId = activeMatch?.professional?.id;
   const childId = activeMatch?.child?.id ?? matchMetrics.data?.childId;
   const profileViews = useProfileViews(!isProfessional ? childId : undefined);
@@ -172,6 +173,19 @@ export default function ActiveMatchScreen() {
     : "/(parent)/(tabs)";
 
   if (!matchId) {
+    if (activeLoading) {
+      return (
+        <ScreenShell
+          title={t("activeMatch.title")}
+          subtitle={t("activeMatch.subtitle")}
+          showBack
+          backFallbackHref={backFallback}
+        >
+          <ActivityIndicator size="large" color="#534AB7" className="mt-8" />
+        </ScreenShell>
+      );
+    }
+
     return (
       <ScreenShell
         title={t("activeMatch.title")}

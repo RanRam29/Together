@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
   ActivityIndicator,
@@ -12,8 +12,10 @@ import {
 
 import { ApproveDisclosureSheet } from "@/components/parent/ApproveDisclosureSheet";
 import { InterestedRequestCards } from "@/components/parent/LetterCard";
+import { NextActionCard } from "@/components/shared/NextActionCard";
 import { PlaceholderCard, ScreenShell } from "@/components/ui/Screen";
 import { useChildren } from "@/hooks/useChildren";
+import { useNextActionNavigation } from "@/hooks/useNextActions";
 import {
   useApproveMatchRequest,
   useMatchRequests,
@@ -36,8 +38,17 @@ const STATUS_COLORS: Record<string, string> = {
 export default function ParentRequestsScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { highlightRequestId } = useLocalSearchParams<{
+    highlightRequestId?: string;
+  }>();
   const session = useAuthStore((s) => s.session);
   const parentId = session?.user?.id;
+  const { primary, navigateToAction } = useNextActionNavigation({
+    role: "parent",
+    screen: "parent_requests",
+  });
+
+  const hideInterestedCards = primary?.id === "parent_approve_request";
   const { children } = useChildren(parentId);
   const childIds = children.map((c) => c.id);
 
@@ -143,16 +154,27 @@ export default function ParentRequestsScreen() {
         }
         showsVerticalScrollIndicator={false}
       >
+        {primary &&
+        (primary.id === "parent_approve_request" ||
+          primary.id === "parent_waiting_request") ? (
+          <NextActionCard
+            action={primary}
+            onPress={() => navigateToAction(primary)}
+          />
+        ) : null}
+
         {isLoading ? (
           <ActivityIndicator size="large" color="#534AB7" className="mt-8" />
         ) : requests.length === 0 ? (
           <PlaceholderCard text={t("parent.noRequests")} />
         ) : (
           <>
-            <InterestedRequestCards
-              requests={interestedRequests}
-              onApprove={setPendingApproveId}
-            />
+            {!hideInterestedCards ? (
+              <InterestedRequestCards
+                requests={interestedRequests}
+                onApprove={setPendingApproveId}
+              />
+            ) : null}
 
             {otherRequests.map((request) => {
               const child = children.find((c) => c.id === request.child_id);
@@ -178,7 +200,11 @@ export default function ParentRequestsScreen() {
               return (
                 <View
                   key={request.id}
-                  className="bg-surface border border-border rounded-card p-5 mb-4"
+                  className={`bg-surface border rounded-card p-5 mb-4 ${
+                    request.id === highlightRequestId
+                      ? "border-purple border-2"
+                      : "border-border"
+                  }`}
                 >
                   <View className="flex-row items-center justify-between mb-2">
                     <View className="flex-1 me-3">

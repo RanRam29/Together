@@ -18,6 +18,8 @@ import { InterestedRequestCards } from "@/components/parent/LetterCard";
 import { ApproveDisclosureSheet } from "@/components/parent/ApproveDisclosureSheet";
 import { PendingInvitations } from "@/components/parent/PendingInvitations";
 import { ActiveMatchBanner } from "@/components/shared/ActiveMatchBanner";
+import { NextActionCard } from "@/components/shared/NextActionCard";
+import { NextActionList } from "@/components/shared/NextActionList";
 import { PlaceholderCard, ScreenShell } from "@/components/ui/Screen";
 import { useActiveMatchForParent } from "@/hooks/useActiveMatch";
 import { useChildMatches } from "@/hooks/useChildMatches";
@@ -26,6 +28,7 @@ import {
   useApproveMatchRequest,
   useMatchRequests,
 } from "@/hooks/useMatchRequests";
+import { useNextActionNavigation } from "@/hooks/useNextActions";
 import { colors } from "@/lib/theme";
 import { useAuthStore } from "@/stores/auth-store";
 import { useParentStore } from "@/stores/parent-store";
@@ -79,6 +82,13 @@ export default function ParentHomeScreen() {
     );
 
   const { data: activeMatch } = useActiveMatchForParent(parentId);
+  const { primary, secondary, navigateToAction } = useNextActionNavigation({
+    role: "parent",
+    screen: "parent_home",
+  });
+
+  const hideMatchBanner = primary?.id === "parent_no_checkin";
+  const hideInterestedCards = primary?.id === "parent_approve_request";
 
   const {
     data: matches = [],
@@ -151,7 +161,19 @@ export default function ParentHomeScreen() {
         loading={approveRequest.isPending}
       />
 
-      {activeMatch ? (
+      {primary ? (
+        <NextActionCard
+          action={primary}
+          onPress={() => navigateToAction(primary)}
+        />
+      ) : null}
+
+      <NextActionList
+        actions={secondary}
+        onPress={(action) => navigateToAction(action)}
+      />
+
+      {activeMatch && !hideMatchBanner ? (
         <ActiveMatchBanner
           title={t("activeMatch.bannerEyebrow")}
           subtitle={t("activeMatch.bannerSubtitle", {
@@ -167,10 +189,12 @@ export default function ParentHomeScreen() {
         />
       ) : null}
 
-      <InterestedRequestCards
-        requests={interestedRequests}
-        onApprove={setPendingApproveId}
-      />
+      {!hideInterestedCards ? (
+        <InterestedRequestCards
+          requests={interestedRequests}
+          onApprove={setPendingApproveId}
+        />
+      ) : null}
 
       <PendingInvitations />
 

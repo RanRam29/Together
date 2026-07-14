@@ -72,6 +72,7 @@ WP0 (C4) ──▶ WP1 ──▶ WP2 ──▶ WP3 ──▶ WP5 ──▶ WP7
 | WP14 | כלים מקצועיים למשלבת | Antigravity→Cursor | סיכום שעות חודשי, יומן מאוחד, ותק מקצועי |
 | WP15 | רצף ליווי והחלפה מהירה | Antigravity→Cursor | זרימת "נמצא מחליפה" + מנוע רשימת המתנה |
 | WP16 | היגיינת התראות ולולאות עדינות | שניהם | שעות שקט, תזכורות מדודות, סיכום תפעול שבועי |
+| **WP17** | **ניווט הקשרי — "מה עכשיו?" (NBA)** | **Cursor** (+ Antigravity push audit) | כרטיס פעולה, deep links, badges, נחיתה חכמה — [WP17-contextual-navigation.md](WP17-contextual-navigation.md) |
 
 ## כללי עבודה לכל WP
 - לפני התחלה: `product/00-INDEX.md` → ההחלטות (01) → המסכים (05) → DoD (09) → security (docs/).

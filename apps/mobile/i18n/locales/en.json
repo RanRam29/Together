@@ -443,6 +443,7 @@
     "browseSubtitle": "Available child cards in your area",
     "documents": "Documents",
     "noRequests": "No new requests right now",
+    "noRequestsBrowseHint": "No requests right now — browse children in the Discover tab",
     "hiddenChild": "Child",
     "verbal": "Verbal communication",
     "nonVerbal": "Non-verbal communication",
@@ -593,6 +594,75 @@
     "saveLogChanges": "Save changes",
     "todayLogsTitle": "Work logs"
   },
+  "nba": {
+    "eyebrow": "What now?",
+    "secondaryEyebrow": "Also on your list",
+    "proVerify": {
+      "title": "Complete verification",
+      "reason": "Once verified you can receive family requests",
+      "cta": "Upload documents"
+    },
+    "proPendingRequest": {
+      "title": "Request awaiting response",
+      "reason": "A family is waiting for your answer",
+      "cta": "View request"
+    },
+    "proCheckin": {
+      "title": "Arrived at the framework?",
+      "reason": "Morning check-in helps parents know the day started as planned",
+      "cta": "Check in"
+    },
+    "proCheckout": {
+      "title": "Finished for today?",
+      "reason": "Check-out closes the work day",
+      "cta": "Check out"
+    },
+    "proDailyLog": {
+      "title": "How was today?",
+      "reason": "A quick log sends a warm summary to {{name}}'s parent",
+      "cta": "Fill daily log"
+    },
+    "proAddLog": {
+      "title": "{{count}} log(s) saved today",
+      "reason": "Want to record something else from today?",
+      "cta": "Add another log"
+    },
+    "proBrowse": {
+      "title": "Browse children seeking support",
+      "reason": "No active match right now — you can express interest in new profiles",
+      "cta": "Browse"
+    },
+    "parentApprove": {
+      "title": "{{name}} is interested!",
+      "reason": "The professional liked your request — you can approve and start introductions",
+      "cta": "View request"
+    },
+    "parentWaiting": {
+      "title": "Request sent",
+      "reason": "Waiting for the professional to respond — we'll update you when there's news",
+      "cta": "My requests"
+    },
+    "parentNoCheckin": {
+      "title": "No check-in yet today",
+      "reason": "{{name}} hasn't checked in today",
+      "cta": "Open dashboard"
+    },
+    "parentSummary": {
+      "title": "Today's summary is ready",
+      "reason": "{{name}}'s summary is waiting for you",
+      "cta": "Read summary"
+    },
+    "parentPublish": {
+      "title": "Publish the profile",
+      "reason": "Professionals can see {{name}} only after publishing",
+      "cta": "Child profile"
+    },
+    "parentDiscover": {
+      "title": "Discover matching professionals",
+      "reason": "Send a request and start the matching process",
+      "cta": "View matches"
+    }
+  },
   "reviews": {
     "eyebrow": "Feedback",
     "title": "Rate the match",
@@ -626,6 +696,9 @@
     "logoutConfirm": "Are you sure you want to sign out?",
     "logoutAction": "Sign out",
     "languageLabel": "App language",
+    "navigationTitle": "Smart navigation",
+    "smartLandingLabel": "Auto-landing",
+    "smartLandingDesc": "On open, jump to the tab that matches today's action (once per day)",
     "legalTitle": "Legal",
     "version": "Version {{version}}"
   },

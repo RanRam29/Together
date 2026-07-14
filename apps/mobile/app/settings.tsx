@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { ActivityIndicator, Alert, Platform, Pressable, ScrollView, Text, View } from "react-native";
@@ -12,6 +13,10 @@ import { useAuthStore, useLocaleStore } from "@/stores/auth-store";
 import { supabase } from "@/lib/supabase";
 import { getStoredPushToken, removePushToken } from "@/lib/push-notifications";
 import { useNotificationPrefs, useUpdateNotificationPrefs } from "@/hooks/useSettings";
+import {
+  isSmartLandingEnabled,
+  setSmartLandingEnabled,
+} from "@/lib/navigation/landing-prefs";
 
 export default function SettingsScreen() {
   const { t } = useTranslation();
@@ -25,6 +30,26 @@ export default function SettingsScreen() {
   const { data: prefs, isLoading } = useNotificationPrefs(userId);
   const updatePrefs = useUpdateNotificationPrefs(userId);
   const appVersion = Constants.expoConfig?.version ?? "1.0.0";
+  const [smartLanding, setSmartLanding] = useState(true);
+  const [landingPrefLoading, setLandingPrefLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    void isSmartLandingEnabled().then((enabled) => {
+      if (active) {
+        setSmartLanding(enabled);
+        setLandingPrefLoading(false);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  async function toggleSmartLanding(value: boolean) {
+    setSmartLanding(value);
+    await setSmartLandingEnabled(value);
+  }
 
   async function executeLogout() {
     const token = getStoredPushToken();
@@ -60,8 +85,12 @@ export default function SettingsScreen() {
     updatePrefs.mutate({ [key]: value });
   }
 
+  const profile = useAuthStore((s) => s.profile);
+  const backFallback =
+    profile?.role === "professional" ? "/(professional)" : "/(parent)/(tabs)";
+
   return (
-    <ScreenShell title={t("settings.title")} showBack backFallbackHref="/(parent)/(tabs)">
+    <ScreenShell title={t("settings.title")} showBack backFallbackHref={backFallback}>
       <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
         <View className="bg-surface rounded-card border border-border p-4 mb-6">
           <LanguageToggle
@@ -114,6 +143,30 @@ export default function SettingsScreen() {
                 </View>
               </View>
             </>
+          )}
+        </View>
+
+        <View className="bg-surface rounded-card border border-border p-4 mb-6">
+          <Text className="text-lg font-bold text-ink mb-4 font-rubik text-start">
+            {t("settings.navigationTitle")}
+          </Text>
+          {landingPrefLoading ? (
+            <ActivityIndicator size="small" color="#534AB7" />
+          ) : (
+            <View className="flex-row items-center justify-between">
+              <AppSwitch
+                value={smartLanding}
+                onValueChange={toggleSmartLanding}
+              />
+              <View className="flex-1 ms-3">
+                <Text className="text-base font-semibold text-ink text-start">
+                  {t("settings.smartLandingLabel")}
+                </Text>
+                <Text className="text-sm text-ink-2 text-start">
+                  {t("settings.smartLandingDesc")}
+                </Text>
+              </View>
+            </View>
           )}
         </View>
 

@@ -27,6 +27,21 @@
 >
 > **סדר מומלץ:** 1 → 2 (אותו איזור, תלויים זה בזה מבחינת בדיקה) → 3 → 4. אחרי כל תיקון: `tsc --noEmit` + בדיקה ידנית מול נתוני seed. עדכון סטטוס: `coordination_state.json` (`wp8_d45_field_visibility`, `wp9_d31_ui_and_d44`, `wp10_admin_reports`) ל-`ui_completed` **רק** אחרי שהארבעה נסגרו — לא לפני.
 > ---
+> ## 📋 WP17 — ניווט הקשרי "מה עכשיו?" (בעל המוצר, 2026-07-14)
+>
+> **מטרה:** להנגיש את העמוד הנכון בזמן הנכון — כרטיס פעולה אחד, deep links מ-push, badges על טאבים, נחיתה חכמה בפתיחה.
+> **מסמך מלא:** `docs/work-orders/WP17-contextual-navigation.md`
+>
+> | שלב | תוכן | בעלים | סטטוס |
+> |-----|------|--------|--------|
+> | **א** | תיקון push deep links (באג: `request_interested`→הורה נשלח למסך משלבת) | Cursor | `ready` |
+> | **ב** | `NextActionCard` + מנוע `getNextActions` בבית הורה/משלבת + today | Cursor | `pending` |
+> | **ג** | Tab badges + נחיתה אוטומטית לטאב הנכון (פעם/יום) | Cursor | `pending` |
+> | **ד** | ליטוש כפילויות UI + audit payloads בשרת | Cursor + Antigravity | `pending` |
+>
+> **החלטה מוצעת:** D57 (בתוך WP17) — לאישור בעל המוצר.
+> **סדר מומלץ:** א → ב → ג → ד. שלב א יכול להתחיל מיד (ללא תלות ב-WP12).
+> ---
 > ## 📋 בריף ל-Antigravity — ‏WP13: דוח התקדמות להורה (ארכיטקט, 2026-07-14, מאושר ע"י בעל המוצר)
 >
 > **הקשר:** בעל המוצר אישר היום את החלטות הגל השלישי **D51–D56 כסופיות** (הנוסח המחייב נוסף ל-`product/01-DECISIONS.md`) והורה להקדים את **WP13 — דוח התקדמות להורה** לראש הגל, לפני WP12/WP14. מפרט מלא ומחייב: **`docs/work-orders/WP13-progress-report.md`**. תוכנית-האם: `2026-07-14-wave3-retention-plan.md`.
@@ -148,7 +163,7 @@
 
 ### 🟢 Cursor (Mobile App Shell & UI)
 - **משימה נוכחית**: ה-Backend עבור WP8, WP9, WP10, וכעת גם **WP13** מוכנים. Cursor יכול להתחיל במימוש הממשקים עבורם לפי סדר.
-- **הצעד הבא**: 1. תיקוני ה-Audit של הארכיטקט (4 הפערים בממשק מ-2026-07-14). 2. הוספת WP13 UI (מסך דוח התקדמות + PDF). 3. השלמות WP9 ו-WP10. לבסוף: הרשמת MFA-TOTP לאדמין בפרודקשן + E2E.
+- **הצעד הבא**: 1. **WP17 שלב א** (תיקון push deep links). 2. תיקוני Audit (4 פערים). 3. WP17 שלבים ב–ג. 4. MFA בפרודקשן.
 - **חסימות**: אין. נדרש להריץ `npm run types:generate` כדי לקבל את טיפוסי WP13 החדשים לפני פיתוח מסך הדוח.
 
 ---
@@ -178,7 +193,7 @@
 - [x] **WP8: Professional View Child Details**: Create strictly-masked professional view (`S-PRO-09`) powered by `get_child_details`.
 - [x] **WP9: Secondary Parent Enforcement**: Enforce read-only UI if `manage_visibility=false`. Add "Transfer Ownership" UI logic.
 - [x] **WP10: Admin Analytics UI**: Implement LineChart + date range pickers in Admin Analytics.
-- [x] **WP13: Parent Progress Report**: Fully Implemented (Backend RPC, Types, Frontend Screen, PDF Export).
+- [ ] **WP17: Contextual Navigation (NBA)** — NextActionCard, push deep links, tab badges, smart landing. See `docs/work-orders/WP17-contextual-navigation.md`.
 - [x] אתחול פרויקט Expo SDK 53 ב-`apps/mobile`
 - [x] הגדרת NativeWind (+ design tokens מהמפרט)
 - [x] הגדרת Expo Router (כולל role-based routing ל-parent ו-professional)

@@ -3,12 +3,16 @@ import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useVerificationGate } from "@/hooks/useVerificationGate";
+import { useNextActions } from "@/hooks/useNextActions";
+import { useSmartLanding } from "@/hooks/useSmartLanding";
 import { getTabBarStyle } from "@/lib/platform";
 import { colors } from "@/lib/theme";
 
 function ProfessionalTabs() {
   const { t } = useTranslation();
   useVerificationGate();
+  const { badges } = useNextActions("professional");
+  useSmartLanding("professional");
 
   return (
     <Tabs
@@ -24,6 +28,7 @@ function ProfessionalTabs() {
         name="index"
         options={{
           title: t("professional.homeTitle"),
+          tabBarBadge: badges.pro_requests || undefined,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
           ),
@@ -33,6 +38,7 @@ function ProfessionalTabs() {
         name="today"
         options={{
           title: t("professional.todayTitle"),
+          tabBarBadge: badges.pro_today || undefined,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="calendar-outline" size={size} color={color} />
           ),

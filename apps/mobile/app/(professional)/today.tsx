@@ -11,11 +11,13 @@ import {
 
 import { CheckinCard } from "@/components/active-match/CheckinCard";
 import { DailyLogRow } from "@/components/active-match/InsightsCard";
+import { NextActionCard } from "@/components/shared/NextActionCard";
 import { ScreenShell } from "@/components/ui/Screen";
 import { useActiveMatchForProfessional } from "@/hooks/useActiveMatch";
 import { useCheckin } from "@/hooks/useCheckin";
 import { useMatchCheckins, useTodayCheckin } from "@/hooks/useCheckins";
 import { useGetDailyLogs } from "@/hooks/useDailyLogs";
+import { useNextActionNavigation } from "@/hooks/useNextActions";
 import { useMyProfessional } from "@/hooks/useProfessional";
 import { useAuthStore } from "@/stores/auth-store";
 import { errorMessage, showError } from "@/lib/feedback";
@@ -78,6 +80,32 @@ export default function ProfessionalTodayScreen() {
   const todayLogs =
     logs.data?.filter((log) => log.log_date === todayIso) ?? [];
 
+  const { primary, navigateToAction } = useNextActionNavigation({
+    role: "professional",
+    screen: "pro_today",
+  });
+
+  const hideCheckinCard =
+    primary?.id === "pro_checkin" || primary?.id === "pro_checkout";
+  const hideQuestionnairePromo =
+    primary?.id === "pro_daily_log" || primary?.id === "pro_add_log";
+
+  function handlePrimaryAction() {
+    if (!primary) return;
+    if (primary.id === "pro_checkin" || primary.id === "pro_checkout") {
+      void handleCheckIn();
+      return;
+    }
+    if (primary.id === "pro_daily_log" || primary.id === "pro_add_log") {
+      router.push({
+        pathname: "/(active-match)/daily-log-form",
+        params: { matchId },
+      });
+      return;
+    }
+    navigateToAction(primary);
+  }
+
   async function handleCheckIn() {
     try {
       if (isCheckoutMode && todayCheckin) {
@@ -126,6 +154,10 @@ export default function ProfessionalTodayScreen() {
         }
         showsVerticalScrollIndicator={false}
       >
+        {primary ? (
+          <NextActionCard action={primary} onPress={handlePrimaryAction} />
+        ) : null}
+
         <View className="mb-4">
           <Pressable
             onPress={() =>
@@ -142,7 +174,7 @@ export default function ProfessionalTodayScreen() {
           </Pressable>
         </View>
 
-        {isCheckoutMode ? (
+        {isCheckoutMode && !hideCheckinCard ? (
           <CheckinCard
             title={t("professional.todayCheckoutTitle", "נוכחות סוף יום")}
             description={t("professional.todayCheckoutDesc", "סיימת להיום? דוחי על סיום עבודה.")}
@@ -160,7 +192,7 @@ export default function ProfessionalTodayScreen() {
             }
             errorLabel={t("activeMatch.checkinError")}
           />
-        ) : !showQuestionnaire ? (
+        ) : !showQuestionnaire && !hideCheckinCard ? (
           <CheckinCard
             title={t("professional.todayCheckinTitle")}
             description={t("professional.todayCheckinDesc")}
@@ -178,7 +210,7 @@ export default function ProfessionalTodayScreen() {
             }
             errorLabel={t("activeMatch.checkinError")}
           />
-        ) : (
+        ) : !hideQuestionnairePromo ? (
           <View className="bg-purple-bg border border-purple rounded-card p-5 mb-4">
             <Text className="text-lg font-bold text-purple-ink mb-2 font-rubik text-start">
               {t("professional.todayQuestionnaireTitle")}
@@ -204,7 +236,7 @@ export default function ProfessionalTodayScreen() {
               </Text>
             </Pressable>
           </View>
-        )}
+        ) : null}
 
         {hasCheckedInToday && todayCheckin ? (
           <View className="bg-teal-bg border border-teal rounded-card px-4 py-3 mb-4">

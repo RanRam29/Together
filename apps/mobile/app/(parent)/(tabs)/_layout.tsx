@@ -4,9 +4,13 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { getTabBarStyle } from "@/lib/platform";
 import { colors } from "@/lib/theme";
+import { useNextActions } from "@/hooks/useNextActions";
+import { useSmartLanding } from "@/hooks/useSmartLanding";
 
 export default function ParentTabsLayout() {
   const { t } = useTranslation();
+  const { badges } = useNextActions("parent");
+  useSmartLanding("parent");
 
   return (
     <Tabs
@@ -40,6 +44,7 @@ export default function ParentTabsLayout() {
         name="requests"
         options={{
           title: t("parent.tabRequests"),
+          tabBarBadge: badges.parent_requests || undefined,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="mail-outline" size={size} color={color} />
           ),
