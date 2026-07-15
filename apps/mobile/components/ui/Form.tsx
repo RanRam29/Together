@@ -17,6 +17,7 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 
+import { AppLogo } from "@/components/ui/AppLogo";
 import { AppPageWidth } from "@/components/ui/AppPageWidth";
 import { BackButton } from "@/components/ui/BackButton";
 import { lightHaptic, PRESS_SCALE, shouldAnimatePress } from "@/lib/motion";
@@ -280,6 +281,8 @@ interface ScreenShellProps {
   footer?: React.ReactNode;
   headerRight?: React.ReactNode;
   hero?: React.ReactNode;
+  /** Show brand logo above the title. Defaults to true on web when no custom hero is set. */
+  brandLogo?: boolean;
   showBack?: boolean;
   backFallbackHref?: string;
 }
@@ -292,9 +295,12 @@ export function ScreenShell({
   footer,
   headerRight,
   hero,
+  brandLogo,
   showBack = false,
   backFallbackHref,
 }: ScreenShellProps) {
+  const showBrandLogo = brandLogo ?? (Platform.OS === "web" && !hero);
+
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-bg"
@@ -316,6 +322,11 @@ export function ScreenShell({
           <View className="flex-row items-start justify-between">
             <View className="flex-1">
               {hero ? <View className="mb-4 items-start">{hero}</View> : null}
+              {showBrandLogo ? (
+                <View className="mb-4">
+                  <AppLogo variant="compact" />
+                </View>
+              ) : null}
               {eyebrow ? (
                 <Text className="text-xs font-bold text-purple uppercase tracking-widest mb-3 font-rubik">
                   {eyebrow}

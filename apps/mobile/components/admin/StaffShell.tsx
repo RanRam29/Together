@@ -3,6 +3,8 @@ import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 
+import { AppLogo } from "@/components/ui/AppLogo";
+
 import { AdminMfaModal } from "@/components/admin/AdminMfaModal";
 import { StaffNav } from "@/components/admin/StaffNav";
 import { StaffPageWidth } from "@/components/admin/StaffPageWidth";
@@ -47,11 +49,9 @@ export function StaffShell({ children }: StaffShellProps) {
               {t("staff.logout")}
             </Text>
           </Pressable>
-          <View className="items-end">
-            <Text className="text-lg font-bold text-purple font-rubik">
-              {t("staff.brand")}
-            </Text>
-            <Text className="text-xs text-ink-2">{subtitle}</Text>
+          <View className="items-end gap-1">
+            <AppLogo variant="compact" />
+            <Text className="text-xs text-ink-2 text-end">{subtitle}</Text>
           </View>
         </StaffPageWidth>
       </View>

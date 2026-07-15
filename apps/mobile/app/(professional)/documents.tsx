@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Pressable,
   ScrollView,
   Text,
   View,
+  ActivityIndicator,
 } from "react-native";
 
 import { DocumentChecklist } from "@/components/professional/DocumentChecklist";
@@ -16,13 +16,14 @@ import {
   buildDocumentChecklist,
   hasAllRequiredDocuments,
   OPTIONAL_DOC_TYPES,
-  verificationProgress,
-} from "@/lib/verification";
+  verificationProgress } from "@/lib/verification";
 import { useDeleteDocument, useDocuments } from "@/hooks/useDocuments";
 import { useSubmitForVerification } from "@/hooks/useVerification";
 import { useMyProfessional } from "@/hooks/useProfessional";
 import { errorMessage, showError, showSuccess } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+
 
 export default function ProfessionalDocumentsScreen() {
   const { t } = useTranslation();
@@ -124,7 +125,7 @@ export default function ProfessionalDocumentsScreen() {
         </Text>
 
         {isLoading ? (
-          <ActivityIndicator size="large" color="#0F6E56" className="mb-6" />
+          <BrandSpinner size="large" />
         ) : (
           <DocumentChecklist
             items={checklist}

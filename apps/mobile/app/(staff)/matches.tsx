@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -11,6 +10,9 @@ import {
 } from "react-native";
 
 import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { EmptyState } from "@/components/motion/EmptyState";
+import { colors } from "@/lib/theme";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
 import {
   filterConcernedMatches,
@@ -36,7 +38,7 @@ export default function AdminMatchesScreen() {
   if (!isReady || !isAdmin) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -45,7 +47,12 @@ export default function AdminMatchesScreen() {
     <ScrollView
       className="flex-1 px-6 py-6"
       refreshControl={
-        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        <RefreshControl
+          refreshing={isRefetching}
+          onRefresh={refetch}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />
       }
     >
       <Text className="text-2xl font-bold text-ink mb-2 font-rubik text-right">
@@ -80,7 +87,7 @@ export default function AdminMatchesScreen() {
           onRetry={() => void refetch()}
         />
       ) : visible.length === 0 ? (
-        <Text className="text-ink-2 text-right">{t("staff.matchesEmpty")}</Text>
+        <EmptyState variant="compact" title={t("staff.matchesEmpty")} />
       ) : (
         visible.map((match) => (
           <View

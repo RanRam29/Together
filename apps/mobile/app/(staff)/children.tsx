@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Alert,
   Modal,
   Pressable,
@@ -17,13 +16,15 @@ import { useStaffRoute } from "@/hooks/useStaffRoute";
 import { useAdminChildren, useUnpublishChild } from "@/hooks/useAdminChildren";
 import {
   filterStuckRequests,
-  useAdminMatchRequests,
-} from "@/hooks/useAdminRequests";
+  useAdminMatchRequests } from "@/hooks/useAdminRequests";
 import { useAdminMfa } from "@/hooks/useAdminMfa";
 import { daysSince } from "@/lib/api/admin-requests";
 import { AdminMfaModal } from "@/components/admin/AdminMfaModal";
 import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
 import type { AdminChildRow } from "@/lib/api/admin-children";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
+
 
 export default function AdminChildrenScreen() {
   const { t } = useTranslation();
@@ -37,8 +38,7 @@ export default function AdminChildrenScreen() {
     isLoading: requestsLoading,
     isError: requestsError,
     error: requestsQueryError,
-    refetch: refetchRequests,
-  } = useAdminMatchRequests();
+    refetch: refetchRequests } = useAdminMatchRequests();
   const unpublish = useUnpublishChild();
 
   const [stuckOnly, setStuckOnly] = useState(false);
@@ -73,7 +73,7 @@ export default function AdminChildrenScreen() {
   if (!isReady || !isAdmin) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -89,6 +89,8 @@ export default function AdminChildrenScreen() {
             void refetch();
             void refetchRequests();
           }}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
         />
       }
       >

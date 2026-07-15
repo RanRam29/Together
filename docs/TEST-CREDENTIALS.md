@@ -11,7 +11,7 @@
 | supervisor | 972522222222 | supervisor.demo@together.test | admin123 | 123456 |
 | parent (seed) | 972502222222 | 972502222222@together.test | admin123 | — |
 
-* *prof (unverified) is pending verification as a supervisor (3 documents waiting).*
+* *prof (unverified)* — חשבון בדיקה. **אין מסמכים מזויפים ב-seed** — יש להעלות מסמכים אמיתיים דרך האפליקציה כ-`pro.unverified@together.test`, ואז לאמת כ-supervisor.
 
 *Note: All seeded users also use `{phone_digits}@together.test` + `admin123` after bulk backfill.*
 

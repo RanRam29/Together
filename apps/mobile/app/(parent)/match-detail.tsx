@@ -15,6 +15,7 @@ import { isDuplicateKeyError } from "@/lib/api/errors";
 import { formatMatchReason } from "@/lib/format-match-reason";
 import { successHaptic } from "@/lib/motion";
 import { useChildren } from "@/hooks/useChildren";
+import { useProfessionalStats } from "@/hooks/useProfessionalTools";
 import { useAuthStore } from "@/stores/auth-store";
 
 const REDIRECT_DELAY_MS = 2000;
@@ -41,6 +42,8 @@ export default function MatchDetailScreen() {
   const isSecondary = child?.secondary_parent_id === parentId;
   const canApprove = (child?.secondary_parent_permissions as any)?.can_approve ?? false;
   const canManage = !isSecondary || canApprove;
+
+  const { data: stats } = useProfessionalStats(params.professionalId);
 
   const [message, setMessage] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
@@ -137,6 +140,25 @@ export default function MatchDetailScreen() {
             {params.bio}
           </Text>
         </View>
+
+        {stats && (
+          <View className="bg-teal-bg border border-teal rounded-card px-4 py-4 mb-6 flex-row justify-between">
+            <View className="flex-1 items-center">
+              <Text className="text-xl font-bold text-teal font-rubik">{stats.months_active}</Text>
+              <Text className="text-[10px] text-teal-ink text-center mt-1">חודשי פעילות</Text>
+            </View>
+            <View className="w-px bg-teal/20" />
+            <View className="flex-1 items-center">
+              <Text className="text-xl font-bold text-teal font-rubik">{stats.completed_matches}</Text>
+              <Text className="text-[10px] text-teal-ink text-center mt-1">ליוויים שהסתיימו</Text>
+            </View>
+            <View className="w-px bg-teal/20" />
+            <View className="flex-1 items-center">
+              <Text className="text-xl font-bold text-teal font-rubik">{stats.reporting_consistency_90d}%</Text>
+              <Text className="text-[10px] text-teal-ink text-center mt-1">עקביות דיווח</Text>
+            </View>
+          </View>
+        )}
 
         {params.matchReason ? (
           <View className="bg-purple/10 p-4 rounded-xl mb-6">

@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   RefreshControl,
   ScrollView,
   View,
@@ -11,10 +10,11 @@ import { PlaceholderCard, ScreenShell } from "@/components/ui/Screen";
 import {
   useExpressInterest,
   useMyProfessional,
-  usePublishedChildren,
-} from "@/hooks/useProfessional";
+  usePublishedChildren } from "@/hooks/useProfessional";
 import { errorMessage, showError, showSuccess } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
 
 export default function ProfessionalBrowseScreen() {
   const { t } = useTranslation();
@@ -29,16 +29,14 @@ export default function ProfessionalBrowseScreen() {
     data: children = [],
     isLoading,
     refetch,
-    isRefetching,
-  } = usePublishedChildren(Boolean(professionalId));
+    isRefetching } = usePublishedChildren(Boolean(professionalId));
 
   const interest = useExpressInterest(professionalId);
 
   function handleInterest(childId: string) {
     interest.mutate(childId, {
       onSuccess: () => showSuccess({ title: t("professional.interestSent") }),
-      onError: (err) => showError(errorMessage(err, t("common.tryAgain"))),
-    });
+      onError: (err) => showError(errorMessage(err, t("common.tryAgain"))) });
   }
 
   return (
@@ -52,12 +50,15 @@ export default function ProfessionalBrowseScreen() {
         <ScrollView
           className="flex-1"
           refreshControl={
-            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+            <RefreshControl refreshing={isRefetching} onRefresh={refetch}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />
           }
           showsVerticalScrollIndicator={false}
         >
           {isLoading ? (
-            <ActivityIndicator size="large" color="#0F6E56" className="mt-8" />
+            <BrandSpinner size="large" />
           ) : children.length === 0 ? (
             <PlaceholderCard text={t("professional.noChildren")} />
           ) : (

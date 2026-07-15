@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 
 import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
 import { SecondaryParentSettings } from "@/components/parent/SecondaryParentSettings";
 import {
   useChildDetails,
-  useUpsertChildDetails,
-} from "@/hooks/useChildDetails";
+  useUpsertChildDetails } from "@/hooks/useChildDetails";
 import { useChildren } from "@/hooks/useChildren";
 import { useScreenshotProtection } from "@/hooks/useScreenshotProtection";
 import { errorMessage, showError, showSuccess } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
 
 export default function ChildDetailsScreen() {
   const { t } = useTranslation();
@@ -66,8 +66,7 @@ export default function ChildDetailsScreen() {
         what_works: whatWorks.trim() || null,
         what_triggers: whatTriggers.trim() || null,
         win_definition: winDefinition.trim() || null,
-        notes: notes.trim() || null,
-      });
+        notes: notes.trim() || null });
       showSuccess({ title: t("parent.detailsSaved") });
     } catch (err) {
       showError(errorMessage(err, t("common.tryAgain")));
@@ -96,7 +95,7 @@ export default function ChildDetailsScreen() {
     >
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {isLoading ? (
-          <ActivityIndicator size="large" color="#534AB7" className="mt-8" />
+          <BrandSpinner size="large" />
         ) : (
           <>
             <View className="bg-purple-bg rounded-card px-4 py-3 mb-5">

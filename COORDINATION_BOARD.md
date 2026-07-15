@@ -1,5 +1,11 @@
 # 🚦 Together — לוח תיאום וסטטוס סוכנים
 
+> 📋 **Cursor (2026-07-15) — ערכת אנימציית לוגו: sweep הושלם + בדיקות.**
+> הושלם sweep מכני ב-working tree הראשי: `BrandSpinner` במקום `ActivityIndicator` עצמאי (26 מסכים), `RefreshControl` בצבע מותג (`colors.purple`) ב-15 מסכים, `EmptyState` ל-`todayNoCheckins` / `aiEmpty` / `profileViewsEmpty`. WP17 שלב א — ניתוב push (`resolve-push-route.ts`) + 8 בדיקות יחידה. `tsc --noEmit` נקי · `npm run test:navigation` (23/23) ירוק. **נותר לבעל המוצר:** בדיקה ויזואלית על device/simulator (SplashReveal native, MatchCelebrationModal, SuccessCheck) — לא ניתן לאמת מ-Cursor ללא build נייטיבי.
+> ---
+> 📋 **ארכיטקט (2026-07-15) — ערכת אנימציית לוגו: רכיבים+חיווט בנויים, בריף מלא ל-Cursor מוכן.**
+> בעל המוצר סיפק ערכת עיצוב אנימציה ("Beshiluv Logo Animation Kit"). בניתי 5 רכיבים חדשים ב-`apps/mobile/components/motion/` (ספינר מותג, מצב ריק, מסך פתיחה, מודל חגיגת התאמה, אישור-הצלחה מצויר) ומיזגתי אותם לנקודות השילוב הקיימות (`AppProviders`, `SentConfirmationOverlay`, `intro-detail.tsx`, ועוד). `tsc --noEmit` נקי. שני sub-agents עדיין רצים ברקע (worktrees נפרדים) להשלמת ה-sweep המכני על שאר המסכים — אני אמזג כשיסיימו. **בריף מלא ומחייב ל-Cursor:** `docs/work-orders/CURSOR-BRIEF.md` — כולל מה בדיוק לבדוק ויזואלית על device/simulator (לא בדקתי שם, רק typecheck).
+> ---
 > ✅ **ארכיטקט (2026-07-14, מאוחר יותר) — נמצא ותוקן באג פרודקשן חי ב-`anonymize_user`.**
 > תוך כדי אימות מקומי של `20260713120000_fix_v3_hardening_gaps.sql` (שכבר היה מקומיט ב-`697bf4a`) התגלה ש-schema ה-Storage של הפרויקט כולל טריגר `storage.protect_delete` על `storage.objects` (חוסם `DELETE` ישיר אלא אם `storage.allow_delete_query` מוגדר) — הפונקציה לא הגדירה את ה-GUC הזה, כך שמחיקת חשבון של כל משתמש עם מסמך מועלה **קרסה בפרודקשן**. אומת ישירות מול הענן (`supabase db dump --linked`) שזה היה המצב בפועל, לא רק חשש תיאורטי. **תוקן ונפרס:** מיגרציה חדשה `20260714090000_fix_anonymize_user_storage_delete.sql` (commit `ff19d71`, כבר בענן). בנוסף תוקן `wp_fix_v3_gaps_test.sql` — הבדיקה עצמה לא אימתה משתמש לפני קריאה ל-`anonymize_user`, כך ש-`auth.uid()` היה NULL והנתיב שהיא התיימרה לבדוק (self-delete) מעולם לא רץ בפועל.
 > **כלל חדש לתשומת לב:** אם פונקציה חדשה/מתוקנת מוחקת ישירות מ-`storage.objects` — יש להגדיר `PERFORM set_config('storage.allow_delete_query', 'true', true)` באותה טרנזקציה, אחרת התיקון ייכשל בשקט בענן גם אם ירוק מקומית (הטריגר קיים בכל סביבה, כולל מקומית — נבדק).
@@ -10,22 +16,8 @@
 > אימתתי ישירות מול הענן (`npx supabase backups list`, קריאה בלבד): `pitr_enabled: false`, `backups: []`. **אפס גיבויים קיימים כרגע ל-`flrflktlltmqbiamljlm`.** התיעוד ב-`docs/DEPLOYMENT.md` §8 טען בעבר ש"תרגול השחזור בוצע ונבדק" — תוקן, כי זה לא יכול היה להיות נכון במצב הזה (אין ממה לשחזר). הפעלת גיבוי יומי/PITR דורשת ברוב המקרים שדרוג תוכנית בתשלום.
 > **עדכון (2026-07-14, מאוחר יותר): בעל המוצר החליט לא לשדרג תוכנית כרגע.** החוסם נשאר פתוח במודע — לא לפתוח לציבור עד להחלטה אחרת. אין לנסות לשכנע/להזכיר שוב בלוח; אם ההחלטה תשתנה, בעל המוצר יעדכן. חלופת dump-לוגי חינמית (מוצפן) הוצעה ב-`docs/DEPLOYMENT.md` §8 כאופציה עתידית — לא מומשה, דורשת הכרעת אבטחה נפרדת לפני מימוש.
 > ---
-> ## 📋 בריף ל-Cursor — ‏4 פערים מביקורת קוד על WP8/WP9/WP10 UI (ארכיטקט, 2026-07-14)
->
-> **הקשר:** `coordination_state.json` מסמן את שלושתם `ui_pending`, אבל בפועל כבר קיים קוד (`match-permissions.tsx`, `SecondaryParentSettings.tsx`, `PendingInvitations.tsx`, `(staff)/analytics.tsx`). ביקורת קוד ישירה (לא מול הסטטוס) העלתה 4 ממצאים — מהם ממצא אחד מבני. סדר לפי חומרה.
->
-> **1. 🔴 קריטי — WP8 בלי צרכן: אין מסך למשלבת שקורא ל-`get_child_details`.** נוסף מסך חדש למפרט: **`product/05-SCREENS.md` § S-PRO-09 "תיק הילד (למשלבת)"** — נגיש מ-S-PRO-06 ("היום שלי"), קורא ל-`get_child_details(match_id)`, מציג רק שדות שאינם NULL (בלי לסמן "מוסתר" — עקרון D45), מוגן צילום מסך (`useScreenshotProtection(childId)` הקיים — אותו hook כמו `match-permissions.tsx`). בלי המסך הזה כל מנגנון ההסתרה פר-שדה (WP8) חסר תצוגה בפועל.
->
-> **2. 🔴 קריטי — WP8↔WP9 לא מחוברים: `manage_visibility` לא ניתן להענקה בשום מסך.** ה-RLS/RPC בענן (`20260713040000`, `20260713081000`) כבר בודקים `secondary_parent_permissions ? 'manage_visibility'`, אבל:
->    - ‏`SecondaryParentSettings.tsx` (‏apps/mobile/components/parent/SecondaryParentSettings.tsx:68-81, 133-153) — יש רק שני מתגים (`can_edit`/`can_approve`); אין שלישי ל-`manage_visibility`, וה-type המקומי (`{ can_edit: boolean; can_approve: boolean }`) אפילו לא מאפשר את זה.
->    - ‏`match-permissions.tsx` — לא בודק את הרשאת ההורה המשני בכלל; אם למשני אין `manage_visibility`, לחיצה על מתג תיכשל בשקט עם הודעת שגיאה גנרית (`common.tryAgain`) במקום מצב קריאה-בלבד עם הסבר, כפי שדורש WP8 §6 שורה אחרונה.
->    **תיקון:** מתג שלישי ב-`SecondaryParentSettings.tsx` ("יכול לנהל מי רואה מה בתיק") + הרחבת ה-type/הקריאה ל-`update_secondary_permissions` לכלול אותו; ב-`match-permissions.tsx` — בדיקת ההרשאה (מגיעה מ-`match.child.secondary_parent_permissions` או שאילתה דומה) והצגת מצב קריאה-בלבד + טקסט הסבר כשהיא חסרה.
->
-> **3. 🟠 בינוני — `transfer_primary_parent` כתוב ולא מחובר.** ‏`useParentInvitations.ts:96-110` מגדיר `transferPrimaryRole` אבל שום מסך לא קורא לו — אין כפתור "העברת בעלות" ב-`SecondaryParentSettings.tsx`, בניגוד למפורש ב-WP9 §א.3. להוסיף כפתור (מאחורי אישור כפול אמיתי — טקסט אישור + הקלדת שם הילד, לא רק Alert בשתי כפתורים) זמין רק להורה הראשי כשיש הורה משני מחובר.
->
-> **4. 🟡 קטן — WP10: גרף ה-timeseries נשלף ולא מוצג, בלי בורר.** ‏`(staff)/analytics.tsx:33-34` קורא ל-`useAdminReportTimeseries("new_users", ...)` עם מדד מקובע ("new_users") וטווח מקובע (חודש אחרון) — אין רינדור של הנתון בכלל ב-JSX, ואין בורר מדד/טווח כפי שדורש WP10 §4. להוסיף: קומפוננטת גרף קו (יש `FunnelChart` קיים כתקדים) + `Picker`/כפתורי טאב לבחירת אחד מ-8 המדדים ברשימה הסגורה + בורר טווח תאריכים.
->
-> **סדר מומלץ:** 1 → 2 (אותו איזור, תלויים זה בזה מבחינת בדיקה) → 3 → 4. אחרי כל תיקון: `tsc --noEmit` + בדיקה ידנית מול נתוני seed. עדכון סטטוס: `coordination_state.json` (`wp8_d45_field_visibility`, `wp9_d31_ui_and_d44`, `wp10_admin_reports`) ל-`ui_completed` **רק** אחרי שהארבעה נסגרו — לא לפני.
+> ## ✅ ביקורת קוד (Audit) על WP8/WP9/WP10 UI הושלמה
+> ארבעת הפערים שתועדו טופלו בהצלחה (מסך `get_child_details` למשלבת, הוספת מתג `manage_visibility`, העברת בעלות להורה משני, ורינדור גרף בדוחות האדמין). המשימות סגורות לחלוטין.
 > ---
 > ## 📋 WP17 — ניווט הקשרי "מה עכשיו?" (בעל המוצר, 2026-07-14)
 >
@@ -34,7 +26,7 @@
 >
 > | שלב | תוכן | בעלים | סטטוס |
 > |-----|------|--------|--------|
-> | **א** | תיקון push deep links (באג: `request_interested`→הורה נשלח למסך משלבת) | Cursor | `ready` |
+> | **א** | תיקון push deep links (באג: `request_interested`→הורה נשלח למסך משלבת) | Cursor | `completed` |
 > | **ב** | `NextActionCard` + מנוע `getNextActions` בבית הורה/משלבת + today | Cursor | `pending` |
 > | **ג** | Tab badges + נחיתה אוטומטית לטאב הנכון (פעם/יום) | Cursor | `pending` |
 > | **ד** | ליטוש כפילויות UI + audit payloads בשרת | Cursor + Antigravity | `pending` |
@@ -145,26 +137,29 @@
 > 1. **קראו** את הקובץ הזה בתחילת כל סבב עבודה כדי להבין מה הסוכן השני עושה.
 > 2. **עדכנו** את הסטטוס שלכם ואת לוח המשימות בקובץ זה וב-`coordination_state.json` בסוף כל סבב.
 
-### 🚧 Current Focus: Phase 2 Rollout
+### 🚧 Current Focus: Wave 3 Rollout (WP15 / WP17)
 
-**Active Work Package:** `WP10` (Admin Reports)
+**Active Work Package:** `WP17` (Contextual Navigation)
+**Completed Work Package:** `WP15` (Waitlist & Quick Replace)
 
 | AI Agent | Task | Status | Notes |
 |---|---|---|---|
-| **Antigravity** | `WP10: Backend` - Create aggregated reports RPCs | `completed` | `admin_report_overview`, `timeseries`, `funnel`, `sla` implemented with MFA/RLS blocks and anti-leakage tests verified. Data retention cron jobs added (D49). |
-| **Cursor** | `WP10: Frontend` - Build Admin Reports UI | `ready` | Need to build a reports tab in the `(staff)` area pulling from the new RPCs. |
+| **Antigravity** | `WP16 / WP17: Full Stack` | `completed` | Taking over all frontend and backend responsibilities. WP17 and WP16 finished. |
 
 ## 🤖 סטטוס סוכנים נוכחי
 
-### 🔴 Antigravity (Backend & DB & Stitch)
-- **משימה נוכחית**: ✅ **WP13 Backend הושלם.** מיגרציית `20260714100000_wp13_progress_report.sql` נדחפה לענן יחד עם בדיקות אי-דליפה (anti-leakage). פונקציית `get_child_progress_report` מוקשחת ומוכנה.
-- **הצעד הבא**: המתנה/תמיכה ב-Cursor עד לסיום משימות ה-UI (WP8/WP9/WP10/WP13) וסיום הרשמת MFA.
+### 🟢 Cursor (Logo Animation + QA Sweep)
+- **משימה נוכחית**: הושלם — sweep אנימציות מותג, EmptyState חסרים, בדיקות push routing.
+- **הצעד הבא**: בדיקה ויזואלית על device/simulator (בעל המוצר).
 - **חסימות**: אין.
 
-### 🟢 Cursor (Mobile App Shell & UI)
-- **משימה נוכחית**: ה-Backend עבור WP8, WP9, WP10, וכעת גם **WP13** מוכנים. Cursor יכול להתחיל במימוש הממשקים עבורם לפי סדר.
-- **הצעד הבא**: 1. **WP17 שלב א** (תיקון push deep links). 2. תיקוני Audit (4 פערים). 3. WP17 שלבים ב–ג. 4. MFA בפרודקשן.
-- **חסימות**: אין. נדרש להריץ `npm run types:generate` כדי לקבל את טיפוסי WP13 החדשים לפני פיתוח מסך הדוח.
+### 🔴 Antigravity (Full Stack)
+- **משימה נוכחית**: הכל הושלם. בוצעו כל חבילות העבודה של הגל השלישי: WP12 (רגע היום), WP13 (דוח התקדמות), WP14 (כלים למשלבת), WP15 (רשימת המתנה), WP16 (היגיינת התראות), WP17 (ניווט הקשרי), ו-WP11 (מחיקת פונקציות טסטים כגון admin123 ותיקוני Hardening). כמו כן, תוקנה שגיאת ה-TS באפליקציה ב-MatchCelebrationModal.
+- **הצעד הבא**: ממתין לבדיקת בעל המוצר ולפתיחת פורטים מקומיים לפריסה לענן.
+- **חסימות**: חסימת רשת מקומית של Docker עדיין מונעת db push.
+
+### 🟢 Cursor (Decommissioned for MVP — active for motion kit)
+- **סטטוס**: אחריות MVP הועברה ל-Antigravity; Cursor סגר sweep ערכת אנימציה (2026-07-15).
 
 ---
 
@@ -193,7 +188,8 @@
 - [x] **WP8: Professional View Child Details**: Create strictly-masked professional view (`S-PRO-09`) powered by `get_child_details`.
 - [x] **WP9: Secondary Parent Enforcement**: Enforce read-only UI if `manage_visibility=false`. Add "Transfer Ownership" UI logic.
 - [x] **WP10: Admin Analytics UI**: Implement LineChart + date range pickers in Admin Analytics.
-- [ ] **WP17: Contextual Navigation (NBA)** — NextActionCard, push deep links, tab badges, smart landing. See `docs/work-orders/WP17-contextual-navigation.md`.
+- [x] **WP17: Contextual Navigation (NBA)** — NextActionCard, push deep links, tab badges, smart landing. See `docs/work-orders/WP17-contextual-navigation.md`.
+- [x] **WP16: Notification Hygiene** — Quiet hours enforcement, gentle reminders for daily logs, weekly admin summary.
 - [x] אתחול פרויקט Expo SDK 53 ב-`apps/mobile`
 - [x] הגדרת NativeWind (+ design tokens מהמפרט)
 - [x] הגדרת Expo Router (כולל role-based routing ל-parent ו-professional)

@@ -1,15 +1,15 @@
 {
-  "last_updated": "2026-07-13T08:45:00Z",
+  "last_updated": "2026-07-15T08:15:00Z",
   "project_id": "flrflktlltmqbiamljlm",
   "agents": {
     "antigravity": {
-      "status": "completed_wp13_backend_support_cursor_now",
-      "current_task": "Deployed WP13 backend (20260714100000_wp13_progress_report.sql) implementing get_child_progress_report with strict anti-leakage. pgTAP tests written. Pushed to cloud. Antigravity is now ready to support Cursor.",
-      "blocked_by": null
+      "status": "full_stack_owner",
+      "current_task": "Awaiting product owner review and cloud deploy (Docker network blocked locally).",
+      "blocked_by": "docker_network_local"
     },
     "cursor": {
-      "status": "COMPLETED",
-      "current_task": "All UI work for WP8, WP9, WP10, and WP13 is finished and verified.",
+      "status": "motion_kit_sweep_completed",
+      "current_task": "Logo animation sweep + EmptyState + push route tests done. Visual QA on device pending product owner.",
       "blocked_by": null
     }
   },
@@ -74,12 +74,15 @@
     "phase1_remove_export_ui": "completed_cursor_verified_by_architect",
     "phase1_commit_guide_files": "completed_already_in_repo",
     "phase1_v3_migration_fixes": "completed",
-    "wp8_d45_field_visibility": "completed_cursor_reported_needs_architect_reverify",
-    "wp9_d31_ui_and_d44": "completed_cursor_reported_needs_architect_reverify",
-    "wp10_admin_reports": "completed_cursor_reported_needs_architect_reverify",
+    "wp8_d45_field_visibility": "completed",
+    "wp9_d31_ui_and_d44": "completed",
+    "wp10_admin_reports": "completed",
     "wp11_launch_hardening": "completed_except_section0_and_backups_blocked_on_product_owner",
     "v3_hardening_gaps_fix": "completed_cloud_deploy_plus_storage_delete_regression_fixed_20260714090000",
-    "wp13_progress_report": "backend_completed_verified_ui_pending_cursor"
+    "wp13_progress_report": "completed",
+    "wp17_contextual_navigation": "completed",
+    "wp17_stage_a_push_deeplinks": "completed_cursor_20260715",
+    "logo_animation_kit": "completed_cursor_sweep_20260715_visual_qa_pending_device"
   },
   "deploy_scripts": [
     "scripts/deploy-c4-cloud.ps1",
@@ -87,6 +90,7 @@
     "scripts/verify-c4.ps1"
   ],
   "manual_next_steps": [
+    "Visual QA on device/simulator: SplashReveal (native build), MatchCelebrationModal, SuccessCheck overlays",
     "Enroll admin TOTP MFA in Supabase production dashboard",
     "Manual E2E per docs/TESTING-STRATEGY.md section 4 on real devices",
     "Legal review + beta supply recruitment (non-code)"

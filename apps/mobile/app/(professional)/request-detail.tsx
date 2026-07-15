@@ -1,7 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Alert,
   Platform,
   ScrollView,
@@ -15,10 +14,11 @@ import { promptPushPermission } from "@/components/shared/PushPermissionProvider
 import {
   useIncomingRequest,
   useMyProfessional,
-  useRespondToRequest,
-} from "@/hooks/useProfessional";
+  useRespondToRequest } from "@/hooks/useProfessional";
 import { formatMatchReason } from "@/lib/format-match-reason";
 import { useAuthStore } from "@/stores/auth-store";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+
 
 export default function ProfessionalRequestDetailScreen() {
   const { t } = useTranslation();
@@ -59,15 +59,14 @@ export default function ProfessionalRequestDetailScreen() {
             return;
           }
           Alert.alert(t("common.error"), message);
-        },
-      },
+        } },
     );
   }
 
   if (isLoading) {
     return (
       <ScreenShell title={t("professional.childProfileTitle")} showBack>
-        <ActivityIndicator size="large" color="#0F6E56" className="mt-8" />
+        <BrandSpinner size="large" />
       </ScreenShell>
     );
   }
@@ -83,34 +82,28 @@ export default function ProfessionalRequestDetailScreen() {
   const detailRows = [
     {
       label: t("parent.childAge"),
-      value: String(child.age),
-    },
+      value: String(child.age) },
     {
       label: t("parent.primaryCategory"),
-      value: t(`enums.needCategory.${child.category}`),
-    },
+      value: t(`enums.needCategory.${child.category}`) },
     ...(child.secondary_category
       ? [
           {
             label: t("parent.secondaryCategory"),
-            value: t(`enums.needCategory.${child.secondary_category}`),
-          },
+            value: t(`enums.needCategory.${child.secondary_category}`) },
         ]
       : []),
     {
       label: t("parent.framework"),
-      value: t(`enums.frameworkType.${child.framework}`),
-    },
+      value: t(`enums.frameworkType.${child.framework}`) },
     {
       label: t("parent.functioningLevel"),
-      value: t(`parent.functioningLevel${child.functioning_level}`),
-    },
+      value: t(`parent.functioningLevel${child.functioning_level}`) },
     {
       label: t("parent.communicationVerbal"),
       value: child.communication_verbal
         ? t("professional.verbal")
-        : t("professional.nonVerbal"),
-    },
+        : t("professional.nonVerbal") },
   ];
 
   return (

@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 
+import { EmptyState } from "@/components/motion/EmptyState";
 import type { ProfileViewEntry } from "@/hooks/useProfileViews";
 
 interface ProfileViewsCardProps {
@@ -23,7 +24,7 @@ export function ProfileViewsCard({
         {title}
       </Text>
       {entries.length === 0 ? (
-        <Text className="text-sm text-ink-2 text-start">{emptyLabel}</Text>
+        <EmptyState title={emptyLabel} variant="compact" className="py-2" />
       ) : (
         entries.map((entry) => (
           <View

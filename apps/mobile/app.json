@@ -86,7 +86,16 @@
           "color": "#534AB7"
         }
       ],
-      "expo-video"
+      "expo-video",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/logo-transparent.png",
+          "imageWidth": 160,
+          "resizeMode": "contain",
+          "backgroundColor": "#FBFAF7"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

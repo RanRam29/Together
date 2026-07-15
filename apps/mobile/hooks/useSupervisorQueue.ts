@@ -16,20 +16,30 @@ import {
 } from "@/lib/api/supervisor";
 
 export const unassignedQueueKey = ["staff", "queue", "unassigned"] as const;
+export const allQueueKey = ["staff", "queue", "all"] as const;
 export const myQueueKey = (userId: string) =>
   ["staff", "queue", "mine", userId] as const;
+
+export function useAllSubmittedQueue(isAdmin: boolean) {
+  return useQuery({
+    queryKey: allQueueKey,
+    queryFn: () => fetchAllSubmittedQueue(true),
+    enabled: isAdmin,
+    refetchInterval: 60_000,
+  });
+}
 
 export function useUnassignedQueue(isAdmin: boolean) {
   return useQuery({
     queryKey: unassignedQueueKey,
     queryFn: async () => {
       try {
-        return await fetchUnassignedQueue(isAdmin);
+        return await fetchUnassignedQueue(false);
       } catch {
-        if (isAdmin) return fetchAllSubmittedQueue(true);
         return [];
       }
     },
+    enabled: !isAdmin,
     refetchInterval: 60_000,
   });
 }
@@ -43,9 +53,8 @@ export function useMyAssignedQueue(
     queryFn: async () => {
       if (!supervisorId) return [];
       try {
-        return await fetchMyAssignedQueue(supervisorId, isAdmin);
+        return await fetchMyAssignedQueue(supervisorId, false);
       } catch {
-        if (isAdmin) return fetchAllSubmittedQueue(true);
         return [];
       }
     },
@@ -82,6 +91,7 @@ export function useClaimProfessional() {
     mutationFn: supervisorClaimProfessional,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: unassignedQueueKey });
+      queryClient.invalidateQueries({ queryKey: allQueueKey });
       queryClient.invalidateQueries({ queryKey: ["staff", "queue", "mine"] });
     },
   });
@@ -107,6 +117,7 @@ export function useStaffVerifyProfessional(useSupervisorRpc: boolean) {
         : 0;
       void track(AnalyticsEvents.PRO_VERIFIED, { days_waited: daysWaited });
       queryClient.invalidateQueries({ queryKey: unassignedQueueKey });
+      queryClient.invalidateQueries({ queryKey: allQueueKey });
       queryClient.invalidateQueries({ queryKey: ["staff", "queue", "mine"] });
     },
   });
@@ -125,6 +136,7 @@ export function useStaffRejectDocument(useSupervisorRpc: boolean) {
     }) => staffRejectDocument(documentId, reason, useSupervisorRpc),
     onSuccess: (_data, vars) => {
       queryClient.invalidateQueries({ queryKey: unassignedQueueKey });
+      queryClient.invalidateQueries({ queryKey: allQueueKey });
       queryClient.invalidateQueries({ queryKey: ["staff", "queue", "mine"] });
       queryClient.invalidateQueries({
         queryKey: ["staff", "professional-documents", vars.userId],
@@ -139,6 +151,7 @@ export function useReleaseAssignment() {
     mutationFn: adminReleaseAssignment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: unassignedQueueKey });
+      queryClient.invalidateQueries({ queryKey: allQueueKey });
       queryClient.invalidateQueries({ queryKey: ["staff", "queue", "mine"] });
     },
   });

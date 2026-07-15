@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Alert,
   ScrollView,
   Text,
@@ -14,20 +13,19 @@ import {
   FRAMEWORK_TYPES,
   NEED_CATEGORIES,
   type FrameworkType,
-  type NeedCategory,
-} from "@/lib/constants/child";
+  type NeedCategory } from "@/lib/constants/child";
 import {
   useMyProfessional,
-  useUpdateMyProfessional,
-} from "@/hooks/useProfessional";
+  useUpdateMyProfessional } from "@/hooks/useProfessional";
+import { useProfessionalStats } from "@/hooks/useProfessionalTools";
 import { useAuthStore } from "@/stores/auth-store";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
 
 const VERIFICATION_COLORS: Record<string, string> = {
   verified: "text-teal",
   submitted: "text-amber",
   pending: "text-ink-2",
-  rejected: "text-coral",
-};
+  rejected: "text-coral" };
 
 export default function ProfessionalProfileScreen() {
   const { t } = useTranslation();
@@ -35,6 +33,7 @@ export default function ProfessionalProfileScreen() {
   const userId = session?.user?.id;
 
   const { data: professional, isLoading } = useMyProfessional(userId);
+  const { data: stats } = useProfessionalStats(professional?.id);
   const update = useUpdateMyProfessional(userId);
 
   const [displayName, setDisplayName] = useState("");
@@ -68,8 +67,7 @@ export default function ProfessionalProfileScreen() {
         bio: bio.trim() || null,
         specialties,
         framework_types: frameworkTypes,
-        experience_years: Number.parseInt(experienceYears, 10) || 0,
-      });
+        experience_years: Number.parseInt(experienceYears, 10) || 0 });
       Alert.alert(t("professional.profileSaved"));
     } catch (err) {
       const message = err instanceof Error ? err.message : t("common.tryAgain");
@@ -80,7 +78,7 @@ export default function ProfessionalProfileScreen() {
   if (isLoading) {
     return (
       <ScreenShell title={t("professional.profile")}>
-        <ActivityIndicator size="large" color="#0F6E56" className="mt-8" />
+        <BrandSpinner size="large" />
       </ScreenShell>
     );
   }
@@ -103,6 +101,25 @@ export default function ProfessionalProfileScreen() {
           </Text>
         </View>
 
+        {stats && (
+          <View className="bg-teal-bg border border-teal rounded-card px-4 py-4 mb-5 flex-row justify-between">
+            <View className="flex-1 items-center">
+              <Text className="text-2xl font-bold text-teal font-rubik">{stats.months_active}</Text>
+              <Text className="text-xs text-teal-ink text-center mt-1">חודשי פעילות</Text>
+            </View>
+            <View className="w-px bg-teal/20" />
+            <View className="flex-1 items-center">
+              <Text className="text-2xl font-bold text-teal font-rubik">{stats.completed_matches}</Text>
+              <Text className="text-xs text-teal-ink text-center mt-1">ליוויים שהסתיימו</Text>
+            </View>
+            <View className="w-px bg-teal/20" />
+            <View className="flex-1 items-center">
+              <Text className="text-2xl font-bold text-teal font-rubik">{stats.reporting_consistency_90d}%</Text>
+              <Text className="text-xs text-teal-ink text-center mt-1">עקביות דיווח</Text>
+            </View>
+          </View>
+        )}
+
         <TextField
           label={t("auth.displayNameLabel")}
           placeholder={t("auth.displayNamePlaceholder")}
@@ -114,8 +131,7 @@ export default function ProfessionalProfileScreen() {
           label={t("auth.pro.specialties")}
           options={NEED_CATEGORIES.map((value) => ({
             value,
-            label: t(`enums.needCategory.${value}`),
-          }))}
+            label: t(`enums.needCategory.${value}`) }))}
           values={specialties}
           onChange={setSpecialties}
         />
@@ -124,8 +140,7 @@ export default function ProfessionalProfileScreen() {
           label={t("auth.pro.frameworkTypes")}
           options={FRAMEWORK_TYPES.map((value) => ({
             value,
-            label: t(`enums.frameworkType.${value}`),
-          }))}
+            label: t(`enums.frameworkType.${value}`) }))}
           values={frameworkTypes}
           onChange={setFrameworkTypes}
         />

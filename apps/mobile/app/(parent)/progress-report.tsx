@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Alert, Platform, Pressable, ScrollView, Text, View } from "react-native";
+import { Alert, Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useState, useMemo } from "react";
 import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
@@ -8,6 +8,7 @@ import * as Sharing from 'expo-sharing';
 import { ScreenShell } from "@/components/ui/Screen";
 import { useProgressReport } from "@/hooks/useProgressReport";
 import { supabase } from "@/lib/supabase";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
 
 const formatDate = (d: Date) => d.toISOString().split("T")[0];
 
@@ -129,7 +130,7 @@ export default function ProgressReportScreen() {
   if (isLoading) {
     return (
       <ScreenShell title={t("report.title", "דוח התקדמות")} showBack>
-        <ActivityIndicator size="large" color="#534AB7" className="mt-8" />
+        <BrandSpinner size="large" />
       </ScreenShell>
     );
   }

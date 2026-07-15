@@ -1,14 +1,12 @@
-import { useState } from "react";
-import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Pressable,
   RefreshControl,
   ScrollView,
   Text,
-  View,
-} from "react-native";
+  View } from "react-native";
 
 import { SlaBadge } from "@/components/admin/SlaBadge";
 import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
@@ -16,25 +14,37 @@ import { PrimaryButton } from "@/components/ui/Screen";
 import { getSlaLevel } from "@/lib/admin-verification";
 import type { VerificationQueueItem } from "@/lib/api/supervisor";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
+import { colors } from "@/lib/theme";
+
 import {
+  useAllSubmittedQueue,
   useClaimProfessional,
   useMyAssignedQueue,
-  useUnassignedQueue,
-} from "@/hooks/useSupervisorQueue";
+  useUnassignedQueue } from "@/hooks/useSupervisorQueue";
 
 type Tab = "pool" | "mine";
 
 export default function StaffVerificationScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { highlight } = useLocalSearchParams<{ highlight?: string }>();
+  const highlightId =
+    typeof highlight === "string" ? highlight : highlight?.[0];
   const { isAdmin, isSupervisor, userId } = useStaffRoute();
   const [tab, setTab] = useState<Tab>(isSupervisor ? "pool" : "mine");
 
+  const allQueue = useAllSubmittedQueue(isAdmin);
   const pool = useUnassignedQueue(isAdmin);
   const mine = useMyAssignedQueue(userId, isAdmin);
   const claim = useClaimProfessional();
 
-  const active = tab === "pool" ? pool : mine;
+  const active = isAdmin ? allQueue : tab === "pool" ? pool : mine;
+
+  useEffect(() => {
+    if (highlightId) {
+      router.replace(`/(staff)/review/${highlightId}` as never);
+    }
+  }, [highlightId, router]);
 
   function openReview(item: VerificationQueueItem) {
     router.push(`/(staff)/review/${item.id}` as never);
@@ -42,8 +52,7 @@ export default function StaffVerificationScreen() {
 
   function handleClaim(item: VerificationQueueItem) {
     claim.mutate(item.id, {
-      onSuccess: () => openReview(item),
-    });
+      onSuccess: () => openReview(item) });
   }
 
   return (
@@ -53,9 +62,14 @@ export default function StaffVerificationScreen() {
         <RefreshControl
           refreshing={active.isRefetching}
           onRefresh={() => {
-            void pool.refetch();
-            void mine.refetch();
+            if (isAdmin) void allQueue.refetch();
+            else {
+              void pool.refetch();
+              void mine.refetch();
+            }
           }}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
         />
       }
     >
@@ -64,34 +78,44 @@ export default function StaffVerificationScreen() {
       </Text>
 
       <View className="flex-row mb-6 bg-surface rounded-card border border-border p-1">
-        <Pressable
-          onPress={() => setTab("pool")}
-          className={`flex-1 py-3 rounded-card items-center ${
-            tab === "pool" ? "bg-purple" : ""
-          }`}
-        >
-          <Text
-            className={`font-semibold font-rubik ${
-              tab === "pool" ? "text-white" : "text-ink-2"
-            }`}
-          >
-            {t("staff.tabPool", { count: pool.data?.length ?? 0 })}
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setTab("mine")}
-          className={`flex-1 py-3 rounded-card items-center ${
-            tab === "mine" ? "bg-purple" : ""
-          }`}
-        >
-          <Text
-            className={`font-semibold font-rubik ${
-              tab === "mine" ? "text-white" : "text-ink-2"
-            }`}
-          >
-            {t("staff.tabMine", { count: mine.data?.length ?? 0 })}
-          </Text>
-        </Pressable>
+        {!isAdmin ? (
+          <>
+            <Pressable
+              onPress={() => setTab("pool")}
+              className={`flex-1 py-3 rounded-card items-center ${
+                tab === "pool" ? "bg-purple" : ""
+              }`}
+            >
+              <Text
+                className={`font-semibold font-rubik ${
+                  tab === "pool" ? "text-white" : "text-ink-2"
+                }`}
+              >
+                {t("staff.tabPool", { count: pool.data?.length ?? 0 })}
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => setTab("mine")}
+              className={`flex-1 py-3 rounded-card items-center ${
+                tab === "mine" ? "bg-purple" : ""
+              }`}
+            >
+              <Text
+                className={`font-semibold font-rubik ${
+                  tab === "mine" ? "text-white" : "text-ink-2"
+                }`}
+              >
+                {t("staff.tabMine", { count: mine.data?.length ?? 0 })}
+              </Text>
+            </Pressable>
+          </>
+        ) : (
+          <View className="flex-1 py-3 rounded-card items-center bg-purple">
+            <Text className="font-semibold font-rubik text-white">
+              {t("staff.tabAll", { count: allQueue.data?.length ?? 0 })}
+            </Text>
+          </View>
+        )}
       </View>
 
       <StaffQueryFeedback
@@ -104,18 +128,25 @@ export default function StaffVerificationScreen() {
           (active.data?.length ?? 0) === 0
         }
         emptyMessage={
-          tab === "pool" ? t("staff.poolEmpty") : t("staff.mineEmpty")
+          isAdmin
+            ? t("staff.allEmpty")
+            : tab === "pool"
+              ? t("staff.poolEmpty")
+              : t("staff.mineEmpty")
         }
         onRetry={() => {
-          void pool.refetch();
-          void mine.refetch();
+          if (isAdmin) void allQueue.refetch();
+          else {
+            void pool.refetch();
+            void mine.refetch();
+          }
         }}
       />
 
       {!active.isLoading && !active.isError && (active.data?.length ?? 0) > 0
         ? active.data?.map((item, index) => {
           const sla = getSlaLevel(item.updated_at);
-          const isPool = tab === "pool";
+          const isPool = !isAdmin && tab === "pool";
 
           return (
             <View

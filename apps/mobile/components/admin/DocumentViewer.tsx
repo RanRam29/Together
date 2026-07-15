@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Image,
   Linking,
+  Platform,
   Pressable,
   Text,
   View,
 } from "react-native";
 
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
 import type { DocumentUpload } from "@/lib/api/documents";
 import { getStaffDocumentUrl } from "@/lib/api/supervisor";
 
@@ -70,15 +71,24 @@ export function DocumentViewer({ document, label, onViewed }: DocumentViewerProp
       ) : null}
 
       {loading ? (
-        <ActivityIndicator size="small" color="#534AB7" />
+        <BrandSpinner size="small" />
       ) : error ? (
         <Text className="text-sm text-coral text-right">{error}</Text>
       ) : url && isImage ? (
         <Image
           source={{ uri: url }}
-          className="w-full h-48 rounded-card bg-bg"
+          className="w-full h-96 rounded-card bg-bg"
           resizeMode="contain"
         />
+      ) : url && Platform.OS === "web" ? (
+        <View className="w-full h-96 rounded-card bg-bg overflow-hidden border border-border">
+          {/* Inline PDF preview on web — avoids opening blank external viewers. */}
+          <iframe
+            src={url}
+            title={label}
+            style={{ width: "100%", height: "100%", border: "none" }}
+          />
+        </View>
       ) : url ? (
         <Pressable
           onPress={() => Linking.openURL(url)}

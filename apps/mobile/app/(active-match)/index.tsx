@@ -2,7 +2,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -15,11 +14,13 @@ import { DailyLogRow, InsightsCard } from "@/components/active-match/InsightsCar
 import { ProfileViewsCard } from "@/components/active-match/ProfileViewsCard";
 import { TodayStatusCard } from "@/components/active-match/TodayStatusCard";
 import { TrendChart } from "@/components/active-match/TrendChart";
+import { WeeklySummaryCard } from "@/components/parent/WeeklySummaryCard";
 import { ScreenShell } from "@/components/ui/Screen";
 import { useActiveMatchForParent, useActiveMatchForProfessional, useEndMatch } from "@/hooks/useActiveMatch";
 import { useCheckin } from "@/hooks/useCheckin";
 import { useTodayCheckin } from "@/hooks/useCheckins";
 import { useGetDailyLogs } from "@/hooks/useDailyLogs";
+import { useWeeklySummary } from "@/hooks/useWeeklySummary";
 import { useMatchMetricKeys, useMetricsForChild } from "@/hooks/useMetrics";
 import { useProfileViews } from "@/hooks/useProfileViews";
 import { useMyProfessional } from "@/hooks/useProfessional";
@@ -32,8 +33,7 @@ function formatTime(date: Date, locale: string) {
   try {
     return new Intl.DateTimeFormat(locale, {
       hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
+      minute: "2-digit" }).format(date);
   } catch {
     return `${date.getHours()}:${String(date.getMinutes()).padStart(2, "0")}`;
   }
@@ -44,19 +44,22 @@ function formatDate(dateString: string, locale: string) {
     return new Intl.DateTimeFormat(locale, {
       day: "2-digit",
       month: "2-digit",
-      year: "numeric",
-    }).format(new Date(dateString));
+      year: "numeric" }).format(new Date(dateString));
   } catch {
     return dateString;
   }
 }
 
+import { useMatchById } from "@/hooks/useMatchPermissions";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
+
+
 function formatLogTime(iso: string, locale: string) {
   try {
     return new Intl.DateTimeFormat(locale, {
       hour: "2-digit",
-      minute: "2-digit",
-    }).format(new Date(iso));
+      minute: "2-digit" }).format(new Date(iso));
   } catch {
     return "";
   }
@@ -82,6 +85,8 @@ export default function ActiveMatchScreen() {
   const proActive = useActiveMatchForProfessional(
     isProfessional ? myPro?.id : undefined,
   );
+  const matchById = useMatchById(params.matchId);
+
   const activeMatch = isProfessional ? proActive.data : parentActive.data;
   const activeLoading = isProfessional ? proActive.isLoading : parentActive.isLoading;
   const matchId = params.matchId ?? activeMatch?.id ?? "";
@@ -90,11 +95,18 @@ export default function ActiveMatchScreen() {
   const { todayCheckin, refetch: refetchCheckins } = useTodayCheckin(matchId);
   const logs = useGetDailyLogs(matchId);
   const endMatch = useEndMatch();
+  
+  const now = new Date();
+  const isWeekend = now.getDay() >= 5 || now.getDay() === 0; // Fri, Sat, Sun
+  const currentWeekStart = new Date(now);
+  currentWeekStart.setDate(now.getDate() - now.getDay());
+  const weekStartStr = currentWeekStart.toISOString().split("T")[0];
+  const weeklySummary = useWeeklySummary(!isProfessional && isWeekend ? matchId : undefined, weekStartStr);
   const matchMetrics = useMatchMetricKeys(matchId);
   const catalog = useMetricsForChild(matchMetrics.data?.childId);
 
-  const professionalId = activeMatch?.professional?.id;
-  const childId = activeMatch?.child?.id ?? matchMetrics.data?.childId;
+  const professionalId = activeMatch?.professional?.id ?? matchById.data?.professional_id;
+  const childId = activeMatch?.child?.id ?? matchMetrics.data?.childId ?? matchById.data?.child_id;
   const profileViews = useProfileViews(!isProfessional ? childId : undefined);
 
   const latestLog = logs.data?.[0];
@@ -149,8 +161,7 @@ export default function ActiveMatchScreen() {
       {
         confirmText: t("activeMatch.endAction"),
         cancelText: t("common.cancel"),
-        destructive: true,
-      },
+        destructive: true },
     );
     if (!confirmed) return;
 
@@ -160,9 +171,7 @@ export default function ActiveMatchScreen() {
         pathname: "/(active-match)/review",
         params: {
           matchId,
-          professionalId: professionalId ?? activeMatch?.professional_id ?? "",
-        },
-      });
+          professionalId: professionalId ?? activeMatch?.professional_id ?? "" } });
     } catch (err) {
       showError(errorMessage(err, t("common.tryAgain")));
     }
@@ -172,20 +181,48 @@ export default function ActiveMatchScreen() {
     ? "/(professional)/today"
     : "/(parent)/(tabs)";
 
-  if (!matchId) {
-    if (activeLoading) {
-      return (
-        <ScreenShell
-          title={t("activeMatch.title")}
-          subtitle={t("activeMatch.subtitle")}
-          showBack
-          backFallbackHref={backFallback}
-        >
-          <ActivityIndicator size="large" color="#534AB7" className="mt-8" />
-        </ScreenShell>
-      );
-    }
+  if (matchById.isLoading || activeLoading) {
+    return (
+      <ScreenShell
+        title={t("activeMatch.title")}
+        subtitle={t("activeMatch.subtitle")}
+        showBack
+        backFallbackHref={backFallback}
+      >
+        <BrandSpinner size="large" />
+      </ScreenShell>
+    );
+  }
 
+  if (matchById.data?.status === "ended" && !isProfessional) {
+    const childName = matchById.data?.child?.first_name ?? "";
+    return (
+      <ScreenShell
+        title={t("activeMatch.title")}
+        showBack
+        backFallbackHref={backFallback}
+      >
+        <View className="bg-surface border border-border rounded-card p-5 items-center mt-4">
+          <Text className="text-ink font-bold text-lg mb-2 text-center">
+            {t("activeMatch.endedTitle", `הליווי עם ${matchById.data.professional?.display_name} הסתיים.`)}
+          </Text>
+          <Text className="text-ink-2 text-center mb-6 leading-6">
+            {t("activeMatch.endedSubtitle", `נחפש מחליפה ל${childName}?`)}
+          </Text>
+          <Pressable
+            onPress={() => router.replace("/(parent)/(tabs)")}
+            className="rounded-full bg-purple px-6 py-3 active:opacity-90 w-full items-center"
+          >
+            <Text className="text-white font-bold text-base font-rubik">
+              {t("activeMatch.findReplacement", "כן, בואו נחפש")}
+            </Text>
+          </Pressable>
+        </View>
+      </ScreenShell>
+    );
+  }
+
+  if (!matchId || !activeMatch) {
     return (
       <ScreenShell
         title={t("activeMatch.title")}
@@ -202,7 +239,6 @@ export default function ActiveMatchScreen() {
     );
   }
 
-  const now = new Date();
   const timeLabel = formatTime(now, i18n.language);
   const proName = activeMatch?.professional?.display_name ?? "";
   const todayCheckinTime = todayCheckin
@@ -212,7 +248,10 @@ export default function ActiveMatchScreen() {
   function handleRefresh() {
     logs.refetch();
     refetchCheckins();
-    if (!isProfessional) profileViews.refetch();
+    if (!isProfessional) {
+      profileViews.refetch();
+      if (isWeekend) weeklySummary.refetch();
+    }
   }
 
   return (
@@ -228,7 +267,9 @@ export default function ActiveMatchScreen() {
           <RefreshControl
             refreshing={logs.isRefetching || profileViews.isRefetching}
             onRefresh={handleRefresh}
-          />
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />
         }
         showsVerticalScrollIndicator={false}
       >
@@ -238,11 +279,17 @@ export default function ActiveMatchScreen() {
               todayCheckin?.is_valid === true
                 ? t("activeMatch.arrivedToday", {
                     name: proName,
-                    time: todayCheckinTime ?? "",
-                  })
+                    time: todayCheckinTime ?? "" })
                 : t("activeMatch.notArrivedToday", { name: proName })
             }
             hasCheckedIn={todayCheckin?.is_valid === true}
+          />
+        ) : null}
+
+        {!isProfessional && isWeekend && weeklySummary.data ? (
+          <WeeklySummaryCard 
+            summary={weeklySummary.data} 
+            childName={activeMatch?.child?.first_name ?? ""} 
           />
         ) : null}
 
@@ -303,8 +350,7 @@ export default function ActiveMatchScreen() {
             onPress={() =>
               router.push({
                 pathname: "/(parent)/progress-report",
-                params: { childId },
-              } as never)
+                params: { childId } } as never)
             }
             className="rounded-card border border-teal py-3 items-center mb-6 active:opacity-90 bg-teal-bg"
           >
@@ -323,8 +369,7 @@ export default function ActiveMatchScreen() {
               onPress={() =>
                 router.push({
                   pathname: "/(active-match)/daily-log-form",
-                  params: { matchId },
-                })
+                  params: { matchId } })
               }
               className="rounded-full bg-purple px-4 py-2 active:opacity-90"
             >
@@ -336,7 +381,7 @@ export default function ActiveMatchScreen() {
         </View>
 
         {logs.isLoading ? (
-          <ActivityIndicator size="large" color="#534AB7" className="mt-4" />
+          <BrandSpinner size="large" />
         ) : !logs.data || logs.data.length === 0 ? (
           <View className="bg-surface border border-border rounded-card p-5">
             <Text className="text-ink-2 text-center leading-6">
@@ -355,8 +400,7 @@ export default function ActiveMatchScreen() {
               onPress={() =>
                 router.push({
                   pathname: "/(active-match)/daily-log-detail" as any,
-                  params: { logId: log.id, matchId },
-                })
+                  params: { logId: log.id, matchId } })
               }
             />
           ))
@@ -369,9 +413,7 @@ export default function ActiveMatchScreen() {
                 pathname: "/(parent)/match-permissions",
                 params: {
                   matchId,
-                  childId: childId ?? "",
-                },
-              } as never)
+                  childId: childId ?? "" } } as never)
             }
             className="rounded-card border border-purple py-3 items-center mb-4 active:opacity-90"
           >

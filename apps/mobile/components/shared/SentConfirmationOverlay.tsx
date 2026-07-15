@@ -3,6 +3,7 @@ import { Ionicons } from "@expo/vector-icons";
 import type { ComponentProps } from "react";
 
 import { AnimatedEntrance } from "@/components/ui/AnimatedEntrance";
+import { SuccessCheck } from "@/components/motion/SuccessCheck";
 import { celebrateEntering } from "@/lib/motion";
 
 type IoniconName = ComponentProps<typeof Ionicons>["name"];
@@ -36,7 +37,11 @@ export function SentConfirmationOverlay({
           <View
             className={`w-20 h-20 rounded-full items-center justify-center mb-5 ${iconBgClass}`}
           >
-            <Ionicons name={icon} size={42} color={iconColor} />
+            {icon === "checkmark-circle" ? (
+              <SuccessCheck size={42} color={iconColor} />
+            ) : (
+              <Ionicons name={icon} size={42} color={iconColor} />
+            )}
           </View>
           <Text className="text-xl font-bold text-ink font-rubik text-center mb-2">
             {title}

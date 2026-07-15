@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   RefreshControl,
   ScrollView,
   Text,
@@ -14,6 +13,9 @@ import { StaffFilterSelect } from "@/components/admin/StaffFilterSelect";
 import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
 import { useAdminAudit, useAuditFilterOptions } from "@/hooks/useAdminAudit";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
+
 
 export default function AdminAuditScreen() {
   const { t } = useTranslation();
@@ -37,7 +39,7 @@ export default function AdminAuditScreen() {
   if (!isReady || !isAdmin) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -52,6 +54,8 @@ export default function AdminAuditScreen() {
             void refetch();
             void filterOptions.refetch();
           }}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
         />
       }
     >

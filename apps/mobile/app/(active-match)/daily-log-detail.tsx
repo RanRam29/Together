@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import { MoodBadge } from "@/components/active-match/MoodPicker";
 import { InsightsCard } from "@/components/active-match/InsightsCard";
@@ -9,6 +9,8 @@ import { PrimaryButton, ScreenShell } from "@/components/ui/Screen";
 import { useGetDailyLog } from "@/hooks/useDailyLogs";
 import { useMatchMetricKeys, useMetricsForChild } from "@/hooks/useMetrics";
 import { useAuthStore } from "@/stores/auth-store";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+
 
 function formatDate(dateString: string, locale: string) {
   try {
@@ -16,8 +18,7 @@ function formatDate(dateString: string, locale: string) {
       weekday: "long",
       day: "numeric",
       month: "long",
-      year: "numeric",
-    }).format(new Date(dateString));
+      year: "numeric" }).format(new Date(dateString));
   } catch {
     return dateString;
   }
@@ -27,8 +28,7 @@ function formatTime(iso: string, locale: string) {
   try {
     return new Intl.DateTimeFormat(locale, {
       hour: "2-digit",
-      minute: "2-digit",
-    }).format(new Date(iso));
+      minute: "2-digit" }).format(new Date(iso));
   } catch {
     return "";
   }
@@ -69,7 +69,7 @@ export default function DailyLogDetailScreen() {
         showBack
         backFallbackHref="/(active-match)"
       >
-        <ActivityIndicator size="large" color="#534AB7" className="mt-8" />
+        <BrandSpinner size="large" />
       </ScreenShell>
     );
   }
@@ -110,8 +110,7 @@ export default function DailyLogDetailScreen() {
             </Text>
             <Text className="text-sm text-ink-2 mt-1">
               {t("activeMatch.logTimeLabel", {
-                time: formatTime(entry.created_at, i18n.language),
-              })}
+                time: formatTime(entry.created_at, i18n.language) })}
             </Text>
             <Text className="text-sm text-purple font-semibold mt-1 font-rubik">
               {t(`activeMatch.mood${entry.mood}` as "activeMatch.mood1")}
@@ -146,6 +145,15 @@ export default function DailyLogDetailScreen() {
           </View>
         ) : null}
 
+        {entry.highlight ? (
+          <View className="bg-surface border border-border rounded-card p-4 mb-4 mt-2">
+            <Text className="text-sm font-bold text-amber mb-2 font-rubik">
+              🌟 רגע היום
+            </Text>
+            <Text className="text-base text-ink leading-6 text-start">{entry.highlight}</Text>
+          </View>
+        ) : null}
+
         <InsightsCard
           title={insightTitle}
           emptyLabel={t("activeMatch.aiPreparing")}
@@ -160,8 +168,7 @@ export default function DailyLogDetailScreen() {
               onPress={() =>
                 router.push({
                   pathname: "/(active-match)/daily-log-form",
-                  params: { matchId: resolvedMatchId, logId: entry.id },
-                })
+                  params: { matchId: resolvedMatchId, logId: entry.id } })
               }
               variant="purple"
             />
@@ -170,8 +177,7 @@ export default function DailyLogDetailScreen() {
               onPress={() =>
                 router.push({
                   pathname: "/(active-match)/daily-log-form",
-                  params: { matchId: resolvedMatchId },
-                })
+                  params: { matchId: resolvedMatchId } })
               }
               variant="teal"
             />

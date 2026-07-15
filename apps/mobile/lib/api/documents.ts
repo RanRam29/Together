@@ -60,12 +60,18 @@ export async function getDocumentSignedUrl(
   storagePath: string,
   expiresInSeconds = 60,
 ): Promise<string> {
+  const objectPath = normalizeStoragePath(storagePath);
   const { data, error } = await supabase.storage
     .from("documents")
-    .createSignedUrl(storagePath, expiresInSeconds);
+    .createSignedUrl(objectPath, expiresInSeconds);
 
   if (error) throw error;
   return data.signedUrl;
+}
+
+/** Strip accidental bucket prefix from legacy seed rows. */
+export function normalizeStoragePath(storagePath: string): string {
+  return storagePath.replace(/^documents\//, "");
 }
 
 /**

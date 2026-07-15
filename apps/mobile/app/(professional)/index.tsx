@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -19,12 +18,14 @@ import { useActiveMatchForProfessional } from "@/hooks/useActiveMatch";
 import {
   useIncomingRequests,
   useMyProfessional,
-  useRespondToRequest,
-} from "@/hooks/useProfessional";
+  useRespondToRequest } from "@/hooks/useProfessional";
 import { promptPushPermission } from "@/components/shared/PushPermissionProvider";
 import { errorMessage, showError } from "@/lib/feedback";
 import { useNextActionNavigation } from "@/hooks/useNextActions";
 import { useAuthStore } from "@/stores/auth-store";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
+
 
 const STATUS_COLORS: Record<string, string> = {
   pending: "text-amber",
@@ -32,8 +33,7 @@ const STATUS_COLORS: Record<string, string> = {
   approved: "text-teal",
   rejected: "text-coral",
   expired: "text-ink-2",
-  withdrawn: "text-ink-2",
-};
+  withdrawn: "text-ink-2" };
 
 export default function ProfessionalHomeScreen() {
   const { t } = useTranslation();
@@ -50,14 +50,12 @@ export default function ProfessionalHomeScreen() {
     data: requests = [],
     isLoading,
     refetch,
-    isRefetching,
-  } = useIncomingRequests(professionalId);
+    isRefetching } = useIncomingRequests(professionalId);
 
   const respond = useRespondToRequest(professionalId);
   const { primary, secondary, navigateToAction } = useNextActionNavigation({
     role: "professional",
-    screen: "pro_home",
-  });
+    screen: "pro_home" });
 
   const nbaRequestId =
     primary?.id === "pro_pending_request"
@@ -84,8 +82,7 @@ export default function ProfessionalHomeScreen() {
         },
         onError: (err) => {
           showError(errorMessage(err, t("common.tryAgain")));
-        },
-      },
+        } },
     );
   }
 
@@ -102,7 +99,10 @@ export default function ProfessionalHomeScreen() {
       <ScrollView
         className="flex-1"
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />
         }
         showsVerticalScrollIndicator={false}
       >
@@ -122,8 +122,7 @@ export default function ProfessionalHomeScreen() {
           <ActiveMatchBanner
             title={t("activeMatch.bannerEyebrow")}
             subtitle={t("activeMatch.bannerSubtitleChild", {
-              name: activeMatch.child?.first_name ?? "",
-            })}
+              name: activeMatch.child?.first_name ?? "" })}
             actionLabel={t("professional.todayTitle")}
             onPress={() =>
               router.push({ pathname: "/(professional)/today" } as never)
@@ -134,7 +133,7 @@ export default function ProfessionalHomeScreen() {
         <PendingInvitations />
 
         {isLoading ? (
-          <ActivityIndicator size="large" color="#0F6E56" className="mt-8" />
+          <BrandSpinner size="large" />
         ) : visibleRequests.length === 0 ? (
           <PlaceholderCard
             text={
@@ -184,8 +183,7 @@ export default function ProfessionalHomeScreen() {
                 onViewProfile={() =>
                   router.push({
                     pathname: "/(professional)/request-detail",
-                    params: { requestId: request.id },
-                  } as never)
+                    params: { requestId: request.id } } as never)
                 }
                 respondLabel={t("professional.accept")}
                 rejectLabel={t("professional.reject")}

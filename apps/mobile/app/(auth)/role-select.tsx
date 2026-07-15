@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Alert, View, Pressable, Text, Image } from "react-native";
+import { Alert, View, Pressable, Text } from "react-native";
 
 import {
   LanguageToggle,
@@ -8,6 +8,7 @@ import {
   RoleCard,
   ScreenShell,
 } from "@/components/ui/Screen";
+import { AppLogoHero } from "@/components/ui/AppLogo";
 import { changeAppLanguage } from "@/i18n";
 import type { UserRole } from "@/lib/types";
 import { useLocaleStore } from "@/stores/auth-store";
@@ -42,18 +43,10 @@ export default function RoleSelectScreen() {
     router.replace("/(auth)/login");
   }
 
-  const logoSource = require("@/assets/images/logo-transparent.png");
-
   return (
     <ScreenShell
-      hero={
-        <View className="w-full mb-8 items-center justify-center">
-          <Image 
-            source={logoSource} 
-            style={{ width: "100%", maxWidth: 300, aspectRatio: 1, resizeMode: "contain" }} 
-          />
-        </View>
-      }
+      brandLogo={false}
+      hero={<AppLogoHero />}
       eyebrow={t("auth.roleSelectEyebrow")}
       title={t("auth.roleSelectTitle")}
       subtitle={t("auth.roleSelectSubtitle")}

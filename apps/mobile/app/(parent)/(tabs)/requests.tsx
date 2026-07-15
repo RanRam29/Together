@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -19,12 +18,14 @@ import { useNextActionNavigation } from "@/hooks/useNextActions";
 import {
   useApproveMatchRequest,
   useMatchRequests,
-  useRejectMatchRequest,
-} from "@/hooks/useMatchRequests";
+  useRejectMatchRequest } from "@/hooks/useMatchRequests";
 import { formatMatchReason } from "@/lib/format-match-reason";
 import { confirmAction, errorMessage, showError, showSuccess } from "@/lib/feedback";
 import { getParentRequestStatusLabel } from "@/lib/request-labels";
 import { useAuthStore } from "@/stores/auth-store";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
+
 
 const STATUS_COLORS: Record<string, string> = {
   pending: "text-amber",
@@ -32,8 +33,7 @@ const STATUS_COLORS: Record<string, string> = {
   approved: "text-teal",
   rejected: "text-coral",
   expired: "text-ink-2",
-  withdrawn: "text-ink-2",
-};
+  withdrawn: "text-ink-2" };
 
 export default function ParentRequestsScreen() {
   const { t } = useTranslation();
@@ -45,8 +45,7 @@ export default function ParentRequestsScreen() {
   const parentId = session?.user?.id;
   const { primary, navigateToAction } = useNextActionNavigation({
     role: "parent",
-    screen: "parent_requests",
-  });
+    screen: "parent_requests" });
 
   const hideInterestedCards = primary?.id === "parent_approve_request";
   const { children } = useChildren(parentId);
@@ -56,8 +55,7 @@ export default function ParentRequestsScreen() {
     data: requests = [],
     isLoading,
     refetch,
-    isRefetching,
-  } = useMatchRequests(parentId, childIds);
+    isRefetching } = useMatchRequests(parentId, childIds);
 
   const approveRequest = useApproveMatchRequest(parentId);
   const rejectRequest = useRejectMatchRequest(parentId);
@@ -85,8 +83,7 @@ export default function ParentRequestsScreen() {
         match_reason: r.match_reason,
         childName: child?.first_name ?? t("parent.childProfile"),
         professionalName:
-          r.professional?.display_name ?? t("parent.professionalFallback"),
-      };
+          r.professional?.display_name ?? t("parent.professionalFallback") };
     })
     .filter(
       (r) =>
@@ -106,8 +103,7 @@ export default function ParentRequestsScreen() {
       setPendingApproveId(null);
       router.push({
         pathname: "/(parent)/intro-detail",
-        params: { requestId: approvedId },
-      });
+        params: { requestId: approvedId } });
     } catch (err) {
       showError(errorMessage(err, t("common.tryAgain")));
     }
@@ -120,8 +116,7 @@ export default function ParentRequestsScreen() {
       {
         confirmText: t("parent.rejectAction"),
         cancelText: t("common.cancel"),
-        destructive: true,
-      },
+        destructive: true },
     );
     if (!confirmed) return;
 
@@ -150,7 +145,10 @@ export default function ParentRequestsScreen() {
       <ScrollView
         className="flex-1"
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />
         }
         showsVerticalScrollIndicator={false}
       >
@@ -164,7 +162,7 @@ export default function ParentRequestsScreen() {
         ) : null}
 
         {isLoading ? (
-          <ActivityIndicator size="large" color="#534AB7" className="mt-8" />
+          <BrandSpinner size="large" />
         ) : requests.length === 0 ? (
           <PlaceholderCard text={t("parent.noRequests")} />
         ) : (
@@ -265,8 +263,7 @@ export default function ParentRequestsScreen() {
                         onPress={() =>
                           router.push({
                             pathname: "/(parent)/intro-detail",
-                            params: { requestId: request.id },
-                          })
+                            params: { requestId: request.id } })
                         }
                         className="bg-teal rounded-full px-5 py-2 items-center justify-center active:opacity-90"
                       >

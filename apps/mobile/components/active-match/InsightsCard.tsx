@@ -1,7 +1,8 @@
 import { Text, View, Pressable } from "react-native";
 
-import { MoodBadge } from "./MoodPicker";
+import { EmptyState } from "@/components/motion/EmptyState";
 
+import { MoodBadge } from "./MoodPicker";
 interface InsightsCardProps {
   title: string;
   emptyLabel: string;
@@ -27,7 +28,7 @@ export function InsightsCard({
       {content ? (
         <Text className="text-base text-ink leading-6">{content}</Text>
       ) : (
-        <Text className="text-sm text-ink-2 leading-5">{emptyLabel}</Text>
+        <EmptyState title={emptyLabel} variant="compact" className="py-2" />
       )}
     </View>
   );

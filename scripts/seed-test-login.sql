@@ -183,7 +183,7 @@ on conflict (user_id) do update set
 
 insert into public.document_uploads (owner_id, doc_type, storage_path, file_name, verified)
 select u.id, v.doc_type::document_type,
-       'documents/' || u.id || '/' || v.doc_type || '.pdf', v.file_name, false
+       u.id::text || '/' || v.doc_type || '.png', v.file_name, false
 from (values
   ('972525555555','id_card',        'תעודת_זהות.pdf'),
   ('972525555555','criminal_record','תעודת_יושר.pdf'),
@@ -193,7 +193,10 @@ join auth.users u on u.phone = v.pro_phone
 where not exists (
   select 1 from public.document_uploads d
   where d.owner_id = u.id and d.doc_type = v.doc_type::document_type
-);
+)
+-- Skip when SEED_DEMO_VERIFICATION_DOCS=1 (legacy). Default: no fake docs —
+-- the professional must upload real files through the app.
+and coalesce(current_setting('app.seed_demo_verification_docs', true), '0') = '1';
 
 -- ------------------------------------------------------------
 -- 6) VERIFY — expect 5 rows, correct roles/claims/email/verification

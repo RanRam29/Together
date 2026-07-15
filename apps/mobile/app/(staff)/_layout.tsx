@@ -1,8 +1,10 @@
 import { Stack } from "expo-router";
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 
 import { StaffShell } from "@/components/admin/StaffShell";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+
 
 export default function StaffLayout() {
   const { isReady, denied } = useStaffRoute();
@@ -10,7 +12,7 @@ export default function StaffLayout() {
   if (!isReady || denied) {
     return (
       <View className="flex-1 items-center justify-center bg-bg">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }

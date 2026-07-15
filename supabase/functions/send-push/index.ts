@@ -23,6 +23,8 @@ export default {
       return new Response("ok", { headers: getCorsHeaders(req) });
     }
 
+    const corsHeaders = getCorsHeaders(req);
+
     try {
       // Internal-only: invoked by DB triggers / cron with the service key.
       if (ctx.authMode !== "secret") {
@@ -59,11 +61,27 @@ export default {
         }
       }
 
+      // Enforce Quiet Hours (21:00-08:00 Israel Time)
+      const now = new Date();
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'Asia/Jerusalem',
+        hour: 'numeric',
+        hourCycle: 'h23'
+      });
+      const currentHour = parseInt(formatter.format(now), 10);
+      if (currentHour >= 21 || currentHour < 8) {
+        return Response.json(
+          { skipped: true, reason: 'quiet_hours' },
+          { headers: corsHeaders },
+        );
+      }
+
       // Fetch the user's device tokens.
       const { data: tokenRows, error: tokenErr } = await ctx.supabaseAdmin
         .from("push_tokens")
         .select("token")
-        .eq("user_id", user_id);
+        .eq("user_id", user_id)
+        .returns<{ token: string }[]>();
 
       if (tokenErr) {
         console.error("Failed to load push tokens:", tokenErr);
@@ -73,7 +91,7 @@ export default {
         );
       }
 
-      const tokens: string[] = (tokenRows ?? []).map((r) => r.token as string);
+      const tokens: string[] = (tokenRows ?? []).map((r) => r.token);
       if (tokens.length === 0) {
         return Response.json({ sent: 0, reason: "no_tokens" }, { headers: corsHeaders });
       }

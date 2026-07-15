@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -15,6 +14,9 @@ import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
 import type { AdminUserFilters } from "@/lib/api/admin-users";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
 import { useAdminUsers } from "@/hooks/useAdminUsers";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
+
 
 const ROLE_FILTERS: AdminUserFilters["role"][] = [
   "all",
@@ -45,7 +47,7 @@ export default function AdminUsersScreen() {
   if (!isReady || !isAdmin) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -54,7 +56,10 @@ export default function AdminUsersScreen() {
     <ScrollView
       className="flex-1 px-6 py-6"
       refreshControl={
-        <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+        <RefreshControl refreshing={isRefetching} onRefresh={refetch}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />
       }
     >
       <Text className="text-2xl font-bold text-ink mb-4 font-rubik text-right">

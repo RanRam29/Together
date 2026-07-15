@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Image,
   Modal,
   Pressable,
@@ -10,6 +9,7 @@ import {
   View,
 } from "react-native";
 
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
 import {
   enrollTotpFactor,
   getAdminAssuranceLevel,
@@ -101,7 +101,7 @@ export function AdminMfaModal({ visible, onClose, onVerified }: AdminMfaModalPro
           </Text>
 
           {loading ? (
-            <ActivityIndicator size="large" color="#534AB7" />
+            <BrandSpinner size="large" />
           ) : (
             <>
               {qrCode ? (

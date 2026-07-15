@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { StarRating } from "@/components/shared/StarRating";
 import type { Review } from "@/hooks/useReviews";
 import { useGetReviewsForProfessional } from "@/hooks/useReviews";
@@ -58,15 +60,13 @@ export function ReviewsList({ professionalId, limit }: ReviewsListProps) {
   const rendered = limit ? reviews.slice(0, limit) : reviews;
 
   if (isLoading) {
-    return <ActivityIndicator size="small" color="#534AB7" className="my-4" />;
+    return <BrandSpinner size="small" className="my-4" />;
   }
 
   if (reviews.length === 0) {
     return (
       <View className="bg-pearl rounded-card p-4">
-        <Text className="text-ink-2 text-sm text-center">
-          {t("reviews.emptyForProfessional")}
-        </Text>
+        <EmptyState variant="compact" title={t("reviews.emptyForProfessional")} />
       </View>
     );
   }

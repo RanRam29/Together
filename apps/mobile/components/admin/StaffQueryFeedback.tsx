@@ -1,6 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { PrimaryButton } from "@/components/ui/Screen";
 
 interface StaffQueryFeedbackProps {
@@ -25,7 +27,7 @@ export function StaffQueryFeedback({
   if (isLoading) {
     return (
       <View className="py-8 items-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -44,9 +46,7 @@ export function StaffQueryFeedback({
   }
 
   if (isEmpty && emptyMessage) {
-    return (
-      <Text className="text-ink-2 text-right py-4 font-rubik">{emptyMessage}</Text>
-    );
+    return <EmptyState variant="compact" title={emptyMessage} />;
   }
 
   return null;

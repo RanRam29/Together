@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -11,6 +10,7 @@ import {
 
 import { CheckinCard } from "@/components/active-match/CheckinCard";
 import { DailyLogRow } from "@/components/active-match/InsightsCard";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { NextActionCard } from "@/components/shared/NextActionCard";
 import { ScreenShell } from "@/components/ui/Screen";
 import { useActiveMatchForProfessional } from "@/hooks/useActiveMatch";
@@ -21,13 +21,15 @@ import { useNextActionNavigation } from "@/hooks/useNextActions";
 import { useMyProfessional } from "@/hooks/useProfessional";
 import { useAuthStore } from "@/stores/auth-store";
 import { errorMessage, showError } from "@/lib/feedback";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
+
 
 function formatTime(iso: string, locale: string) {
   try {
     return new Intl.DateTimeFormat(locale, {
       hour: "2-digit",
-      minute: "2-digit",
-    }).format(new Date(iso));
+      minute: "2-digit" }).format(new Date(iso));
   } catch {
     return "";
   }
@@ -46,8 +48,7 @@ function formatDate(dateString: string, locale: string) {
   try {
     return new Intl.DateTimeFormat(locale, {
       day: "2-digit",
-      month: "2-digit",
-    }).format(new Date(dateString));
+      month: "2-digit" }).format(new Date(dateString));
   } catch {
     return dateString;
   }
@@ -82,8 +83,7 @@ export default function ProfessionalTodayScreen() {
 
   const { primary, navigateToAction } = useNextActionNavigation({
     role: "professional",
-    screen: "pro_today",
-  });
+    screen: "pro_today" });
 
   const hideCheckinCard =
     primary?.id === "pro_checkin" || primary?.id === "pro_checkout";
@@ -99,8 +99,7 @@ export default function ProfessionalTodayScreen() {
     if (primary.id === "pro_daily_log" || primary.id === "pro_add_log") {
       router.push({
         pathname: "/(active-match)/daily-log-form",
-        params: { matchId },
-      });
+        params: { matchId } });
       return;
     }
     navigateToAction(primary);
@@ -122,7 +121,7 @@ export default function ProfessionalTodayScreen() {
   if (isLoading) {
     return (
       <ScreenShell title={t("professional.todayTitle")} subtitle={t("professional.todaySubtitle")}>
-        <ActivityIndicator size="large" color="#0F6E56" className="mt-8" />
+        <BrandSpinner size="large" />
       </ScreenShell>
     );
   }
@@ -150,7 +149,10 @@ export default function ProfessionalTodayScreen() {
       <ScrollView
         className="flex-1"
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
+          <RefreshControl refreshing={isRefetching} onRefresh={refetch}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />
         }
         showsVerticalScrollIndicator={false}
       >
@@ -163,15 +165,32 @@ export default function ProfessionalTodayScreen() {
             onPress={() =>
               router.push({
                 pathname: "/(professional)/child-details" as any,
-                params: { childId: activeMatch.child?.id },
-              })
+                params: { childId: activeMatch.child?.id } })
             }
-            className="bg-surface border border-teal rounded-full py-3 items-center active:opacity-90"
+            className="bg-surface border border-teal rounded-full py-3 items-center active:opacity-90 mb-2"
           >
             <Text className="text-teal font-bold text-base font-rubik">
               {t("professional.viewChildDetails", "צפייה בתיק הילד")}
             </Text>
           </Pressable>
+          <View className="flex-row gap-2">
+            <Pressable
+              onPress={() => router.push("/(professional)/calendar" as any)}
+              className="flex-1 bg-surface border border-purple rounded-full py-3 items-center active:opacity-90"
+            >
+              <Text className="text-purple font-bold text-sm font-rubik">
+                יומן שבועי
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={() => router.push("/(professional)/attendance" as any)}
+              className="flex-1 bg-surface border border-purple rounded-full py-3 items-center active:opacity-90"
+            >
+              <Text className="text-purple font-bold text-sm font-rubik">
+                דוח שעות
+              </Text>
+            </Pressable>
+          </View>
         </View>
 
         {isCheckoutMode && !hideCheckinCard ? (
@@ -224,8 +243,7 @@ export default function ProfessionalTodayScreen() {
               onPress={() =>
                 router.push({
                   pathname: "/(active-match)/daily-log-form",
-                  params: { matchId },
-                })
+                  params: { matchId } })
               }
               className="bg-purple rounded-full py-4 items-center active:opacity-90"
             >
@@ -242,8 +260,7 @@ export default function ProfessionalTodayScreen() {
           <View className="bg-teal-bg border border-teal rounded-card px-4 py-3 mb-4">
             <Text className="text-teal-ink text-sm font-semibold text-start">
               {t("professional.todayCheckedIn", {
-                time: formatTime(todayCheckin.created_at, i18n.language),
-              })}
+                time: formatTime(todayCheckin.created_at, i18n.language) })}
             </Text>
           </View>
         ) : null}
@@ -273,9 +290,11 @@ export default function ProfessionalTodayScreen() {
             </View>
           ))
         ) : (
-          <Text className="text-sm text-ink-2 text-start mb-4">
-            {t("professional.todayNoCheckins")}
-          </Text>
+          <EmptyState
+            title={t("professional.todayNoCheckins")}
+            variant="compact"
+            className="mb-4 items-start"
+          />
         )}
 
         {logs.data && logs.data.length > 0 ? (
@@ -297,8 +316,7 @@ export default function ProfessionalTodayScreen() {
                 onPress={() =>
                   router.push({
                     pathname: "/(active-match)/daily-log-detail" as any,
-                    params: { logId: log.id, matchId },
-                  })
+                    params: { logId: log.id, matchId } })
                 }
               />
             ))}
@@ -309,8 +327,7 @@ export default function ProfessionalTodayScreen() {
           onPress={() =>
             router.push({
               pathname: "/(active-match)",
-              params: { matchId },
-            })
+              params: { matchId } })
           }
           className="mt-4 mb-8 rounded-card border border-teal py-4 items-center active:opacity-90"
         >

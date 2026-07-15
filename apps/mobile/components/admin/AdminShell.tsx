@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 
+import { AppLogo } from "@/components/ui/AppLogo";
 import { supabase } from "@/lib/supabase";
 import { useAuthStore } from "@/stores/auth-store";
 
@@ -29,11 +30,9 @@ export function AdminShell({ children }: AdminShellProps) {
             {t("admin.logout")}
           </Text>
         </Pressable>
-        <View className="items-end">
-          <Text className="text-lg font-bold text-purple font-rubik">
-            {t("admin.brand")}
-          </Text>
-          <Text className="text-xs text-ink-2">{t("admin.verificationQueue")}</Text>
+        <View className="items-end gap-1">
+          <AppLogo variant="compact" />
+          <Text className="text-xs text-ink-2 text-end">{t("admin.verificationQueue")}</Text>
         </View>
       </View>
       <View className="flex-1">{children}</View>

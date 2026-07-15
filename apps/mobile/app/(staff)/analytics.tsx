@@ -10,9 +10,10 @@ import {
   useAdminReportVerificationSla,
 } from "@/hooks/useAdminReports";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
-import { ActivityIndicator } from "react-native";
 import { FunnelChart } from "@/components/admin/FunnelChart";
 import { useAdminMfa } from "@/hooks/useAdminMfa";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
 
 const formatDate = (d: Date) => d.toISOString().split("T")[0];
 
@@ -64,7 +65,7 @@ export default function AnalyticsScreen() {
   if (!isReady || !isAdmin) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -83,7 +84,10 @@ export default function AnalyticsScreen() {
   return (
     <ScrollView
       className="flex-1 px-6 py-6"
-      refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={handleRefresh} />}
+      refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={handleRefresh}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />}
     >
       <Text className="text-2xl font-bold text-ink mb-2 font-rubik text-right">
         דוחות מערכת (Admin Reports)

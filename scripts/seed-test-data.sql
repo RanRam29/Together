@@ -313,7 +313,7 @@ on conflict (match_id, reviewer_id) do nothing;
 -- ============================================================
 insert into public.document_uploads (owner_id, doc_type, storage_path, file_name, verified, verified_at, verified_by)
 select u.id, v.doc_type::document_type,
-       'documents/' || u.id || '/' || v.doc_type || '.pdf', v.file_name,
+       u.id::text || '/' || v.doc_type || '.png', v.file_name,
        v.verified, case when v.verified then now() - interval '35 days' else null end,
        case when v.verified then (select id from auth.users where phone = '972521111111') else null end
 from (values

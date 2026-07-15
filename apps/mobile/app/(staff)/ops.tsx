@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -13,6 +12,9 @@ import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
 import { useLiveOpsAlerts } from "@/hooks/useLiveOps";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
 import { MaterialIcons } from "@expo/vector-icons";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
+
 
 export default function OpsDashboardScreen() {
   const { t } = useTranslation();
@@ -23,7 +25,7 @@ export default function OpsDashboardScreen() {
   if (!isReady || !isAdmin) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -34,7 +36,7 @@ export default function OpsDashboardScreen() {
         router.push(`/(staff)/matches?highlight=${alert.resource_id}` as never);
         break;
       case "PENDING_PROFESSIONAL":
-        router.push(`/(staff)/verification?highlight=${alert.resource_id}` as never);
+        router.push(`/(staff)/review/${alert.resource_id}` as never);
         break;
       case "STALE_REQUEST":
         router.push(`/(staff)/matches?highlight=${alert.resource_id}` as never); // fallback to matches
@@ -85,7 +87,10 @@ export default function OpsDashboardScreen() {
     <ScrollView
       className="flex-1 px-6 py-6"
       refreshControl={
-        <RefreshControl refreshing={alerts.isRefetching} onRefresh={() => alerts.refetch()} />
+        <RefreshControl refreshing={alerts.isRefetching} onRefresh={() => alerts.refetch()}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />
       }
     >
       <Text className="text-2xl font-bold text-ink mb-2 font-rubik text-right">

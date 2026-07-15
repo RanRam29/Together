@@ -1,10 +1,11 @@
 import { useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import { ScreenShell } from "@/components/ui/Screen";
 import { useChildDetailsProfessional } from "@/hooks/useMatchPermissions";
 import { useScreenshotProtection } from "@/hooks/useScreenshotProtection";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
 
 export default function ChildDetailsProfessionalScreen() {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ export default function ChildDetailsProfessionalScreen() {
   if (isLoading) {
     return (
       <ScreenShell title={t("professional.childDetailsTitle", "תיק הילד")} showBack>
-        <ActivityIndicator size="large" color="#0F6E56" className="mt-8" />
+        <BrandSpinner size="large" />
       </ScreenShell>
     );
   }

@@ -2,7 +2,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Linking,
   Pressable,
   ScrollView,
@@ -13,7 +12,8 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 
 import { MetricSelector } from "@/components/active-match/MetricSelector";
-import { SentConfirmationOverlay } from "@/components/shared/SentConfirmationOverlay";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { MatchCelebrationModal } from "@/components/motion/MatchCelebrationModal";
 import { PrimaryButton, ScreenShell } from "@/components/ui/Screen";
 import { useCreateMatchFromRequest } from "@/hooks/useActiveMatch";
 import { useChildren } from "@/hooks/useChildren";
@@ -105,7 +105,7 @@ export default function IntroDetailScreen() {
         showBack
         backFallbackHref="/(parent)/(tabs)/requests"
       >
-        <ActivityIndicator size="large" color="#534AB7" className="mt-8" />
+        <BrandSpinner size="large" className="mt-8" />
       </ScreenShell>
     );
   }
@@ -191,14 +191,11 @@ export default function IntroDetailScreen() {
         showBack
         backFallbackHref="/(parent)/(tabs)/requests"
       >
-        <SentConfirmationOverlay
+        <MatchCelebrationModal
           visible={metricsConfirmed}
           title={t("activeMatch.metricsConfirmedTitle")}
           description={t("activeMatch.metricsConfirmedDesc")}
           footnote={t("activeMatch.metricsConfirmedRedirecting")}
-          icon="checkmark-circle"
-          iconColor="#0F6E56"
-          iconBgClass="bg-teal-bg"
         />
         <ScrollView className="flex-1 p-4" showsVerticalScrollIndicator={false}>
           <MetricSelector

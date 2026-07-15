@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Alert,
   Platform,
   Pressable,
@@ -26,12 +25,13 @@ import { useChildMatches } from "@/hooks/useChildMatches";
 import { useChildren } from "@/hooks/useChildren";
 import {
   useApproveMatchRequest,
-  useMatchRequests,
-} from "@/hooks/useMatchRequests";
+  useMatchRequests } from "@/hooks/useMatchRequests";
 import { useNextActionNavigation } from "@/hooks/useNextActions";
 import { colors } from "@/lib/theme";
 import { useAuthStore } from "@/stores/auth-store";
 import { useParentStore } from "@/stores/parent-store";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+
 
 export default function ParentHomeScreen() {
   const { t } = useTranslation();
@@ -46,8 +46,7 @@ export default function ParentHomeScreen() {
     selectedChild,
     isLoading: childrenLoading,
     refetch: refetchChildren,
-    isRefetching: childrenRefetching,
-  } = useChildren(parentId);
+    isRefetching: childrenRefetching } = useChildren(parentId);
 
   const childIds = children.map((c) => c.id);
   const { data: requests = [], refetch: refetchRequests } = useMatchRequests(
@@ -71,8 +70,7 @@ export default function ParentHomeScreen() {
         match_reason: r.match_reason,
         childName: child?.first_name ?? t("parent.childProfile"),
         professionalName:
-          r.professional?.display_name ?? t("parent.professionalFallback"),
-      };
+          r.professional?.display_name ?? t("parent.professionalFallback") };
     })
     .filter(
       (r) =>
@@ -84,8 +82,7 @@ export default function ParentHomeScreen() {
   const { data: activeMatch } = useActiveMatchForParent(parentId);
   const { primary, secondary, navigateToAction } = useNextActionNavigation({
     role: "parent",
-    screen: "parent_home",
-  });
+    screen: "parent_home" });
 
   const hideMatchBanner = primary?.id === "parent_no_checkin";
   const hideInterestedCards = primary?.id === "parent_approve_request";
@@ -95,8 +92,7 @@ export default function ParentHomeScreen() {
     isLoading: matchesLoading,
     refetch: refetchMatches,
     isRefetching: matchesRefetching,
-    error: matchesError,
-  } = useChildMatches(selectedChild?.published ? selectedChild.id : undefined);
+    error: matchesError } = useChildMatches(selectedChild?.published ? selectedChild.id : undefined);
 
   const isLoading = childrenLoading || matchesLoading;
   const isRefetching = childrenRefetching || matchesRefetching;
@@ -116,8 +112,7 @@ export default function ParentHomeScreen() {
       setPendingApproveId(null);
       router.push({
         pathname: "/(parent)/intro-detail",
-        params: { requestId: approvedId },
-      });
+        params: { requestId: approvedId } });
     } catch (err) {
       const message = err instanceof Error ? err.message : t("common.tryAgain");
       Alert.alert(t("common.error"), message);
@@ -177,14 +172,12 @@ export default function ParentHomeScreen() {
         <ActiveMatchBanner
           title={t("activeMatch.bannerEyebrow")}
           subtitle={t("activeMatch.bannerSubtitle", {
-            name: activeMatch.professional?.display_name ?? "",
-          })}
+            name: activeMatch.professional?.display_name ?? "" })}
           actionLabel={t("activeMatch.bannerAction")}
           onPress={() =>
             router.push({
               pathname: "/(active-match)",
-              params: { matchId: activeMatch.id },
-            })
+              params: { matchId: activeMatch.id } })
           }
         />
       ) : null}
@@ -209,7 +202,10 @@ export default function ParentHomeScreen() {
       <ScrollView
         className="flex-1"
         refreshControl={
-          <RefreshControl refreshing={isRefetching} onRefresh={handleRefresh} />
+          <RefreshControl refreshing={isRefetching} onRefresh={handleRefresh}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />
         }
         showsVerticalScrollIndicator={false}
       >
@@ -218,8 +214,7 @@ export default function ParentHomeScreen() {
             onPress={() =>
               router.push({
                 pathname: "/(parent)/progress-report",
-                params: { childId: selectedChild.id },
-              } as never)
+                params: { childId: selectedChild.id } } as never)
             }
             className="rounded-card border border-teal py-3 items-center mb-6 active:opacity-90 bg-teal-bg"
           >
@@ -230,7 +225,7 @@ export default function ParentHomeScreen() {
         ) : null}
 
         {isLoading ? (
-          <ActivityIndicator size="large" color={colors.purple} className="mt-8" />
+          <BrandSpinner size="large" />
         ) : children.length === 0 ? (
           <PlaceholderCard text={t("parent.noChildProfile")} />
         ) : !selectedChild?.published ? (
@@ -268,9 +263,7 @@ export default function ParentHomeScreen() {
                         displayName: match.display_name,
                         bio: match.bio,
                         matchReason: match.match_reason,
-                        score: String(match.score),
-                      },
-                    })
+                        score: String(match.score) } })
                   }
                 />
               </View>

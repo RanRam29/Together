@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Alert,
   Modal,
   Pressable,
@@ -17,6 +16,8 @@ import { TextField } from "@/components/ui/Form";
 import { AdminMfaModal } from "@/components/admin/AdminMfaModal";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
 import { useAdminMfa } from "@/hooks/useAdminMfa";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+
 import {
   useAdminNotes,
   useAdminUser,
@@ -24,8 +25,7 @@ import {
   useRestoreUser,
   useSetUserEmail,
   useSetUserPassword,
-  useSuspendUser,
-} from "@/hooks/useAdminUsers";
+  useSuspendUser } from "@/hooks/useAdminUsers";
 
 export default function AdminUserDetailScreen() {
   const { t } = useTranslation();
@@ -75,8 +75,7 @@ export default function AdminUserDetailScreen() {
             t("common.error"),
             err instanceof Error ? err.message : t("common.tryAgain"),
           );
-        },
-      },
+        } },
     );
   }
 
@@ -90,8 +89,7 @@ export default function AdminUserDetailScreen() {
           t("common.error"),
           err instanceof Error ? err.message : t("common.tryAgain"),
         );
-      },
-    });
+      } });
   }
 
   function handleSetEmail() {
@@ -112,8 +110,7 @@ export default function AdminUserDetailScreen() {
             t("common.error"),
             err instanceof Error ? err.message : t("common.tryAgain"),
           );
-        },
-      },
+        } },
     );
   }
 
@@ -142,15 +139,14 @@ export default function AdminUserDetailScreen() {
             t("common.error"),
             err instanceof Error ? err.message : t("common.tryAgain"),
           );
-        },
-      },
+        } },
     );
   }
 
   if (!isReady || !isAdmin || isLoading || !user) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -249,8 +245,7 @@ export default function AdminUserDetailScreen() {
               {t("staff.suspendedSince", {
                 date: user.suspended_at
                   ? new Date(user.suspended_at).toLocaleDateString("he-IL")
-                  : "",
-              })}
+                  : "" })}
             </Text>
           </View>
         ) : null}

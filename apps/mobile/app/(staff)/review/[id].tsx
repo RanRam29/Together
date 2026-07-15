@@ -2,13 +2,13 @@ import { useCallback, useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Alert,
   Image,
   Pressable,
   ScrollView,
   Text,
   View,
+  ActivityIndicator,
 } from "react-native";
 
 import { BioHighlight, BioWarning } from "@/components/admin/BioHighlight";
@@ -23,22 +23,21 @@ import {
   getSlaLevel,
   isChecklistComplete,
   type VerificationChecklistKey,
-  type VerificationChecklistState,
-} from "@/lib/admin-verification";
+  type VerificationChecklistState } from "@/lib/admin-verification";
 import { supervisorLogDocumentView } from "@/lib/api/supervisor";
 import {
   canSupervisorReject,
-  isAssignedToUser,
-} from "@/lib/supervisor-gate";
+  isAssignedToUser } from "@/lib/supervisor-gate";
 import { REQUIRED_DOC_TYPES } from "@/lib/verification";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+
 import {
   useProfessionalDocuments,
   useProfessionalReview,
   useReleaseAssignment,
   useStaffRejectDocument,
-  useStaffVerifyProfessional,
-} from "@/hooks/useSupervisorQueue";
+  useStaffVerifyProfessional } from "@/hooks/useSupervisorQueue";
 
 export default function StaffReviewScreen() {
   const { t } = useTranslation();
@@ -105,8 +104,7 @@ export default function StaffReviewScreen() {
       {
         professionalId,
         checklist,
-        submittedAt: professional?.updated_at,
-      },
+        submittedAt: professional?.updated_at },
       {
         onSuccess: () => {
           Alert.alert(t("admin.approveSuccess"));
@@ -117,8 +115,7 @@ export default function StaffReviewScreen() {
             t("common.error"),
             err instanceof Error ? err.message : t("common.tryAgain"),
           );
-        },
-      },
+        } },
     );
   }
 
@@ -141,22 +138,20 @@ export default function StaffReviewScreen() {
             t("common.error"),
             err instanceof Error ? err.message : t("common.tryAgain"),
           );
-        },
-      },
+        } },
     );
   }
 
   function handleRelease() {
     if (!professionalId) return;
     release.mutate(professionalId, {
-      onSuccess: () => router.replace("/(staff)" as never),
-    });
+      onSuccess: () => router.replace("/(staff)" as never) });
   }
 
   if (proLoading || !professionalId) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -187,8 +182,7 @@ export default function StaffReviewScreen() {
   const sla = getSlaLevel(professional.updated_at);
   const requiredDocs = REQUIRED_DOC_TYPES.map((type) => ({
     type,
-    doc: documents.find((d) => d.doc_type === type) ?? null,
-  }));
+    doc: documents.find((d) => d.doc_type === type) ?? null }));
 
   return (
     <>

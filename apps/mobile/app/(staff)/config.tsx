@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   Alert,
   Pressable,
   RefreshControl,
@@ -21,9 +20,11 @@ import {
   useMetricCatalog,
   useSetSystemConfig,
   useSystemConfig,
-  useUpdateMetricCatalog,
-} from "@/hooks/useAdminConfig";
+  useUpdateMetricCatalog } from "@/hooks/useAdminConfig";
 import { CONFIG_KEYS, type ConfigKey } from "@/lib/api/admin-config";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
+
 
 function configValueToString(value: unknown): string {
   if (value === null || value === undefined) return "";
@@ -60,8 +61,7 @@ export default function AdminConfigScreen() {
     isError,
     error,
     refetch,
-    isRefetching,
-  } = useSystemConfig();
+    isRefetching } = useSystemConfig();
   const metricCatalog = useMetricCatalog();
   const setConfig = useSetSystemConfig();
   const updateMetric = useUpdateMetricCatalog();
@@ -91,8 +91,7 @@ export default function AdminConfigScreen() {
       next[metric.key] = {
         heLabel: metric.he_label,
         enLabel: metric.en_label,
-        isCore: metric.is_core,
-      };
+        isCore: metric.is_core };
     }
     setMetricDraft(next);
   }, [metricCatalog.data]);
@@ -106,8 +105,7 @@ export default function AdminConfigScreen() {
     try {
       await setConfig.mutateAsync({
         key,
-        value: parseConfigValue(key, raw.trim()),
-      });
+        value: parseConfigValue(key, raw.trim()) });
       Alert.alert(t("staff.configSaved"));
     } catch (err) {
       if (mfa.handleRpcError(err)) return;
@@ -127,8 +125,7 @@ export default function AdminConfigScreen() {
         key,
         heLabel: row.heLabel,
         enLabel: row.enLabel,
-        isCore: row.isCore,
-      });
+        isCore: row.isCore });
       Alert.alert(t("staff.metricSaved"));
     } catch (err) {
       if (mfa.handleRpcError(err)) return;
@@ -140,7 +137,7 @@ export default function AdminConfigScreen() {
   if (!isReady || !isAdmin) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -156,7 +153,9 @@ export default function AdminConfigScreen() {
               void refetch();
               void metricCatalog.refetch();
             }}
-          />
+          tintColor={colors.purple}
+          colors={[colors.purple]}
+        />
         }
       >
         <Text className="text-2xl font-bold text-ink mb-2 font-rubik text-right">
@@ -223,8 +222,7 @@ export default function AdminConfigScreen() {
               const row = metricDraft[metric.key] ?? {
                 heLabel: metric.he_label,
                 enLabel: metric.en_label,
-                isCore: metric.is_core,
-              };
+                isCore: metric.is_core };
 
               return (
                 <View
@@ -238,9 +236,7 @@ export default function AdminConfigScreen() {
                           ...d,
                           [metric.key]: {
                             ...row,
-                            isCore: !row.isCore,
-                          },
-                        }))
+                            isCore: !row.isCore } }))
                       }
                       className={`px-3 py-1 rounded-full border ${
                         row.isCore
@@ -265,8 +261,7 @@ export default function AdminConfigScreen() {
                     onChangeText={(v) =>
                       setMetricDraft((d) => ({
                         ...d,
-                        [metric.key]: { ...row, heLabel: v },
-                      }))
+                        [metric.key]: { ...row, heLabel: v } }))
                     }
                     placeholder={t("staff.metricHeLabel")}
                     placeholderTextColor="#918D84"
@@ -277,8 +272,7 @@ export default function AdminConfigScreen() {
                     onChangeText={(v) =>
                       setMetricDraft((d) => ({
                         ...d,
-                        [metric.key]: { ...row, enLabel: v },
-                      }))
+                        [metric.key]: { ...row, enLabel: v } }))
                     }
                     placeholder={t("staff.metricEnLabel")}
                     placeholderTextColor="#918D84"

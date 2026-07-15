@@ -1,5 +1,6 @@
-import { ActivityIndicator, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
 import { PrimaryButton } from "@/components/ui/Screen";
 
 type CheckinResult = {
@@ -45,7 +46,7 @@ export function CheckinCard({
 
       {isPending ? (
         <View className="items-center py-3">
-          <ActivityIndicator size="large" color="#534AB7" />
+          <BrandSpinner size="large" />
         </View>
       ) : (
         <PrimaryButton label={actionLabel} onPress={onCheckIn} variant="purple" />

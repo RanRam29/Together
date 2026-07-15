@@ -1,11 +1,12 @@
 import { useEffect, useState, type ComponentType, type ReactNode } from "react";
-import { ActivityIndicator, View, type ViewProps } from "react-native";
+import { View, type ViewProps } from "react-native";
 import {
   Rubik_400Regular,
   Rubik_500Medium,
   Rubik_700Bold,
 } from "@expo-google-fonts/rubik";
 import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { I18nextProvider } from "react-i18next";
 import { GestureHandlerRootView as RNGestureHandlerRootView } from "react-native-gesture-handler";
@@ -15,6 +16,7 @@ import i18n, { initI18n } from "@/i18n";
 import { isSupabaseConfigured } from "@/lib/supabase";
 import { queryClient } from "@/lib/query-client";
 import { ConfigErrorScreen } from "@/components/shared/ConfigErrorScreen";
+import { SplashReveal } from "@/components/motion/SplashReveal";
 import { useAuthBootstrap } from "@/hooks/useAuthBootstrap";
 import { useProtectedRoute } from "@/hooks/useProtectedRoute";
 import { usePushSetup } from "@/hooks/usePushSetup";
@@ -27,6 +29,11 @@ import { useLocaleStore } from "@/stores/auth-store";
 
 const GestureHandlerRootView =
   RNGestureHandlerRootView as ComponentType<ViewProps & { children?: ReactNode }>;
+
+// Keep the native splash (app.json's expo-splash-screen config — same logo/bg as
+// SplashReveal, so the handoff below is invisible) up until SplashReveal has mounted
+// and can take over the reveal animation with zero gap.
+void SplashScreen.preventAutoHideAsync();
 
 function AppReady({ children }: { children: ReactNode }) {
   useAuthBootstrap();
@@ -64,14 +71,16 @@ export function AppProviders({ children }: { children: ReactNode }) {
 
   useEffect(() => bindReduceMotionListener(), []);
 
+  // Hand off from the native splash to SplashReveal the moment we can paint —
+  // same logo/background on both, so the swap doesn't flash.
+  useEffect(() => {
+    void SplashScreen.hideAsync();
+  }, []);
+
   const fontsSettled = fontsLoaded || !!fontError || timedOut;
 
   if (!fontsSettled || !i18nReady) {
-    return (
-      <View className="flex-1 items-center justify-center bg-bg">
-        <ActivityIndicator size="large" color="#534AB7" />
-      </View>
-    );
+    return <SplashReveal />;
   }
 
   // Missing/invalid backend config would otherwise leave the app pointed at an

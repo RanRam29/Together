@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  ActivityIndicator,
   RefreshControl,
   ScrollView,
   Text,
@@ -13,6 +12,9 @@ import { MetricCard } from "@/components/admin/MetricCard";
 import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
 import { usePlatformMetrics } from "@/hooks/useAdminDashboard";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
+
 
 export default function AdminDashboardScreen() {
   const { t } = useTranslation();
@@ -29,7 +31,7 @@ export default function AdminDashboardScreen() {
   if (!isReady || !isAdmin) {
     return (
       <View className="flex-1 items-center justify-center">
-        <ActivityIndicator size="large" color="#534AB7" />
+        <BrandSpinner size="large" />
       </View>
     );
   }
@@ -45,6 +47,8 @@ export default function AdminDashboardScreen() {
           onRefresh={() => {
             void metrics.refetch();
           }}
+          tintColor={colors.purple}
+          colors={[colors.purple]}
         />
       }
     >

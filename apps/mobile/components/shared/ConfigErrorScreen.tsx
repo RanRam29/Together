@@ -1,5 +1,7 @@
 import { ScrollView, Text, View } from "react-native";
 
+import { AppLogo } from "@/components/ui/AppLogo";
+
 /**
  * Fatal-config screen shown when required environment variables are missing at
  * runtime (e.g. an EAS build produced without the Supabase env vars). Renders
@@ -20,6 +22,8 @@ export function ConfigErrorScreen() {
         contentContainerClassName="items-center"
         showsVerticalScrollIndicator={false}
       >
+        <AppLogo variant="hero" className="mb-6" />
+
         <View className="w-16 h-16 rounded-full bg-coral-bg items-center justify-center mb-5">
           <Text className="text-coral text-3xl font-rubik-bold">!</Text>
         </View>
