@@ -9,7 +9,7 @@ import {
   ScreenShell,
   TextField,
 } from "@/components/ui/Screen";
-import { AppLogo } from "@/components/ui/AppLogo";
+import { AppLogo, AppLogoHero } from "@/components/ui/AppLogo";
 import {
   fetchProfile,
   isProfileComplete,
