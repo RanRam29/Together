@@ -125,11 +125,7 @@ export default function LoginScreen() {
   return (
     <ScreenShell
       brandLogo={false}
-      hero={
-        <View className="w-full mb-2 items-start">
-          <AppLogo variant="compact" className="mb-6" />
-        </View>
-      }
+      hero={<AppLogoHero className="mb-6" />}
       eyebrow={t("auth.loginEyebrow")}
       title={t("auth.loginTitle")}
       subtitle={t("auth.loginSubtitle")}

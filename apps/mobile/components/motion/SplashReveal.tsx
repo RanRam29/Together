@@ -103,7 +103,7 @@ export function SplashReveal() {
           <Image
             source={LOGO}
             accessibilityLabel="בשילוב"
-            style={{ width: 150, height: 150, resizeMode: "contain" }}
+            style={{ height: 150, aspectRatio: 2266 / 1856, resizeMode: "contain" }}
           />
         </Animated.View>
       </View>

@@ -10,11 +10,13 @@ interface AppLogoProps {
   onPress?: () => void;
 }
 
-const COMPACT_STYLE: ImageStyle = { width: 140, height: 48, resizeMode: "contain" };
+const LOGO_ASPECT_RATIO = 2266 / 1856;
+
+const COMPACT_STYLE: ImageStyle = { height: 48, aspectRatio: LOGO_ASPECT_RATIO, resizeMode: "contain" };
 const HERO_STYLE: ImageStyle = {
   width: "100%",
-  maxWidth: 280,
-  aspectRatio: 1,
+  maxWidth: 240,
+  aspectRatio: LOGO_ASPECT_RATIO,
   resizeMode: "contain",
 };
 

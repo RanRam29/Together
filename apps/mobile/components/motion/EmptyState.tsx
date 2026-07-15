@@ -58,7 +58,7 @@ export function EmptyState({ title, description, variant = "full", className }: 
         <Image
           source={LOGO}
           accessibilityIgnoresInvertColors
-          style={{ width: logoSize, height: logoSize, resizeMode: "contain" }}
+          style={{ height: logoSize, aspectRatio: 2266 / 1856, resizeMode: "contain" }}
         />
       </Animated.View>
       <Animated.View
