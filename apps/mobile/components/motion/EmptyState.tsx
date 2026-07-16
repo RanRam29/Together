@@ -12,7 +12,9 @@ import Animated, {
 
 import { isReduceMotionEnabled } from "@/lib/motion";
 
-const LOGO = require("@/assets/images/logo-transparent.png");
+// Icon-only mark (no wordmark) — matches the kit's own empty-state spec.
+const LOGO = require("@/assets/images/logo-mark.png");
+const LOGO_ASPECT_RATIO = 1643 / 1056;
 
 export type EmptyStateVariant = "full" | "compact";
 
@@ -59,7 +61,7 @@ export function EmptyState({ title, description, variant = "full", className }: 
           source={LOGO}
           accessibilityIgnoresInvertColors
           resizeMode="contain"
-          style={{ height: logoSize, width: Math.round(logoSize * (2266 / 1856)) }}
+          style={{ width: logoSize, height: Math.round(logoSize / LOGO_ASPECT_RATIO) }}
         />
       </Animated.View>
       <Animated.View

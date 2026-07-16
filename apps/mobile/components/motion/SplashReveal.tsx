@@ -14,7 +14,9 @@ import Animated, {
 import { isReduceMotionEnabled } from "@/lib/motion";
 import { colors } from "@/lib/theme";
 
-const LOGO = require("@/assets/images/logo-transparent.png");
+// Full lockup (mark + wordmark + tagline) — matches the kit's own splash-screen spec.
+const LOGO = require("@/assets/images/logo-full.png");
+const LOGO_ASPECT_RATIO = 1745 / 1856;
 
 /** One-shot logo reveal shown while the app boots (fonts/i18n), then settles into a quiet breathing loop. */
 export function SplashReveal() {
@@ -104,7 +106,7 @@ export function SplashReveal() {
             source={LOGO}
             accessibilityLabel="בשילוב"
             resizeMode="contain"
-            style={{ height: 150, width: Math.round(150 * (2266 / 1856)) }}
+            style={{ height: 150, width: Math.round(150 * LOGO_ASPECT_RATIO) }}
           />
         </Animated.View>
       </View>

@@ -1,6 +1,14 @@
 import { Image, Pressable, View, type ImageStyle } from "react-native";
 
-const LOGO = require("@/assets/images/logo-transparent.png");
+// Icon-only mark (no wordmark) — for compact/nav contexts. From the Beshiluv Logo
+// Animation Kit's own assets/logo-mark.png, 1643x1056px.
+const LOGO_MARK = require("@/assets/images/logo-mark.png");
+const MARK_ASPECT_RATIO = 1643 / 1056;
+
+// Full lockup (mark + "בשילוב" wordmark + tagline) — for splash/hero contexts only,
+// per the kit's own usage. From assets/logo-full.png, 1745x1856px (portrait).
+const LOGO_FULL = require("@/assets/images/logo-full.png");
+const FULL_ASPECT_RATIO = 1745 / 1856;
 
 export type AppLogoVariant = "compact" | "hero";
 
@@ -10,39 +18,37 @@ interface AppLogoProps {
   onPress?: () => void;
 }
 
-const LOGO_ASPECT_RATIO = 2266 / 1856;
-
 // react-native-web injects an inline `height` equal to the require()'d asset's raw
 // pixel height (to avoid layout shift before it loads) — that inline style wins over
 // `aspectRatio` alone (which only fills in a dimension left unset), so on web the box
-// collapses to the source PNG's full 1856px height with the logo rendered tiny inside
+// collapses to the source PNG's full pixel height with the logo rendered tiny inside
 // it. Giving both width AND height explicitly leaves nothing for that default to fill.
 const COMPACT_HEIGHT = 48;
-const HERO_WIDTH = 240;
+const HERO_HEIGHT = 190;
 
 const COMPACT_STYLE: ImageStyle = {
   height: COMPACT_HEIGHT,
-  width: Math.round(COMPACT_HEIGHT * LOGO_ASPECT_RATIO),
+  width: Math.round(COMPACT_HEIGHT * MARK_ASPECT_RATIO),
 };
 const HERO_STYLE: ImageStyle = {
-  width: HERO_WIDTH,
-  height: Math.round(HERO_WIDTH / LOGO_ASPECT_RATIO),
+  height: HERO_HEIGHT,
+  width: Math.round(HERO_HEIGHT * FULL_ASPECT_RATIO),
 };
 
 export function AppLogo({ variant = "compact", className, onPress }: AppLogoProps) {
-  const imageStyle = variant === "hero" ? HERO_STYLE : COMPACT_STYLE;
+  const isHero = variant === "hero";
   const image = (
     <Image
-      source={LOGO}
+      source={isHero ? LOGO_FULL : LOGO_MARK}
       accessibilityLabel="בשילוב"
       resizeMode="contain"
-      style={imageStyle}
+      style={isHero ? HERO_STYLE : COMPACT_STYLE}
     />
   );
 
   const content = (
     <View
-      className={`${variant === "hero" ? "items-center justify-center w-full" : "items-start"} ${className ?? ""}`}
+      className={`${isHero ? "items-center justify-center w-full" : "items-start"} ${className ?? ""}`}
     >
       {image}
     </View>
