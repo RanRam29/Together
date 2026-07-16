@@ -12,18 +12,32 @@ interface AppLogoProps {
 
 const LOGO_ASPECT_RATIO = 2266 / 1856;
 
-const COMPACT_STYLE: ImageStyle = { height: 48, aspectRatio: LOGO_ASPECT_RATIO, resizeMode: "contain" };
+// react-native-web injects an inline `height` equal to the require()'d asset's raw
+// pixel height (to avoid layout shift before it loads) — that inline style wins over
+// `aspectRatio` alone (which only fills in a dimension left unset), so on web the box
+// collapses to the source PNG's full 1856px height with the logo rendered tiny inside
+// it. Giving both width AND height explicitly leaves nothing for that default to fill.
+const COMPACT_HEIGHT = 48;
+const HERO_WIDTH = 240;
+
+const COMPACT_STYLE: ImageStyle = {
+  height: COMPACT_HEIGHT,
+  width: Math.round(COMPACT_HEIGHT * LOGO_ASPECT_RATIO),
+};
 const HERO_STYLE: ImageStyle = {
-  width: "100%",
-  maxWidth: 240,
-  aspectRatio: LOGO_ASPECT_RATIO,
-  resizeMode: "contain",
+  width: HERO_WIDTH,
+  height: Math.round(HERO_WIDTH / LOGO_ASPECT_RATIO),
 };
 
 export function AppLogo({ variant = "compact", className, onPress }: AppLogoProps) {
   const imageStyle = variant === "hero" ? HERO_STYLE : COMPACT_STYLE;
   const image = (
-    <Image source={LOGO} accessibilityLabel="בשילוב" style={imageStyle} />
+    <Image
+      source={LOGO}
+      accessibilityLabel="בשילוב"
+      resizeMode="contain"
+      style={imageStyle}
+    />
   );
 
   const content = (
