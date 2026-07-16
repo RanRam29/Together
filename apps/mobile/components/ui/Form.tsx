@@ -11,12 +11,6 @@ import {
   type TextInputProps,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
-
 import { AppLogo } from "@/components/ui/AppLogo";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/motion/EmptyState";
