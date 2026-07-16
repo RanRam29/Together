@@ -233,7 +233,23 @@ export default function ParentHomeScreen() {
         ) : matchesError ? (
           <PlaceholderCard text={t("parent.matchesError")} />
         ) : matches.length === 0 ? (
-          <PlaceholderCard text={t("parent.noMatches")} />
+          <View className="bg-surface-2 border border-border rounded-card p-8 items-center mt-6">
+            <View className="w-24 h-24 bg-surface rounded-full items-center justify-center mb-6">
+              <Ionicons name="search" size={40} color="#534AB7" />
+            </View>
+            <Text className="text-xl font-bold text-ink mb-2 font-rubik text-center">
+              עוד לא מצאנו התאמה
+            </Text>
+            <Text className="text-base text-ink-2 text-center leading-6 mb-8">
+              אנחנו מחפשים עבורכם את המשלבת המושלמת. הפעלת התראות מבוססות אזור תעזור לנו לעדכן אותך כשמשלבת רלוונטית תצטרף.
+            </Text>
+            <Pressable
+              onPress={() => router.push("/settings")}
+              className="bg-purple rounded-full py-4 px-8 items-center active:opacity-90 w-full"
+            >
+              <Text className="text-white font-bold font-rubik">להפעלת התראות אזוריות</Text>
+            </Pressable>
+          </View>
         ) : (
           <View
             className={

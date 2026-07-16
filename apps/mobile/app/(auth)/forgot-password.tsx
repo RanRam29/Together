@@ -4,10 +4,10 @@ import { useTranslation } from "react-i18next";
 import { Alert, View, Pressable, Text } from "react-native";
 
 import {
-  PrimaryButton,
   ScreenShell,
   TextField,
 } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import { requestPasswordReset } from "@/lib/auth-api";
 
 export default function ForgotPasswordScreen() {
@@ -46,10 +46,12 @@ export default function ForgotPasswordScreen() {
       footer={
         <View className="pb-10 gap-4">
           {!sent && (
-            <PrimaryButton
+            <Button
               label={t("auth.sendResetLink")}
               onPress={handleSend}
               loading={loading}
+              size="lg"
+              className="w-full"
             />
           )}
           <Pressable onPress={() => router.back()} className="py-2 items-center">

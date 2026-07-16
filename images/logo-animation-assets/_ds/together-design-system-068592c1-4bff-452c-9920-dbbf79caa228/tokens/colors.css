@@ -1,0 +1,63 @@
+:root {
+  /* Base neutrals — warm paper, not stark white */
+  --color-bg: #FBFAF7;
+  --color-surface: #FFFFFF;
+  --color-surface-2: #F4F2EC;
+  --color-ink: #24221E;
+  --color-ink-2: #5F5C55;
+  --color-ink-3: #918D84;
+  --color-border: #E5E2DA;
+  --color-border-strong: #D0CCC2;
+
+  /* Purple (plum) — primary brand color, sampled from the בשילוב logo mark */
+  --color-purple: #632E58;
+  --color-purple-bg: #F1E7EE;
+  --color-purple-ink: #45203D;
+
+  /* Slate-blue — logo's second linked figure; secondary accent, links on light surfaces */
+  --color-slate: #8190AD;
+  --color-slate-bg: #ECEFF5;
+  --color-slate-ink: #4E5A73;
+
+  /* Teal — logo's third linked figure; trust, success, "active/working" states */
+  --color-teal: #4E9C93;
+  --color-teal-bg: #E4F2F0;
+  --color-teal-ink: #2C5C56;
+
+  /* Amber — pending, waiting, SLA warning */
+  --color-amber: #BA7517;
+  --color-amber-bg: #FAEEDA;
+  --color-amber-ink: #633806;
+
+  /* Coral — rejection, destructive, error */
+  --color-coral: #D85A30;
+  --color-coral-bg: #FAECE7;
+  --color-coral-ink: #712B13;
+
+  /* Semantic aliases */
+  --surface-page: var(--color-bg);
+  --surface-card: var(--color-surface);
+  --surface-sunken: var(--color-surface-2);
+  --text-primary: var(--color-ink);
+  --text-secondary: var(--color-ink-2);
+  --text-tertiary: var(--color-ink-3);
+  --text-on-accent: #FFFFFF;
+  --border-default: var(--color-border);
+  --border-strong: var(--color-border-strong);
+
+  --accent-primary: var(--color-purple);
+  --accent-primary-bg: var(--color-purple-bg);
+  --accent-primary-ink: var(--color-purple-ink);
+  --accent-secondary: var(--color-slate);
+  --accent-secondary-bg: var(--color-slate-bg);
+  --accent-secondary-ink: var(--color-slate-ink);
+  --accent-success: var(--color-teal);
+  --accent-success-bg: var(--color-teal-bg);
+  --accent-success-ink: var(--color-teal-ink);
+  --accent-warning: var(--color-amber);
+  --accent-warning-bg: var(--color-amber-bg);
+  --accent-warning-ink: var(--color-amber-ink);
+  --accent-danger: var(--color-coral);
+  --accent-danger-bg: var(--color-coral-bg);
+  --accent-danger-ink: var(--color-coral-ink);
+}

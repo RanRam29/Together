@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+:root {
+  /* Rubik is the exact production font (via @expo-google-fonts/rubik) — no substitution needed. */
+  --font-rubik: 'Rubik', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: var(--font-rubik);
+  --font-body: var(--font-rubik);
+  --font-mono: 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  /* Type scale used across the mobile app (rem @ 16px base) */
+  --text-3xl: 1.875rem;   /* 30px — ScreenShell title */
+  --text-2xl: 1.5rem;     /* 24px — stat values, section titles */
+  --text-lg: 1.125rem;    /* 18px — card names, subheads */
+  --text-base: 1rem;      /* 16px — body, buttons */
+  --text-sm: 0.875rem;    /* 14px — secondary text, labels */
+  --text-xs: 0.75rem;     /* 12px — eyebrows, badges, meta */
+
+  --leading-tight: 1.25;
+  --leading-normal: 1.4;
+  --leading-relaxed: 1.6;
+
+  --tracking-widest: 0.08em;
+}

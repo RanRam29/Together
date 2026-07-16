@@ -135,13 +135,23 @@ export default function ProfessionalHomeScreen() {
         {isLoading ? (
           <BrandSpinner size="large" />
         ) : visibleRequests.length === 0 ? (
-          <PlaceholderCard
-            text={
-              primary?.id === "pro_browse"
-                ? t("professional.noRequestsBrowseHint")
-                : t("professional.noRequests")
-            }
-          />
+          <View className="bg-surface border border-border rounded-card p-8 items-center mt-6 shadow-sm">
+            <View className="w-24 h-24 bg-teal-bg rounded-full items-center justify-center mb-6">
+              <Ionicons name="mail-unread-outline" size={40} color="#0F6E56" />
+            </View>
+            <Text className="text-xl font-bold text-ink mb-2 font-rubik text-center">
+              אין פניות כרגע
+            </Text>
+            <Text className="text-base text-ink-2 text-center leading-6 mb-8">
+              זה הזמן לקחת יוזמה! אפשר לחפש משפחות וילדים שמחפשים משלבות באזור שלך.
+            </Text>
+            <Pressable
+              onPress={() => router.push("/(professional)/browse" as never)}
+              className="bg-teal rounded-full py-4 px-8 items-center active:opacity-90 w-full"
+            >
+              <Text className="text-white font-bold font-rubik">לחיפוש משפחות וילדים</Text>
+            </Pressable>
+          </View>
         ) : (
           visibleRequests.map((request) => {
             const child = request.child;

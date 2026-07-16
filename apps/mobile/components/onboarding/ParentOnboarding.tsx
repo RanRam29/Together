@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Alert, ScrollView, Text, View } from "react-native";
 
 import { ChipSelect, SwitchRow } from "@/components/ui/ChipSelect";
-import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
+import { PrimaryButton, OutlineButton, ScreenShell, TextField } from "@/components/ui/Screen";
 import {
   completeParentOnboarding,
   fetchProfile,
@@ -31,6 +31,8 @@ export function ParentOnboarding() {
   const language = useLocaleStore((s) => s.language);
   const reset = useOnboardingStore((s) => s.reset);
 
+  const [step, setStep] = useState(1);
+
   const [fullName, setFullName] = useState("");
   const [area, setArea] = useState("");
   const [cityId, setCityId] = useState(CITY_PRESETS[0].id);
@@ -56,19 +58,30 @@ export function ParentOnboarding() {
     }));
   }
 
+  function handleNextStep() {
+    if (step === 1) {
+      if (!fullName.trim() || !area.trim() || (needsPhone && !phone.trim())) {
+        Alert.alert(t("common.error"), t("common.required"));
+        return;
+      }
+      const parsedAge = Number.parseInt(age, 10);
+      if (!firstName.trim() || !parsedAge || parsedAge < 1 || parsedAge > 21) {
+        Alert.alert(t("common.error"), t("parent.childFormInvalid"));
+        return;
+      }
+      setStep(2);
+    } else if (step === 2) {
+      setStep(3);
+    }
+  }
+
+  function handlePrevStep() {
+    setStep(step - 1);
+  }
+
   async function handleFinish() {
     if (!session?.user) {
       router.replace("/(auth)/login");
-      return;
-    }
-
-    const parsedAge = Number.parseInt(age, 10);
-    if (!fullName.trim() || !area.trim() || (needsPhone && !phone.trim())) {
-      Alert.alert(t("common.error"), t("common.required"));
-      return;
-    }
-    if (!firstName.trim() || !parsedAge || parsedAge < 1 || parsedAge > 21) {
-      Alert.alert(t("common.error"), t("parent.childFormInvalid"));
       return;
     }
 
@@ -83,6 +96,7 @@ export function ParentOnboarding() {
       });
 
       const city = CITY_PRESETS.find((c) => c.id === cityId) ?? CITY_PRESETS[0];
+      const parsedAge = Number.parseInt(age, 10);
       const childId = await completeParentOnboarding(session.user.id, {
         firstName,
         age: parsedAge,
@@ -114,123 +128,151 @@ export function ParentOnboarding() {
 
   return (
     <ScreenShell
-      eyebrow={t("auth.parentOnboarding.eyebrow")}
-      title={t("auth.parentOnboarding.title")}
-      subtitle={t("auth.parentOnboarding.subtitle")}
+      eyebrow={`${t("auth.parentOnboarding.eyebrow")} • שלב ${step} מתוך 3`}
+      title={step === 1 ? t("auth.parentOnboarding.title") : step === 2 ? "סוג מסגרת חינוכית" : "צרכים ואבחנה"}
+      subtitle={step === 1 ? t("auth.parentOnboarding.subtitle") : step === 3 ? "המידע הזה נשאר אצלך — משלבת תראה רק מה שתאשר/י בשלבים מתקדמים" : undefined}
     >
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        <Text className="text-sm font-bold text-purple mb-3 font-rubik">
-          {t("auth.parentOnboarding.parentSection")}
-        </Text>
+        {step === 1 && (
+          <View>
+            <Text className="text-sm font-bold text-purple mb-3 font-rubik">
+              {t("auth.parentOnboarding.parentSection")}
+            </Text>
 
-        <TextField
-          label={t("auth.fullNameLabel")}
-          placeholder={t("auth.fullNamePlaceholder")}
-          value={fullName}
-          onChangeText={setFullName}
-          autoComplete="name"
-        />
+            <TextField
+              label={t("auth.fullNameLabel")}
+              placeholder={t("auth.fullNamePlaceholder")}
+              value={fullName}
+              onChangeText={setFullName}
+              autoComplete="name"
+            />
 
-        {needsPhone && (
-          <TextField
-            label={t("auth.phoneLabel")}
-            placeholder={t("auth.phonePlaceholder")}
-            keyboardType="phone-pad"
-            value={phone}
-            onChangeText={setPhone}
-            autoComplete="tel"
-          />
+            {needsPhone && (
+              <TextField
+                label={t("auth.phoneLabel")}
+                placeholder={t("auth.phonePlaceholder")}
+                keyboardType="phone-pad"
+                value={phone}
+                onChangeText={setPhone}
+                autoComplete="tel"
+              />
+            )}
+
+            <TextField
+              label={t("auth.areaLabel")}
+              placeholder={t("auth.areaPlaceholder")}
+              value={area}
+              onChangeText={setArea}
+            />
+
+            <ChipSelect
+              label={t("parent.city")}
+              options={CITY_PRESETS.map((city) => ({
+                value: city.id,
+                label: t(city.labelKey),
+              }))}
+              value={cityId}
+              onChange={setCityId}
+            />
+
+            <Text className="text-sm font-bold text-purple mb-3 mt-4 font-rubik">
+              {t("auth.parentOnboarding.childSection")}
+            </Text>
+
+            <TextField
+              label={t("parent.childFirstName")}
+              placeholder={t("parent.childFirstNamePlaceholder")}
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+
+            <TextField
+              label={t("parent.childAge")}
+              placeholder="7"
+              value={age}
+              onChangeText={(text) => setAge(text.replace(/\D/g, "").slice(0, 2))}
+              keyboardType="number-pad"
+            />
+          </View>
         )}
 
-        <TextField
-          label={t("auth.areaLabel")}
-          placeholder={t("auth.areaPlaceholder")}
-          value={area}
-          onChangeText={setArea}
-        />
+        {step === 2 && (
+          <View>
+            <ChipSelect
+              label={t("parent.framework")}
+              options={FRAMEWORK_TYPES.map((value) => ({
+                value,
+                label: t(`enums.frameworkType.${value}`),
+              }))}
+              value={framework}
+              onChange={setFramework}
+            />
+            {/* Can add required hours input here if added to schema */}
+          </View>
+        )}
 
-        <ChipSelect
-          label={t("parent.city")}
-          options={CITY_PRESETS.map((city) => ({
-            value: city.id,
-            label: t(city.labelKey),
-          }))}
-          value={cityId}
-          onChange={setCityId}
-        />
+        {step === 3 && (
+          <View>
+            <ChipSelect
+              label={t("parent.primaryCategory")}
+              options={categoryOptions()}
+              value={category}
+              onChange={setCategory}
+            />
 
-        <Text className="text-sm font-bold text-purple mb-3 mt-4 font-rubik">
-          {t("auth.parentOnboarding.childSection")}
-        </Text>
+            <ChipSelect
+              label={t("parent.secondaryCategory")}
+              options={[
+                { value: "", label: t("parent.none") },
+                ...categoryOptions(),
+              ]}
+              value={secondaryCategory ?? ""}
+              onChange={(value) =>
+                setSecondaryCategory(value ? (value as NeedCategory) : null)
+              }
+            />
 
-        <TextField
-          label={t("parent.childFirstName")}
-          placeholder={t("parent.childFirstNamePlaceholder")}
-          value={firstName}
-          onChangeText={setFirstName}
-        />
+            <ChipSelect
+              label={t("parent.functioningLevel")}
+              options={FUNCTIONING_LEVELS.map((level) => ({
+                value: level,
+                label: t(`parent.functioningLevel${level}`),
+              }))}
+              value={functioningLevel}
+              onChange={setFunctioningLevel}
+            />
 
-        <TextField
-          label={t("parent.childAge")}
-          placeholder="7"
-          value={age}
-          onChangeText={(text) => setAge(text.replace(/\D/g, "").slice(0, 2))}
-          keyboardType="number-pad"
-        />
+            <SwitchRow
+              label={t("parent.communicationVerbal")}
+              description={t("parent.communicationVerbalDesc")}
+              value={communicationVerbal}
+              onChange={setCommunicationVerbal}
+            />
+          </View>
+        )}
 
-        <ChipSelect
-          label={t("parent.primaryCategory")}
-          options={categoryOptions()}
-          value={category}
-          onChange={setCategory}
-        />
-
-        <ChipSelect
-          label={t("parent.secondaryCategory")}
-          options={[
-            { value: "", label: t("parent.none") },
-            ...categoryOptions(),
-          ]}
-          value={secondaryCategory ?? ""}
-          onChange={(value) =>
-            setSecondaryCategory(value ? (value as NeedCategory) : null)
-          }
-        />
-
-        <ChipSelect
-          label={t("parent.functioningLevel")}
-          options={FUNCTIONING_LEVELS.map((level) => ({
-            value: level,
-            label: t(`parent.functioningLevel${level}`),
-          }))}
-          value={functioningLevel}
-          onChange={setFunctioningLevel}
-        />
-
-        <ChipSelect
-          label={t("parent.framework")}
-          options={FRAMEWORK_TYPES.map((value) => ({
-            value,
-            label: t(`enums.frameworkType.${value}`),
-          }))}
-          value={framework}
-          onChange={setFramework}
-        />
-
-        <SwitchRow
-          label={t("parent.communicationVerbal")}
-          description={t("parent.communicationVerbalDesc")}
-          value={communicationVerbal}
-          onChange={setCommunicationVerbal}
-        />
-
-        <View className="pb-10 mt-2">
-          <PrimaryButton
-            label={t("auth.finishOnboarding")}
-            onPress={handleFinish}
-            loading={loading}
-            variant="purple"
-          />
+        <View className="pb-10 mt-6 flex-col gap-3">
+          {step < 3 ? (
+            <PrimaryButton
+              label="המשך"
+              onPress={handleNextStep}
+              variant="purple"
+            />
+          ) : (
+            <PrimaryButton
+              label={t("auth.finishOnboarding")}
+              onPress={handleFinish}
+              loading={loading}
+              variant="purple"
+            />
+          )}
+          {step > 1 && (
+            <OutlineButton
+              label="חזור"
+              onPress={handlePrevStep}
+              variant="neutral"
+            />
+          )}
         </View>
       </ScrollView>
     </ScreenShell>

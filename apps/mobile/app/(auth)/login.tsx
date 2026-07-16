@@ -5,11 +5,11 @@ import { Alert, Pressable, Text, View } from "react-native";
 
 import {
   LanguageToggle,
-  PrimaryButton,
   ScreenShell,
   TextField,
 } from "@/components/ui/Screen";
-import { AppLogo, AppLogoHero } from "@/components/ui/AppLogo";
+import { AppLogoHero } from "@/components/ui/AppLogo";
+import { Button } from "@/components/ui/Button";
 import {
   fetchProfile,
   isProfileComplete,
@@ -125,13 +125,13 @@ export default function LoginScreen() {
   return (
     <ScreenShell
       brandLogo={false}
-      hero={<AppLogoHero className="mb-6" />}
+      hero={<AppLogoHero className="mb-6 mt-6" />}
       eyebrow={t("auth.loginEyebrow")}
       title={t("auth.loginTitle")}
       subtitle={t("auth.loginSubtitle")}
       footer={
         <View className="pb-10">
-          <PrimaryButton
+          <Button
             label={
               loginMethod === "phone"
                 ? t("auth.sendOtp")
@@ -141,6 +141,8 @@ export default function LoginScreen() {
             }
             onPress={handleAction}
             loading={loading}
+            className="w-full"
+            size="lg"
           />
           {loginMethod === "email" && (
             <View className="items-center mt-4 gap-4">
@@ -178,15 +180,15 @@ export default function LoginScreen() {
         </Text>
       </Pressable>
 
-      <View className="flex-row rounded-lg bg-surface border border-border p-1 mb-6">
+      <View className="flex-row bg-surface-container-highest rounded-full p-1 mb-8 shadow-sm">
         <Pressable
           onPress={() => setLoginMethod("phone")}
-          className={`flex-1 py-2 items-center rounded-md ${
-            loginMethod === "phone" ? "bg-white shadow-sm" : ""
+          className={`flex-1 py-3 items-center rounded-full transition-colors ${
+            loginMethod === "phone" ? "bg-white shadow-sm" : "bg-transparent"
           }`}
         >
           <Text
-            className={`font-medium ${
+            className={`font-bold font-rubik text-base ${
               loginMethod === "phone" ? "text-purple" : "text-ink-2"
             }`}
           >
@@ -195,12 +197,12 @@ export default function LoginScreen() {
         </Pressable>
         <Pressable
           onPress={() => setLoginMethod("email")}
-          className={`flex-1 py-2 items-center rounded-md ${
-            loginMethod === "email" ? "bg-white shadow-sm" : ""
+          className={`flex-1 py-3 items-center rounded-full transition-colors ${
+            loginMethod === "email" ? "bg-white shadow-sm" : "bg-transparent"
           }`}
         >
           <Text
-            className={`font-medium ${
+            className={`font-bold font-rubik text-base ${
               loginMethod === "email" ? "text-purple" : "text-ink-2"
             }`}
           >

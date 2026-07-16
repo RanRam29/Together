@@ -5,9 +5,9 @@ import { Alert, Pressable, Text, View } from "react-native";
 
 import {
   OtpInput,
-  PrimaryButton,
   ScreenShell,
 } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import { fetchProfile, sendPhoneOtp, verifyPhoneOtp } from "@/lib/auth-api";
 import { AnalyticsEvents } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
@@ -88,10 +88,12 @@ export default function VerifyOtpScreen() {
       subtitle={t("auth.verifySubtitle", { phone: pendingPhone })}
       footer={
         <View className="pb-10 gap-3">
-          <PrimaryButton
+          <Button
             label={t("auth.verifyOtp")}
             onPress={handleVerify}
             loading={loading}
+            size="lg"
+            className="w-full"
           />
           <Pressable onPress={handleResend} disabled={resending} className="py-2">
             <Text className="text-center text-purple font-medium font-rubik">

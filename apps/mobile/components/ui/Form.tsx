@@ -18,14 +18,12 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { AppLogo } from "@/components/ui/AppLogo";
+import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/motion/EmptyState";
 import { AppPageWidth } from "@/components/ui/AppPageWidth";
 import { BackButton } from "@/components/ui/BackButton";
-import { lightHaptic, PRESS_SCALE, shouldAnimatePress } from "@/lib/motion";
-import { webPressableClass } from "@/lib/platform";
 import { colors } from "@/lib/theme";
 
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface TextFieldProps extends TextInputProps {
   label: string;
@@ -44,18 +42,28 @@ export function TextField({
   const [passwordVisible, setPasswordVisible] = useState(false);
   const isSecure = showPasswordToggle ? !passwordVisible : secureTextEntry;
 
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <View className="mb-4">
       <Text className="text-sm font-medium text-ink-2 mb-2">{label}</Text>
       <View
         className={`flex-row items-center bg-surface border rounded-card ${
-          error ? "border-coral" : "border-border"
+          error ? "border-coral border" : isFocused ? "border-purple border-2" : "border-border border"
         }`}
       >
         <TextInput
           placeholderTextColor={colors.ink3}
           className={`flex-1 px-4 py-4 text-ink text-base ${className ?? ""}`}
           secureTextEntry={isSecure}
+          onFocus={(e) => {
+            setIsFocused(true);
+            props.onFocus?.(e);
+          }}
+          onBlur={(e) => {
+            setIsFocused(false);
+            props.onBlur?.(e);
+          }}
           {...props}
         />
         {showPasswordToggle ? (
@@ -121,69 +129,16 @@ export function PrimaryButton({
   disabled = false,
   fullWidth = false,
 }: PrimaryButtonProps) {
-  const bgClass = variant === "purple" ? "bg-purple" : "bg-teal";
-  const isDisabled = disabled || loading;
-  const widthClass = fullWidth
-    ? "w-full self-stretch"
-    : Platform.OS === "web"
-      ? "self-start"
-      : "w-full";
-  const scale = useSharedValue(1);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-  }));
-
-  function handlePressIn() {
-    if (isDisabled || !shouldAnimatePress()) return;
-    scale.value = withSpring(PRESS_SCALE, { damping: 20, stiffness: 400 });
-  }
-
-  function handlePressOut() {
-    scale.value = withSpring(1, { damping: 16, stiffness: 320 });
-  }
-
-  const buttonClass = `${bgClass} rounded-card py-4 px-6 items-center ${widthClass} ${webPressableClass} ${
-    isDisabled ? "opacity-60" : "active:opacity-90"
-  }`;
-
-  if (!shouldAnimatePress()) {
-    return (
-      <Pressable
-        onPress={() => {
-          if (!isDisabled) lightHaptic();
-          onPress?.();
-        }}
-        disabled={isDisabled}
-        className={buttonClass}
-      >
-        {loading ? (
-          <ActivityIndicator color="#FFFFFF" />
-        ) : (
-          <Text className="text-white text-base font-semibold font-rubik">{label}</Text>
-        )}
-      </Pressable>
-    );
-  }
-
   return (
-    <AnimatedPressable
-      onPress={() => {
-        if (!isDisabled) lightHaptic();
-        onPress?.();
-      }}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      disabled={isDisabled}
-      style={animatedStyle}
-      className={buttonClass}
-    >
-      {loading ? (
-        <ActivityIndicator color="#FFFFFF" />
-      ) : (
-        <Text className="text-white text-base font-semibold font-rubik">{label}</Text>
-      )}
-    </AnimatedPressable>
+    <Button
+      label={label}
+      onPress={onPress}
+      variant={variant === "purple" ? "primary" : "secondary"}
+      loading={loading}
+      disabled={disabled}
+      className={fullWidth ? "w-full self-stretch" : Platform.OS === "web" ? "self-start" : "w-full"}
+      size="lg"
+    />
   );
 }
 
@@ -204,32 +159,16 @@ export function OutlineButton({
   fullWidth = false,
   variant = "neutral",
 }: OutlineButtonProps) {
-  const isDisabled = disabled || loading;
-  const widthClass = fullWidth
-    ? "w-full self-stretch"
-    : Platform.OS === "web"
-      ? "self-start"
-      : "w-full";
-  const borderClass = variant === "coral" ? "border-coral" : "border-border";
-  const textClass = variant === "coral" ? "text-coral" : "text-ink-2";
-
   return (
-    <Pressable
-      onPress={() => {
-        if (!isDisabled) lightHaptic();
-        onPress?.();
-      }}
-      disabled={isDisabled}
-      className={`rounded-card py-4 px-6 items-center justify-center border ${borderClass} ${widthClass} ${webPressableClass} ${
-        isDisabled ? "opacity-60" : "active:opacity-90"
-      }`}
-    >
-      {loading ? (
-        <ActivityIndicator color={variant === "coral" ? colors.coral : colors.ink2} />
-      ) : (
-        <Text className={`${textClass} text-base font-semibold font-rubik`}>{label}</Text>
-      )}
-    </Pressable>
+    <Button
+      label={label}
+      onPress={onPress}
+      variant={variant === "coral" ? "outline-destructive" : "outline"}
+      loading={loading}
+      disabled={disabled}
+      className={fullWidth ? "w-full self-stretch" : Platform.OS === "web" ? "self-start" : "w-full"}
+      size="lg"
+    />
   );
 }
 
@@ -268,7 +207,7 @@ interface PlaceholderCardProps {
 
 export function PlaceholderCard({ text }: PlaceholderCardProps) {
   return (
-    <View className="bg-surface border border-border rounded-card p-5">
+    <View className="bg-surface border border-border/50 rounded-card p-8 shadow-sm justify-center items-center">
       <EmptyState variant="compact" title={text} />
     </View>
   );
@@ -322,18 +261,18 @@ export function ScreenShell({
           {showBack ? <BackButton fallbackHref={backFallbackHref} /> : null}
           <View className="flex-row items-start justify-between">
             <View className="flex-1">
-              {hero ? <View className="mb-4 items-start">{hero}</View> : null}
+              {hero ? <View className="mb-4 items-start w-full">{hero}</View> : null}
               {showBrandLogo ? (
                 <View className="mb-4">
                   <AppLogo variant="compact" />
                 </View>
               ) : null}
               {eyebrow ? (
-                <Text className="text-xs font-bold text-purple uppercase tracking-widest mb-3 font-rubik">
+                <Text className="text-xs font-bold text-purple uppercase tracking-widest mb-3 font-rubik text-start w-full">
                   {eyebrow}
                 </Text>
               ) : null}
-              <Text className="text-3xl font-bold text-ink mb-2 font-rubik text-start">
+              <Text className="text-3xl font-bold text-ink mb-2 font-rubik text-start w-full">
                 {title}
               </Text>
             </View>

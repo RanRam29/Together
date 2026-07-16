@@ -4,10 +4,10 @@ import { Alert, View, Pressable, Text } from "react-native";
 
 import {
   LanguageToggle,
-  PrimaryButton,
   RoleCard,
   ScreenShell,
 } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import { AppLogoHero } from "@/components/ui/AppLogo";
 import { changeAppLanguage } from "@/i18n";
 import type { UserRole } from "@/lib/types";
@@ -52,10 +52,12 @@ export default function RoleSelectScreen() {
       subtitle={t("auth.roleSelectSubtitle")}
       footer={
         <View className="pb-10">
-          <PrimaryButton
+          <Button
             label={t("common.continue")}
             onPress={continueToLogin}
             disabled={!selectedRole}
+            size="lg"
+            className="w-full"
           />
           <Pressable 
             className="mt-6 self-center" 

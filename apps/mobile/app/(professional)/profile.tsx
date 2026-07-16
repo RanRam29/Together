@@ -9,6 +9,7 @@ import {
 
 import { MultiChipSelect } from "@/components/ui/ChipSelect";
 import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
+import { Avatar } from "@/components/ui/Avatar";
 import {
   FRAMEWORK_TYPES,
   NEED_CATEGORIES,
@@ -88,6 +89,11 @@ export default function ProfessionalProfileScreen() {
   return (
     <ScreenShell title={t("professional.profile")}>
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        <View className="items-center mb-6 mt-4">
+          <Avatar size="xl" fallbackText={displayName} />
+          <Text className="text-purple text-sm font-rubik mt-2 font-medium">שנה תמונה</Text>
+        </View>
+
         <View className="bg-surface-2 rounded-card px-4 py-3 mb-5 flex-row items-center justify-between">
           <Text className="text-sm text-ink-2">
             {t("professional.verificationStatus")}

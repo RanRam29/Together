@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #2b2530; }
+  a { color: #9dcac8; }
+  a:hover { color: #bfe0dd; }
+</style>
+<meta name="ext-resource-dependency" content="assets/logo.png" data-resource-id="logo" />
+<template id="__bundler_thumbnail" data-bg-color="#FBFAF7">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#FBFAF7"/>
+    <circle cx="540" cy="360" r="70" fill="#622d57"/>
+    <circle cx="640" cy="330" r="80" fill="#8392af"/>
+    <circle cx="740" cy="360" r="70" fill="#9dcac8"/>
+    <text x="600" y="520" text-anchor="middle" font-family="Rubik, sans-serif" font-weight="800" font-size="96" fill="#622d57">בשילוב</text>
+  </svg>
+</template>
+<script>window.OM_SCENES = '[{"name":"Opening","dur":4},{"name":"Message","dur":4.5},{"name":"Pillars","dur":5},{"name":"Lockup","dur":5}]';</script>
+<script>window.OM_PLAYBACK = '{"mode":"loop"}';</script>
+<script>window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "aspect": "1:1",
+  "motionEditor": true
+}/*EDITMODE-END*/;</script>
+</helmet>
+
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;">
+  <x-import component-from-global-scope="Promo" from="./promo-bundle.jsx" hint-size="1080px,1920px"></x-import>
+</div>
+
+</x-dc>
+</body>
+</html>
