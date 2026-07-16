@@ -3,7 +3,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, Text, View } from "react-native";
 
-import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
+import { PlaceholderCard, PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
 import { SecondaryParentSettings } from "@/components/parent/SecondaryParentSettings";
 import {
   useChildDetails,
@@ -76,11 +76,7 @@ export default function ChildDetailsScreen() {
   if (!childId) {
     return (
       <ScreenShell title={t("parent.detailsTitle")}>
-        <View className="bg-surface border border-border rounded-card p-5">
-          <Text className="text-ink-2 text-center leading-6">
-            {t("parent.noChildProfile")}
-          </Text>
-        </View>
+        <PlaceholderCard text={t("parent.noChildProfile")} />
       </ScreenShell>
     );
   }

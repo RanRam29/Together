@@ -18,6 +18,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { AppLogo } from "@/components/ui/AppLogo";
+import { EmptyState } from "@/components/motion/EmptyState";
 import { AppPageWidth } from "@/components/ui/AppPageWidth";
 import { BackButton } from "@/components/ui/BackButton";
 import { lightHaptic, PRESS_SCALE, shouldAnimatePress } from "@/lib/motion";
@@ -268,7 +269,7 @@ interface PlaceholderCardProps {
 export function PlaceholderCard({ text }: PlaceholderCardProps) {
   return (
     <View className="bg-surface border border-border rounded-card p-5">
-      <Text className="text-ink-2 text-center leading-6">{text}</Text>
+      <EmptyState variant="compact" title={text} />
     </View>
   );
 }

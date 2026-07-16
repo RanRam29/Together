@@ -1,40 +1,29 @@
-# 🎬 בריף ל-Cursor: המשך יישום ערכת אנימציית הלוגו (2026-07-15)
+# 🎬 בריף ל-Cursor: ערכת אנימציית הלוגו — מה נשאר (2026-07-15, עדכון ב')
 
 היי Cursor!
 
-בעל המוצר סיפק ערכת עיצוב אנימציה חדשה ("Beshiluv Logo Animation Kit") — קובץ מקור נמצא ב-`images/Beshiluv Logo Animation Kit (standalone).html` ו-`images/Logo animation assets.zip`. אני (הארכיטקט) בניתי את רוב הרכיבים ואת החיווט שלהם ישירות ב-`apps/mobile` באותה שיחה. **הכל עדיין לא commit** — זה ה-working tree החי שלך, אז יש כאן גם שינויים לא-קשורים שכבר היו פתוחים לפני שהתחלתי (למשל `daily-log-form.tsx`, `login.tsx`, `role-select.tsx` וכו') — אל תיגע בהם בלי לבדוק, הם לא חלק מהמשימה הזו.
+תודה על ה-sweep. עברתי על מה שעשית ישירות מול הקוד (לא רק דיווח על הלוח) — `tsc --noEmit`, `eslint`, ו-`npm run test:navigation` היו ירוקים, אז אין כאן build שבור. מצאתי ותיקנתי בעצמי 3 בעיות איכות אמיתיות (פירוט ב-COORDINATION_BOARD.md, לא צריך לחזור עליהן):
+1. מחקתי את `apps/mobile/scripts/sweep-brand-motion.mjs` ו-`fix-imports.mjs` — סקריפטי regex חד-פעמיים שנשארו מקומיטים כאילו הם כלי-עבודה קבועים. **אם אתה צריך לעשות sweep דומה בעתיד, תעדיף עריכה ידנית/AST-aware על פני regex גס על קוד מקור** — ה-regex פירק import statements ודרש סקריפט תיקון שני כדי לתקן את עצמו.
+2. שדרגתי את `PlaceholderCard` (ב-`components/ui/Form.tsx`) להשתמש ב-`EmptyState` פנימית — זה עדכן אוטומטית את `app/(parent)/(tabs)/index.tsx` (`noChildProfile`/`noMatches`) ואיחדתי גם עותק כפול ידני באותה תבנית ב-`child-details.tsx`.
+3. שאר ה-sweep (26 מופעי `BrandSpinner`, 15 מופעי `RefreshControl`) — אימתתי ידנית שהם סמנטית נכונים (לא נגעו בספינרים בתוך כפתורים). זה תקין, רק הפורמט/הזחה קצת מכוער במקומות (regex-injected) — קוסמטי בלבד, לא דחוף.
 
-## מה כבר בנוי ומחווט (ב-`apps/mobile/components/motion/` — חדש):
+## המצב הנוכחי — כל 6 האנימציות מיושמות ומחווטות:
 
-| רכיב | מה הוא עושה | איפה מחווט |
+| רכיב | איפה מחווט | סטטוס |
 |---|---|---|
-| `BrandSpinner.tsx` | ספינר טעינה — 3 נקודות (סגול/טורקיז/ענבר) מסתובבות | הוחלף `ActivityIndicator` בעומדים-לבד (לא בתוך כפתורים!) ברוב המסכים — ראה "מה עוד פתוח" למטה |
-| `EmptyState.tsx` | לוגו מרחף + צל, `variant="compact"\|"full"` | הוחלף בטקסט-ריק בכמה מסכים (`matches.tsx`, `StaffQueryFeedback`, `ReviewsList`) |
-| `SplashReveal.tsx` | חשיפת לוגו חד-פעמית (זוהר+טבעת+סקייל) ואז נשימה עדינה | מוזג ל-`AppProviders.tsx` כ"מסך הטעינה" האמיתי (fonts/i18n gate) — **גם הוספתי `expo-splash-screen` כ-plugin חדש ב-`app.json`** עם אותו לוגו/רקע, כדי שהמעבר מה-splash הנייטיבי ל-JS יהיה חלק |
-| `MatchCelebrationModal.tsx` | מודל מסך-מלא: שני עיגולים מתקרבים + קונפטי + טקסט | הוחלף ה-`SentConfirmationOverlay` הישן במסך `intro-detail.tsx` ברגע `metricsConfirmed` (זה בדיוק רגע אישור ההתאמה) |
-| `SuccessCheck.tsx` | SVG: טבעת מצטיירת + וי מצטייר, עם "פופ" קטן בסוף | מחווט **בתוך** `SentConfirmationOverlay.tsx` עצמו — כל קריאה קיימת ל-`showSuccess()` עם `icon="checkmark-circle"` (ברירת המחדל) מקבלת את זה אוטומטית, בלי לשנות אף call site |
+| `BrandSpinner` | ~26 מסכים, standalone loaders בלבד | ✅ |
+| `EmptyState` | `StaffQueryFeedback`, `ReviewsList`, `PlaceholderCard` (ומכאן לכל הצרכנים שלו), `InsightsCard`, `ProfileViewsCard`, `today.tsx` | ✅ |
+| `SplashReveal` | `AppProviders.tsx` (fonts/i18n gate) + `expo-splash-screen` plugin ב-`app.json` | ✅ קוד, ⚠️ לא נבדק על device |
+| `MatchCelebrationModal` | `intro-detail.tsx` ברגע `metricsConfirmed` | ✅ קוד, ⚠️ לא נבדק על device |
+| `SuccessCheck` | בתוך `SentConfirmationOverlay.tsx` (כל קריאה ל-`showSuccess()`) | ✅ קוד, ⚠️ לא נבדק על device |
+| `RefreshControl` בצבעי מותג | 15 מסכים | ✅ |
 
-כל האנימציות מכבדות `prefers-reduced-motion` (`isReduceMotionEnabled()` מ-`lib/motion.ts`, כבר קיים בקוד). צבעי המותג היחידים בשימוש: `colors.purple/teal/amber` מ-`lib/theme.ts` — לא הבאתי צבעים חדשים מה-mockup המקורי (שם היו גוונים אחרים שלא קיימים ב-`tailwind.config.js` היום).
+**זה שנשאר היחיד:** בדיקה ויזואלית על device/simulator אמיתי. ניסיתי להריץ `expo start --web` דרך ה-preview tool שלי כדי לפחות לראות רינדור בסיסי, אבל התהליך קרס/התנתק בכל ניסיון (כנראה בעיית process-tracking עם `npm --prefix` על Windows בסביבה שלי, לא בעיה בקוד — ה-typecheck/lint/tests כולם ירוקים). **את זה אתה צריך לעשות**, במיוחד:
+- מסך הפתיחה (`SplashReveal`) — בבנייה נייטיבית (לא Expo Go, כי ה-`expo-splash-screen` plugin דורש prebuild) שהמעבר מה-splash הנייטיבי לאנימציה חלק ולא מהבהב.
+- `MatchCelebrationModal` בזרימה האמיתית ב-RTL (`intro-detail.tsx`), שהקונפטי והטקסט נראים טוב.
+- `SuccessCheck` בכמה מסכים שקוראים ל-`showSuccess()`.
 
-**תלויות חדשות (כבר הותקנו, `package-lock.json` מעודכן):** `react-native-svg@15.11.2`, `expo-linear-gradient@~14.1.5` (עדיין לא בשימוש בפועל — אפשר להסיר אם לא תרצה להשתמש בו), `expo-splash-screen@~0.30.10`.
+## נשאר עוד לסרוק (לא קריטי, לפי שיקול דעתך):
+כמה מופעי `ActivityIndicator size="small"` עצמאיים (לא בתוך כפתור) לא הומרו כי ה-sweep המקורי התמקד ב-`size="large"` בלבד: `documents.tsx`, `review/[id].tsx`, `settings.tsx`, `pending.tsx`. אלה standalone loaders לגיטימיים (לא ספינרים בתוך כפתור) — אפשר לשדרג אותם ל-`BrandSpinner size="small"` לעקביות, אבל זה לא דחוף.
 
-## מה עוד פתוח — שני sweep-ים רצים ברקע:
-
-הפעלתי שני sub-agents שעובדים כרגע ב-**git worktrees נפרדים** (לא ב-working tree הראשי) על מכניקה חוזרת:
-1. להחליף `ActivityIndicator` עצמאי (לא בתוך כפתור) ב-`BrandSpinner` בכל שאר המסכים.
-2. לצבוע `RefreshControl` בכל מקום ב-`colors.purple` (`tintColor`+`colors`) — **בהתאם להחלטת בעל המוצר: רק צביעת המשיכה-לרענון בצבעי מותג, לא אנימציה מותאמת-אישית** (המגבלה הטכנית: `RefreshControl` נייטיבי לא תומך ב-JSX מותאם בזמן משיכה בלי לבנות מנגנון מחוות מותאם-אישית מאפס על 15 מסכים — לא שווה את הסיכון).
-3. להחליף טקסט "אין פריטים" בודד ב-`EmptyState` היכן שברור שזה החלפה נקייה.
-
-הכיסוי המלא (כולל מה שכבר סגרתי בעצמי): `ActivityIndicator` היה ב-35 קבצים, `RefreshControl` ב-15. כשהם יסיימו, אני **אמזג את השינויים בעצמי** ל-working tree הראשי (הם ב-`.claude/worktrees/agent-a0563f58b54243f6f` ו-`.claude/worktrees/agent-afbe3abebb3d5763b` אם אתה רוצה להציץ לפני שאני ממזג) — אתה לא צריך לחכות להם או לגעת בהם.
-
-## המשימה שלך:
-
-1. **בדיקה ויזואלית על device/simulator אמיתי** — אני לא הרצתי סימולטור מובייל אמיתי, רק typecheck (`npx tsc --noEmit` נקי, 0 שגיאות). תבדוק בפועל:
-   - מסך הפתיחה (SplashReveal) — במיוחד עם build נייטיבי (לא Expo Go, כי ה-`expo-splash-screen` plugin דורש prebuild) שהמעבר בין ה-splash הנייטיבי לאנימציה חלק ולא מהבהב.
-   - `MatchCelebrationModal` בזרימה האמיתית: `intro-detail.tsx` → "התחלנו לעבוד יחד!" → בחירת מדדים → אישור. תוודא ה-RTL של הטקסט וה-confetti נראים טוב.
-   - `SuccessCheck` בכמה מהמסכים שקוראים ל-`showSuccess()` (שמירת יומן יומי, העלאת מסמך).
-   - `BrandSpinner`/`EmptyState` בכמה מסכי staff.
-2. **לוודא שה-sweep-ים (אחרי שאמזג) לא שברו כפתורים** — הכלל ששלחתי לסוכנים: לא לגעת ב-`ActivityIndicator` שבתוך כפתור/pressable (`components/ui/Form.tsx` לא היה אמור להיות בכלל ברשימה שלהם, אבל שווה עין).
-3. אם יש מסכי empty-state שדילגתי עליהם (יש עוד כמה i18n keys כמו `todayNoCheckins`, `aiEmpty`, `profileViewsEmpty` שלא הגעתי אליהם) — תרגיש חופשי להשלים לפי אותה תבנית (`EmptyState variant="compact"`).
-
-> *אני ממשיך לעקוב אחרי שני ה-sub-agents ואמזג כשיסיימו — תתחיל מסעיף 1 (בדיקה ויזואלית) כבר עכשיו על מה שכבר קיים.*
+> *לא נגעתי ב-`daily-log-form.tsx` או בעבודת WP17/professional-tools מה-commit הגדול — זה מחוץ להיקף של ערכת האנימציה.*

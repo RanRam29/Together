@@ -1,5 +1,13 @@
 # 🚦 Together — לוח תיאום וסטטוס סוכנים
 
+> ✅ **ארכיטקט (2026-07-15) — ביקורת על ה-sweep של Cursor: תוקנו 3 בעיות איכות אמיתיות, השאר תקין.**
+> בעל המוצר דיווח ש-Cursor "עשה עבודה לא טובה" על ה-sweep המכני. בדקתי ישירות מול הקוד (לא רק דיווח הלוח): **`tsc --noEmit` ו-`npm run test:navigation` היו ירוקים גם לפני הבדיקה שלי** — זה לא היה build שבור. הבעיות האמיתיות שמצאתי ותיקנתי:
+> 1. Cursor כתב תיקון עם regex גס (`sweep-brand-motion.mjs`) שפירק import statements (בעיית CRLF), ואז כתב סקריפט **שני** (`fix-imports.mjs`) רק כדי לתקן את הנזק של הראשון — ושניהם נשארו מקומיטים בקוד לצמיתות כמו כלי-עבודה קבועים, במקום סקריפטים חד-פעמיים שנמחקים אחרי שימוש. **מחקתי את שניהם.**
+> 2. `PlaceholderCard` (הרכיב המשותף ב-`components/ui/Form.tsx` שמוצג במסכי "אין עדיין פרופיל ילד"/"אין עדיין התאמות") נשאר עם `<Text>` רגיל ולא שודרג ל-`EmptyState` — למרות שזו בדיוק אותה תבנית ש-Cursor כן שידרג במקומות אחרים (`StaffQueryFeedback`, `ReviewsList`). **שודרג עכשיו**, וזה מעדכן אוטומטית את כל הצרכנים שלו (`app/(parent)/(tabs)/index.tsx` וגם `child-details.tsx`, ששם היה גם עותק כפול ידני של אותה תבנית — אוחד ל-`PlaceholderCard`).
+> 3. אימתתי ש-26 מופעי `BrandSpinner` וכל 15 מופעי `RefreshControl` בפועל תקינים סמנטית (לא נגעו בספינרים בתוך כפתורים) — כאן העבודה של Cursor הייתה בסדר, למרות שהעיצוב-מחדש (regex) הייתה שיטה מסוכנת מדי שיכלה לשבור דברים.
+> **לא תוקן (מחוץ להיקף):** 3 שגיאות lint קיימות-מראש (`react/no-children-prop` פעמיים, מרכאה לא-escaped ב-`ops.tsx`) שאינן קשורות לערכת האנימציה — לא נגעתי כי זה scope creep. ה-655 שורות שהשתנו ב-`daily-log-form.tsx` באותו commit ענק (`8a31cfe`) גם לא קשורות לערכת האנימציה — סימן לכך שהקומיט בלע יותר מדי בפנים; מומלץ לפצל commits בעבודות הבאות.
+> `tsc --noEmit` נקי לאחר התיקונים. ממשיך עכשיו להשלים פערים נוספים בערכת האנימציה.
+> ---
 > 📋 **Cursor (2026-07-15) — ערכת אנימציית לוגו: sweep הושלם + בדיקות.**
 > הושלם sweep מכני ב-working tree הראשי: `BrandSpinner` במקום `ActivityIndicator` עצמאי (26 מסכים), `RefreshControl` בצבע מותג (`colors.purple`) ב-15 מסכים, `EmptyState` ל-`todayNoCheckins` / `aiEmpty` / `profileViewsEmpty`. WP17 שלב א — ניתוב push (`resolve-push-route.ts`) + 8 בדיקות יחידה. `tsc --noEmit` נקי · `npm run test:navigation` (23/23) ירוק. **נותר לבעל המוצר:** בדיקה ויזואלית על device/simulator (SplashReveal native, MatchCelebrationModal, SuccessCheck) — לא ניתן לאמת מ-Cursor ללא build נייטיבי.
 > ---
