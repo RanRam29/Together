@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>הגדרות התראות</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#623900",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "secondary-fixed": "#a0f3d4",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-tertiary-container": "#ffc78c",
+                        "on-surface": "#1c1b22",
+                        "surface-tint": "#584fbc",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "outline": "#787584",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#f0ecf6",
+                        "surface": "#fcf8ff",
+                        "tertiary-container": "#824e00",
+                        "on-secondary-fixed": "#002117",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "primary-container": "#534ab7",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#2b1700",
+                        "outline-variant": "#c8c4d5",
+                        "tertiary-fixed": "#ffdcbb",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f3eff9",
+                        "background": "#fcf8ff",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "surface-bright": "#fcf8ff",
+                        "surface-container-highest": "#e5e1eb",
+                        "surface-container-high": "#ebe6f0",
+                        "inverse-surface": "#312f37",
+                        "inverse-primary": "#c5c0ff",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "on-primary-fixed": "#140067",
+                        "surface-dim": "#dcd8e2",
+                        "secondary-container": "#a0f3d4",
+                        "surface-container-low": "#f6f2fc",
+                        "surface-variant": "#e5e1eb",
+                        "secondary": "#086b53",
+                        "primary": "#3b309e",
+                        "on-background": "#1c1b22",
+                        "on-surface-variant": "#474553",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#d1ccff",
+                        "primary-fixed": "#e3dfff",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#167159",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "lg": "24px",
+                        "gutter": "12px",
+                        "container-padding": "20px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "label-md": ["Rubik"],
+                        "display-lg": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "headline-sm": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "display-lg": ["30px", { "lineHeight": "38px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "26px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        
+        /* Custom Toggle Switch Styles */
+        .toggle-checkbox:checked {
+            right: 100%;
+            border-color: theme('colors.primary');
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: theme('colors.primary');
+        }
+        .toggle-checkbox {
+            right: 0;
+            z-index: 1;
+            border-color: theme('colors.outline-variant');
+            transition: all 0.3s;
+        }
+        .toggle-label {
+            width: 50px;
+            height: 28px;
+            background-color: theme('colors.surface-container-highest');
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .toggle-indicator {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 24px;
+            height: 24px;
+            background-color: theme('colors.surface');
+            border-radius: 50%;
+            transition: all 0.3s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .toggle-checkbox:checked ~ .toggle-label .toggle-indicator {
+            transform: translateX(-22px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+<!-- Mobile Container -->
+<div class="w-full max-w-md mx-auto min-h-screen bg-surface shadow-sm relative flex flex-col overflow-hidden">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky flex flex-row-reverse items-center justify-between px-container-padding h-16 w-full max-w-md mx-auto bg-surface border-b border-outline-variant z-10 flat no shadows">
+<div class="w-8 h-8 rounded-full hover:bg-surface-container-low transition-colors flex items-center justify-center cursor-pointer">
+<img alt="Logo" class="w-6 h-6 object-contain mix-blend-multiply opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk5agTgcJKOKlsLEGuCMj-A_6R7SU2CH4Ums5zouoAGA2M6dZfBKecGWAzQkuTgChAwOg4t75naQWZT2cw1tBjOMkYVWXycryCjh06J8nsxC5okMP9nbzADMUVI9VgLofEZoa0rXJJ2Cg3x2EvxH6wye0gTFL8FV1Nn3z6GsOH_-grL4NVP6-IHaj8f60geReQkCjxGXQtwAZET5_y7Jv5lh84p6T2TZAfY4v5PVMS_3Coc-Xtu_4basd2aZryUiy8kDUmZqATWk55"/>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-primary font-bold">הגדרות התראות</h1>
+<button class="w-10 h-10 rounded-full hover:bg-surface-container-low flex items-center justify-center transition-colors hover:opacity-80 scale-95 active:opacity-70 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 px-container-padding py-xl overflow-y-auto">
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl">
+                בחרו אילו התראות תרצו לקבל כדי להישאר מעודכנים במידע שחשוב לכם.
+            </p>
+<!-- Settings List -->
+<div class="flex flex-col gap-md">
+<!-- Toggle Item 1 -->
+<div class="flex flex-row justify-between items-center p-md bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:border-primary-fixed-dim transition-colors">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">הודעות חדשות</span>
+<span class="font-body-md text-label-sm text-on-surface-variant">עדכונים על הודעות מצוות הטיפול</span>
+</div>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle1" name="toggle1" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer" for="toggle1">
+<span class="toggle-indicator"></span>
+</label>
+</div>
+</div>
+<!-- Toggle Item 2 -->
+<div class="flex flex-row justify-between items-center p-md bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:border-primary-fixed-dim transition-colors">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">בקשות קשר חדשות</span>
+<span class="font-body-md text-label-sm text-on-surface-variant">התראות על הצעות להתאמה חדשה</span>
+</div>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle2" name="toggle2" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer" for="toggle2">
+<span class="toggle-indicator"></span>
+</label>
+</div>
+</div>
+<!-- Toggle Item 3 -->
+<div class="flex flex-row justify-between items-center p-md bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:border-primary-fixed-dim transition-colors">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed-dim bg-opacity-20 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">how_to_reg</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">אישור הגעה של דנה</span>
+<span class="font-body-md text-label-sm text-on-surface-variant">קבלת עדכון כשדנה מגיעה למשמרת</span>
+</div>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle3" name="toggle3" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer" for="toggle3">
+<span class="toggle-indicator"></span>
+</label>
+</div>
+</div>
+<!-- Toggle Item 4 -->
+<div class="flex flex-row justify-between items-center p-md bg-surface-container-lowest border border-outline-variant rounded-xl shadow-sm hover:border-primary-fixed-dim transition-colors">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">summarize</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-sm text-headline-sm text-on-surface">סיכום יומי</span>
+<span class="font-body-md text-label-sm text-on-surface-variant">ריכוז כל הפעילויות בסוף היום</span>
+</div>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer" id="toggle4" name="toggle4" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 cursor-pointer" for="toggle4">
+<span class="toggle-indicator"></span>
+</label>
+</div>
+</div>
+</div>
+<!-- Save Button Section -->
+<div class="mt-xl pt-lg border-t border-outline-variant flex justify-center">
+<button class="w-full bg-primary text-on-primary font-headline-sm text-headline-sm py-sm px-lg rounded-xl h-[52px] hover:bg-on-primary-fixed-variant transition-colors active:scale-95">
+                    שמירת שינויים
+                </button>
+</div>
+</main>
+<!-- Bottom padding for potential safe area / home bar -->
+<div class="h-6 bg-surface"></div>
+</div>
+</body></html>

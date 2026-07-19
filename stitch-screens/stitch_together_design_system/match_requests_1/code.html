@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Together - בקשות התאמה</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fcf8ff",
+                        "on-primary-container": "#d1ccff",
+                        "surface-container": "#f0ecf6",
+                        "background": "#fcf8ff",
+                        "inverse-on-surface": "#f3eff9",
+                        "on-primary-fixed": "#140067",
+                        "on-secondary-container": "#167159",
+                        "secondary-container": "#a0f3d4",
+                        "outline": "#787584",
+                        "primary-container": "#534ab7",
+                        "primary": "#3b309e",
+                        "secondary": "#086b53",
+                        "surface-container-high": "#ebe6f0",
+                        "surface-container-highest": "#e5e1eb",
+                        "on-surface": "#1c1b22",
+                        "on-surface-variant": "#474553",
+                        "outline-variant": "#c8c4d5",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "card": "14px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "container-padding": "20px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "gutter": "12px",
+                        "lg": "24px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Rubik"],
+                        "headline-sm": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "label-sm": ["Rubik"],
+                        "label-md": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #fcf8ff;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tab-active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: #3b309e;
+            border-radius: 3px 3px 0 0;
+        }
+        .card-shadow {
+            border: 1px solid #E5E2DA;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased overflow-x-hidden pb-24">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-outline-variant px-container-padding h-14 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="Together Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4QdMmkZ4NZAa10pjl0QmAAiNn9XQ7kA_FUeFzIuJ4-ITKx2sF0ymGsqUsy83tKKUhxNLFV3sRFXD5X8dXQtE1nCM-oSkek_ALggm5cwYbKnpx7FWjwyAnpvabHyX3DDFre_tgFoMWBSdmXYx7svX4ruIXM2db9-ISIDlMcfPp5Q8cT8MjswWByQvx6gU-O7QrrSFRT56SQoemwZtF3snWdoM-1OVw740AB8kXb8bHnXWHl-6ff-XtcXIwK4oBnRZPIPorhwGC8yXJ"/>
+<h1 class="font-headline-md text-headline-md text-primary">בקשות התאמה</h1>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+</header>
+<!-- Tabs Navigation -->
+<nav class="mt-14 bg-surface border-b border-outline-variant sticky top-14 z-40">
+<div class="flex">
+<button class="flex-1 py-4 text-center relative font-label-md text-primary tab-active" id="tab-pending" onclick="switchTab('pending')">
+                ממתינות
+            </button>
+<button class="flex-1 py-4 text-center relative font-label-md text-on-surface-variant" id="tab-approved" onclick="switchTab('approved')">
+                אושרו
+            </button>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="px-container-padding py-md space-y-md" id="content-container">
+<!-- Request Card 1 -->
+<div class="bg-surface-container-lowest rounded-card card-shadow p-md flex flex-col gap-md transition-all active:scale-[0.98]">
+<div class="flex justify-between items-start">
+<div class="flex gap-md">
+<div class="w-16 h-16 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly female caregiver in her 30s, smiling warmly, wearing a professional navy blue blouse. The background is a soft-focus indoor setting with warm lighting, maintaining a clean and professional aesthetic consistent with a high-end care marketplace. High quality, sharp focus, empathetic expression." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNFrf_kt6Vg3fNOinWk1pp0j6KZDHHlAqA0cLWk6z2cIrucEM-maqms8dCjgeo4Yygyd1FdNOamoV7cajY8ZVUod9WC8vA-PzwqgrSTl8wZ8HFTiExeXRhdQpxd7H1AvaBOmv5YNXbR2QJ4EhIZ5986VMuBuWwCO9Qp2x2XKq9c_0l8NvZwPSEw1FKCUerrHToxQgCgOtf4AWP5mplFddT9adu48mVyTr6aa8hhi2-DXzuDqCt7edNLThmuvNSbUlKV3f1lFbb_8TI"/>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">מיכל לוי</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">מומחית בשילוב בתי ספר</p>
+</div>
+</div>
+<div class="bg-secondary-container/30 px-3 py-1 rounded-full border border-secondary/20">
+<span class="text-secondary font-label-md">95% התאמה</span>
+</div>
+</div>
+<div class="flex gap-gutter mt-2">
+<button class="flex-1 h-[52px] bg-primary text-white rounded-card font-label-md flex items-center justify-center transition-all hover:opacity-90 active:scale-95">
+                    אישור
+                </button>
+<button class="flex-1 h-[52px] border border-outline-variant text-primary rounded-card font-label-md flex items-center justify-center transition-all hover:bg-surface-container active:scale-95">
+                    דחייה
+                </button>
+</div>
+</div>
+<!-- Request Card 2 -->
+<div class="bg-surface-container-lowest rounded-card card-shadow p-md flex flex-col gap-md transition-all active:scale-[0.98]">
+<div class="flex justify-between items-start">
+<div class="flex gap-md">
+<div class="w-16 h-16 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A professional studio portrait of a kind-looking woman with glasses, representing a specialized therapist. She is wearing a soft grey cardigan over a white shirt. The lighting is bright and even, creating a sense of trust and warmth. Clean composition with a neutral off-white background to match the design system's paper aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKFMKNvnrsGmg8z74wQOSDa5zrwkmTx8XPHYp3d0j2sFotZPU1dpJyDA6PN7-I79rHrSxct0OC95ScgjcwjFawUiLn-FV8b81zMAE7wN8gEz_c5nqXTeXJH4WKEyrVxM2lqqKui2IENHxKb67MncCakzMLkgrRUtxlaioMLCBupKjJzR7cztsaPhvIQqoXj_g_FBBIEEI8H08Pa211kFhkVBHfa11-DU_M8yskNHBihI-MJbSIjvbBoXreL8Y2ucBJ0xeoi-k9LQAt"/>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">דנה ישראלי</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">פיזיותרפיסטית התפתחותית</p>
+</div>
+</div>
+<div class="bg-secondary-container/30 px-3 py-1 rounded-full border border-secondary/20">
+<span class="text-secondary font-label-md">89% התאמה</span>
+</div>
+</div>
+<div class="flex gap-gutter mt-2">
+<button class="flex-1 h-[52px] bg-primary text-white rounded-card font-label-md flex items-center justify-center transition-all hover:opacity-90 active:scale-95">
+                    אישור
+                </button>
+<button class="flex-1 h-[52px] border border-outline-variant text-primary rounded-card font-label-md flex items-center justify-center transition-all hover:bg-surface-container active:scale-95">
+                    דחייה
+                </button>
+</div>
+</div>
+<!-- Request Card 3 -->
+<div class="bg-surface-container-lowest rounded-card card-shadow p-md flex flex-col gap-md transition-all active:scale-[0.98]">
+<div class="flex justify-between items-start">
+<div class="flex gap-md">
+<div class="w-16 h-16 rounded-xl overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of a male professional aide, early 40s, with a gentle and patient expression. He is wearing a simple polo shirt. The scene is brightly lit by natural light, giving an organic and trustworthy feel. The image is framed to emphasize a human connection and professional reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsR6XNlrnFHFUKbItH84KmM2Yoxa3B0Br_2fFSrvif2KNsjLx5S2L0SW98jgWSJW24RlvIir4ZUSUm9JJmFlcDi3AiumLugHGPzdbmfx32zQU7nOlDBww4kRga6eHOtNWPLp5M1P9RUFlDztdQC3LQ_I4NBAWWYMD0Zn3MDKmgfcTL0uWf66ZfJMzF7_OpnWwnKFFtWT2HJPSFGeGSzgiX9xFTFBuqcSkMhWAz4AAX44XgJFz6oDgE0Z4_itB5DJrWBc_Kl84jMNRg"/>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">איתי אברהם</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">ליווי רגשי וחברתי</p>
+</div>
+</div>
+<div class="bg-secondary-container/30 px-3 py-1 rounded-full border border-secondary/20">
+<span class="text-secondary font-label-md">82% התאמה</span>
+</div>
+</div>
+<div class="flex gap-gutter mt-2">
+<button class="flex-1 h-[52px] bg-primary text-white rounded-card font-label-md flex items-center justify-center transition-all hover:opacity-90 active:scale-95">
+                    אישור
+                </button>
+<button class="flex-1 h-[52px] border border-outline-variant text-primary rounded-card font-label-md flex items-center justify-center transition-all hover:bg-surface-container active:scale-95">
+                    דחייה
+                </button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface border-t border-outline-variant h-16 flex justify-around items-center px-4 pb-safe">
+<button class="flex flex-col items-center justify-center text-on-surface-variant transition-opacity active:scale-95">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">בית</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary font-bold transition-opacity active:scale-95">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-label-sm text-label-sm">בקשות</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant transition-opacity active:scale-95">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-sm text-label-sm">הודעות</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant transition-opacity active:scale-95">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">פרופיל</span>
+</button>
+</nav>
+<script>
+        function switchTab(tab) {
+            const pendingBtn = document.getElementById('tab-pending');
+            const approvedBtn = document.getElementById('tab-approved');
+            const container = document.getElementById('content-container');
+
+            if (tab === 'pending') {
+                pendingBtn.classList.add('tab-active', 'text-primary');
+                pendingBtn.classList.remove('text-on-surface-variant');
+                approvedBtn.classList.remove('tab-active', 'text-primary');
+                approvedBtn.classList.add('text-on-surface-variant');
+                
+                // Content update logic could go here
+            } else {
+                approvedBtn.classList.add('tab-active', 'text-primary');
+                approvedBtn.classList.remove('text-on-surface-variant');
+                pendingBtn.classList.remove('tab-active', 'text-primary');
+                pendingBtn.classList.add('text-on-surface-variant');
+                
+                // Show empty state for approved for demo purposes
+                container.innerHTML = `
+                    <div class="flex flex-col items-center justify-center py-20 text-center space-y-4">
+                        <div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center">
+                            <span class="material-symbols-outlined text-outline text-4xl">check_circle</span>
+                        </div>
+                        <div>
+                            <p class="font-headline-sm text-on-surface">אין בקשות מאושרות עדיין</p>
+                            <p class="font-body-md text-on-surface-variant">המתן למטפלים שיאשרו את הבקשה שלך</p>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body></html>

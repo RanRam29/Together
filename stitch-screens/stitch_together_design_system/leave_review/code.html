@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>השארת ביקורת - בשילוב</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#3b309e",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "tertiary": "#623900",
+                        "surface-bright": "#fcf8ff",
+                        "primary-container": "#534ab7",
+                        "secondary-container": "#a0f3d4",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-surface-variant": "#474553",
+                        "surface-tint": "#584fbc",
+                        "on-primary-container": "#d1ccff",
+                        "surface-container": "#f0ecf6",
+                        "background": "#fcf8ff",
+                        "tertiary-fixed": "#ffdcbb",
+                        "error-container": "#ffdad6",
+                        "outline": "#787584",
+                        "surface": "#fcf8ff",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f3eff9",
+                        "error": "#ba1a1a",
+                        "secondary": "#086b53",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c8c4d5",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#002117",
+                        "primary-fixed": "#e3dfff",
+                        "surface-container-high": "#ebe6f0",
+                        "surface-container-low": "#f6f2fc",
+                        "on-background": "#1c1b22",
+                        "surface-dim": "#dcd8e2",
+                        "inverse-surface": "#312f37",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "tertiary-container": "#824e00",
+                        "surface-variant": "#e5e1eb",
+                        "on-secondary-container": "#167159",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "on-primary-fixed": "#140067",
+                        "inverse-primary": "#c5c0ff",
+                        "on-surface": "#1c1b22",
+                        "secondary-fixed": "#a0f3d4",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e5e1eb",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "on-tertiary-container": "#ffc78c"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "lg": "24px",
+                        "container-padding": "20px",
+                        "base": "4px",
+                        "md": "16px",
+                        "gutter": "12px",
+                        "xs": "4px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "label-sm": ["Rubik"],
+                        "label-md": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "display-lg": ["Rubik"],
+                        "body-md": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #fcf8ff;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .star-rating .star {
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .star-rating .star:active {
+            transform: scale(0.8);
+        }
+        .custom-textarea:focus {
+            box-shadow: 0 0 0 2px rgba(59, 48, 158, 0.1);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- Top App Bar -->
+<header class="w-full top-0 sticky bg-surface z-50 flex flex-row justify-between items-center px-container-padding h-14">
+<div class="flex items-center gap-2">
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200" style="transform: scaleX(-1);">
+                arrow_forward
+            </button>
+<h1 class="font-headline-sm text-headline-sm text-on-surface">השארת ביקורת</h1>
+</div>
+<div class="flex items-center">
+<img alt="Together Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD5CzSdNAF7fI0MI6oM8gNpKn-ntIzNE1uTvGpiW2lovSzsMsC9LfOlax-JOicQF8LscOJUyXYS3sYcULx4fx9Q5TdJRfYVygsGAGJmuegnWYqkKtMxgHPzt5zbWDqxOM6xXuuzXCfl491ghFtLECmg7_iRRAbAL8II85IIcHQJxqoPsfEqhIk0i1i9wF69Nan45gMLV3L38NfwFU9OXn6EKY_TRM8wGVXMQqK5JYFZ69Rw9PiSKw-occXler2gf_nDOGspCM4An0Y"/>
+</div>
+</header>
+<main class="max-w-lg mx-auto px-container-padding pb-32 pt-8">
+<!-- Profile Header Section -->
+<section class="flex flex-col items-center text-center mb-xl fade-in" style="animation-delay: 0.1s;">
+<div class="relative mb-md">
+<div class="w-24 h-24 rounded-full border-2 border-primary-fixed p-1 bg-surface-container">
+<img class="w-full h-full rounded-full object-cover" data-alt="A warm, professional portrait of a smiling young boy named Noam with expressive eyes. The style is bright and airy with soft, natural lighting against a minimalist, cream-colored background, reflecting the empathetic and trustworthy caregiving environment of the app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAe4VPMFFu9dYviCzxPc8A73IgTWA5d0MhYUHxdvDTg5wgNF4ZpxcXc7-NHBofnDShiGYOkZsB8-Owe9UX7kMcxTXna2QrzjB-d853xHWugz5XC1Ik1iyrfjbHa8IqtDjx4RxwBFPv-OS9s1vZzQ6fVLMRFwFoYC4S566XlzUmWS04FU_hVxV5DFxMBbxiC8Ygi6FSrtTlnLIXIvQa-i4-p08rF_yvzSED3V2ReIDC8WZ1oyp2Ark-0uoKa72nFz4VWhugjBClPZtwe"/>
+</div>
+<div class="absolute -bottom-1 -right-1 bg-secondary text-on-secondary text-[10px] px-2 py-0.5 rounded-full font-bold">פעיל</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-xs">איך הייתה החוויה עם נועם?</h2>
+<p class="font-body-md text-on-surface-variant">המשוב שלך עוזר לנו ולקהילה לשמור על איכות השירות</p>
+</section>
+<!-- Rating Section -->
+<section class="mb-xl text-center fade-in" style="animation-delay: 0.2s;">
+<div class="star-rating flex flex-row-reverse justify-center gap-3 mb-md" id="rating-container">
+<span class="star material-symbols-outlined text-outline-variant text-[40px] hover:text-primary transition-colors" data-value="5">star</span>
+<span class="star material-symbols-outlined text-outline-variant text-[40px] hover:text-primary transition-colors" data-value="4">star</span>
+<span class="star material-symbols-outlined text-outline-variant text-[40px] hover:text-primary transition-colors" data-value="3">star</span>
+<span class="star material-symbols-outlined text-outline-variant text-[40px] hover:text-primary transition-colors" data-value="2">star</span>
+<span class="star material-symbols-outlined text-outline-variant text-[40px] hover:text-primary transition-colors" data-value="1">star</span>
+</div>
+<p class="font-label-md text-primary font-medium h-5" id="rating-label">בחר דירוג</p>
+</section>
+<!-- Feedback Area -->
+<section class="mb-xl fade-in" style="animation-delay: 0.3s;">
+<label class="block font-label-md text-on-surface-variant mb-2 pr-1" for="review-text">ספרו לנו עוד</label>
+<textarea class="w-full border border-outline-variant rounded-xl bg-surface-container-lowest p-md text-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-0 custom-textarea transition-all outline-none" id="review-text" placeholder="כתבו כאן את הביקורת שלכם..." rows="5"></textarea>
+</section>
+<!-- Tips Section -->
+<section class="bg-surface-container-low rounded-xl p-lg border border-surface-variant fade-in" style="animation-delay: 0.4s;">
+<h3 class="font-label-md text-on-surface mb-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-primary">lightbulb</span>
+                טיפים לכתיבת ביקורת
+            </h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-3">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+<p class="font-body-md text-on-surface-variant text-[14px]">דברו על המקצועיות - איך הייתה הגישה והטיפול?</p>
+</li>
+<li class="flex items-start gap-3">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+<p class="font-body-md text-on-surface-variant text-[14px]">שתפו לגבי התקשורת - האם העדכונים היו ברורים ובזמן?</p>
+</li>
+<li class="flex items-start gap-3">
+<span class="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0"></span>
+<p class="font-body-md text-on-surface-variant text-[14px]">התייחסו לאמינות - האם לוח הזמנים והתנאים כובדו?</p>
+</li>
+</ul>
+</section>
+</main>
+<!-- Bottom Action Area -->
+<div class="fixed bottom-0 left-0 right-0 p-container-padding bg-surface/80 backdrop-blur-md pb-8">
+<div class="max-w-lg mx-auto">
+<button class="w-full h-[52px] bg-primary-container text-white font-headline-sm rounded-xl hover:opacity-90 transition-all active:scale-[0.98] shadow-sm">
+                פרסום
+            </button>
+</div>
+</div>
+<script>
+        const stars = document.querySelectorAll('.star');
+        const ratingLabel = document.getElementById('rating-label');
+        const labels = {
+            '1': 'טעון שיפור',
+            '2': 'בסדר',
+            '3': 'טוב מאוד',
+            '4': 'מצוין',
+            '5': 'יוצא מן הכלל'
+        };
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const val = parseInt(star.getAttribute('data-value'));
+                updateStars(val);
+                ratingLabel.innerText = labels[val] || 'בחר דירוג';
+                ratingLabel.classList.add('animate-pulse');
+                setTimeout(() => ratingLabel.classList.remove('animate-pulse'), 400);
+            });
+        });
+
+        function updateStars(value) {
+            stars.forEach(s => {
+                const sVal = parseInt(s.getAttribute('data-value'));
+                if (sVal <= value) {
+                    s.style.fontVariationSettings = "'FILL' 1";
+                    s.classList.remove('text-outline-variant');
+                    s.classList.add('text-primary');
+                } else {
+                    s.style.fontVariationSettings = "'FILL' 0";
+                    s.classList.add('text-outline-variant');
+                    s.classList.remove('text-primary');
+                }
+            });
+        }
+    </script>
+</body></html>

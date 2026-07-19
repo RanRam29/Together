@@ -1,5 +1,5 @@
 BEGIN;
-
+SET search_path TO public, extensions;
 SELECT plan(5);
 
 -- Setup: Ensure cron_notify_parent_expiring_requests and trigger exist

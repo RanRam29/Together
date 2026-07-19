@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="light" dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>בשילוב - פרופיל משתמש</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface-variant": "#474553",
+                      "tertiary": "#623900",
+                      "background": "#fcf8ff",
+                      "tertiary-fixed-dim": "#ffb869",
+                      "on-background": "#1c1b22",
+                      "secondary-fixed-dim": "#84d6b9",
+                      "on-secondary-fixed": "#002117",
+                      "on-primary-fixed-variant": "#3f35a3",
+                      "secondary-fixed": "#a0f3d4",
+                      "outline-variant": "#c8c4d5",
+                      "on-primary": "#ffffff",
+                      "on-secondary-fixed-variant": "#00513e",
+                      "on-error-container": "#93000a",
+                      "surface-dim": "#dcd8e2",
+                      "surface-bright": "#fcf8ff",
+                      "secondary-container": "#a0f3d4",
+                      "error-container": "#ffdad6",
+                      "surface-tint": "#584fbc",
+                      "tertiary-fixed": "#ffdcbb",
+                      "surface-container-highest": "#e5e1eb",
+                      "tertiary-container": "#824e00",
+                      "primary-container": "#534ab7",
+                      "on-tertiary-fixed": "#2b1700",
+                      "on-tertiary-container": "#ffc78c",
+                      "surface-container-high": "#ebe6f0",
+                      "on-tertiary-fixed-variant": "#673d00",
+                      "surface-container-lowest": "#ffffff",
+                      "on-error": "#ffffff",
+                      "surface-variant": "#e5e1eb",
+                      "outline": "#787584",
+                      "on-primary-container": "#d1ccff",
+                      "on-primary-fixed": "#140067",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "surface-container-low": "#f6f2fc",
+                      "primary": "#3b309e",
+                      "surface-container": "#f0ecf6",
+                      "surface": "#fcf8ff",
+                      "on-surface": "#1c1b22",
+                      "primary-fixed": "#e3dfff",
+                      "error": "#ba1a1a",
+                      "primary-fixed-dim": "#c5c0ff",
+                      "inverse-surface": "#312f37",
+                      "inverse-primary": "#c5c0ff",
+                      "on-secondary-container": "#167159",
+                      "secondary": "#086b53",
+                      "inverse-on-surface": "#f3eff9",
+                      "warm-cream": "#FBFAF7",
+                      "ink-dark": "#24221E",
+                      "coral": "#D85A30"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "14px",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "gutter": "12px",
+                      "container-padding": "20px",
+                      "xs": "4px",
+                      "md": "16px",
+                      "base": "4px",
+                      "sm": "8px",
+                      "lg": "24px"
+              },
+              "fontFamily": {
+                      "body-lg": ["Rubik"],
+                      "headline-md": ["Rubik"],
+                      "label-sm": ["Rubik"],
+                      "label-md": ["Rubik"],
+                      "display-lg": ["Rubik"],
+                      "body-md": ["Rubik"],
+                      "headline-sm": ["Rubik"]
+              },
+              "fontSize": {
+                      "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #FBFAF7;
+            color: #24221E;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-pill {
+            background-color: #534ab7;
+            color: white;
+            border-radius: 9999px;
+            padding: 4px 20px;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E5E2DA;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col pb-24">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-background/80 backdrop-blur-md border-b border-outline-variant h-16 flex flex-row-reverse justify-between items-center px-container-padding">
+<div class="flex items-center gap-4">
+<h1 class="font-headline-sm text-headline-sm text-ink-dark">הפרופיל שלי</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors active:opacity-80">
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</button>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors active:opacity-80">
+<span class="material-symbols-outlined text-on-surface-variant">notifications</span>
+</button>
+</div>
+</header>
+<main class="flex-1 px-container-padding">
+<!-- Hero Section -->
+<section class="mt-lg mb-xl flex flex-col items-center">
+<div class="relative group">
+<div class="w-28 h-28 rounded-full overflow-hidden border-2 border-primary-container p-1 bg-white">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional and warm studio portrait of a friendly woman in her 30s with kind eyes and a gentle smile, set against a soft, creamy background. The lighting is high-key and natural, emphasizing a sense of trust and empathy. The overall aesthetic is clean and minimalist, matching the Warm Professionalism design system of the Together caregiving app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOtm-yCkBeCeXOB4rNI-HAh_A-MDP1j3dhRS_5pI4nfxtomxamLvNki44ng1-Acybyuf-0PdQxy03EsoTcqHk2c2VwfB5ItiaJbTWJPTvcwxIXRkctaWaAGMVc6BlbaGqpjDQ3bF0dzMpnUSEuWL8H7lzugaLYiavTlV0rRb1YMxAl0F6QZJjZzz7bM-yTNc0hz-3UJw7zCzAiq3af-Rr-d8d3Ggu-qK5SDfpJXxyJkOMl5JHRkkIriRnEBm-wS22lHonEzSl1d824"/>
+</div>
+<button class="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full shadow-lg border-2 border-warm-cream active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[20px]">edit</span>
+</button>
+</div>
+<div class="mt-md text-center">
+<h2 class="font-headline-md text-headline-md text-ink-dark">חן אדרי</h2>
+<p class="text-on-surface-variant font-body-md text-body-md">סייעת מוסמכת • תל אביב</p>
+</div>
+<button class="mt-lg w-full max-w-xs h-[52px] bg-primary-container text-white font-label-md text-label-md rounded-xl shadow-sm hover:opacity-90 active:scale-[0.98] transition-all">
+                עריכת פרופיל
+            </button>
+</section>
+<!-- Stats Bento (Extra flavor) -->
+<div class="grid grid-cols-2 gap-md mb-xl">
+<div class="glass-card p-md rounded-xl flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-1">star</span>
+<span class="font-bold text-headline-sm">4.9</span>
+<span class="text-label-sm text-on-surface-variant">דירוג כללי</span>
+</div>
+<div class="glass-card p-md rounded-xl flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-secondary mb-1">task_alt</span>
+<span class="font-bold text-headline-sm">124</span>
+<span class="text-label-sm text-on-surface-variant">שעות סיוע</span>
+</div>
+</div>
+<!-- Section: Account Settings -->
+<section class="mb-xl">
+<div class="mb-sm flex items-center justify-between">
+<h3 class="font-headline-sm text-label-md text-on-surface-variant px-1">הגדרות חשבון</h3>
+</div>
+<div class="bg-white rounded-xl border border-outline-variant overflow-hidden">
+<!-- Item: Notifications -->
+<button class="w-full flex flex-row-reverse items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex flex-row-reverse items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">notifications_active</span>
+</div>
+<span class="font-body-md text-body-md">התראות</span>
+</div>
+<span class="material-symbols-outlined text-outline transition-transform group-hover:-translate-x-1">chevron_left</span>
+</button>
+<div class="mx-md border-b border-outline-variant/50"></div>
+<!-- Item: Language -->
+<button class="w-full flex flex-row-reverse items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex flex-row-reverse items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">language</span>
+</div>
+<span class="font-body-md text-body-md">שפה</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm text-outline">עברית</span>
+<span class="material-symbols-outlined text-outline transition-transform group-hover:-translate-x-1">chevron_left</span>
+</div>
+</button>
+</div>
+</section>
+<!-- Section: Personal Details -->
+<section class="mb-xl">
+<div class="mb-sm flex items-center justify-between">
+<h3 class="font-headline-sm text-label-md text-on-surface-variant px-1">פרטים אישיים</h3>
+</div>
+<div class="bg-white rounded-xl border border-outline-variant overflow-hidden">
+<!-- Item: Certificates -->
+<button class="w-full flex flex-row-reverse items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex flex-row-reverse items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+</div>
+<span class="font-body-md text-body-md">תעודות</span>
+</div>
+<span class="material-symbols-outlined text-outline transition-transform group-hover:-translate-x-1">chevron_left</span>
+</button>
+<div class="mx-md border-b border-outline-variant/50"></div>
+<!-- Item: Match Preferences -->
+<button class="w-full flex flex-row-reverse items-center justify-between p-md hover:bg-surface-container-low transition-colors group">
+<div class="flex flex-row-reverse items-center gap-md">
+<div class="w-10 h-10 rounded-lg bg-secondary-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">diversity_1</span>
+</div>
+<span class="font-body-md text-body-md">העדפות התאמה</span>
+</div>
+<span class="material-symbols-outlined text-outline transition-transform group-hover:-translate-x-1">chevron_left</span>
+</button>
+</div>
+</section>
+<!-- Log Out Button -->
+<button class="w-full h-[52px] border border-coral text-coral font-label-md text-label-md rounded-xl hover:bg-coral/5 active:scale-[0.98] transition-all flex items-center justify-center gap-2 mb-xl">
+<span class="material-symbols-outlined">logout</span>
+            התנתקות
+        </button>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 h-20 bg-surface border-t border-outline-variant rounded-t-xl flex flex-row-reverse justify-around items-center px-gutter pb-safe shadow-[0_-2px_10px_rgba(0,0,0,0.02)]">
+<!-- Home -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm mt-1">ראשי</span>
+</button>
+<!-- Messages -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors active:scale-95 duration-150">
+<span class="material-symbols-outlined">mail</span>
+<span class="font-label-sm text-label-sm mt-1">הודעות</span>
+</button>
+<!-- Profile (Active) -->
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1 active:scale-95 transition-transform duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-label-sm mt-1">פרופיל</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction: Subtle parallax on the avatar image when moving mouse/tilting
+        document.addEventListener('mousemove', (e) => {
+            const avatar = document.querySelector('.group img');
+            if (avatar) {
+                const x = (window.innerWidth / 2 - e.pageX) / 50;
+                const y = (window.innerHeight / 2 - e.pageY) / 50;
+                avatar.style.transform = `scale(1.1) translate(${x}px, ${y}px)`;
+            }
+        });
+
+        // Initialize active state logic based on instructions
+        const activeNav = "פרופיל";
+        console.log(`Setting active navigation to: ${activeNav}`);
+    </script>
+</body></html>

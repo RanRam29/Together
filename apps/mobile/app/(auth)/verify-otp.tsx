@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, Text, View, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
@@ -23,6 +23,9 @@ export default function VerifyOtpScreen() {
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [resending, setResending] = useState(false);
+  const [error, setError] = useState<string | undefined>();
+  const [cooldown, setCooldown] = useState(30);
+  const lastAttempt = useRef<string | null>(null);
 
   useEffect(() => {
     if (!pendingPhone || !selectedRole) {
@@ -30,21 +33,36 @@ export default function VerifyOtpScreen() {
     }
   }, [pendingPhone, selectedRole, router]);
 
+  // Resend cooldown countdown — S-AUTH-02 / AUTH-SPEC §2 (30s UI cooldown)
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(timer);
+  }, [cooldown]);
+
+  // Auto-submit once 6 digits are entered — S-AUTH-02
+  useEffect(() => {
+    if (otp.length < 6 && error) setError(undefined);
+    if (otp.length === 6 && !loading && otp !== lastAttempt.current) {
+      void handleVerify();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [otp]);
+
   if (!pendingPhone || !selectedRole) {
     return null;
   }
 
   async function handleVerify() {
-    if (otp.length !== 6) {
-      Alert.alert(t("common.error"), t("auth.otpRequired"));
-      return;
-    }
+    if (otp.length !== 6) return;
 
     if (!isSupabaseConfigured) {
       Alert.alert(t("common.error"), t("auth.supabaseMissing"));
       return;
     }
 
+    lastAttempt.current = otp;
+    setError(undefined);
     setLoading(true);
     try {
       const session = await verifyPhoneOtp(pendingPhone, otp);
@@ -58,20 +76,24 @@ export default function VerifyOtpScreen() {
       }
 
       router.replace("/(auth)/onboarding");
-    } catch (err) {
-      const message = err instanceof Error ? err.message : t("auth.authFailed");
-      Alert.alert(t("common.error"), message);
+    } catch {
+      // Spec S-AUTH-02 error copy — אחיד, בלי לחשוף אם המספר קיים (user enumeration)
+      setError(t("auth.otpMismatch", "הקוד לא תואם — ננסה שוב?"));
     } finally {
       setLoading(false);
     }
   }
 
   async function handleResend() {
-    if (!selectedRole) return;
+    if (!selectedRole || cooldown > 0 || resending) return;
 
     setResending(true);
+    setError(undefined);
     try {
       await sendPhoneOtp(pendingPhone, selectedRole);
+      setOtp("");
+      lastAttempt.current = null;
+      setCooldown(30);
       Alert.alert(t("auth.verifyEyebrow"), t("auth.resendOtp"));
     } catch (err) {
       const message = err instanceof Error ? err.message : t("auth.authFailed");
@@ -118,6 +140,11 @@ export default function VerifyOtpScreen() {
             <View className="w-full space-y-6 max-w-sm w-full mx-auto">
               <View className="mb-8">
                 <OtpInput value={otp} onChange={setOtp} />
+                {error ? (
+                  <Text className="mt-3 text-center font-rubik text-sm text-coral">
+                    {error}
+                  </Text>
+                ) : null}
               </View>
 
               <Pressable 
@@ -132,16 +159,20 @@ export default function VerifyOtpScreen() {
                 </Text>
               </Pressable>
 
-              <Pressable 
+              <Pressable
                 onPress={handleResend}
-                disabled={resending}
+                disabled={resending || cooldown > 0}
                 className="py-4 items-center flex-row justify-center"
               >
                 <Text className="text-ink-2 font-rubik text-base">
                   לא קיבלת קוד?{" "}
                 </Text>
-                <Text className="text-purple font-rubik-bold text-base active:opacity-70">
-                  שלח שוב
+                <Text
+                  className={`font-rubik-bold text-base ${
+                    cooldown > 0 ? "text-ink-3" : "text-purple active:opacity-70"
+                  }`}
+                >
+                  {cooldown > 0 ? `שלח שוב (${cooldown})` : "שלח שוב"}
                 </Text>
               </Pressable>
             </View>

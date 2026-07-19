@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+
+<html class="light" dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>עריכת פרופיל מקצועי</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e5e1eb",
+                        "surface-dim": "#dcd8e2",
+                        "secondary-fixed": "#a0f3d4",
+                        "inverse-on-surface": "#f3eff9",
+                        "primary-container": "#534ab7",
+                        "inverse-surface": "#312f37",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c8c4d5",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "surface-container-high": "#ebe6f0",
+                        "on-surface": "#1c1b22",
+                        "on-secondary-container": "#167159",
+                        "surface-tint": "#584fbc",
+                        "surface-container-low": "#f6f2fc",
+                        "outline": "#787584",
+                        "on-secondary-fixed": "#002117",
+                        "on-primary-container": "#d1ccff",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "on-tertiary": "#ffffff",
+                        "surface-container": "#f0ecf6",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#ffdcbb",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "on-tertiary-container": "#ffc78c",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-secondary": "#ffffff",
+                        "background": "#fcf8ff",
+                        "inverse-primary": "#c5c0ff",
+                        "on-primary-fixed": "#140067",
+                        "secondary": "#086b53",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "surface-bright": "#fcf8ff",
+                        "surface-container-highest": "#e5e1eb",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#824e00",
+                        "secondary-container": "#a0f3d4",
+                        "primary-fixed": "#e3dfff",
+                        "primary": "#3b309e",
+                        "surface": "#fcf8ff",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#623900",
+                        "on-surface-variant": "#474553",
+                        "on-background": "#1c1b22"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "gutter": "12px",
+                        "container-padding": "20px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Rubik"],
+                        "headline-sm": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "label-sm": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "display-lg": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "26px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["30px", { "lineHeight": "38px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Rubik', sans-serif; background-color: #fcf8ff; }
+        /* Hide scrollbar for horizontal scroll but keep functionality */
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface border-b border-outline-variant flex flex-row-reverse items-center justify-between px-container-padding h-16 w-full max-w-md mx-auto">
+<div class="flex items-center gap-2">
+<img alt="Logo" class="h-8 object-contain hidden" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDq0npSGnSLbAscnwoGVHLRDnbaFhAH5z6T_QxHzrOBrL5BvNdo7tUp_hHlverCH346skzGsDLf1h7JZ3J-rCG59d5tFarXg98d9h4sn31h9Bu_77cxpmdRGRmbC-YXVuKicBifuDyMetF3DiTqNUtwlJ4PSx8Ey1CSAHo-MagxDOjZgwJxBCEfYl7nQF8QbTdqSmV1igDMMkpcWo_DCg1JcHJrSEQfwvNCb25_0ppCqHCRPW7G2LZ0A4jYlJ_wIXdACPxZ7L43wD6J"/>
+<h1 class="font-headline-sm text-headline-sm text-on-surface">עריכת פרופיל מקצועי</h1>
+</div>
+<button aria-label="חזור" class="w-10 h-10 flex items-center justify-center rounded-full hover:opacity-80 transition-opacity scale-95 active:opacity-70 transition-all text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">arrow_forward</span>
+</button>
+</header>
+<!-- Main Content -->
+<main class="flex-1 w-full max-w-md mx-auto px-container-padding py-xl pb-[100px] flex flex-col gap-xl">
+<!-- Avatar Section -->
+<section class="flex flex-col items-center justify-center relative mt-4">
+<div class="relative w-32 h-32">
+<img alt="תמונת פרופיל" class="w-full h-full object-cover rounded-full border-4 border-surface shadow-sm" data-alt="A professional headshot of a smiling woman in her 30s with dark curly hair, wearing a neat, warm-toned scrub or professional attire. The background is a soft, blurred bright indoor setting with light streaming in, conveying warmth, trust, and care in a light mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdS_DJpSle2HfbYu3K_MDetJPVpg10k-dMIg8rhigdBvZvJO5hcXX3dCNBdO1e2mNl6wz7krebiUmzEJWz3B8ElBvLqbC8SVsZWj64KfLCV_ZjhleWMTj7hMfbkWyLMuFpOa2BFcjwCG4uudn8xo-2_X7odOsNgE7B_YbNnAhBEAmpXQGTX2GlXd3wVBStRPn3hK-Fz5n_sv7yeVXZ-yQjyYuhcviALJA2bo1P9Nvc-JMTmEoaq9wOsXiK8NjbnTWs4oWd9GiHrteJ"/>
+<button aria-label="ערוך תמונה" class="absolute bottom-0 right-0 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center border-2 border-surface shadow-md hover:bg-primary-container hover:text-on-primary-container transition-colors">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
+</button>
+</div>
+<p class="mt-md font-body-md text-body-md text-on-surface-variant text-center">
+                תמונה מקצועית ומאירה מגדילה את סיכויי ההתאמה
+            </p>
+</section>
+<!-- About Me Field -->
+<section class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface" for="about-me">קצת עליי</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl p-md font-body-md text-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary resize-none placeholder-on-surface-variant" id="about-me" placeholder="ספרי קצת על הניסיון שלך, הגישה שלך והדברים שחשובים לך בטיפול..." rows="4"></textarea>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-left mt-1">0/300 תווים</p>
+</section>
+<!-- Weekly Availability Section -->
+<section class="flex flex-col gap-md">
+<div class="flex items-center justify-between">
+<h2 class="font-label-md text-label-md text-on-surface">זמינות שבועית</h2>
+<span class="font-label-sm text-label-sm text-secondary px-2 py-1 bg-secondary-container rounded-full">מומלץ</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">סמני את הימים והשעות בהם את פנויה לעבודה.</p>
+<!-- Availability Grid / Scroll -->
+<div class="flex gap-sm overflow-x-auto hide-scrollbar pb-2 pt-1 -mx-container-padding px-container-padding snap-x">
+<!-- Sunday -->
+<div class="flex-shrink-0 w-[140px] bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm snap-center">
+<div class="font-label-md text-label-md text-on-surface text-center mb-2">ראשון</div>
+<button class="w-full py-2 px-3 rounded-lg border border-primary bg-primary text-on-primary font-label-sm text-label-sm transition-colors text-center">
+                        בוקר (08-16)
+                    </button>
+<button class="w-full py-2 px-3 rounded-lg border border-outline-variant bg-transparent text-on-surface font-label-sm text-label-sm hover:bg-surface-container transition-colors text-center">
+                        ערב (16-22)
+                    </button>
+</div>
+<!-- Monday -->
+<div class="flex-shrink-0 w-[140px] bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm snap-center">
+<div class="font-label-md text-label-md text-on-surface text-center mb-2">שני</div>
+<button class="w-full py-2 px-3 rounded-lg border border-outline-variant bg-transparent text-on-surface font-label-sm text-label-sm hover:bg-surface-container transition-colors text-center">
+                        בוקר (08-16)
+                    </button>
+<button class="w-full py-2 px-3 rounded-lg border border-outline-variant bg-transparent text-on-surface font-label-sm text-label-sm hover:bg-surface-container transition-colors text-center">
+                        ערב (16-22)
+                    </button>
+</div>
+<!-- Tuesday -->
+<div class="flex-shrink-0 w-[140px] bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm snap-center">
+<div class="font-label-md text-label-md text-on-surface text-center mb-2">שלישי</div>
+<button class="w-full py-2 px-3 rounded-lg border border-primary bg-primary text-on-primary font-label-sm text-label-sm transition-colors text-center">
+                        בוקר (08-16)
+                    </button>
+<button class="w-full py-2 px-3 rounded-lg border border-primary bg-primary text-on-primary font-label-sm text-label-sm transition-colors text-center">
+                        ערב (16-22)
+                    </button>
+</div>
+<!-- Wednesday -->
+<div class="flex-shrink-0 w-[140px] bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm snap-center">
+<div class="font-label-md text-label-md text-on-surface text-center mb-2">רביעי</div>
+<button class="w-full py-2 px-3 rounded-lg border border-outline-variant bg-transparent text-on-surface font-label-sm text-label-sm hover:bg-surface-container transition-colors text-center">
+                        בוקר (08-16)
+                    </button>
+<button class="w-full py-2 px-3 rounded-lg border border-outline-variant bg-transparent text-on-surface font-label-sm text-label-sm hover:bg-surface-container transition-colors text-center">
+                        ערב (16-22)
+                    </button>
+</div>
+<!-- Thursday -->
+<div class="flex-shrink-0 w-[140px] bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex flex-col gap-sm snap-center">
+<div class="font-label-md text-label-md text-on-surface text-center mb-2">חמישי</div>
+<button class="w-full py-2 px-3 rounded-lg border border-primary bg-primary text-on-primary font-label-sm text-label-sm transition-colors text-center">
+                        בוקר (08-16)
+                    </button>
+<button class="w-full py-2 px-3 rounded-lg border border-outline-variant bg-transparent text-on-surface font-label-sm text-label-sm hover:bg-surface-container transition-colors text-center">
+                        ערב (16-22)
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Action Area (Sticky) -->
+<div class="fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant/30 p-container-padding pb-[env(safe-area-inset-bottom,20px)] z-40 max-w-md mx-auto right-0">
+<button class="w-full h-[52px] bg-primary text-on-primary rounded-xl font-label-md text-label-md flex items-center justify-center transition-all active:bg-primary-container active:text-on-primary-container shadow-sm hover:opacity-90">
+            שמור שינויים
+        </button>
+</div>
+<!-- Navigation suppressed as this is a focused editing task -->
+<script>
+        // Simple character counter
+        const textarea = document.getElementById('about-me');
+        const counter = textarea.nextElementSibling;
+        
+        textarea.addEventListener('input', function() {
+            const length = this.value.length;
+            counter.textContent = `${length}/300 תווים`;
+            if (length > 300) {
+                counter.classList.add('text-error');
+                this.classList.add('border-error');
+                this.classList.remove('focus:border-primary', 'focus:ring-primary');
+            } else {
+                counter.classList.remove('text-error');
+                this.classList.remove('border-error');
+                this.classList.add('focus:border-primary', 'focus:ring-primary');
+            }
+        });
+
+        // Simple toggle for availability buttons
+        const availButtons = document.querySelectorAll('.overflow-x-auto button');
+        availButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                if(this.classList.contains('bg-primary')) {
+                    this.classList.remove('bg-primary', 'text-on-primary', 'border-primary');
+                    this.classList.add('bg-transparent', 'text-on-surface', 'border-outline-variant');
+                } else {
+                    this.classList.add('bg-primary', 'text-on-primary', 'border-primary');
+                    this.classList.remove('bg-transparent', 'text-on-surface', 'border-outline-variant');
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>מילוי דוח יומי - בשילוב</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#787584",
+                    "secondary-fixed": "#a0f3d4",
+                    "surface-bright": "#fcf8ff",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#e5e1eb",
+                    "primary-container": "#534ab7",
+                    "surface-dim": "#dcd8e2",
+                    "tertiary-fixed": "#ffdcbb",
+                    "primary-fixed": "#e3dfff",
+                    "on-error-container": "#93000a",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#f3eff9",
+                    "secondary-container": "#a0f3d4",
+                    "on-secondary": "#ffffff",
+                    "inverse-primary": "#c5c0ff",
+                    "surface": "#fcf8ff",
+                    "surface-container-low": "#f6f2fc",
+                    "error-container": "#ffdad6",
+                    "on-background": "#1c1b22",
+                    "on-surface-variant": "#474553",
+                    "secondary": "#086b53",
+                    "on-secondary-fixed-variant": "#00513e",
+                    "on-tertiary-fixed": "#2b1700",
+                    "surface-variant": "#e5e1eb",
+                    "outline-variant": "#c8c4d5",
+                    "tertiary": "#623900",
+                    "on-primary-container": "#d1ccff",
+                    "tertiary-container": "#824e00",
+                    "primary": "#3b309e",
+                    "on-primary-fixed": "#140067",
+                    "primary-fixed-dim": "#c5c0ff",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#f0ecf6",
+                    "surface-container-high": "#ebe6f0",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#3f35a3",
+                    "tertiary-fixed-dim": "#ffb869",
+                    "on-secondary-fixed": "#002117",
+                    "surface-tint": "#584fbc",
+                    "background": "#fcf8ff",
+                    "on-tertiary-container": "#ffc78c",
+                    "inverse-surface": "#312f37",
+                    "on-secondary-container": "#167159",
+                    "on-tertiary-fixed-variant": "#673d00",
+                    "on-surface": "#1c1b22",
+                    "secondary-fixed-dim": "#84d6b9",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "14px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "xl": "32px",
+                    "lg": "24px",
+                    "sm": "8px",
+                    "container-padding": "20px",
+                    "xs": "4px",
+                    "gutter": "12px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "label-md": ["Rubik"],
+                    "headline-sm": ["Rubik"],
+                    "body-md": ["Rubik"],
+                    "label-sm": ["Rubik"],
+                    "body-lg": ["Rubik"],
+                    "headline-md": ["Rubik"],
+                    "display-lg": ["Rubik"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #FBFAF7; /* Warm Paper Tone */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .star-active {
+            font-variation-settings: 'FILL' 1;
+            color: #534ab7;
+        }
+        .paper-card {
+            background-color: #ffffff;
+            border: 1px solid #E5E2DA;
+            border-radius: 14px;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-24 text-on-background">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-40 bg-surface border-b border-outline-variant">
+<div class="flex flex-row-reverse items-center justify-between px-container-padding h-16 w-full max-w-md mx-auto">
+<div class="flex items-center gap-3">
+<img alt="Together Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA04RHt5EojPWxZoFdCP1sIDB4W3pgWM4LaduIvC5njqMREP3_B0Dm9AM8jM6g3NN-fIW_zzuCB-CJXFYWWyvaozapu4TCsc6vehJZlaiNYJDgQVIb4L_KdeL5xOPSRkAi566v3NtMS8-GHV9dYGJGpbNCuB7VKGQqstcelwRrW0n7fTR0lXhzPryr4xzBTnhTG5bKxrsPiEaU8Kz8LoZFEsSPATQDh_69Dtb0DqqOTRW3ig31F7pkgAyoO-iCKm4W3EnrdRp4_rrSj"/>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-primary">מילוי דוח יומי</h1>
+<button class="material-symbols-outlined text-primary hover:opacity-80 transition-opacity" data-icon="arrow_forward">
+                arrow_forward
+            </button>
+</div>
+</header>
+<main class="max-w-md mx-auto px-container-padding pt-6 space-y-6">
+<!-- Child Info Summary -->
+<section class="paper-card p-md flex items-center gap-4">
+<div class="w-12 h-12 rounded-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A warm, professional portrait of a young child with a friendly smile, photographed in a brightly lit educational setting with soft natural light. The style is clean and empathetic, reflecting a modern healthcare app aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVfV1aD8RElNhTI8Qo84MEWGvi_-EDovUKIvK5WfnHLznuLOvtB_Nqp0ASSI6pnlTH9CVSF9DeY9IMXjTFYqbzU5emjdhTR81QWGXNkLbLqU2VAe6U3oL0g63c72Jhq_x6e4mOdSoKHtTzC0VE2FtIzEV99XNTc5m4CVjaMwUTy8HJScxQEOj4e0Dz4G3f9_0nxQ65lDKSzcuqDsHfxxB2FahiZUxCaAUekN76YjHvwB_xgEXQYFodfBK2ArKYuJBOqq2IuO4Va8hK"/>
+</div>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">נועם</h2>
+<p class="font-label-sm text-label-sm text-on-surface-variant">24 באוקטובר 2024</p>
+</div>
+<div class="mr-auto">
+<span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm font-medium">
+                    שיבוץ פעיל
+                </span>
+</div>
+</section>
+<!-- Form Section -->
+<form class="space-y-xl" id="daily-log-form">
+<!-- Mood Rating -->
+<div class="space-y-md">
+<label class="block font-body-md text-on-surface-variant">איך היה מצב הרוח של נועם היום?</label>
+<div class="flex flex-row-reverse justify-between items-center bg-white p-4 rounded-xl border border-[#E5E2DA]">
+<div class="flex flex-row-reverse gap-2" id="star-rating">
+<button class="material-symbols-outlined text-outline transition-all active:scale-90" data-star="5" type="button">star</button>
+<button class="material-symbols-outlined text-outline transition-all active:scale-90" data-star="4" type="button">star</button>
+<button class="material-symbols-outlined text-outline transition-all active:scale-90" data-star="3" type="button">star</button>
+<button class="material-symbols-outlined text-outline transition-all active:scale-90" data-star="2" type="button">star</button>
+<button class="material-symbols-outlined text-outline transition-all active:scale-90" data-star="1" type="button">star</button>
+</div>
+<span class="text-label-sm font-medium text-primary" id="rating-label">בחר/י דירוג</span>
+</div>
+</div>
+<!-- Objectives Check-in -->
+<div class="space-y-md">
+<label class="block font-body-md text-on-surface-variant">יעדים פדגוגיים להיום</label>
+<div class="paper-card overflow-hidden">
+<div class="divide-y divide-outline-variant">
+<label class="flex items-center gap-3 p-4 cursor-pointer hover:bg-surface-container-low transition-colors">
+<input class="w-6 h-6 rounded-lg text-primary-container border-outline-variant focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-md text-on-surface">ישיבה במפגש (10 דקות)</span>
+</label>
+<label class="flex items-center gap-3 p-4 cursor-pointer hover:bg-surface-container-low transition-colors">
+<input class="w-6 h-6 rounded-lg text-primary-container border-outline-variant focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-md text-on-surface">שיתוף פעולה בהפסקה עם חבר</span>
+</label>
+<label class="flex items-center gap-3 p-4 cursor-pointer hover:bg-surface-container-low transition-colors">
+<input class="w-6 h-6 rounded-lg text-primary-container border-outline-variant focus:ring-primary-container" type="checkbox"/>
+<span class="font-body-md text-on-surface">פנייה למורה לבקשת עזרה</span>
+</label>
+</div>
+</div>
+</div>
+<!-- Activities -->
+<div class="space-y-md">
+<label class="block font-body-md text-on-surface-variant">מה עשינו היום?</label>
+<textarea class="w-full h-40 p-4 rounded-xl border border-[#E5E2DA] focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 text-body-md placeholder:text-outline-variant resize-none" placeholder="ספרי על הפעילות, התקדמות או אתגרים מיוחדים..."></textarea>
+</div>
+<!-- Submit Button -->
+<div class="pt-4">
+<button class="w-full h-[52px] bg-primary-container text-white font-headline-sm rounded-xl active:scale-[0.98] transition-all shadow-sm flex items-center justify-center gap-2" type="submit">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+<span>שליחת דוח</span>
+</button>
+<p class="text-center text-label-sm text-outline mt-3">הדוח יישלח להורים ולצוות המקצועי</p>
+</div>
+</form>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex flex-row-reverse justify-around items-center px-4 py-2 h-20 bg-surface border-t border-outline-variant z-50">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-1 rounded-xl">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">בית</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary font-bold hover:bg-surface-container-low transition-colors px-4 py-1 rounded-xl">
+<span class="material-symbols-outlined" data-icon="description" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="font-label-sm text-label-sm">דוחות</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-1 rounded-xl">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-label-sm text-label-sm">שיבוצים</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-low transition-colors px-4 py-1 rounded-xl">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">פרופיל</span>
+</button>
+</nav>
+<script>
+        // Simple star rating interaction
+        const stars = document.querySelectorAll('#star-rating button');
+        const ratingLabel = document.getElementById('rating-label');
+        const ratingTexts = {
+            1: 'מאתגר מאוד',
+            2: 'מעט קשה',
+            3: 'בסדר גמור',
+            4: 'טוב מאוד',
+            5: 'מצוין!'
+        };
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const val = parseInt(star.getAttribute('data-star'));
+                stars.forEach(s => {
+                    const sVal = parseInt(s.getAttribute('data-star'));
+                    if (sVal <= val) {
+                        s.classList.add('star-active');
+                    } else {
+                        s.classList.remove('star-active');
+                    }
+                });
+                ratingLabel.textContent = ratingTexts[val];
+                ratingLabel.classList.add('animate-pulse');
+                setTimeout(() => ratingLabel.classList.remove('animate-pulse'), 500);
+            });
+        });
+
+        // Form submission prevention for demo
+        document.getElementById('daily-log-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">sync</span> <span>שולח...</span>';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> <span>נשלח בהצלחה</span>';
+                btn.classList.replace('bg-primary-container', 'bg-secondary');
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.classList.replace('bg-secondary', 'bg-primary-container');
+                    btn.disabled = false;
+                }, 2000);
+            }, 1500);
+        });
+    </script>
+</body></html>

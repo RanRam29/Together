@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<title>העלאת מסמכים - בשילוב</title>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb869",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "surface-variant": "#e5e1eb",
+                        "primary": "#3b309e",
+                        "surface-dim": "#dcd8e2",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "on-primary-container": "#d1ccff",
+                        "outline": "#787584",
+                        "on-tertiary-container": "#ffc78c",
+                        "primary-container": "#534ab7",
+                        "surface-container-high": "#ebe6f0",
+                        "tertiary-fixed": "#ffdcbb",
+                        "secondary-fixed": "#a0f3d4",
+                        "on-tertiary-fixed": "#2b1700",
+                        "secondary": "#086b53",
+                        "inverse-on-surface": "#f3eff9",
+                        "tertiary": "#623900",
+                        "surface-container": "#f0ecf6",
+                        "on-secondary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#fcf8ff",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "tertiary-container": "#824e00",
+                        "on-surface-variant": "#474553",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1c1b22",
+                        "on-primary-fixed": "#140067",
+                        "inverse-surface": "#312f37",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary-fixed": "#002117",
+                        "outline-variant": "#c8c4d5",
+                        "surface": "#fcf8ff",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "surface-bright": "#fcf8ff",
+                        "inverse-primary": "#c5c0ff",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#584fbc",
+                        "secondary-container": "#a0f3d4",
+                        "on-background": "#1c1b22",
+                        "primary-fixed": "#e3dfff",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f6f2fc",
+                        "surface-container-highest": "#e5e1eb",
+                        "on-secondary-container": "#167159",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "14px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "20px",
+                        "md": "16px",
+                        "gutter": "12px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "base": "4px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "label-sm": ["Rubik"],
+                        "label-md": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "display-lg": ["Rubik"],
+                        "body-md": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Rubik', sans-serif; background-color: #fcf8ff; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .drag-over {
+            border-color: #3b309e;
+            background-color: #f0ecf6;
+        }
+        .safe-area-bottom { padding-bottom: calc(env(safe-area-inset-bottom) + 80px); }
+    </style>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-outline-variant flex items-center justify-between px-container-padding h-14">
+<div class="flex items-center gap-md">
+<button class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-low transition-colors duration-200 active:opacity-80">
+<span class="material-symbols-outlined text-on-surface">arrow_forward</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-on-surface">העלאת מסמכים</h1>
+</div>
+<div class="h-8">
+<img alt="Together Logo" class="h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD7VA9ACB1nHMn6VNXtV_AvOTwNhrBlqCeMDKW4PFeaDp6MZBcnPtYwihaFr87JJ0ZwB9aIchX-8VIvLscXOGkBn5OR9Aej-CTuLaeI3veemLXIBBI5y_yRz9XglMt4Ub4ezAdIijXn-dPI-sGeJ-90yz2dnpHpwnThTxeU4Y1hcAoa_eLHMlw9D2M10xQaom4L3Fc_2-dM4XMH1bDz0f5PVZ-HyZecpUVEcssVhFHyohoLbWlKR3fUWk0Xt-imsYjkukgOE-3TUqjF"/>
+</div>
+</header>
+<main class="pt-20 px-container-padding safe-area-bottom">
+<!-- Eyebrow Title -->
+<div class="mb-lg">
+<span class="text-label-sm font-label-sm text-outline uppercase tracking-wider">תהליך אימות מסמכים</span>
+<h2 class="text-headline-md font-headline-md text-on-surface mt-xs leading-tight">נא להעלות את המסמכים הנדרשים לצורך אישור הפרופיל שלך.</h2>
+</div>
+<!-- Dropzone Section -->
+<section class="mb-xl">
+<div class="relative group cursor-pointer border-2 border-dashed border-outline-variant rounded-xl p-xl bg-white transition-all duration-300 hover:border-primary flex flex-col items-center justify-center text-center" id="dropzone">
+<div class="w-16 h-16 bg-surface-container-low rounded-full flex items-center justify-center mb-md group-hover:scale-110 transition-transform duration-300">
+<span class="material-symbols-outlined text-primary text-[40px]">upload_file</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-xs">לחצו כאן או גררו קבצים להעלאה</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[280px]">נתמכים קבצי PDF, JPG או PNG (עד 10MB)</p>
+<input class="absolute inset-0 opacity-0 cursor-pointer" id="fileInput" multiple="" type="file"/>
+</div>
+</section>
+<!-- Uploaded Documents Section -->
+<section>
+<div class="flex items-center justify-between mb-md">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">מסמכים שהועלו</h3>
+<span class="bg-primary-container text-on-primary-container px-sm py-xs rounded-full text-label-sm font-label-sm">2 קבצים</span>
+</div>
+<div class="space-y-md">
+<!-- Document Card 1 -->
+<div class="bg-white border border-[#E5E2DA] rounded-xl p-md flex items-center justify-between transition-all hover:border-primary active:scale-[0.98]">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 bg-error-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-error">picture_as_pdf</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">אישור משטרה</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">הועלה ב-12.05.2024 • 1.2MB</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-error-container/30 transition-colors group">
+<span class="material-symbols-outlined text-error group-hover:scale-110 transition-transform">delete</span>
+</button>
+</div>
+<!-- Document Card 2 -->
+<div class="bg-white border border-[#E5E2DA] rounded-xl p-md flex items-center justify-between transition-all hover:border-primary active:scale-[0.98]">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 bg-primary-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container">picture_as_pdf</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold">תעודת עזרה ראשונה</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">הועלה ב-10.05.2024 • 0.8MB</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-error-container/30 transition-colors group">
+<span class="material-symbols-outlined text-error group-hover:scale-110 transition-transform">delete</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Information Note -->
+<div class="mt-xl p-md bg-surface-container-high rounded-xl flex gap-md items-start">
+<span class="material-symbols-outlined text-primary">info</span>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                שים לב: אישור המסמכים עשוי לקחת עד 48 שעות. אנו נעדכן אותך ברגע שהתהליך יסתיים.
+            </p>
+</div>
+</main>
+<!-- Fixed Footer Action -->
+<footer class="fixed bottom-0 w-full p-container-padding bg-surface shadow-[0_-4px_12px_rgba(0,0,0,0.05)] z-50">
+<button class="w-full h-[52px] bg-primary text-white rounded-xl font-headline-sm text-headline-sm flex items-center justify-center transition-all duration-200 active:scale-95 hover:bg-primary-container">
+            שמירה
+        </button>
+</footer>
+<script>
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.classList.add('drag-over');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('drag-over');
+            }, false);
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            console.log('Files received:', files);
+            // Simulated visual feedback
+            if (files.length > 0) {
+                const button = document.querySelector('footer button');
+                button.innerText = 'שומר...';
+                button.classList.add('opacity-80');
+                setTimeout(() => {
+                    button.innerText = 'נשמר בהצלחה';
+                    button.classList.replace('bg-primary', 'bg-secondary');
+                    setTimeout(() => {
+                        button.innerText = 'שמירה';
+                        button.classList.replace('bg-secondary', 'bg-primary');
+                        button.classList.remove('opacity-80');
+                    }, 2000);
+                }, 1000);
+            }
+        }
+    </script>
+</body></html>

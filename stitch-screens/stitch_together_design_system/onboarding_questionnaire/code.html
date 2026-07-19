@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#002117",
+                        "on-primary-fixed": "#140067",
+                        "on-tertiary-container": "#ffc78c",
+                        "surface-container-highest": "#e5e1eb",
+                        "outline": "#787584",
+                        "surface": "#fcf8ff",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "surface-container": "#f0ecf6",
+                        "background": "#fcf8ff",
+                        "surface-variant": "#e5e1eb",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-background": "#1c1b22",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "surface-dim": "#dcd8e2",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "secondary": "#086b53",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#c5c0ff",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "on-secondary-container": "#167159",
+                        "tertiary-fixed": "#ffdcbb",
+                        "secondary-fixed": "#a0f3d4",
+                        "surface-container-high": "#ebe6f0",
+                        "surface-container-low": "#f6f2fc",
+                        "inverse-on-surface": "#f3eff9",
+                        "on-primary-container": "#d1ccff",
+                        "primary": "#3b309e",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#623900",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#a0f3d4",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#fcf8ff",
+                        "on-surface-variant": "#474553",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#e3dfff",
+                        "surface-tint": "#584fbc",
+                        "on-surface": "#1c1b22",
+                        "inverse-surface": "#312f37",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#824e00",
+                        "primary-container": "#534ab7",
+                        "outline-variant": "#c8c4d5",
+                        "warm-cream": "#FBFAF7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "xl": "32px",
+                        "container-padding": "20px",
+                        "base": "4px",
+                        "gutter": "12px",
+                        "md": "16px",
+                        "sm": "8px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "headline-sm": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "display-lg": ["Rubik"],
+                        "label-sm": ["Rubik"],
+                        "body-md": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #FBFAF7;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .step-progress {
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .chip-active {
+            background-color: #534AB7;
+            color: white;
+            border-color: #534AB7;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #E5E2DA;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-warm-cream min-h-screen flex flex-col items-center overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="w-full bg-warm-cream/80 backdrop-blur-md sticky top-0 z-50">
+<div class="flex items-center justify-between px-container-padding h-14 w-full">
+<button class="transition-opacity duration-200 hover:opacity-80 p-2 -mr-2">
+<span class="material-symbols-outlined text-primary" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<div class="flex items-center gap-2">
+<img alt="Together Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjAyLOxTpHAJMP-OPai-_qSGv6MbRy8iY2BZp4SWtz2aFsRMtC6IB29O2gk9pIw14tr4JPpm3qCKk9qRRvlDSF-Zr3kqCYmjJdliMW_52VtL6iW2ibYUW2mM4pNTCAZVKo4faqBhayiianT0yykXAOhTFDiYQYxMTMRxbKVoOWyIv3rqmx3u2-wbGNCKo68W4D1lJSG-V-SM5_BvkuZ5zPz8WjgP710Og_MSgEWLvfmJJan8GwS8o7vWC_Hl8bHIm-9roD60krmyst"/>
+<h1 class="font-headline-sm text-headline-sm-mobile text-primary">שאלון היכרות</h1>
+</div>
+<div class="w-10"></div> <!-- Spacer for balance -->
+</div>
+</header>
+<!-- Content Canvas -->
+<main class="flex-1 w-full max-w-md px-container-padding flex flex-col">
+<!-- Progress Bar -->
+<div class="mt-lg mb-xl">
+<div class="flex justify-between items-center mb-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">שלב 2 מתוך 5</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">40%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="step-progress h-full bg-primary rounded-full" style="width: 40%;"></div>
+</div>
+</div>
+<!-- Section: Heading -->
+<section class="mb-xl">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-2">מהו הניסיון שלך?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">בחרי את התחומים בהם יש לך ניסיון מקצועי קודם.</p>
+</section>
+<!-- Section: Selection Chips (Grid Pattern) -->
+<section class="mb-xl">
+<div class="grid grid-cols-2 gap-sm">
+<button class="chip-item flex items-center justify-center py-4 px-4 border border-outline-variant rounded-xl bg-white transition-all duration-200 active:scale-95 group" onclick="toggleChip(this)">
+<span class="font-label-md text-label-md text-on-surface group-hover:text-primary">ליווי בגן</span>
+</button>
+<button class="chip-item flex items-center justify-center py-4 px-4 border border-outline-variant rounded-xl bg-white transition-all duration-200 active:scale-95 group" onclick="toggleChip(this)">
+<span class="font-label-md text-label-md text-on-surface group-hover:text-primary">שילוב בבית ספר</span>
+</button>
+<button class="chip-item flex items-center justify-center py-4 px-4 border border-outline-variant rounded-xl bg-white transition-all duration-200 active:scale-95 group" onclick="toggleChip(this)">
+<span class="font-label-md text-label-md text-on-surface group-hover:text-primary">חינוך מיוחד</span>
+</button>
+<button class="chip-item flex items-center justify-center py-4 px-4 border border-outline-variant rounded-xl bg-white transition-all duration-200 active:scale-95 group" onclick="toggleChip(this)">
+<span class="font-label-md text-label-md text-on-surface group-hover:text-primary">טיפול רגשי</span>
+</button>
+</div>
+</section>
+<!-- Section: Additional Notes -->
+<section class="mb-xl flex-1">
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface-variant px-1" for="more-info">
+                    ספר/י לנו עוד (אופציונלי)
+                </label>
+<div class="relative group">
+<textarea class="w-full bg-white border border-outline-variant rounded-xl p-4 font-body-md text-body-md focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all resize-none custom-scrollbar" id="more-info" placeholder="פרטי על הניסיון שלך, משפחות שעבדת איתן או גישות טיפוליות שאת/ה מכיר/ה..." rows="5"></textarea>
+<div class="absolute bottom-3 left-3 opacity-20 pointer-events-none">
+<span class="material-symbols-outlined text-on-surface-variant">edit_note</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Action -->
+<footer class="w-full max-w-md px-container-padding pb-xl pt-lg bg-warm-cream">
+<button class="w-full h-[52px] bg-primary text-white rounded-[14px] flex items-center justify-center gap-2 font-label-md text-label-md shadow-lg shadow-primary/20 hover:bg-primary-container transition-colors active:scale-[0.98] transition-transform">
+<span>המשך</span>
+<span class="material-symbols-outlined text-[20px]" data-icon="chevron_left">chevron_left</span>
+</button>
+</footer>
+<script>
+        function toggleChip(element) {
+            // Toggle classes for the chip
+            element.classList.toggle('chip-active');
+            element.classList.toggle('bg-white');
+            element.classList.toggle('border-outline-variant');
+            element.classList.toggle('border-primary');
+            
+            // Toggle classes for the text inside
+            const textSpan = element.querySelector('span');
+            textSpan.classList.toggle('text-white');
+            textSpan.classList.toggle('text-on-surface');
+            textSpan.classList.toggle('font-bold');
+
+            // Haptic-like feedback animation
+            element.animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(0.95)' },
+                { transform: 'scale(1)' }
+            ], {
+                duration: 200,
+                easing: 'ease-out'
+            });
+        }
+
+        // Auto-focus logic for textarea enhancement
+        const textarea = document.getElementById('more-info');
+        textarea.addEventListener('focus', () => {
+            textarea.parentElement.classList.add('scale-[1.01]');
+        });
+        textarea.addEventListener('blur', () => {
+            textarea.parentElement.classList.remove('scale-[1.01]');
+        });
+    </script>
+</body></html>

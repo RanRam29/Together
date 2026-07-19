@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-highest": "#e5e1eb",
+                    "secondary-fixed": "#a0f3d4",
+                    "surface-container-high": "#ebe6f0",
+                    "surface-bright": "#fcf8ff",
+                    "on-error": "#ffffff",
+                    "outline-variant": "#c8c4d5",
+                    "inverse-surface": "#312f37",
+                    "secondary-fixed-dim": "#84d6b9",
+                    "on-surface": "#1c1b22",
+                    "secondary-container": "#a0f3d4",
+                    "on-surface-variant": "#474553",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#f0ecf6",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface": "#fcf8ff",
+                    "primary-container": "#534ab7",
+                    "background": "#fcf8ff",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdcbb",
+                    "on-secondary-container": "#167159",
+                    "tertiary-fixed-dim": "#ffb869",
+                    "inverse-on-surface": "#f3eff9",
+                    "on-primary-container": "#d1ccff",
+                    "on-tertiary-fixed-variant": "#673d00",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#c5c0ff",
+                    "on-tertiary-container": "#ffc78c",
+                    "on-tertiary-fixed": "#2b1700",
+                    "on-primary-fixed": "#140067",
+                    "surface-tint": "#584fbc",
+                    "primary-fixed": "#e3dfff",
+                    "on-primary-fixed-variant": "#3f35a3",
+                    "primary": "#3b309e",
+                    "on-secondary-fixed": "#002117",
+                    "surface-variant": "#e5e1eb",
+                    "tertiary": "#623900",
+                    "surface-container-low": "#f6f2fc",
+                    "outline": "#787584",
+                    "tertiary-container": "#824e00",
+                    "inverse-primary": "#c5c0ff",
+                    "surface-dim": "#dcd8e2",
+                    "secondary": "#086b53",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#00513e",
+                    "on-error-container": "#93000a",
+                    "on-background": "#1c1b22"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "12px",
+                    "xs": "4px",
+                    "container-padding": "20px",
+                    "xl": "32px",
+                    "sm": "8px",
+                    "md": "16px",
+                    "lg": "24px",
+                    "base": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Rubik"],
+                    "display-lg": ["Rubik"],
+                    "body-md": ["Rubik"],
+                    "headline-sm": ["Rubik"],
+                    "body-lg": ["Rubik"],
+                    "label-sm": ["Rubik"],
+                    "label-md": ["Rubik"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #FBFAF7; /* Warm background from prompt */
+        }
+        .settings-item-hover:hover {
+            background-color: rgba(59, 48, 158, 0.04);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-outline z-40">
+<div class="flex justify-between items-center px-container-padding h-14 w-full flex-row-reverse">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="A professional and friendly profile photograph of a female caregiver in her 40s, smiling warmly at the camera with a blurred domestic background. The lighting is soft and natural, emphasizing a sense of trust, empathy, and professional reliability. The overall aesthetic is warm and minimalist, aligning with the healthcare and community service domain." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYS5ptEs0VqdYhhQXE-m1mQ4lgARg61N9PZF4cCY99PcIid0nBLH_9wyVRkCfXA1LejSAKfT92EI3JISvEImH39EjRGl-Xe16Q_RmoKgg7ZBSjplwibAukeXzWloSPBj7FIwZQsw_9JXYOxi1s_KErUx1OFi0WrrYSOQ6NtHV0vL0fw0m8N33BV107lzLIknjYgZ2qSLRzsNP26h8zSz1cce3JW1JgYIGOJL3oXE__Go8QJcEmDBFhbxmBjnJ4IwX87Zayaov8LVij"/>
+</div>
+</div>
+<div class="flex items-center">
+<img alt="בשילוב" class="h-8 md:h-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCW8U4UPpw9MGDq7tpK6oJFpbNWJMrIX_7tYFvl1hxSCZbkaEmC1s1RVH33BK-Zg9AF9B7v2gO0KvxZXsmdw9pL_1aQtapLIw5AJilO5slqqTDtibS7zIdaQuSF-eiEPrjXvyRLI8v8jbZWBXmiMg09rOztV_EpKDNAhVNDT86BPumTMJsXGgOpJ4Km0R0sgOQf0fX7fkdNWCBzwtAwtbtMEkXOpusTohTXI-4x4jWQ6fDzZ9Moz8fGtfqAllaEx0kll-VRUZZVt2PH"/>
+</div>
+<button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-low dark:hover:bg-surface-container-high p-2 rounded-full transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</header>
+<!-- Content Canvas -->
+<main class="flex-grow pb-24">
+<div class="px-container-padding pt-8">
+<!-- Screen Header -->
+<div class="mb-8">
+<span class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">הגדרות חשבון</span>
+<h1 class="text-headline-md font-headline-md text-on-surface mt-1">הגדרות</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2 leading-relaxed">נהל את ההעדפות שלך ופרטי החשבון בצורה פשוטה ומאובטחת.</p>
+</div>
+<!-- Profile Overview Card (Bento Style) -->
+<div class="bg-surface-container-lowest border border-outline-variant p-md rounded-[14px] mb-lg flex items-center gap-4 shadow-sm">
+<div class="w-16 h-16 rounded-full bg-primary-container/10 flex items-center justify-center border-2 border-primary-container">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div class="flex-grow">
+<h2 class="text-body-lg font-bold text-on-surface">ישראל ישראלי</h2>
+<p class="text-label-md font-label-md text-on-surface-variant">israel@example.com</p>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded-xl text-label-md font-label-md transition-transform active:scale-95">
+                    עריכה
+                </button>
+</div>
+<!-- Settings List -->
+<div class="space-y-base">
+<!-- Notifications -->
+<div class="flex items-center justify-between p-md bg-surface-container-lowest border border-outline-variant rounded-[14px] transition-colors settings-item-hover cursor-pointer group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary transition-colors group-hover:bg-primary group-hover:text-on-primary">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</div>
+<span class="text-body-md font-medium text-on-surface">התראות</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_left">chevron_left</span>
+</div>
+<!-- Language -->
+<div class="flex items-center justify-between p-md bg-surface-container-lowest border border-outline-variant rounded-[14px] transition-colors settings-item-hover cursor-pointer group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-xl bg-secondary/10 flex items-center justify-center text-secondary transition-colors group-hover:bg-secondary group-hover:text-on-secondary">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</div>
+<div class="flex flex-col">
+<span class="text-body-md font-medium text-on-surface">שפה</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">עברית</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_left">chevron_left</span>
+</div>
+<!-- Privacy -->
+<div class="flex items-center justify-between p-md bg-surface-container-lowest border border-outline-variant rounded-[14px] transition-colors settings-item-hover cursor-pointer group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-xl bg-tertiary-container/20 flex items-center justify-center text-tertiary transition-colors group-hover:bg-tertiary-container group-hover:text-on-tertiary-container">
+<span class="material-symbols-outlined" data-icon="lock" style="font-variation-settings: 'FILL' 1;">lock</span>
+</div>
+<span class="text-body-md font-medium text-on-surface">פרטיות</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_left">chevron_left</span>
+</div>
+<!-- Help & Support -->
+<div class="flex items-center justify-between p-md bg-surface-container-lowest border border-outline-variant rounded-[14px] transition-colors settings-item-hover cursor-pointer group">
+<div class="flex items-center gap-md">
+<div class="w-10 h-10 rounded-xl bg-primary-container/10 flex items-center justify-center text-primary-container transition-colors group-hover:bg-primary-container group-hover:text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+</div>
+<span class="text-body-md font-medium text-on-surface">עזרה ותמיכה</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="chevron_left">chevron_left</span>
+</div>
+</div>
+<!-- Danger Zone / Logout -->
+<div class="mt-xl pt-lg border-t border-outline-variant">
+<button class="w-full flex items-center gap-md p-md text-error hover:bg-error/5 rounded-[14px] transition-colors">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-body-md font-bold">התנתקות מהמערכת</span>
+</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 h-20 bg-surface-container dark:bg-inverse-surface border-t border-outline-variant dark:border-outline">
+<div class="flex justify-around items-center w-full px-2 flex-row-reverse h-full">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:text-primary dark:hover:text-primary-fixed-dim scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-sm text-label-sm">בית</span>
+</a>
+<!-- Search -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:text-primary dark:hover:text-primary-fixed-dim scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-label-sm text-label-sm">חיפושיים</span>
+</a>
+<!-- Messages -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-on-surface-variant px-4 py-1 hover:text-primary dark:hover:text-primary-fixed-dim scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-sm text-label-sm">הודעות</span>
+</a>
+<!-- Settings (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-xl px-4 py-1 scale-95 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="settings" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-sm text-label-sm">הגדרות</span>
+</a>
+</div>
+</nav>
+<script>
+        // Micro-interactions for settings items
+        document.querySelectorAll('.settings-item-hover').forEach(item => {
+            item.addEventListener('touchstart', function() {
+                this.classList.add('scale-98');
+            });
+            item.addEventListener('touchend', function() {
+                this.classList.remove('scale-98');
+            });
+        });
+    </script>
+</body></html>

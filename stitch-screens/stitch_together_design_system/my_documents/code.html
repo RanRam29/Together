@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="light" dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>העלאת מסמכים</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#787584",
+                      "on-tertiary-container": "#ffc78c",
+                      "on-error": "#ffffff",
+                      "error": "#ba1a1a",
+                      "primary-container": "#534ab7",
+                      "inverse-on-surface": "#f3eff9",
+                      "surface-bright": "#fcf8ff",
+                      "on-error-container": "#93000a",
+                      "tertiary-fixed-dim": "#ffb869",
+                      "surface-container-low": "#f6f2fc",
+                      "on-secondary-fixed": "#002117",
+                      "surface-dim": "#dcd8e2",
+                      "primary-fixed": "#e3dfff",
+                      "outline-variant": "#c8c4d5",
+                      "surface-container-high": "#ebe6f0",
+                      "inverse-primary": "#c5c0ff",
+                      "on-secondary-container": "#167159",
+                      "secondary-fixed": "#a0f3d4",
+                      "on-surface": "#1c1b22",
+                      "background": "#fcf8ff",
+                      "tertiary": "#623900",
+                      "secondary": "#086b53",
+                      "secondary-container": "#a0f3d4",
+                      "on-tertiary-fixed-variant": "#673d00",
+                      "primary-fixed-dim": "#c5c0ff",
+                      "on-secondary-fixed-variant": "#00513e",
+                      "surface-variant": "#e5e1eb",
+                      "tertiary-fixed": "#ffdcbb",
+                      "surface-container-highest": "#e5e1eb",
+                      "surface-container": "#f0ecf6",
+                      "inverse-surface": "#312f37",
+                      "on-primary-fixed-variant": "#3f35a3",
+                      "secondary-fixed-dim": "#84d6b9",
+                      "surface": "#fcf8ff",
+                      "primary": "#3b309e",
+                      "on-tertiary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "surface-tint": "#584fbc",
+                      "surface-container-lowest": "#ffffff",
+                      "on-background": "#1c1b22",
+                      "on-surface-variant": "#474553",
+                      "tertiary-container": "#824e00",
+                      "on-primary-container": "#d1ccff",
+                      "on-tertiary-fixed": "#2b1700",
+                      "on-primary": "#ffffff",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed": "#140067"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "12px",
+                      "sm": "8px",
+                      "xs": "4px",
+                      "md": "16px",
+                      "lg": "24px",
+                      "container-padding": "20px",
+                      "base": "4px",
+                      "xl": "32px"
+              },
+              "fontFamily": {
+                      "headline-sm": [
+                              "Rubik"
+                      ],
+                      "label-md": [
+                              "Rubik"
+                      ],
+                      "display-lg": [
+                              "Rubik"
+                      ],
+                      "body-lg": [
+                              "Rubik"
+                      ],
+                      "headline-md": [
+                              "Rubik"
+                      ],
+                      "label-sm": [
+                              "Rubik"
+                      ],
+                      "body-md": [
+                              "Rubik"
+                      ]
+              },
+              "fontSize": {
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "38px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "26px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #fcf8ff; /* surface / background */
+            color: #1c1b22; /* on-surface */
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e1eb; /* surface-variant */
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface border-b border-outline-variant flex items-center justify-between px-container-padding h-14 w-full">
+<div class="flex items-center gap-sm">
+<button aria-label="חזור" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors text-primary active:opacity-80 duration-200">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<img alt="CareMatch Logo" class="h-6 w-auto opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMWUijHqhe5xWV_SRaY3ulhF6fFecxBhPBcAH-Sc6YpECJa1ihs8_OYPE_wbag56Ew-JKN-cylWpnbxSvQa_rHejb26ra63gQhnzMFMXqPNoAbBSAppMdTn0KQNr2ujoNhsBC0PB9MxU0FxPj_ttmutxFexQMZrhFY1vWQPexybPNqGiPnTpnBi-vNopndgZ7NqM5JnrxZmk8PqJwc_tQpGDCQ6wUdt_7P_I6imPidlothn9Og2zB54RWLVwWBdgjtAJElSb4F7yWn"/>
+</div>
+<h1 class="font-headline-md text-headline-md text-primary">העלאת מסמכים</h1>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[72px] px-container-padding flex flex-col max-w-lg mx-auto w-full">
+<!-- Header Section -->
+<div class="mt-md mb-xl">
+<p class="font-label-md text-label-md text-outline uppercase tracking-wider mb-base">השלמת פרופיל</p>
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-sm">המסמכים שלי</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                אנא העלה את המסמכים הנדרשים כדי להשלים את הרשמתך. צוות CareMatch יאמת את המידע כדי להבטיח סביבה בטוחה לכולם.
+            </p>
+</div>
+<!-- Document List -->
+<div class="flex flex-col gap-md">
+<!-- Document Card: Uploaded -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[14px] p-md flex items-center justify-between shadow-sm transition-all hover:bg-surface-container-low cursor-pointer">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container shrink-0">
+<span class="material-symbols-outlined fill">badge</span>
+</div>
+<div>
+<h3 class="font-body-md text-body-md font-medium text-on-surface">תעודת זהות</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs">עודכן לאחרונה: 12.10.2023</p>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                        הועלה
+                    </span>
+<button class="mt-2 text-primary font-label-md text-label-md hover:underline">החלף מסמך</button>
+</div>
+</div>
+<!-- Document Card: Verifying -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-[14px] p-md flex items-center justify-between shadow-sm transition-all hover:bg-surface-container-low cursor-pointer">
+<div class="flex items-center gap-md">
+<div class="w-12 h-12 rounded-full bg-tertiary-fixed text-on-tertiary-fixed shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined fill">policy</span>
+</div>
+<div>
+<h3 class="font-body-md text-body-md font-medium text-on-surface">תעודת יושר</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs">נשלח לאימות משטרת ישראל</p>
+</div>
+</div>
+<div class="flex flex-col items-end">
+<span class="bg-tertiary/10 text-tertiary px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">pending</span>
+                        באימות
+                    </span>
+</div>
+</div>
+<!-- Document Card: Missing -->
+<div class="bg-surface-bright border border-outline-variant rounded-[14px] p-md flex items-center justify-between shadow-sm border-dashed border-2 hover:bg-surface-container-low cursor-pointer transition-colors relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex items-center gap-md relative z-10">
+<div class="w-12 h-12 rounded-full bg-surface-variant text-on-surface-variant shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div>
+<h3 class="font-body-md text-body-md font-medium text-on-surface">תעודות הכשרה</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs">תעודת עזרה ראשונה / מטפל</p>
+</div>
+</div>
+<div class="flex flex-col items-end relative z-10">
+<span class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-xs">
+<span class="material-symbols-outlined text-[14px]">error</span>
+                        חסר
+                    </span>
+<button class="mt-2 w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Document Card: Missing Optional -->
+<div class="bg-surface-bright border border-outline-variant rounded-[14px] p-md flex items-center justify-between shadow-sm border-dashed border-2 hover:bg-surface-container-low cursor-pointer transition-colors relative overflow-hidden group">
+<div class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="flex items-center gap-md relative z-10">
+<div class="w-12 h-12 rounded-full bg-surface-variant text-on-surface-variant shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined">recommend</span>
+</div>
+<div>
+<h3 class="font-body-md text-body-md font-medium text-on-surface">המלצות</h3>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-xs">אופציונלי - מגדיל סיכויי התאמה</p>
+</div>
+</div>
+<div class="flex flex-col items-end relative z-10">
+<span class="text-outline font-label-sm text-label-sm px-1">רשות</span>
+<button class="mt-2 w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action Bar (Sticky) -->
+<div class="fixed bottom-0 w-full bg-surface border-t border-outline-variant p-container-padding pb-safe z-40">
+<div class="max-w-lg mx-auto">
+<button class="w-full h-[52px] rounded-[14px] bg-primary text-on-primary font-label-md text-label-md flex items-center justify-center gap-sm active:bg-on-primary-fixed-variant transition-colors shadow-sm">
+<span class="material-symbols-outlined">upload_file</span>
+                העלאת מסמך חדש
+            </button>
+</div>
+</div>
+</body></html>

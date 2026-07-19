@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>אישור חשיפת מידע</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#623900",
+                    "on-primary-fixed-variant": "#3f35a3",
+                    "secondary-fixed": "#a0f3d4",
+                    "primary-fixed-dim": "#c5c0ff",
+                    "on-tertiary-container": "#ffc78c",
+                    "on-surface": "#1c1b22",
+                    "surface-tint": "#584fbc",
+                    "tertiary-fixed-dim": "#ffb869",
+                    "outline": "#787584",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#f0ecf6",
+                    "surface": "#fcf8ff",
+                    "tertiary-container": "#824e00",
+                    "on-secondary-fixed": "#002117",
+                    "secondary-fixed-dim": "#84d6b9",
+                    "primary-container": "#534ab7",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#2b1700",
+                    "outline-variant": "#c8c4d5",
+                    "tertiary-fixed": "#ffdcbb",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#f3eff9",
+                    "background": "#fcf8ff",
+                    "on-secondary-fixed-variant": "#00513e",
+                    "surface-bright": "#fcf8ff",
+                    "surface-container-highest": "#e5e1eb",
+                    "surface-container-high": "#ebe6f0",
+                    "inverse-surface": "#312f37",
+                    "inverse-primary": "#c5c0ff",
+                    "on-tertiary-fixed-variant": "#673d00",
+                    "on-primary-fixed": "#140067",
+                    "surface-dim": "#dcd8e2",
+                    "secondary-container": "#a0f3d4",
+                    "surface-container-low": "#f6f2fc",
+                    "surface-variant": "#e5e1eb",
+                    "secondary": "#086b53",
+                    "primary": "#3b309e",
+                    "on-background": "#1c1b22",
+                    "on-surface-variant": "#474553",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#d1ccff",
+                    "primary-fixed": "#e3dfff",
+                    "surface-container-lowest": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#167159",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "sm": "8px",
+                    "base": "4px",
+                    "md": "16px",
+                    "xs": "4px",
+                    "lg": "24px",
+                    "gutter": "12px",
+                    "container-padding": "20px"
+            },
+            "fontFamily": {
+                    "headline-sm": [
+                            "Rubik"
+                    ],
+                    "headline-md": [
+                            "Rubik"
+                    ],
+                    "label-md": [
+                            "Rubik"
+                    ],
+                    "display-lg": [
+                            "Rubik"
+                    ],
+                    "body-lg": [
+                            "Rubik"
+                    ],
+                    "label-sm": [
+                            "Rubik"
+                    ],
+                    "body-md": [
+                            "Rubik"
+                    ]
+            },
+            "fontSize": {
+                    "headline-sm": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "display-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "38px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "26px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #fcf8ff;
+            color: #1c1b22;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="flex flex-col min-h-screen bg-background dark:bg-background">
+<!-- TopAppBar -->
+<header class="w-full top-0 bg-background dark:bg-background flat no shadows z-50">
+<div class="flex items-center justify-between px-container-padding h-14 w-full">
+<button class="text-primary dark:text-primary-fixed hover:opacity-80 transition-opacity duration-200">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<h1 class="font-headline-sm text-headline-sm text-primary dark:text-primary-fixed">אישור חשיפת מידע</h1>
+<div class="w-6 h-6"></div> <!-- Spacer for centering -->
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow px-container-padding py-md flex flex-col gap-xl">
+<!-- Illustration & Intro -->
+<section class="flex flex-col items-center text-center gap-md">
+<div class="w-24 h-24 bg-surface-container-high rounded-full flex items-center justify-center mb-2 shadow-sm">
+<span class="material-symbols-outlined text-4xl text-primary" style="font-variation-settings: 'FILL' 1;">shield_person</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface">
+                אנחנו שומרים על הפרטיות שלכם. רק אחרי האישור שלך, המידע המפורט יהיה גלוי למשלבת.
+            </p>
+</section>
+<!-- Information Card -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-[14px] p-md shadow-sm">
+<h2 class="font-label-md text-label-md text-primary mb-sm font-bold">עם האישור, דנה תקבל גישה ל:</h2>
+<ul class="flex flex-col gap-sm">
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary text-sm mt-[2px]">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface-variant">שם מלא של הילד</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary text-sm mt-[2px]">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface-variant">אבחנה וצרכים מיוחדים</span>
+</li>
+<li class="flex items-start gap-sm">
+<span class="material-symbols-outlined text-secondary text-sm mt-[2px]">check_circle</span>
+<span class="font-body-md text-body-md text-on-surface-variant">פרטי קשר לתיאום פגישה</span>
+</li>
+</ul>
+</section>
+<!-- Confirmation Checkbox -->
+<section class="flex items-start gap-sm mt-auto mb-lg">
+<div class="relative flex items-center mt-1">
+<input class="peer h-5 w-5 cursor-pointer appearance-none rounded-sm border-2 border-outline-variant transition-all checked:border-primary checked:bg-primary hover:shadow-md" id="confirm-share" type="checkbox"/>
+<span class="absolute text-on-primary opacity-0 peer-checked:opacity-100 pointer-events-none top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+<span class="material-symbols-outlined text-sm font-bold" style="font-variation-settings: 'wght' 700;">check</span>
+</span>
+</div>
+<label class="font-body-md text-body-md text-on-surface cursor-pointer select-none" for="confirm-share">
+                אני מאשר/ת את שיתוף המידע עם דנה לצורך תהליך ההיכרות
+            </label>
+</section>
+</main>
+<!-- Footer Action -->
+<footer class="px-container-padding pb-xl pt-sm bg-background">
+<button class="w-full h-[52px] bg-primary text-on-primary font-headline-sm text-headline-sm rounded-[14px] hover:opacity-90 active:bg-primary-container transition-colors shadow-sm">
+            אשר/י והמשיכו להיכרות
+        </button>
+</footer>
+</body></html>

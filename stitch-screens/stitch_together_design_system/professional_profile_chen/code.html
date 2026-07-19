@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #FBFAF7; /* Warm Paper Background */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Custom scrollbar for subtle feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E5E2DA;
+            border-radius: 10px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-fixed-dim": "#ffb869",
+                      "tertiary": "#623900",
+                      "primary-fixed-dim": "#c5c0ff",
+                      "primary-fixed": "#e3dfff",
+                      "secondary-container": "#a0f3d4",
+                      "outline": "#787584",
+                      "tertiary-container": "#824e00",
+                      "on-error": "#ffffff",
+                      "inverse-on-surface": "#f3eff9",
+                      "secondary": "#086b53",
+                      "tertiary-fixed": "#ffdcbb",
+                      "on-secondary-fixed": "#002117",
+                      "on-primary": "#ffffff",
+                      "surface-container": "#f0ecf6",
+                      "inverse-surface": "#312f37",
+                      "surface-dim": "#dcd8e2",
+                      "on-tertiary-container": "#ffc78c",
+                      "on-surface-variant": "#474553",
+                      "on-tertiary-fixed": "#2b1700",
+                      "primary": "#3b309e",
+                      "on-background": "#1c1b22",
+                      "surface": "#fcf8ff",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed-dim": "#84d6b9",
+                      "on-secondary": "#ffffff",
+                      "inverse-primary": "#c5c0ff",
+                      "surface-variant": "#e5e1eb",
+                      "secondary-fixed": "#a0f3d4",
+                      "error-container": "#ffdad6",
+                      "primary-container": "#534ab7",
+                      "on-primary-container": "#d1ccff",
+                      "on-primary-fixed": "#140067",
+                      "background": "#fcf8ff",
+                      "surface-tint": "#584fbc",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container-low": "#f6f2fc",
+                      "on-secondary-fixed-variant": "#00513e",
+                      "surface-bright": "#fcf8ff",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-high": "#ebe6f0",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed-variant": "#673d00",
+                      "on-primary-fixed-variant": "#3f35a3",
+                      "on-surface": "#1c1b22",
+                      "surface-container-highest": "#e5e1eb",
+                      "outline-variant": "#c8c4d5",
+                      "on-secondary-container": "#167159"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "14px",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "container-padding": "20px",
+                      "sm": "8px",
+                      "lg": "24px",
+                      "base": "4px",
+                      "xs": "4px",
+                      "md": "16px",
+                      "gutter": "12px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Rubik"],
+                      "body-lg": ["Rubik"],
+                      "headline-md": ["Rubik"],
+                      "headline-sm": ["Rubik"],
+                      "label-md": ["Rubik"],
+                      "body-md": ["Rubik"],
+                      "display-lg": ["Rubik"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface dark:bg-surface-dim flex flex-row-reverse justify-between items-center px-container-padding h-14">
+<div class="flex items-center gap-3">
+<img alt="Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCksiuOuDm9XnWaHdYkJoxUnXMXrkwABKFyf2WfdpYUseZ_uuys2fvvdOnYFfg9ozgq6-irqujK8XLlKf2bMZ6xY-4WL8xDMrc9j5m6IYvnB3EqBtJgEQ1DW1YbJX__TavljG7u2ad4qwwXs0bcDkpPia__wOXBfNNEezIOqcpdwqIIDYFOil4FEBCYPVOADIXkRQml7PA29rUVTfWQCq5r8UBjZfyvFUoOLB6EuyT68hpudY5Nk6uuXjkGpxG2b72xba3IYtKSEUPv"/>
+<h1 class="font-headline-sm text-headline-sm text-primary">הפרופיל שלי</h1>
+</div>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<main class="px-container-padding pt-md flex flex-col gap-xl">
+<!-- Hero Section -->
+<section class="flex flex-col items-center text-center pt-md">
+<div class="relative mb-md">
+<div class="w-32 h-32 rounded-full border-4 border-white shadow-sm overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover" data-alt="A professional and friendly headshot of a woman in her 30s with a warm smile, wearing a professional smart-casual blouse. She is set against a soft, out-of-focus background of a bright, modern learning environment. The lighting is high-key and natural, emphasizing a trustworthy and empathetic character in line with a high-end caregiving platform aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvQjdZkH8nlkIbn_L5cDhGEdvWr5frMmyUgV8tg81-73wCT9gITNylGUqVol8aNmpZ9Si1j3HILpAyFZClzWoAOvOhCShdCRzhFFCqprmGjrcoehSAaVc63k0FaQ9lhcDKEyf5ySQBfUX7LamopC1Dp1aF92eheSm5D8WYxMLu0HcBF7ldGnH7y0TcE6ROa1nPoPKV6rdpvMG9wHbWqFGU11qNHrkbLUonhsYLOeJWOnObnNw2AmIhp_iXIMKGuyZC_D8dfyG72BiY"/>
+</div>
+<div class="absolute bottom-1 left-1 bg-secondary text-white p-1.5 rounded-full border-2 border-white flex items-center justify-center">
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface mb-1">חן אדרי</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md">סייעת משלבת • תל אביב</p>
+<button class="bg-primary text-on-primary font-label-md text-label-md px-10 py-3 rounded-xl hover:opacity-90 active:scale-95 transition-all w-full md:w-auto">
+                עריכת פרופיל
+            </button>
+</section>
+<!-- Stats Row -->
+<section class="grid grid-cols-2 gap-md">
+<div class="bg-white border border-[#E5E2DA] p-md rounded-xl flex flex-col items-center justify-center text-center shadow-sm">
+<span class="material-symbols-outlined text-primary mb-1">schedule</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">124</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">שעות סיוע</span>
+</div>
+<div class="bg-white border border-[#E5E2DA] p-md rounded-xl flex flex-col items-center justify-center text-center shadow-sm">
+<span class="material-symbols-outlined text-tertiary mb-1" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-headline-sm text-headline-sm text-on-surface">4.9</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">דירוג כללי</span>
+</div>
+</section>
+<!-- Bio Section -->
+<section class="flex flex-col gap-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">קצת עלי</h3>
+<div class="bg-white border border-[#E5E2DA] p-md rounded-xl shadow-sm">
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    שמי חן, ואני בעלת ניסיון של למעלה מ-6 שנים בליווי ילדים עם צרכים מיוחדים במסגרות חינוכיות ופרטיות. אני מאמינה שכל ילד זקוק למעטפת אישית, סבלנית ומקצועית כדי לפרוח. הגישה שלי משלבת אמפתיה עמוקה יחד עם כלים מעשיים לקידום עצמאות והשתלבות חברתית.
+                </p>
+</div>
+</section>
+<!-- Certificates Section -->
+<section class="flex flex-col gap-sm">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">תעודות והסמכות</h3>
+<div class="flex flex-col gap-sm">
+<div class="bg-surface-container-low p-md rounded-xl flex items-center gap-md border border-transparent hover:border-outline-variant transition-colors">
+<div class="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center text-on-primary-container">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">תעודת הוראה</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">מכללת לוינסקי לחינוך, 2018</span>
+</div>
+</div>
+<div class="bg-surface-container-low p-md rounded-xl flex items-center gap-md border border-transparent hover:border-outline-variant transition-colors">
+<div class="w-10 h-10 bg-secondary-container rounded-lg flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">הכשרה בשיטת ABA</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">מרכז בית לורן, 2020</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Reviews Section -->
+<section class="flex flex-col gap-sm mb-lg">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">ביקורות הורים</h3>
+<button class="text-primary font-label-sm text-label-sm">הצג הכל</button>
+</div>
+<div class="flex flex-col gap-md">
+<!-- Review 1 -->
+<article class="bg-white border border-[#E5E2DA] p-md rounded-xl shadow-sm">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex flex-col">
+<h4 class="font-label-md text-label-md text-on-surface">דנה לוי</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant">לפני שבועיים</span>
+</div>
+<div class="flex text-tertiary">
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">
+                        "חן פשוט מדהימה. היא מלווה את הבן שלנו כבר שנה והשינוי בביטחון העצמי שלו פשוט מרגש. מקצועית ורגישה מאוד."
+                    </p>
+</article>
+<!-- Review 2 -->
+<article class="bg-white border border-[#E5E2DA] p-md rounded-xl shadow-sm">
+<div class="flex justify-between items-start mb-sm">
+<div class="flex flex-col">
+<h4 class="font-label-md text-label-md text-on-surface">איתי רוזן</h4>
+<span class="font-label-sm text-label-sm text-on-surface-variant">לפני חודש</span>
+</div>
+<div class="flex text-tertiary">
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined !text-sm" style="font-variation-settings: 'FILL' 0;">star</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant italic">
+                        "סייעת אחראית מאוד, תמיד מגיעה בזמן ויוצרת קשר מצוין עם הילד. ממליצים בחום."
+                    </p>
+</article>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface dark:bg-surface-dim flex flex-row-reverse justify-around items-center h-20 px-2 pb-2">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high px-4 py-1 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">בית</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high px-4 py-1 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-label-sm text-label-sm">חיפושים</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-container-high px-4 py-1 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">chat_bubble</span>
+<span class="font-label-sm text-label-sm">בקשות</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 active:scale-90 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-label-sm">פרופיל</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('article, .bg-surface-container-low').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.transform = 'scale(0.98)';
+                el.style.transition = 'transform 0.1s ease';
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.transform = 'scale(1)';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

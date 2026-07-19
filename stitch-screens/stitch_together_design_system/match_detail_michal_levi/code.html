@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Shared Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#a0f3d4",
+                    "surface-container-low": "#f6f2fc",
+                    "surface-container-high": "#ebe6f0",
+                    "on-surface": "#1c1b22",
+                    "surface-container": "#f0ecf6",
+                    "inverse-surface": "#312f37",
+                    "on-secondary-container": "#167159",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#fcf8ff",
+                    "outline-variant": "#c8c4d5",
+                    "on-surface-variant": "#474553",
+                    "inverse-on-surface": "#f3eff9",
+                    "on-primary-fixed-variant": "#3f35a3",
+                    "surface-variant": "#e5e1eb",
+                    "on-background": "#1c1b22",
+                    "on-error-container": "#93000a",
+                    "tertiary-fixed-dim": "#ffb869",
+                    "on-tertiary-fixed-variant": "#673d00",
+                    "on-primary-fixed": "#140067",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e5e1eb",
+                    "outline": "#787584",
+                    "surface-tint": "#584fbc",
+                    "tertiary-container": "#824e00",
+                    "tertiary-fixed": "#ffdcbb",
+                    "primary-fixed-dim": "#c5c0ff",
+                    "on-tertiary-fixed": "#2b1700",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#e3dfff",
+                    "surface-dim": "#dcd8e2",
+                    "on-tertiary-container": "#ffc78c",
+                    "background": "#fcf8ff",
+                    "on-primary-container": "#d1ccff",
+                    "error": "#ba1a1a",
+                    "primary-container": "#534ab7",
+                    "on-secondary-fixed": "#002117",
+                    "secondary-container": "#a0f3d4",
+                    "secondary-fixed-dim": "#84d6b9",
+                    "error-container": "#ffdad6",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#623900",
+                    "surface": "#fcf8ff",
+                    "inverse-primary": "#c5c0ff",
+                    "secondary": "#086b53",
+                    "on-secondary-fixed-variant": "#00513e",
+                    "primary": "#3b309e",
+                    "on-error": "#ffffff",
+                    "warm-paper": "#FBFAF7",
+                    "border-soft": "#E5E2DA"
+            },
+            "borderRadius": {
+                    "DEFAULT": "4px",
+                    "lg": "8px",
+                    "xl": "12px",
+                    "card": "14px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "4px",
+                    "xs": "4px",
+                    "gutter": "12px",
+                    "xl": "32px",
+                    "container-padding": "20px",
+                    "lg": "24px",
+                    "sm": "8px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "label-md": ["Rubik"],
+                    "headline-sm": ["Rubik"],
+                    "body-md": ["Rubik"],
+                    "body-lg": ["Rubik"],
+                    "label-sm": ["Rubik"],
+                    "headline-md": ["Rubik"],
+                    "display-lg": ["Rubik"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "headline-sm-mobile": ["18px", {"lineHeight": "24px", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                    "display-lg-mobile": ["26px", {"lineHeight": "34px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #FBFAF7;
+            color: #1c1b22;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-dot {
+            position: relative;
+        }
+        .active-dot::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 50%;
+            transform: translateX(50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: currentColor;
+        }
+        .availability-cell {
+            transition: all 0.2s ease;
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+<!-- Top Navigation Bar -->
+<header class="w-full top-0 sticky z-50 bg-background dark:bg-background h-14 flex items-center justify-between px-container-padding transition-opacity duration-200">
+<button aria-label="חזרה" class="text-primary hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<div class="h-8">
+<img alt="Logo" class="h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQlSKhWQNrxVUVQJZgr_fZtTtrWb6st6fUanNEhsEB2q31s1gFpKqEij320-PNA-XSAND-PAsjezGqChOnRmC2OetWLEeka1NTJrjnA-knQsuBDk3YQx__zFBxmS9-nQOuWfoVCdutuAK4cDK5Y0yqsl3EDPfqqiopv_oTwIk0nGTsf0eGMhmJZSNrTDfwa2g3MJjlBCkl_qOrXmpT7tSOgyWOoHRKgp7TXEJYbtfMvoh6mrwIc5kw-JZUu0jTvX9Wqd0JWseqwYnl"/>
+</div>
+<div class="w-6"></div> <!-- Spacer for center alignment -->
+</header>
+<main class="w-full max-w-md flex flex-col pb-32 animate-in fade-in duration-700">
+<!-- Profile Header Section -->
+<section class="flex flex-col items-center px-container-padding pt-md pb-lg bg-surface">
+<div class="relative mb-md">
+<div class="w-28 h-28 rounded-full border-4 border-white shadow-sm overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly middle-aged Israeli woman with warm brown eyes and a kind smile, looking directly at the camera. She is wearing a soft teal linen shirt, posed against a blurred outdoor garden background with gentle sunlight filtering through trees. The photography style is high-end, clean, and professional, reflecting a sense of empathy and reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdpUdsaU-SMY0ZkDZBeaYAJp4eg3gmv9jOYDecKXE9lwPbUwByVFNzroZ6RSC3jGJkK0d9upv6jW8bbNniM9P-cgBLyAJBzwPJ9wQb_3OKmyJGggntdW2C-tGxUJ0EDSwAR6WgHbndEVKuGjSpEI0Ufqf2xaysiQKaJYrUGT4p5QmGwtO7NoHAm7owvtdZksjWA7JAD1EKdqTekBxk4mMmo2JT7UX31Hdt-qt9FCaXqUF08m5tzaCBr7FGJherWt_0_5j-5rDtAV8u"/>
+</div>
+<div class="absolute bottom-1 right-1 bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="font-label-sm text-label-sm">4.9</span>
+</div>
+</div>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-xs">מיכל לוי</h1>
+<div class="flex gap-2 mb-md">
+<span class="bg-secondary-fixed text-on-secondary-fixed-variant px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+                    מאומתת
+                </span>
+<span class="bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm">
+                    10 שנות ניסיון
+                </span>
+</div>
+</section>
+<!-- Content Grid (Asymmetric Layout) -->
+<div class="px-container-padding grid grid-cols-1 gap-md">
+<!-- Bio Section (LetterCard Style) -->
+<div class="bg-white border border-border-soft rounded-card p-lg">
+<h2 class="font-headline-sm text-headline-sm-mobile text-primary mb-sm">קצת עלי</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                    שלום, שמי מיכל ואני מלווה ילדים ונוער עם צרכים מיוחדים כבר למעלה מעשור. הגישה שלי מבוססת על אמפתיה, סבלנות ויצירת קשר אישי עמוק עם הילד. אני מתמחה בשילוב חברתי ולימודי בבתי ספר רגילים, ומאמינה שלכל ילד יש את המפתח להצלחה שלו.
+                </p>
+</div>
+<!-- Skills Section -->
+<div class="bg-white border border-border-soft rounded-card p-lg">
+<h2 class="font-headline-sm text-headline-sm-mobile text-primary mb-md">תחומי מומחיות</h2>
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container-low border border-border-soft text-on-surface px-4 py-2 rounded-full font-label-md text-label-md">שילוב בבית ספר</span>
+<span class="bg-surface-container-low border border-border-soft text-on-surface px-4 py-2 rounded-full font-label-md text-label-md">ABA</span>
+<span class="bg-surface-container-low border border-border-soft text-on-surface px-4 py-2 rounded-full font-label-md text-label-md">וויסות חושי</span>
+<span class="bg-surface-container-low border border-border-soft text-on-surface px-4 py-2 rounded-full font-label-md text-label-md">עבודה עם נוער</span>
+<span class="bg-surface-container-low border border-border-soft text-on-surface px-4 py-2 rounded-full font-label-md text-label-md">כישורים חברתיים</span>
+</div>
+</div>
+<!-- Availability Section -->
+<div class="bg-white border border-border-soft rounded-card p-lg">
+<h2 class="font-headline-sm text-headline-sm-mobile text-primary mb-md">זמינות</h2>
+<div class="overflow-x-auto no-scrollbar">
+<div class="flex gap-2 min-w-max pb-2">
+<!-- Sunday -->
+<div class="flex flex-col gap-2 w-16">
+<span class="text-center font-label-sm text-label-sm text-on-surface-variant">א'</span>
+<div class="availability-cell h-10 w-full bg-secondary-fixed rounded-lg flex items-center justify-center" title="בוקר פנוי">
+<span class="material-symbols-outlined text-secondary text-[18px]">light_mode</span>
+</div>
+<div class="availability-cell h-10 w-full bg-surface-container rounded-lg flex items-center justify-center opacity-40">
+<span class="material-symbols-outlined text-outline text-[18px]">dark_mode</span>
+</div>
+</div>
+<!-- Monday -->
+<div class="flex flex-col gap-2 w-16">
+<span class="text-center font-label-sm text-label-sm text-on-surface-variant">ב'</span>
+<div class="availability-cell h-10 w-full bg-surface-container rounded-lg flex items-center justify-center opacity-40"></div>
+<div class="availability-cell h-10 w-full bg-secondary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[18px]">dark_mode</span>
+</div>
+</div>
+<!-- Tuesday -->
+<div class="flex flex-col gap-2 w-16">
+<span class="text-center font-label-sm text-label-sm text-on-surface-variant">ג'</span>
+<div class="availability-cell h-10 w-full bg-secondary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[18px]">light_mode</span>
+</div>
+<div class="availability-cell h-10 w-full bg-secondary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[18px]">dark_mode</span>
+</div>
+</div>
+<!-- Wednesday -->
+<div class="flex flex-col gap-2 w-16">
+<span class="text-center font-label-sm text-label-sm text-on-surface-variant">ד'</span>
+<div class="availability-cell h-10 w-full bg-surface-container rounded-lg flex items-center justify-center opacity-40"></div>
+<div class="availability-cell h-10 w-full bg-surface-container rounded-lg flex items-center justify-center opacity-40"></div>
+</div>
+<!-- Thursday -->
+<div class="flex flex-col gap-2 w-16">
+<span class="text-center font-label-sm text-label-sm text-on-surface-variant">ה'</span>
+<div class="availability-cell h-10 w-full bg-secondary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[18px]">light_mode</span>
+</div>
+<div class="availability-cell h-10 w-full bg-surface-container rounded-lg flex items-center justify-center opacity-40"></div>
+</div>
+</div>
+</div>
+<div class="mt-md flex gap-4 text-label-sm font-label-sm text-on-surface-variant">
+<div class="flex items-center gap-1">
+<div class="w-3 h-3 bg-secondary-fixed rounded-full"></div>
+<span>זמין</span>
+</div>
+<div class="flex items-center gap-1">
+<div class="w-3 h-3 bg-surface-container rounded-full"></div>
+<span>תפוס / לא פעיל</span>
+</div>
+</div>
+</div>
+<!-- Quick Info Cards (Bento style) -->
+<div class="grid grid-cols-2 gap-md">
+<div class="bg-white border border-border-soft rounded-card p-md flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-1">location_on</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">אזור שירות</span>
+<span class="font-label-md text-label-md font-bold">תל אביב והסביבה</span>
+</div>
+<div class="bg-white border border-border-soft rounded-card p-md flex flex-col items-center justify-center text-center">
+<span class="material-symbols-outlined text-primary mb-1">payments</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">תעריף שעתי</span>
+<span class="font-label-md text-label-md font-bold">₪90 - ₪120</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Fixed Bottom CTA -->
+<div class="fixed bottom-0 left-0 right-0 p-container-padding bg-white/80 backdrop-blur-md border-t border-border-soft z-50 flex justify-center">
+<button class="w-full max-w-md h-[52px] bg-primary text-on-primary rounded-xl font-label-md text-label-md font-bold shadow-lg shadow-primary/20 active:scale-95 transition-transform">
+            שליחת בקשה
+        </button>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('button, .availability-cell').forEach(el => {
+            el.addEventListener('mousedown', () => {
+                el.style.opacity = '0.7';
+            });
+            el.addEventListener('mouseup', () => {
+                el.style.opacity = '1';
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.opacity = '1';
+            });
+        });
+    </script>
+</body></html>

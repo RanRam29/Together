@@ -137,7 +137,7 @@ RETURNS TABLE (
   score NUMERIC,
   match_reason TEXT
 )
-LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, pg_temp AS $func$
+LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, extensions, pg_temp AS $func$
 DECLARE
   v_child RECORD;
 BEGIN

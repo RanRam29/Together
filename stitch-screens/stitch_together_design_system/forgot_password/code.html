@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdcbb",
+                        "on-primary-container": "#d1ccff",
+                        "on-primary": "#ffffff",
+                        "secondary": "#086b53",
+                        "surface-container-highest": "#e5e1eb",
+                        "outline-variant": "#c8c4d5",
+                        "inverse-on-surface": "#f3eff9",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#e3dfff",
+                        "on-surface-variant": "#474553",
+                        "surface-dim": "#dcd8e2",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-primary-fixed": "#140067",
+                        "on-background": "#1c1b22",
+                        "secondary-fixed": "#a0f3d4",
+                        "tertiary-container": "#824e00",
+                        "on-error": "#ffffff",
+                        "surface-container": "#f0ecf6",
+                        "secondary-container": "#a0f3d4",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "on-surface": "#1c1b22",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#623900",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "error-container": "#ffdad6",
+                        "primary-container": "#534ab7",
+                        "on-secondary-fixed": "#002117",
+                        "surface-bright": "#fcf8ff",
+                        "surface-tint": "#584fbc",
+                        "on-tertiary-fixed": "#2b1700",
+                        "surface-container-high": "#ebe6f0",
+                        "on-secondary-container": "#167159",
+                        "inverse-surface": "#312f37",
+                        "inverse-primary": "#c5c0ff",
+                        "outline": "#787584",
+                        "surface": "#fcf8ff",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#f6f2fc",
+                        "background": "#fcf8ff",
+                        "primary": "#3b309e",
+                        "surface-variant": "#e5e1eb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "container-padding": "20px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "gutter": "12px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "label-sm": ["Rubik"],
+                        "display-lg": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "headline-sm": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #FBFAF7; /* Using the requested Warm Professionalism cream background */
+            font-family: 'Rubik', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Smooth state transitions */
+        .btn-transition {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Tactile feedback for mobile */
+        .active-scale:active {
+            transform: scale(0.98);
+        }
+
+        /* Ink-Medium effect for subtext as per design system */
+        .text-ink-medium {
+            color: #474553;
+        }
+
+        .text-ink-light {
+            color: #787584;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-on-background">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-background/80 backdrop-blur-md flex items-center justify-between px-container-padding h-14 w-full">
+<button aria-label="חזרה" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-surface-container-high transition-colors duration-200">
+<span class="material-symbols-outlined text-primary" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<div class="absolute left-1/2 -translate-x-1/2">
+<img alt="Together Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBf2uAPdoKyMcv18qOYqU9NZ1iaGAhoIbYKTjvzdsCfL1FxjGmUO5m7fK4sFH6qj32UklvFrp6qB9Eyg36bhmwqwMh4MHEonuhNxA77xJnVXnqw6_e-9ri63CEcEfDkJTkmqkm7O3aDmEkIL-aTXGbIP0gPwxi58bSBFTYCnMBMxzzVG5ohcQKPWNNJYJ272uRUITzJdeMukssQn6aA7HOuyXQMkBWdrlH97RMn8b4iBppGRUVXrql0kJR5KfV-Hiem9MOv__7RURp2"/>
+</div>
+<div class="w-10"></div> <!-- Spacer for symmetry -->
+</header>
+<main class="flex-grow flex flex-col items-center justify-center px-container-padding pb-xl">
+<!-- Focused Content Area -->
+<div class="w-full max-w-md mx-auto text-center">
+<!-- Icon/Visual Header -->
+<div class="mb-lg inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary-fixed/30 text-primary">
+<span class="material-symbols-outlined !text-[40px]" data-icon="lock_reset">lock_reset</span>
+</div>
+<!-- Header Typography Anchor -->
+<div class="mb-xl">
+<h1 class="font-headline-md text-headline-md mb-sm text-on-background">
+                    שכחת סיסמה?
+                </h1>
+<p class="font-body-md text-body-md text-ink-medium max-w-[280px] mx-auto leading-relaxed">
+                    אל דאגה, הכנס את כתובת האימייל שלך ונשלח לך קישור לאיפוס הסיסמה.
+                </p>
+</div>
+<!-- Form -->
+<div class="space-y-lg text-right">
+<div class="flex flex-col gap-xs">
+<label class="font-label-md text-label-md text-ink-medium mr-2" for="email">
+                        אימייל
+                    </label>
+<input class="w-full h-[52px] px-md rounded-[14px] border border-[#E5E2DA] focus:border-primary focus:ring-1 focus:ring-primary outline-none bg-surface-container-lowest font-body-md text-on-surface transition-all duration-200" id="email" placeholder="example@email.com" required="" type="email"/>
+</div>
+<button class="w-full h-[52px] bg-primary text-on-primary font-headline-sm text-headline-sm-mobile rounded-[14px] shadow-sm hover:opacity-90 active-scale btn-transition">
+                    שלח קישור לאיפוס
+                </button>
+</div>
+<!-- Footer Navigation -->
+<div class="mt-xl">
+<a class="inline-flex items-center gap-xs text-primary font-label-md text-label-md hover:underline decoration-2 underline-offset-4 btn-transition" href="/login">
+                    חזרה להתחברות
+                    <span class="material-symbols-outlined !text-[18px]" data-icon="login">login</span>
+</a>
+</div>
+</div>
+</main>
+<!-- Support Banner (Small Bottom Section) -->
+<footer class="mt-auto py-lg text-center opacity-60">
+<p class="font-label-sm text-label-sm text-ink-light">
+            זקוקים לעזרה? <span class="text-primary font-medium cursor-pointer">צרו קשר עם התמיכה</span>
+</p>
+</footer>
+<script>
+        // Simple Interaction logic
+        document.querySelector('button').addEventListener('click', function(e) {
+            const emailInput = document.getElementById('email');
+            if (emailInput.value.includes('@')) {
+                // Mock success state
+                this.innerHTML = '<span class="material-symbols-outlined animate-spin" data-icon="progress_activity">progress_activity</span>';
+                this.disabled = true;
+                this.style.opacity = '0.7';
+                
+                setTimeout(() => {
+                    this.innerHTML = 'נשלח בהצלחה!';
+                    this.classList.remove('bg-primary');
+                    this.classList.add('bg-secondary');
+                    
+                    // Show a toast or feedback
+                    console.log('Reset link sent to: ' + emailInput.value);
+                }, 1500);
+            } else if (emailInput.value !== "") {
+                emailInput.classList.add('border-error');
+                setTimeout(() => emailInput.classList.remove('border-error'), 2000);
+            }
+        });
+    </script>
+</body></html>

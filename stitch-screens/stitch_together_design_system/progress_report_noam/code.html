@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareMatch - דוח התקדמות</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#fcf8ff",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "on-tertiary-container": "#ffc78c",
+                        "on-secondary-fixed": "#002117",
+                        "on-primary-fixed": "#140067",
+                        "outline": "#787584",
+                        "surface-container-highest": "#e5e1eb",
+                        "surface-variant": "#e5e1eb",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-background": "#1c1b22",
+                        "surface-container": "#f0ecf6",
+                        "background": "#fcf8ff",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "surface-dim": "#dcd8e2",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "secondary": "#086b53",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#167159",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "error-container": "#ffdad6",
+                        "inverse-primary": "#c5c0ff",
+                        "surface-container-high": "#ebe6f0",
+                        "on-primary-container": "#d1ccff",
+                        "surface-container-low": "#f6f2fc",
+                        "inverse-on-surface": "#f3eff9",
+                        "tertiary-fixed": "#ffdcbb",
+                        "secondary-fixed": "#a0f3d4",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#a0f3d4",
+                        "primary": "#3b309e",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#623900",
+                        "on-surface-variant": "#474553",
+                        "surface-bright": "#fcf8ff",
+                        "primary-fixed": "#e3dfff",
+                        "on-secondary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "tertiary-container": "#824e00",
+                        "primary-container": "#534ab7",
+                        "outline-variant": "#c8c4d5",
+                        "error": "#ba1a1a",
+                        "on-surface": "#1c1b22",
+                        "surface-tint": "#584fbc",
+                        "inverse-surface": "#312f37"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "8px",
+                        "xl": "14px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "container-padding": "20px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "label-md": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "display-lg": ["Rubik"],
+                        "headline-sm": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .progress-bar-fill {
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E5E2DA;
+        }
+        /* Hide scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top AppBar (JSON Driven: TopAppBar) -->
+<header class="fixed top-0 w-full z-50 bg-surface dark:bg-surface-container border-b border-outline-variant dark:border-outline flex items-center justify-between px-container-padding h-14">
+<div class="flex items-center gap-md">
+<button class="hover:bg-surface-container-low transition-colors p-2 rounded-full flex items-center justify-center active:opacity-80 duration-200">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">arrow_forward</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim">דוח התקדמות</h1>
+</div>
+<img alt="Together Logo" class="h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAtz15VBIC4v3FHhnbD6eWa1I0hgn6FA73wC_87RM53lbGdpOvCnCyh2U8IAgRX8PLtn-hG3XuScgXvBw2NiJjUj8CmvuDqndKDOHjmu4u5UKe_fAYsx18i33NkTl_VWo9V_DgXK2u8S1B9jeYOXEVxXEFT4AZZyDe2yq1jUmC9-cCLUM9GHy5t6vWB0Iy8fkT7xnOKGY35FCK2jGQXfeD7oFDHVARAYWoeseeieFYhVOk5-hFD7wHxYxQxhZMZcc_C7iCffx0xWZ8"/>
+</header>
+<main class="pt-20 pb-32 px-container-padding max-w-2xl mx-auto space-y-xl">
+<!-- Child Summary Section -->
+<section class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-md flex items-center gap-md">
+<div class="w-16 h-16 rounded-full overflow-hidden bg-primary-container flex items-center justify-center border-2 border-primary-fixed">
+<img class="w-full h-full object-cover" data-alt="A soft-focus, high-quality portrait of a smiling young boy with curly brown hair in a bright classroom setting. The lighting is warm and natural, reinforcing a sense of comfort and care. The style is clean, modern, and professional, aligning with a high-end caregiving application's warm minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZNCyzB5AYG2K_zP8EyQCADPUQP1hTZUUjG9q8lUWHJW_5t6lh97sNsOi63QyFQFqmr326iBasAjh4b8Rm7KviEujRNj2UaUCpBnzKtUyFKnVW9LZuYQW06T_tICcHs5O_OxajiBLsjgzQ95dEFZ_17gfCLT4Jzfi96jdTN1_jqBYnwrcITxK3Ax8tjtubvCTPgvrneBUb2E5kGM8MFQkbVPKjseZaBefBgcMJ6EVulSoL_Zqr5B-HWP-BYk8XWJLhTHuXAZfAoV5D"/>
+</div>
+<div class="flex-1">
+<div class="text-label-sm font-label-sm text-outline mb-1 uppercase tracking-wider">פרופיל ילד</div>
+<h2 class="text-headline-sm font-headline-sm text-on-surface">נועם</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">פברואר 2024</p>
+</div>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-label-sm font-label-sm">
+                    דוח חודשי
+                </div>
+</div>
+</section>
+<!-- Goal Tracking Section -->
+<section class="space-y-md">
+<div class="flex items-center justify-between">
+<h3 class="text-headline-sm font-headline-sm text-primary">מעקב יעדים</h3>
+<span class="material-symbols-outlined text-outline">monitoring</span>
+</div>
+<div class="grid gap-md">
+<!-- Goal Item: Communication -->
+<div class="bg-white border border-[#E5E2DA] rounded-xl p-md space-y-sm hover:border-primary transition-colors">
+<div class="flex justify-between items-center">
+<span class="text-label-md font-label-md text-on-surface">תקשורת</span>
+<span class="text-label-md font-label-md text-primary font-bold">75%</span>
+</div>
+<div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+<div class="progress-bar-fill h-full bg-primary rounded-full" style="width: 75%"></div>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">שיפור ביוזמת שיחה והבעת רצונות</p>
+</div>
+<!-- Goal Item: Motor Skills -->
+<div class="bg-white border border-[#E5E2DA] rounded-xl p-md space-y-sm hover:border-primary transition-colors">
+<div class="flex justify-between items-center">
+<span class="text-label-md font-label-md text-on-surface">מיומנויות מוטוריות</span>
+<span class="text-label-md font-label-md text-primary font-bold">60%</span>
+</div>
+<div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+<div class="progress-bar-fill h-full bg-primary opacity-80 rounded-full" style="width: 60%"></div>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">התקדמות במוטוריקה עדינה (אחיזת עיפרון)</p>
+</div>
+<!-- Goal Item: Social Integration -->
+<div class="bg-white border border-[#E5E2DA] rounded-xl p-md space-y-sm hover:border-primary transition-colors">
+<div class="flex justify-between items-center">
+<span class="text-label-md font-label-md text-on-surface">שילוב חברתי</span>
+<span class="text-label-md font-label-md text-secondary font-bold">85%</span>
+</div>
+<div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+<div class="progress-bar-fill h-full bg-secondary rounded-full" style="width: 85%"></div>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">השתתפות פעילה במשחקי קבוצה</p>
+</div>
+<!-- Goal Item: Emotional Regulation -->
+<div class="bg-white border border-[#E5E2DA] rounded-xl p-md space-y-sm hover:border-primary transition-colors">
+<div class="flex justify-between items-center">
+<span class="text-label-md font-label-md text-on-surface">ויסות רגשי</span>
+<span class="text-label-md font-label-md text-on-tertiary-fixed-variant font-bold">50%</span>
+</div>
+<div class="w-full bg-surface-container h-3 rounded-full overflow-hidden">
+<div class="progress-bar-fill h-full bg-tertiary-container rounded-full" style="width: 50%"></div>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">למידה של טכניקות הרגעה עצמית</p>
+</div>
+</div>
+</section>
+<!-- Aide's Notes Section -->
+<section class="space-y-md">
+<h3 class="text-headline-sm font-headline-sm text-primary">הערות המשלבת</h3>
+<div class="relative bg-primary-container/10 border border-primary-fixed-dim rounded-xl p-lg overflow-hidden">
+<!-- Atmospheric background element -->
+<div class="absolute -top-10 -left-10 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="flex items-start gap-md relative z-10">
+<span class="material-symbols-outlined text-primary mt-1">format_quote</span>
+<p class="text-body-md font-body-md text-on-surface leading-relaxed">
+                        נועם הראה התקדמות משמעותית בשבוע האחרון בתקשורת עם קבוצת השווים. הוא התחיל ליזום משחק משותף, הראה סבלנות בהמתנה לתורו והביע את תחושותיו במילים בצורה ברורה יותר מבעבר.
+                    </p>
+</div>
+<div class="mt-md pt-md border-t border-primary-fixed-dim/30 flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-8 h-8 rounded-full bg-surface border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<span class="text-label-sm font-label-sm text-on-surface-variant">דנה, משלבת מוסמכת</span>
+</div>
+<span class="text-label-sm font-label-sm text-outline">24.02.2024</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Actions Container -->
+<div class="fixed bottom-16 w-full px-container-padding pb-md bg-gradient-to-t from-surface via-surface/90 to-transparent pt-8">
+<button class="w-full h-[52px] bg-primary text-on-primary rounded-xl flex items-center justify-center gap-sm hover:opacity-90 active:scale-95 transition-all shadow-md">
+<span class="material-symbols-outlined">download</span>
+<span class="text-body-md font-bold">הורדת דוח PDF</span>
+</button>
+</div>
+<!-- Bottom Navigation (JSON Driven: BottomNavBar) -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface dark:bg-surface-container-lowest border-t border-outline-variant dark:border-outline flex justify-around items-center h-16 px-4 pb-safe">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-opacity active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">בית</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed-dim font-bold hover:bg-surface-container-high transition-opacity active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">assignment</span>
+<span class="font-label-sm text-label-sm">בקשות</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-opacity active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">chat</span>
+<span class="font-label-sm text-label-sm">הודעות</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-high transition-opacity active:scale-95 duration-150" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">פרופיל</span>
+</a>
+</nav>
+<script>
+        // Micro-interactions for progress bars on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.progress-bar-fill');
+            bars.forEach(bar => {
+                const targetWidth = bar.style.width;
+                bar.style.width = '0%';
+                setTimeout(() => {
+                    bar.style.width = targetWidth;
+                }, 300);
+            });
+        });
+    </script>
+</body></html>

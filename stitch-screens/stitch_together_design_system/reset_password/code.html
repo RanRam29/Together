@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#84d6b9",
+                        "surface-dim": "#dcd8e2",
+                        "inverse-surface": "#312f37",
+                        "surface-container-high": "#ebe6f0",
+                        "surface-container-low": "#f6f2fc",
+                        "on-background": "#1c1b22",
+                        "on-secondary-fixed": "#002117",
+                        "primary-fixed": "#e3dfff",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "on-tertiary-container": "#ffc78c",
+                        "surface-container-highest": "#e5e1eb",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1c1b22",
+                        "secondary-fixed": "#a0f3d4",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#824e00",
+                        "surface-variant": "#e5e1eb",
+                        "on-secondary-container": "#167159",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "on-primary-fixed": "#140067",
+                        "inverse-primary": "#c5c0ff",
+                        "surface-tint": "#584fbc",
+                        "on-primary-container": "#d1ccff",
+                        "surface-container": "#f0ecf6",
+                        "surface-bright": "#fcf8ff",
+                        "primary-container": "#534ab7",
+                        "secondary-container": "#a0f3d4",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-surface-variant": "#474553",
+                        "primary": "#3b309e",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "tertiary": "#623900",
+                        "outline-variant": "#c8c4d5",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#086b53",
+                        "on-error": "#ffffff",
+                        "outline": "#787584",
+                        "surface": "#fcf8ff",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f3eff9",
+                        "error": "#ba1a1a",
+                        "background": "#fcf8ff",
+                        "tertiary-fixed": "#ffdcbb",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "container-padding": "20px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "gutter": "12px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Rubik"],
+                        "label-md": ["Rubik"],
+                        "headline-sm": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "display-lg": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #FBFAF7;
+            font-family: 'Rubik', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .paper-layer {
+            position: relative;
+            background: #ffffff;
+            border: 1px solid #E5E2DA;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-on-surface">
+<!-- Top App Bar (Shared Component Logic) -->
+<header class="w-full top-0 flex items-center justify-between px-container-padding h-14 w-full bg-background transition-opacity duration-200">
+<button aria-label="חזרה" class="flex items-center justify-center w-10 h-10 hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</button>
+<div class="flex-1 flex justify-center">
+<img alt="Together Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfLOIbEDQslWLPV6GqXgdc0cxndluKRrdku469vKOyUK0la53AaXlyzjH93subeNQBkRr2yVTnGCmK8Tf1UxyUAhPHDdkEXASU4dbVHeCioVSJtLtdIpZtJFz_hiEqDDjJj2IWK0yZSeVH7LoouoBGqpjhN-7Nzrwn04felgOJFJoODME9U12-xS8Sc0eOTOOAFzkofvrlssZ9z-Ve08kJpXzlEhfS5yjM1RNhD4DZpFGM-Qc8L2eWn-Dj9SdsupI9rijwheeynxnG"/>
+</div>
+<div class="w-10"></div> <!-- Spacer for centering logo -->
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col px-container-padding pt-xl pb-lg max-w-md mx-auto w-full">
+<!-- Screen Header -->
+<div class="mb-xl text-right">
+<p class="font-label-md text-label-md text-outline mb-base">אבטחה</p>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-sm">איפוס סיסמה</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">אנא בחרו סיסמה חדשה ומאובטחת עבור החשבון שלכם.</p>
+</div>
+<!-- Form Section -->
+<form class="space-y-lg flex-1">
+<!-- New Password Field -->
+<div class="space-y-sm">
+<label class="font-label-md text-label-md text-on-surface-variant block" for="new_password">סיסמה חדשה</label>
+<div class="relative">
+<input class="w-full h-[52px] px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-[14px] text-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-outline-variant text-right" id="new_password" placeholder="הזינו סיסמה חדשה" type="password"/>
+<button class="absolute left-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" onclick="togglePassword('new_password', this)" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Confirm Password Field -->
+<div class="space-y-sm">
+<label class="font-label-md text-label-md text-on-surface-variant block" for="confirm_password">אימות סיסמה</label>
+<div class="relative">
+<input class="w-full h-[52px] px-md py-sm bg-surface-container-lowest border border-outline-variant rounded-[14px] text-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-outline-variant text-right" id="confirm_password" placeholder="הזינו את הסיסמה שוב" type="password"/>
+<button class="absolute left-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" onclick="togglePassword('confirm_password', this)" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Security Requirements (Micro-interaction indicator) -->
+<div class="p-md paper-layer rounded-xl space-y-sm">
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span class="font-label-sm text-label-sm">לפחות 8 תווים</span>
+</div>
+<div class="flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-[18px]">radio_button_unchecked</span>
+<span class="font-label-sm text-label-sm">שילוב של אותיות ומספרים</span>
+</div>
+</div>
+</form>
+<!-- Action Footer -->
+<div class="mt-xl space-y-md">
+<button class="w-full h-[52px] bg-primary text-on-primary font-label-md text-label-md rounded-[14px] shadow-sm active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+<span>שמירת סיסמה</span>
+<span class="material-symbols-outlined text-[20px]">lock_reset</span>
+</button>
+<div class="flex justify-center py-base">
+<a class="font-label-md text-label-md text-primary flex items-center gap-1 hover:underline decoration-2 underline-offset-4" href="#">
+<span class="material-symbols-outlined text-[18px]">arrow_back</span>
+<span>חזרה להתחברות</span>
+</a>
+</div>
+</div>
+</main>
+<!-- Subtle atmospheric decoration (Vanilla JS interaction for background feel) -->
+<div class="fixed -bottom-20 -right-20 w-64 h-64 bg-primary/5 blur-[100px] pointer-events-none rounded-full" id="glow"></div>
+<script>
+        function togglePassword(inputId, btn) {
+            const input = document.getElementById(inputId);
+            const icon = btn.querySelector('.material-symbols-outlined');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerText = 'visibility_off';
+                icon.classList.add('text-primary');
+            } else {
+                input.type = 'password';
+                icon.innerText = 'visibility';
+                icon.classList.remove('text-primary');
+            }
+        }
+
+        // Micro-interaction for feedback
+        document.querySelector('button.bg-primary').addEventListener('click', function() {
+            this.innerHTML = '<span class="animate-spin material-symbols-outlined text-[20px]">progress_activity</span> <span>מעדכן...</span>';
+            setTimeout(() => {
+                this.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span> <span>הסיסמה עודכנה בהצלחה</span>';
+                this.classList.replace('bg-primary', 'bg-secondary');
+            }, 1500);
+        });
+    </script>
+</body></html>

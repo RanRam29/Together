@@ -133,6 +133,18 @@ export function ParentOnboarding() {
       subtitle={step === 1 ? t("auth.parentOnboarding.subtitle") : step === 3 ? "המידע הזה נשאר אצלך — משלבת תראה רק מה שתאשר/י בשלבים מתקדמים" : undefined}
     >
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
+        {/* Progress bar — S-PAR-10 / P-02 */}
+        <View className="flex-row gap-2 mb-6" accessibilityRole="progressbar">
+          {[1, 2, 3].map((s) => (
+            <View
+              key={s}
+              className={`h-1.5 flex-1 rounded-full ${
+                s <= step ? "bg-purple" : "bg-surface-2"
+              }`}
+            />
+          ))}
+        </View>
+
         {step === 1 && (
           <View>
             <Text className="text-sm font-bold text-purple mb-3 font-rubik">

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Together - צרכים ואבחנה</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#e3dfff",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "secondary-container": "#a0f3d4",
+                        "on-primary-container": "#d1ccff",
+                        "tertiary": "#623900",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "surface-dim": "#dcd8e2",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#ebe6f0",
+                        "inverse-surface": "#312f37",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1c1b22",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#086b53",
+                        "on-primary-fixed": "#140067",
+                        "surface-container": "#f0ecf6",
+                        "outline-variant": "#c8c4d5",
+                        "inverse-primary": "#c5c0ff",
+                        "on-secondary-container": "#167159",
+                        "surface-container-low": "#f6f2fc",
+                        "tertiary-container": "#824e00",
+                        "primary-container": "#534ab7",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e5e1eb",
+                        "secondary-fixed": "#a0f3d4",
+                        "on-surface-variant": "#474553",
+                        "primary": "#3b309e",
+                        "background": "#fcf8ff",
+                        "on-error": "#ffffff",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#fcf8ff",
+                        "surface": "#fcf8ff",
+                        "surface-tint": "#584fbc",
+                        "outline": "#787584",
+                        "on-tertiary-container": "#ffc78c",
+                        "on-surface": "#1c1b22",
+                        "inverse-on-surface": "#f3eff9",
+                        "surface-variant": "#e5e1eb",
+                        "on-secondary-fixed": "#002117",
+                        "tertiary-fixed": "#ffdcbb",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "on-tertiary-fixed": "#2b1700"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "20px",
+                        "gutter": "12px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "xl": "32px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Rubik"],
+                        "label-md": ["Rubik"],
+                        "headline-sm": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "label-sm": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["30px", { "lineHeight": "38px", "fontWeight": "700" }],
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "26px", "fontWeight": "400" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Rubik', sans-serif; background-color: #FBFAF7; color: #1c1b22; }
+        .input-focus:focus-within { border-color: #3b309e; border-width: 2px; }
+        .chip-selected { background-color: #3b309e; color: #ffffff; border-color: #3b309e; }
+        .chip-unselected { background-color: #ffffff; color: #474553; border-color: #E5E2DA; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col items-center">
+<div class="w-full max-w-[414px] bg-[#FBFAF7] min-h-screen relative flex flex-col shadow-xl">
+<!-- TopAppBar -->
+<header class="bg-[#FBFAF7] flex items-center justify-between px-container-padding h-14 w-full shrink-0">
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity duration-200 p-2 -mr-2">
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<div class="flex-1 flex justify-center">
+<img alt="Together Logo" class="h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBkNe9CoCJ6xi0tx1dJIpmw-k177g8XNPZvpii-b0JwlNePrWCw-gYCiPN1NmzSjXSzQ6QlQGqfsEKHEGKuaPaplLXNTYGl3D_75U1lzlPZYovC6E29B9eTjxmx74vrO_dYkAZUVSL1Gv4__mXcPOJKyiELRDNWIbOdhQvxy3b0-UXOT4Z229UVdFxA97bbP1gGdqhT0kfucfAXI5XMJ3IhqtplAByGxH5Ps7wkYe0BndEelNtw1XQjISKrwO1ILV3RaJ5AZGASxpfZ"/>
+</div>
+<div class="w-10"></div> <!-- Spacer -->
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col px-container-padding pt-4 pb-[84px] overflow-y-auto">
+<!-- Header Section -->
+<div class="mb-xl">
+<p class="font-label-md text-label-md text-on-surface-variant mb-sm">פרופיל ילד</p>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-md">שלב 3: צרכים ואבחנה</h1>
+<!-- Progress Bar -->
+<div class="flex items-center gap-2 mb-md w-full">
+<div class="h-2 flex-1 rounded-full bg-primary"></div>
+<div class="h-2 flex-1 rounded-full bg-primary"></div>
+<div class="h-2 flex-1 rounded-full bg-primary"></div>
+</div>
+<div class="bg-surface-container-low border border-outline-variant rounded-[14px] p-4 flex gap-3 items-start">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">lock</span>
+<p class="font-body-md text-body-md text-on-surface">המידע הזה נשאר אצלך — משלבת תראה רק מה שתאשר/י בשלבים מתקדמים</p>
+</div>
+</div>
+<!-- Form Fields -->
+<div class="flex flex-col gap-lg flex-1">
+<!-- General Diagnosis -->
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface">אבחנה כללית</label>
+<div class="relative w-full input-focus rounded-[14px] border border-[#E5E2DA] bg-white transition-all">
+<select class="w-full bg-transparent font-body-md text-body-md text-on-surface py-3 px-4 appearance-none outline-none rounded-[14px] cursor-pointer">
+<option disabled="" selected="" value="">בחר/י אבחנה...</option>
+<option value="autism">אוטיזם (ASD)</option>
+<option value="adhd">הפרעת קשב וריכוז (ADHD)</option>
+<option value="cp">שיתוק מוחין (CP)</option>
+<option value="other">אחר</option>
+</select>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Functioning Level -->
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface">רמת תפקוד</label>
+<div class="flex gap-3">
+<button class="flex-1 py-3 px-2 rounded-[14px] border chip-unselected font-label-md text-label-md text-center transition-colors">גבוהה</button>
+<button class="flex-1 py-3 px-2 rounded-[14px] border chip-selected font-label-md text-label-md text-center transition-colors">בינונית</button>
+<button class="flex-1 py-3 px-2 rounded-[14px] border chip-unselected font-label-md text-label-md text-center transition-colors">נמוכה</button>
+</div>
+</div>
+<!-- Communication -->
+<div class="flex flex-col gap-sm mb-lg">
+<label class="font-label-md text-label-md text-on-surface">תקשורת (ניתן לבחור יותר מאחד)</label>
+<div class="flex flex-wrap gap-3">
+<button class="py-2 px-4 rounded-[14px] border chip-selected font-body-md text-body-md transition-colors flex items-center gap-2">
+<span>ורבלי</span>
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<button class="py-2 px-4 rounded-[14px] border chip-unselected font-body-md text-body-md transition-colors">לא ורבלי</button>
+<button class="py-2 px-4 rounded-[14px] border chip-unselected font-body-md text-body-md transition-colors">תקשורת חלופית (תת"ח)</button>
+<button class="py-2 px-4 rounded-[14px] border chip-unselected font-body-md text-body-md transition-colors">ג'סטות</button>
+</div>
+<div class="mt-2 w-full input-focus rounded-[14px] border border-[#E5E2DA] bg-white transition-all overflow-hidden">
+<textarea class="w-full bg-transparent font-body-md text-body-md text-on-surface py-3 px-4 outline-none resize-none min-h-[100px]" placeholder="פירוט נוסף לגבי תקשורת (אופציונלי)..."></textarea>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action -->
+<div class="fixed bottom-0 w-full max-w-[414px] p-container-padding bg-gradient-to-t from-[#FBFAF7] via-[#FBFAF7] to-transparent pb-safe">
+<button class="w-full bg-primary hover:opacity-90 active:scale-95 transition-all text-on-primary font-headline-sm text-headline-sm rounded-[14px] h-[52px] flex items-center justify-center shadow-sm">
+                סיום יצירת הפרופיל
+            </button>
+</div>
+</div>
+<script>
+        // Simple script to handle chip toggling for demonstration
+        document.addEventListener('DOMContentLoaded', () => {
+            const groups = [
+                document.querySelectorAll('div.flex.gap-3 > button'), // Functioning level
+                document.querySelectorAll('div.flex.flex-wrap.gap-3 > button') // Communication
+            ];
+
+            groups[0].forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    groups[0].forEach(b => {
+                        b.classList.remove('chip-selected');
+                        b.classList.add('chip-unselected');
+                    });
+                    e.target.classList.remove('chip-unselected');
+                    e.target.classList.add('chip-selected');
+                });
+            });
+
+             groups[1].forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const t = e.currentTarget;
+                    if(t.classList.contains('chip-selected')) {
+                        t.classList.remove('chip-selected');
+                        t.classList.add('chip-unselected');
+                        const icon = t.querySelector('.material-symbols-outlined');
+                        if(icon) icon.remove();
+                    } else {
+                        t.classList.remove('chip-unselected');
+                        t.classList.add('chip-selected');
+                        if(!t.querySelector('.material-symbols-outlined')){
+                             t.innerHTML += `<span class="material-symbols-outlined text-[18px]">check</span>`;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>

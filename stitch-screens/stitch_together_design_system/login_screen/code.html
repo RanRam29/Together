@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>בשילוב - התחברות</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-highest": "#e5e1eb",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "on-tertiary-container": "#ffc78c",
+                        "tertiary-container": "#824e00",
+                        "surface-variant": "#e5e1eb",
+                        "on-secondary-container": "#167159",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "on-primary-fixed": "#140067",
+                        "inverse-primary": "#c5c0ff",
+                        "on-surface": "#1c1b22",
+                        "secondary-fixed": "#a0f3d4",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#dcd8e2",
+                        "inverse-surface": "#312f37",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "on-secondary-fixed": "#002117",
+                        "primary-fixed": "#e3dfff",
+                        "surface-container-high": "#ebe6f0",
+                        "surface-container-low": "#f6f2fc",
+                        "on-background": "#1c1b22",
+                        "secondary": "#086b53",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#c8c4d5",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "background": "#FBFAF7",
+                        "tertiary-fixed": "#ffdcbb",
+                        "error-container": "#ffdad6",
+                        "outline": "#787584",
+                        "surface": "#FBFAF7",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f3eff9",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fcf8ff",
+                        "primary-container": "#534ab7",
+                        "secondary-container": "#a0f3d4",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-surface-variant": "#474553",
+                        "surface-tint": "#584fbc",
+                        "on-primary-container": "#d1ccff",
+                        "surface-container": "#f0ecf6",
+                        "primary": "#3b309e",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "tertiary": "#623900"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "14px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "lg": "24px",
+                        "container-padding": "20px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Rubik"],
+                        "label-md": ["Rubik"],
+                        "headline-sm": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "display-lg": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #FBFAF7;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .paper-border {
+            border: 1px solid #E5E2DA;
+        }
+        .primary-btn {
+            height: 52px;
+            transition: all 0.2s ease;
+        }
+        .primary-btn:active {
+            opacity: 0.8;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center">
+<!-- Top AppBar Style Header (Toggle only) -->
+<header class="w-full px-container-padding h-14 flex items-center justify-end">
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low paper-border hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">language</span>
+<span class="font-label-md text-label-md">עברית / English</span>
+</button>
+</header>
+<main class="w-full max-w-[414px] flex-1 flex flex-col px-container-padding pb-lg">
+<!-- Hero Section -->
+<div class="mt-8 mb-xl flex flex-col items-center">
+<div class="w-48 h-48 mb-lg flex items-center justify-center">
+<img alt="בשילוב לוגו" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6fsY9Ney-w8EiwXs1nsIBJor3XAyvaUXsmiqfYVa5Y7JV8HclYmTGzqI4JIx17ICB5yCKVhlmsXmXRFWVbqmiAiX9OUPnNcXlaZZ0ch_kUpHNnGbq0p83ctp_7_TwFY32FCqVbDQudBlV0dtZ5mNM0z-ApE0iinIYX_7MMD4vGiiokuwID5Iu0vWB5DgudU2o-fzX-OY0akhQSib9-45PJzqmwufLJhh3hhABRZk4i1HY3K9THhwr8DR-tDbYjVHsVu_98P-SE2A4"/>
+</div>
+<h1 class="font-headline-md text-headline-md text-on-surface text-center">התחברות לחשבון</h1>
+</div>
+<!-- Form Section -->
+<form class="space-y-lg" onsubmit="event.preventDefault();">
+<!-- Email -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant mr-1" for="email">אימייל</label>
+<input class="w-full h-[52px] px-md rounded-xl paper-border bg-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md text-body-md" dir="ltr" id="email" placeholder="example@email.com" type="email"/>
+</div>
+<!-- Password -->
+<div class="flex flex-col gap-2 relative">
+<label class="font-label-md text-label-md text-on-surface-variant mr-1" for="password">סיסמה</label>
+<div class="relative">
+<input class="w-full h-[52px] px-md pl-12 rounded-xl paper-border bg-white focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md text-body-md" dir="ltr" id="password" placeholder="********" type="password"/>
+<button class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary transition-colors" onclick="togglePassword()" type="button">
+<span class="material-symbols-outlined" id="passIcon">visibility</span>
+</button>
+</div>
+<div class="flex justify-start">
+<a class="text-primary font-label-md text-label-md mt-1 hover:underline" href="#">שכחת סיסמה?</a>
+</div>
+</div>
+<!-- Main Action -->
+<div class="pt-base">
+<button class="w-full primary-btn bg-primary-container text-white rounded-xl font-headline-sm text-headline-sm flex items-center justify-center shadow-sm" type="submit">
+                    התחברות
+                </button>
+</div>
+<!-- Divider -->
+<div class="flex items-center gap-4 py-4">
+<div class="h-[1px] flex-1 bg-outline-variant"></div>
+<span class="font-label-md text-label-md text-on-surface-variant">או</span>
+<div class="h-[1px] flex-1 bg-outline-variant"></div>
+</div>
+<!-- Social Login -->
+<button class="w-full h-[52px] flex items-center justify-center gap-3 rounded-xl paper-border bg-white hover:bg-surface-container-low transition-all font-body-md text-body-md text-on-surface" type="button">
+<svg fill="none" height="20" viewbox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+                התחברות עם גוגל
+            </button>
+</form>
+<!-- Footer -->
+<div class="mt-auto pt-xl text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                אין לך חשבון? 
+                <a class="text-primary font-bold hover:underline" href="#">הרשמה</a>
+</p>
+</div>
+</main>
+<script>
+        function togglePassword() {
+            const input = document.getElementById('password');
+            const icon = document.getElementById('passIcon');
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.innerText = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.innerText = 'visibility';
+            }
+        }
+    </script>
+</body></html>

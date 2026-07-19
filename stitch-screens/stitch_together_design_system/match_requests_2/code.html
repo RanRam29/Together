@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+
+<html class="light" dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>בקשות ממתינות | בשילוב</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#002117",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "secondary-fixed": "#a0f3d4",
+                        "outline-variant": "#c8c4d5",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dcd8e2",
+                        "surface-bright": "#fcf8ff",
+                        "on-surface-variant": "#474553",
+                        "tertiary": "#623900",
+                        "background": "#fcf8ff",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "on-background": "#1c1b22",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "surface-container-highest": "#e5e1eb",
+                        "tertiary-container": "#824e00",
+                        "primary-container": "#534ab7",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-tertiary-container": "#ffc78c",
+                        "surface-container-high": "#ebe6f0",
+                        "secondary-container": "#a0f3d4",
+                        "error-container": "#ffdad6",
+                        "surface-tint": "#584fbc",
+                        "tertiary-fixed": "#ffdcbb",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-low": "#f6f2fc",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e5e1eb",
+                        "outline": "#787584",
+                        "on-primary-container": "#d1ccff",
+                        "on-primary-fixed": "#140067",
+                        "surface": "#fcf8ff",
+                        "on-surface": "#1c1b22",
+                        "primary-fixed": "#e3dfff",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "inverse-surface": "#312f37",
+                        "inverse-primary": "#c5c0ff",
+                        "on-secondary-container": "#167159",
+                        "secondary": "#086b53",
+                        "inverse-on-surface": "#f3eff9",
+                        "primary": "#3b309e",
+                        "surface-container": "#f0ecf6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "gutter": "12px",
+                        "container-padding": "20px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "label-md": ["Rubik"],
+                        "headline-sm": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "label-sm": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Rubik', sans-serif;
+            background-color: #FBFAF7; /* Custom warm off-white for the body */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .paper-card {
+            border: 1px solid #E5E2DA;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .paper-card:active {
+            transform: scale(0.98);
+        }
+        /* Custom scrollbar for horizontal chips */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="text-on-background min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="bg-background dark:bg-on-background w-full top-0 sticky border-b border-outline-variant z-40">
+<div class="flex flex-row-reverse items-center justify-between px-container-padding h-16 w-full">
+<div class="flex items-center gap-2">
+<img alt="Logo" class="h-10 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8qiW4yk_10z3zhCWElOwoiKr2BEJmhUVmzFTLsExnO2uLKrp-OEJVxpZh0fqQZdsGUibP_eVFf5z_FJjQry-mecEgB0iJIUYf46BZ7nuk3KPCIBBRKpBolFaSjBCht7hnZr43sh4DclKavVdQwIYhY-SgWiELPIJ55QPvtY5Gp_A8EX-kr4ER4nmsHc-sW41Fxnxsub49eQGpsEYmm-sFCSNhhMkiC9Z0cy1PsBbKQfdvp2MBWzpBR3igai4586TfOfvYU5fAROxN"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional and friendly headshot of a female caregiver in her 30s, wearing a soft pastel-colored shirt. She has a warm, empathetic expression and short dark hair. The background is a clean, bright minimalist indoor setting with natural sunlight pouring in from a window, emphasizing a trustworthy and reliable professional persona in a modern light-mode UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBEC7lHniC7DLMz38NB1LLnmsjlb-PanBCl8xcVOWnyMYKeSczBP9LKoGTarnBnIKGY8w0VoXbgw2tiebTmgVS4epxcWX_zLa-_181o3KJgs0ELmQmz-iyPc7Bfb5fAVAcE5sKdVWCoh2RfZhoJpaLsKluDJTbz6xnexnbm003tbhyuJaMtzQ9E-3YxhYqtpC6KrZQ8XQzrZVWrsPJ7aepfjG6uAz02qWGNz-uoE1GvBNg7zR2jJFiuD-Ob3hJAyqohGy1bLDT-plcw"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-md mx-auto px-container-padding pt-6">
+<!-- Screen Header -->
+<div class="mb-lg">
+<p class="font-label-sm text-label-sm text-outline uppercase tracking-wider mb-xs">מרכז ניהול</p>
+<h1 class="font-headline-md text-headline-md text-on-surface">בקשות ממתינות</h1>
+</div>
+<!-- Tab Navigation -->
+<div class="flex border-b border-outline-variant mb-xl">
+<button class="flex-1 py-3 text-center border-b-2 border-primary text-primary font-label-md text-label-md">
+                ממתינות (3)
+            </button>
+<button class="flex-1 py-3 text-center text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-low transition-colors">
+                אושרו
+            </button>
+</div>
+<!-- Request Cards List -->
+<div class="space-y-md">
+<!-- Request Card 1 -->
+<div class="paper-card bg-surface rounded-xl p-md flex flex-col relative overflow-hidden">
+<div class="absolute top-0 right-0 h-1 w-full bg-secondary opacity-20"></div>
+<div class="flex flex-row-reverse gap-md mb-md">
+<div class="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A warm and gentle portrait of a mother in her late 20s with a kind smile, looking directly at the camera. She is in a cozy, sunlit living room with minimalist decor and soft beige walls. The lighting is bright and airy, reflecting a premium medical-adjacent marketplace aesthetic focused on family care and professional trust." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvuKVQ4pOOMHu9zMXXTd2IC4ObjmX7CnNP38sETVzXmNTmUUQjo4Jf68IZQSRmHfivgaitTCmfinHMhJ6VXqY2LDeaZm_T34cevZ0PjyHLZBjCvzpklBvQju3NgP7HK2e4Zn9vhpkDCwmvU5B3dniQiUBBK0-cadlb7lRBTG6uzT3qZl5YKdC7kpDzTFFu8UISB4KPpew_J1zLDwevUOElGW8YSr6ODVghFhtxnLu_0yKicQHD4cAapV-R4C6flDEYh4_ZL_HfOC-_"/>
+</div>
+<div class="flex-grow text-right">
+<div class="flex justify-between items-start flex-row-reverse">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[12px] font-bold bg-secondary-container text-on-secondary-container">
+                                95% התאמה
+                            </span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">מיכל לוי</h3>
+</div>
+<p class="font-label-md text-label-md text-outline">אמא של נועם, בן 6</p>
+</div>
+</div>
+<div class="space-y-sm mb-lg">
+<div class="flex items-center gap-2 text-right justify-end">
+<span class="font-body-md text-body-md text-on-surface-variant">ב' - ה', 08:00-13:00</span>
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="schedule">schedule</span>
+</div>
+<div class="flex items-center gap-2 text-right justify-end">
+<span class="font-body-md text-body-md text-on-surface-variant">תל אביב, צפון העיר</span>
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="location_on">location_on</span>
+</div>
+</div>
+<div class="flex gap-md">
+<button class="flex-1 h-[52px] bg-primary text-on-primary rounded-xl font-label-md text-label-md active:opacity-90 transition-opacity">
+                        אשר
+                    </button>
+<button class="flex-1 h-[52px] border border-outline text-primary rounded-xl font-label-md text-label-md active:bg-surface-container transition-colors">
+                        דחה
+                    </button>
+</div>
+</div>
+<!-- Request Card 2 -->
+<div class="paper-card bg-surface rounded-xl p-md flex flex-col relative overflow-hidden">
+<div class="absolute top-0 right-0 h-1 w-full bg-secondary opacity-20"></div>
+<div class="flex flex-row-reverse gap-md mb-md">
+<div class="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A portrait of a father in his early 40s, appearing supportive and approachable. He is sitting in a modern office with light wood furniture and soft professional lighting. The style is minimalist and high-end, using a warm color palette to convey security and domestic peace within a high-stakes caregiving platform context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4dkczFzlM4QB__mAS2kOVgGnXsY84Y8Gn33JqUEEtQSk7nxWqVx3RxHsqZ_xC8gd2YX64bKkbvd4LlL6NWCnaqzdWNDHRKEhmLlUj2YrL9ggGvKDzl5mFuz0vJS18LUwFQLu3OPvBHFsAhFJRMFKbKlBqlW-5yPSyQ1o5jCqwVcdsP2qLTw6IiUWuye8_iGlKixyqsozeCUQ9HTidxKEf9YGDwqDEr-qU8FDbkFiU8ifwBoAgzm3gmzwQEqS1jQ56Pm7SwDtIWLIm"/>
+</div>
+<div class="flex-grow text-right">
+<div class="flex justify-between items-start flex-row-reverse">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[12px] font-bold bg-secondary-container text-on-secondary-container">
+                                88% התאמה
+                            </span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">איתי אברהם</h3>
+</div>
+<p class="font-label-md text-label-md text-outline">אבא של רוני, בת 4</p>
+</div>
+</div>
+<div class="space-y-sm mb-lg">
+<div class="flex items-center gap-2 text-right justify-end">
+<span class="font-body-md text-body-md text-on-surface-variant">ג', 14:00-19:00</span>
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="schedule">schedule</span>
+</div>
+<div class="flex items-center gap-2 text-right justify-end">
+<span class="font-body-md text-body-md text-on-surface-variant">רמת גן, מרכז</span>
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="location_on">location_on</span>
+</div>
+</div>
+<div class="flex gap-md">
+<button class="flex-1 h-[52px] bg-primary text-on-primary rounded-xl font-label-md text-label-md active:opacity-90 transition-opacity">
+                        אשר
+                    </button>
+<button class="flex-1 h-[52px] border border-outline text-primary rounded-xl font-label-md text-label-md active:bg-surface-container transition-colors">
+                        דחה
+                    </button>
+</div>
+</div>
+<!-- Request Card 3 -->
+<div class="paper-card bg-surface rounded-xl p-md flex flex-col relative overflow-hidden">
+<div class="absolute top-0 right-0 h-1 w-full bg-secondary opacity-20"></div>
+<div class="flex flex-row-reverse gap-md mb-md">
+<div class="w-16 h-16 rounded-xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A cheerful woman in her mid-30s with a professional yet warm presence, wearing a white organic cotton blouse. She is standing in a brightly lit kitchen with minimalist white cabinetry and a touch of greenery. The visual style is crisp, clean, and empathetic, designed for a premium caregiving service interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpmazrGrBZzVMeCEqxK32cWe3cILzPeqMukD0jJggEmq8-bSvzYf-AMj9SDcC7sIyXBSPYhPznTvvg3DYx-ZsMW5y2x_dRWYHzsKKl8Ybce9Eco4ECo519mbULAKDJobUkefQmDwTOJWHohGBTlhLkawNBZRFwwb8w9G9a6WQIwTT9wlWtkJbW8SAb9poGjA1SMbQE2U39oD2dpsYla3cAzzO77a3qOIHeulVfOpyGPZAdTzvQsaqMkNqIxnxAD-zW0QoDt33J3KRV"/>
+</div>
+<div class="flex-grow text-right">
+<div class="flex justify-between items-start flex-row-reverse">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[12px] font-bold bg-secondary-container text-on-secondary-container">
+                                92% התאמה
+                            </span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface">דנה ישראלי</h3>
+</div>
+<p class="font-label-md text-label-md text-outline">אמא של מאיה, בת 7</p>
+</div>
+</div>
+<div class="space-y-sm mb-lg">
+<div class="flex items-center gap-2 text-right justify-end">
+<span class="font-body-md text-body-md text-on-surface-variant">א', ד', 09:00-14:00</span>
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="schedule">schedule</span>
+</div>
+<div class="flex items-center gap-2 text-right justify-end">
+<span class="font-body-md text-body-md text-on-surface-variant">גבעתיים</span>
+<span class="material-symbols-outlined text-outline text-[18px]" data-icon="location_on">location_on</span>
+</div>
+</div>
+<div class="flex gap-md">
+<button class="flex-1 h-[52px] bg-primary text-on-primary rounded-xl font-label-md text-label-md active:opacity-90 transition-opacity">
+                        אשר
+                    </button>
+<button class="flex-1 h-[52px] border border-outline text-primary rounded-xl font-label-md text-label-md active:bg-surface-container transition-colors">
+                        דחה
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 flex flex-row-reverse justify-around items-center px-4 py-2 bg-surface dark:bg-surface-dim rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-colors active:opacity-90 p-2" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-md text-label-md mt-1">בית</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container dark:bg-primary dark:text-on-primary rounded-full px-4 py-1 active:opacity-90 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-label-md text-label-md mt-1">בקשות</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-colors active:opacity-90 p-2" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-md text-label-md mt-1">הודעות</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline hover:bg-surface-container-high transition-colors active:opacity-90 p-2" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-label-md text-label-md mt-1">פרופיל</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+    </script>
+</body></html>

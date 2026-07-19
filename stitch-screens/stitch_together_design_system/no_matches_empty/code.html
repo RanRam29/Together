@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>אין התאמות כרגע</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#824e00",
+                    "on-secondary-fixed": "#002117",
+                    "tertiary-fixed-dim": "#ffb869",
+                    "primary-container": "#534ab7",
+                    "on-surface-variant": "#474553",
+                    "surface-container-low": "#f6f2fc",
+                    "primary-fixed": "#e3dfff",
+                    "surface-variant": "#e5e1eb",
+                    "on-primary-fixed": "#140067",
+                    "on-primary": "#ffffff",
+                    "inverse-surface": "#312f37",
+                    "surface-dim": "#dcd8e2",
+                    "on-primary-container": "#d1ccff",
+                    "error-container": "#ffdad6",
+                    "secondary-fixed": "#a0f3d4",
+                    "primary-fixed-dim": "#c5c0ff",
+                    "outline-variant": "#c8c4d5",
+                    "on-tertiary-container": "#ffc78c",
+                    "surface-tint": "#584fbc",
+                    "on-surface": "#1c1b22",
+                    "primary": "#3b309e",
+                    "on-primary-fixed-variant": "#3f35a3",
+                    "inverse-primary": "#c5c0ff",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#167159",
+                    "surface-container": "#f0ecf6",
+                    "secondary-container": "#a0f3d4",
+                    "on-tertiary": "#ffffff",
+                    "outline": "#787584",
+                    "on-secondary": "#ffffff",
+                    "surface": "#fcf8ff",
+                    "surface-bright": "#fcf8ff",
+                    "on-tertiary-fixed": "#2b1700",
+                    "background": "#fcf8ff",
+                    "inverse-on-surface": "#f3eff9",
+                    "surface-container-high": "#ebe6f0",
+                    "tertiary-fixed": "#ffdcbb",
+                    "on-background": "#1c1b22",
+                    "error": "#ba1a1a",
+                    "secondary": "#086b53",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e5e1eb",
+                    "on-tertiary-fixed-variant": "#673d00",
+                    "tertiary": "#623900",
+                    "secondary-fixed-dim": "#84d6b9",
+                    "on-secondary-fixed-variant": "#00513e"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "xl": "32px",
+                    "base": "4px",
+                    "sm": "8px",
+                    "container-padding": "20px",
+                    "lg": "24px",
+                    "gutter": "12px",
+                    "md": "16px"
+            },
+            "fontFamily": {
+                    "display-lg": [
+                            "Rubik"
+                    ],
+                    "body-md": [
+                            "Rubik"
+                    ],
+                    "label-sm": [
+                            "Rubik"
+                    ],
+                    "body-lg": [
+                            "Rubik"
+                    ],
+                    "headline-md": [
+                            "Rubik"
+                    ],
+                    "label-md": [
+                            "Rubik"
+                    ],
+                    "headline-sm": [
+                            "Rubik"
+                    ]
+            },
+            "fontSize": {
+                    "display-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "38px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "body-md": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "label-sm": [
+                            "12px",
+                            {
+                                    "lineHeight": "16px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "body-lg": [
+                            "18px",
+                            {
+                                    "lineHeight": "26px",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "headline-md": [
+                            "24px",
+                            {
+                                    "lineHeight": "32px",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "label-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "headline-sm": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "fontWeight": "500"
+                            }
+                    ]
+            }
+    },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex flex-col antialiased">
+<!-- TopAppBar -->
+<header class="w-full top-0 sticky z-50 bg-surface flex justify-between items-center px-container-padding h-[64px] border-b border-outline-variant flat no shadows">
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors active:opacity-80 transition-opacity duration-150 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<div class="flex items-center justify-center">
+<img alt="HandInHand Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkQ7OnvW4kBwyQBCwMQTej-75xQH63oSczG3XYOztiFgwViYq--FIkdCDy2_YGtrNzRcjISgrrQj1fhvZa4l8w8JsWoI_SnnrmSrM8cEnQ6FefHL0HqrGzG2vzq1D2CTTY7u8-_pWxAGSX1AonW6qIy14pRTq2VRepavalUxZD0FNPRkm-gmC8VidqZwJ0PgXmtUyjglPwSjHUpMkxsx_VrTb26G_VDi8kRMVs9xzKNU2E0v-L16pKEYvqgJ_VRfTfx8VD-Kks9VAT"/>
+</div>
+<button class="text-on-surface-variant hover:bg-surface-container-low transition-colors active:opacity-80 transition-opacity duration-150 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<!-- Main Content Area (Empty State) -->
+<main class="flex-1 flex flex-col items-center justify-center px-container-padding pb-[90px] pt-xl text-center max-w-md mx-auto w-full">
+<div class="w-full aspect-square max-w-[280px] mb-xl flex items-center justify-center relative">
+<div class="absolute inset-0 bg-surface-container-low rounded-full blur-3xl opacity-50"></div>
+<img alt="" class="w-full h-full object-contain relative z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEKOaGePiAhyJ9hRPW57rp1YcLR9PXrs6Xd3BV7_KDYO9UqMoOYAJF1NBIkkPMUEmvLfwMa6G_1aNgUlCngl_Krq9EHD9fWMzVnrdCWmnIl0J4qPLVuPypb5PRsKImTpO53UzdiuStseDoUwNp-dAGoVXg16CgqprnHtXG1zhCNNXea4vHLRlMTSlQWe6a9F6FSUjV-U3hEgd_O2ESwPDJgqf_jJK9_xjLbSVTFnYd_1ljVMEQIYYM8Lb7f1uOv1w4h2uickc-TmX_"/>
+</div>
+<h1 class="font-headline-md text-headline-md text-on-surface mb-sm">
+            אין התאמות כרגע
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mb-xl max-w-[300px] leading-relaxed">
+            עדיין אין משלבות מאומתות באזורך. נעדכן אותך ברגע שמשלבת מתאימה תצטרף!
+        </p>
+<button class="w-full bg-primary text-on-primary font-label-md text-label-md rounded-[14px] h-[52px] flex items-center justify-center transition-colors active:bg-primary/80 mb-md shadow-sm">
+<span class="material-symbols-outlined ml-sm text-[20px]" data-icon="notifications_active">notifications_active</span>
+            הפעלת התראות מבוססות אזור
+        </button>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl border-t border-outline-variant shadow-sm bg-surface-container-lowest flex justify-around items-center px-sm py-xs pb-safe md:hidden">
+<!-- Tab 1: בית (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-5 py-1 hover:bg-surface-container-high active:scale-95 transition-transform duration-100 min-w-[64px]" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]" data-icon="home" data-weight="fill" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">בית</span>
+</a>
+<!-- Tab 2: בקשות (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant py-1 hover:bg-surface-container-high active:scale-95 transition-transform duration-100 min-w-[64px] px-2 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]" data-icon="assignment_ind">assignment_ind</span>
+<span class="font-label-sm text-label-sm">בקשות</span>
+</a>
+<!-- Tab 3: הודעות (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant py-1 hover:bg-surface-container-high active:scale-95 transition-transform duration-100 min-w-[64px] px-2 rounded-xl relative" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-sm text-label-sm">הודעות</span>
+</a>
+<!-- Tab 4: פרופיל (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant py-1 hover:bg-surface-container-high active:scale-95 transition-transform duration-100 min-w-[64px] px-2 rounded-xl" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">פרופיל</span>
+</a>
+</nav>
+</body></html>

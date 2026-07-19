@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html class="light" dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>פרופיל ילד - שלב 2: מסגרת</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container": "#f0ecf6",
+                        "on-primary-container": "#d1ccff",
+                        "tertiary-fixed": "#ffdcbb",
+                        "surface-variant": "#e5e1eb",
+                        "on-secondary-fixed": "#002117",
+                        "primary": "#3b309e",
+                        "on-surface": "#1c1b22",
+                        "background": "#fcf8ff",
+                        "outline-variant": "#c8c4d5",
+                        "on-secondary-container": "#167159",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-dim": "#dcd8e2",
+                        "inverse-surface": "#312f37",
+                        "surface": "#fcf8ff",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "secondary-container": "#a0f3d4",
+                        "secondary-fixed": "#a0f3d4",
+                        "surface-container-low": "#f6f2fc",
+                        "secondary": "#086b53",
+                        "on-error": "#ffffff",
+                        "primary-container": "#534ab7",
+                        "on-tertiary-container": "#ffc78c",
+                        "surface-container-highest": "#e5e1eb",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "surface-bright": "#fcf8ff",
+                        "on-surface-variant": "#474553",
+                        "inverse-on-surface": "#f3eff9",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#824e00",
+                        "on-primary-fixed": "#140067",
+                        "on-tertiary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c5c0ff",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "surface-tint": "#584fbc",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "tertiary": "#623900",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed": "#e3dfff",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed": "#2b1700",
+                        "on-background": "#1c1b22",
+                        "surface-container-high": "#ebe6f0",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "outline": "#787584",
+                        "off-white": "#FBFAF7"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "14px",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "xs": "4px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "gutter": "12px",
+                        "container-padding": "20px",
+                        "md": "16px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "btn-height": "52px"
+                    },
+                    fontFamily: {
+                        "label-md": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "headline-sm": ["Rubik"],
+                        "label-sm": ["Rubik"],
+                        "display-lg": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "headline-md": ["Rubik"]
+                    },
+                    fontSize: {
+                        "label-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-sm": ["20px", { "lineHeight": "28px", "fontWeight": "500" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "display-lg": ["30px", { "lineHeight": "38px", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "26px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Rubik', sans-serif; background-color: #FBFAF7; color: #1c1b22; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center overflow-x-hidden antialiased">
+<!-- Mobile Container Wrapper -->
+<div class="w-full max-w-[414px] min-h-screen bg-off-white flex flex-col relative shadow-sm mx-auto">
+<!-- TopAppBar -->
+<header class="w-full top-0 bg-off-white sticky z-10 flex flex-col">
+<div class="flex items-center justify-between px-container-padding h-14 w-full">
+<!-- Leading Icon -->
+<button aria-label="חזור" class="text-primary hover:opacity-80 transition-opacity duration-200 flex items-center justify-center p-2 -mr-2 rounded-full">
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<!-- Headline / Brand -->
+<h1 class="font-headline-sm text-headline-sm text-primary absolute left-1/2 -translate-x-1/2">
+                    שאלון היכרות
+                </h1>
+<!-- Trailing Logo -->
+<div class="h-8 w-10 flex items-center justify-center">
+<img alt="Logo" class="h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHZsKNaQEqYbF2c-RzU8Ne24as0ZdXGxe3HFg4VgOw-2mTh1K6uS-3nXmijI9A5sNQ5OCaY0yfs3o0nk5MsB2WkOvFXmKvBXhurPrvzChHyLfUlbSLI1G-mUqBZR4vP2xuHPLwwP3gxnvzFAFu_gxYcp9y09c8VNMB2ojn33KwfIaETTjuKJY97NAA50ucoX7eaA4TDQ5_wd6AvsMewd1G8f0hYNjaBZmjdSrZqQscpjiZ0ObSDa7QbBNWh_Oyx2LMYufpiJC-naxq"/>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-1 bg-surface-variant">
+<div class="h-full bg-primary rounded-r-full" style="width: 66%;"></div>
+</div>
+<div class="px-container-padding pt-2 pb-1 text-left text-label-sm font-label-sm text-outline">
+                שלב 2 מתוך 3
+            </div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col px-container-padding py-xl gap-xl">
+<!-- Screen Header -->
+<div class="flex flex-col gap-sm">
+<span class="font-label-md text-label-md text-outline">פרופיל ילד</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">פרטי המסגרת החינוכית</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                    אנא ספרו לנו קצת על המסגרת החינוכית של הילד/ה כדי שנוכל להתאים את המשלבת המושלמת.
+                </p>
+</div>
+<!-- Form Section -->
+<form action="#" class="flex flex-col gap-lg" id="onboardingForm" method="POST">
+<!-- Field: Framework Type (Chips) -->
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface">סוג מסגרת חינוכית</label>
+<div class="flex flex-wrap gap-sm">
+<button class="px-md py-sm border border-outline-variant rounded-2xl font-label-md text-label-md text-on-surface-variant bg-surface hover:bg-surface-container transition-colors focus:ring-2 focus:ring-primary focus:outline-none" type="button">
+                            חינוך רגיל
+                        </button>
+<button aria-pressed="true" class="px-md py-sm border-2 border-primary rounded-2xl font-label-md text-label-md text-primary bg-primary/10 transition-colors focus:ring-2 focus:ring-primary focus:outline-none" type="button">
+                            חינוך מיוחד
+                        </button>
+<button class="px-md py-sm border border-outline-variant rounded-2xl font-label-md text-label-md text-on-surface-variant bg-surface hover:bg-surface-container transition-colors focus:ring-2 focus:ring-primary focus:outline-none" type="button">
+                            שילוב אינדיבידואלי
+                        </button>
+</div>
+</div>
+<!-- Field: Institution Name -->
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface" for="institutionName">שם המוסד החינוכי</label>
+<input class="w-full h-[52px] px-md border border-outline-variant rounded-2xl bg-surface font-body-md text-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary transition-shadow outline-none" id="institutionName" name="institutionName" placeholder="לדוגמה: בית ספר אלון" type="text"/>
+</div>
+<!-- Field: Required Hours -->
+<div class="flex flex-col gap-sm">
+<label class="font-label-md text-label-md text-on-surface" for="requiredHours">שעות נדרשות למשלבת (בשבוע)</label>
+<div class="relative">
+<input class="w-full h-[52px] px-md border border-outline-variant rounded-2xl bg-surface font-body-md text-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-1 focus:ring-primary transition-shadow outline-none pr-10" id="requiredHours" max="60" min="1" name="requiredHours" placeholder="הזן מספר שעות" type="number"/>
+<div class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">schedule</span>
+</div>
+</div>
+</div>
+<!-- Spacer to push button to bottom if screen is tall -->
+<div class="flex-1 min-h-[40px]"></div>
+</form>
+</main>
+<!-- Fixed Bottom Action -->
+<div class="w-full px-container-padding pb-xl pt-md bg-off-white/90 backdrop-blur-sm sticky bottom-0 border-t border-outline-variant/30">
+<button class="w-full h-btn-height bg-primary text-on-primary rounded-2xl font-label-md text-label-md flex items-center justify-center gap-sm hover:opacity-90 active:bg-primary-container transition-colors" type="button">
+<span>המשך</span>
+<span class="material-symbols-outlined text-[18px]">arrow_back</span> <!-- Mirrored for RTL -->
+</button>
+</div>
+</div>
+<script>
+        // Simple chip selection interaction
+        document.addEventListener('DOMContentLoaded', () => {
+            const chips = document.querySelectorAll('button[type="button"]:not(.bg-primary)');
+            const chipContainer = chips[0]?.parentElement;
+            
+            if(chipContainer) {
+                const allChips = chipContainer.querySelectorAll('button');
+                allChips.forEach(chip => {
+                    chip.addEventListener('click', function() {
+                        // Reset all
+                        allChips.forEach(c => {
+                            c.className = "px-md py-sm border border-outline-variant rounded-2xl font-label-md text-label-md text-on-surface-variant bg-surface hover:bg-surface-container transition-colors focus:ring-2 focus:ring-primary focus:outline-none";
+                            c.setAttribute('aria-pressed', 'false');
+                        });
+                        // Set active
+                        this.className = "px-md py-sm border-2 border-primary rounded-2xl font-label-md text-label-md text-primary bg-primary/10 transition-colors focus:ring-2 focus:ring-primary focus:outline-none";
+                        this.setAttribute('aria-pressed', 'true');
+                    });
+                });
+            }
+        });
+    </script>
+</body></html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Together - בחירת תפקיד</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-lowest": "#ffffff",
+                      "primary-container": "#534ab7",
+                      "on-tertiary-fixed-variant": "#673d00",
+                      "on-primary": "#ffffff",
+                      "surface": "#fcf8ff",
+                      "on-tertiary": "#ffffff",
+                      "secondary-container": "#a0f3d4",
+                      "on-background": "#1c1b22",
+                      "surface-dim": "#dcd8e2",
+                      "on-primary-fixed-variant": "#3f35a3",
+                      "surface-container-low": "#f6f2fc",
+                      "on-tertiary-fixed": "#2b1700",
+                      "on-primary-container": "#d1ccff",
+                      "error": "#ba1a1a",
+                      "on-tertiary-container": "#ffc78c",
+                      "surface-container": "#f0ecf6",
+                      "tertiary-fixed-dim": "#ffb869",
+                      "secondary-fixed": "#a0f3d4",
+                      "tertiary": "#623900",
+                      "inverse-primary": "#c5c0ff",
+                      "surface-tint": "#584fbc",
+                      "secondary-fixed-dim": "#84d6b9",
+                      "outline": "#787584",
+                      "error-container": "#ffdad6",
+                      "outline-variant": "#c8c4d5",
+                      "background": "#fcf8ff",
+                      "on-secondary": "#ffffff",
+                      "surface-variant": "#e5e1eb",
+                      "tertiary-fixed": "#ffdcbb",
+                      "surface-bright": "#fcf8ff",
+                      "on-secondary-fixed-variant": "#00513e",
+                      "on-secondary-container": "#167159",
+                      "on-error": "#ffffff",
+                      "tertiary-container": "#824e00",
+                      "primary-fixed-dim": "#c5c0ff",
+                      "on-surface-variant": "#474553",
+                      "primary-fixed": "#e3dfff",
+                      "on-error-container": "#93000a",
+                      "primary": "#3b309e",
+                      "on-secondary-fixed": "#002117",
+                      "on-surface": "#1c1b22",
+                      "on-primary-fixed": "#140067",
+                      "inverse-on-surface": "#f3eff9",
+                      "surface-container-high": "#ebe6f0",
+                      "inverse-surface": "#312f37",
+                      "surface-container-highest": "#e5e1eb",
+                      "secondary": "#086b53",
+                      "warm-bg": "#FBFAF7"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "12px",
+                      "sm": "8px",
+                      "xl": "32px",
+                      "md": "16px",
+                      "container-padding": "20px",
+                      "xs": "4px",
+                      "base": "4px",
+                      "lg": "24px"
+              },
+              "fontFamily": {
+                      "body-md": ["Rubik"],
+                      "headline-md": ["Rubik"],
+                      "body-lg": ["Rubik"],
+                      "headline-sm": ["Rubik"],
+                      "display-lg": ["Rubik"],
+                      "label-md": ["Rubik"],
+                      "label-sm": ["Rubik"]
+              },
+              "fontSize": {
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                      "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                      "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                      "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+        body {
+            background-color: #FBFAF7;
+            font-family: 'Rubik', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .role-card-active {
+            border: 2px solid #534AB7;
+            background-color: rgba(83, 74, 183, 0.04);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-on-surface">
+<!-- Top Navigation Placeholder (Hidden for this transactional screen per mandate) -->
+<!-- Header Section -->
+<header class="flex items-center justify-between px-container-padding h-20 w-full bg-transparent">
+<div class="w-24 h-auto">
+<img alt="Together Logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwY2DznUGL5r-k6xuD8ZCUOpOT5i7iAYYqNiiKJWA7UZmUQDDPZ9HkobrXIpn80e2y-VhBwK66_ztU5pjMYTBOYCHmCVI4Aol1kxkkfY0b88xAvRqsbtjc32zY1XKwA5DXoAWOJO8RnRlyrob9T-KlIZ-s7KL5j72xn5p-5QkoLCj0N3gEvd9dUiO5LS3AH-PRcvuWYUavTW00EcRJMvuKhZRCfLu4OCsuU3Bd9cKGWWkJ5c4gIvQgQBI_HJWuTqSY6rD84HQEnn-l"/>
+</div>
+<button class="flex items-center gap-xs px-md py-xs bg-surface-container-high rounded-full hover:bg-surface-variant transition-colors border border-outline-variant">
+<span class="material-symbols-outlined text-[18px]">language</span>
+<span class="font-label-md text-label-md">עברית / English</span>
+</button>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 flex flex-col items-center justify-center px-container-padding max-w-lg mx-auto w-full py-xl">
+<!-- Text Content -->
+<div class="text-center mb-xl">
+<h1 class="font-headline-md text-headline-md text-on-surface mb-sm">איך תרצו להשתמש בפלטפורמה?</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">בחרו את התפקיד שלכם כדי שנתאים את החוויה</p>
+</div>
+<!-- Role Selection Grid -->
+<div class="w-full space-y-md mb-xl" id="role-container">
+<!-- Parent Card (Selected State) -->
+<div class="role-card-active relative flex items-start gap-md p-lg rounded-xl cursor-pointer transition-all duration-200 border border-outline-variant hover:border-primary-container" id="parent-card" onclick="selectRole('parent')">
+<div class="flex items-center justify-center w-12 h-12 rounded-full bg-primary-container text-on-primary shrink-0">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">child_care</span>
+</div>
+<div class="flex-1">
+<h2 class="font-headline-sm text-headline-sm text-primary mb-xs">אני הורה</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">מחפש/ת משלבת מתאימה לילד/ה שלי</p>
+</div>
+<div class="absolute top-4 left-4 text-primary">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+</div>
+<!-- Aide Card (Inactive State) -->
+<div class="relative flex items-start gap-md p-lg rounded-xl cursor-pointer transition-all duration-200 border border-outline-variant hover:border-primary-container bg-surface-container-lowest" id="aide-card" onclick="selectRole('aide')">
+<div class="flex items-center justify-center w-12 h-12 rounded-full bg-surface-container text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-[28px]">school</span>
+</div>
+<div class="flex-1">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-xs">אני משלבת</h2>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">מחפשת עבודה עם ילדים עם צרכים מיוחדים</p>
+</div>
+<div class="hidden absolute top-4 left-4 text-primary" id="aide-check">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Action Area -->
+<footer class="mt-auto px-container-padding pb-xl w-full max-w-lg mx-auto flex flex-col gap-md items-center">
+<button class="w-full h-[52px] bg-primary text-on-primary rounded-xl font-label-md text-label-md shadow-sm hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-sm">
+            המשך
+            <span class="material-symbols-outlined text-[20px]">arrow_back</span>
+</button>
+<a class="font-label-md text-label-md text-primary font-medium hover:underline transition-all" href="#">
+            חזרה להתחברות
+        </a>
+</footer>
+<!-- Interactive Logic -->
+<script>
+        function selectRole(role) {
+            const parentCard = document.getElementById('parent-card');
+            const aideCard = document.getElementById('aide-card');
+            const aideCheck = document.getElementById('aide-check');
+            const parentCheck = parentCard.querySelector('.absolute');
+
+            if (role === 'parent') {
+                parentCard.classList.add('role-card-active');
+                parentCard.classList.remove('bg-surface-container-lowest');
+                parentCheck.classList.remove('hidden');
+                
+                aideCard.classList.remove('role-card-active');
+                aideCard.classList.add('bg-surface-container-lowest');
+                aideCheck.classList.add('hidden');
+                
+                // Update internal text colors for active state
+                parentCard.querySelector('h2').classList.add('text-primary');
+                parentCard.querySelector('h2').classList.remove('text-on-surface');
+                parentCard.querySelector('.rounded-full').classList.replace('bg-surface-container', 'bg-primary-container');
+                parentCard.querySelector('.rounded-full').classList.replace('text-on-surface-variant', 'text-on-primary');
+
+                aideCard.querySelector('h2').classList.remove('text-primary');
+                aideCard.querySelector('h2').classList.add('text-on-surface');
+                aideCard.querySelector('.rounded-full').classList.replace('bg-primary-container', 'bg-surface-container');
+                aideCard.querySelector('.rounded-full').classList.replace('text-on-primary', 'text-on-surface-variant');
+            } else {
+                aideCard.classList.add('role-card-active');
+                aideCard.classList.remove('bg-surface-container-lowest');
+                aideCheck.classList.remove('hidden');
+                
+                parentCard.classList.remove('role-card-active');
+                parentCard.classList.add('bg-surface-container-lowest');
+                parentCheck.classList.add('hidden');
+
+                // Update internal text colors for active state
+                aideCard.querySelector('h2').classList.add('text-primary');
+                aideCard.querySelector('h2').classList.remove('text-on-surface');
+                aideCard.querySelector('.rounded-full').classList.replace('bg-surface-container', 'bg-primary-container');
+                aideCard.querySelector('.rounded-full').classList.replace('text-on-surface-variant', 'text-on-primary');
+
+                parentCard.querySelector('h2').classList.remove('text-primary');
+                parentCard.querySelector('h2').classList.add('text-on-surface');
+                parentCard.querySelector('.rounded-full').classList.replace('bg-primary-container', 'bg-surface-container');
+                parentCard.querySelector('.rounded-full').classList.replace('text-on-primary', 'text-on-surface-variant');
+            }
+        }
+    </script>
+</body></html>

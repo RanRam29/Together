@@ -63,8 +63,8 @@ export default function ForgotPasswordScreen() {
       }
     >
       {sent ? (
-        <View className="bg-green-50 p-4 rounded-xl border border-green-200 mt-4">
-          <Text className="text-green-800 text-center font-medium font-rubik">
+        <View className="bg-teal-bg p-4 rounded-[14px] border border-teal/20 mt-4">
+          <Text className="text-teal-ink text-center font-medium font-rubik">
             {t("auth.resetEmailSent")}
           </Text>
         </View>

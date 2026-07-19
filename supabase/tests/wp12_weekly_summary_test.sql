@@ -1,5 +1,5 @@
 BEGIN;
-
+SET search_path TO public, extensions;
 -- Plan the tests
 SELECT plan(6);
 
@@ -31,8 +31,8 @@ BEGIN
         (v_child_id, v_parent_id, 'Child 1', 6, 'autism', 2, 'regular_school');
 
     -- Create professional
-    INSERT INTO public.professionals (id, user_id, verified) VALUES
-        (v_prof_id, v_prof_profile_id, 'verified');
+    INSERT INTO public.professionals (id, user_id, display_name, verified) VALUES
+        (v_prof_id, v_prof_profile_id, 'Prof WP12', 'verified');
 
     -- Create match
     INSERT INTO public.matches (id, child_id, professional_id, status, started_at) VALUES

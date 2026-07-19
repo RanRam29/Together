@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-bright": "#fcf8ff",
+                        "primary-fixed": "#e3dfff",
+                        "on-secondary-fixed": "#002117",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f6f2fc",
+                        "outline": "#787584",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#a0f3d4",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#d1ccff",
+                        "tertiary-fixed": "#ffdcbb",
+                        "surface": "#fcf8ff",
+                        "on-secondary-container": "#167159",
+                        "on-background": "#1c1b22",
+                        "surface-variant": "#e5e1eb",
+                        "surface-container-highest": "#e5e1eb",
+                        "secondary-fixed": "#a0f3d4",
+                        "on-tertiary-container": "#ffc78c",
+                        "primary": "#3b309e",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "inverse-primary": "#c5c0ff",
+                        "inverse-surface": "#312f37",
+                        "surface-dim": "#dcd8e2",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "on-surface-variant": "#474553",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#824e00",
+                        "surface-container": "#f0ecf6",
+                        "on-primary-fixed": "#140067",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#534ab7",
+                        "background": "#fcf8ff",
+                        "outline-variant": "#c8c4d5",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1c1b22",
+                        "inverse-on-surface": "#f3eff9",
+                        "tertiary": "#623900",
+                        "surface-container-high": "#ebe6f0",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "secondary": "#086b53",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "on-tertiary-fixed": "#2b1700",
+                        "surface-tint": "#584fbc",
+                        "ink-warm": "#FBFAF7"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "14px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "12px",
+                        "base": "4px",
+                        "container-padding": "20px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Rubik"],
+                        "label-sm": ["Rubik"],
+                        "label-md": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "headline-md": ["Rubik"],
+                        "display-lg": ["Rubik"],
+                        "body-lg": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #FBFAF7;
+            font-family: 'Rubik', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-nav-item .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid #E5E2DA;
+        }
+        .custom-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+    </style>
+</head>
+<body class="text-on-surface antialiased overflow-x-hidden">
+<!-- Status Banner -->
+<div class="fixed top-0 left-0 w-full z-[60] bg-secondary px-container-padding h-10 flex items-center justify-center">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-white animate-pulse"></div>
+<span class="font-label-md text-label-md text-white">פרופיל פעיל</span>
+</div>
+</div>
+<!-- Top AppBar -->
+<header class="fixed top-10 left-0 w-full z-50 bg-ink-warm/80 backdrop-blur-md px-container-padding h-16 flex items-center justify-between border-b border-outline-variant/30">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container/10 flex items-center justify-center border border-outline-variant">
+<img alt="בשילוב לוגו" class="w-8 h-8 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASgx2uygiVk7-ZRzkIMH0Voc1K9TsUha-0IbNJ3tOHJHwmsO1eUAISElBR7gd2znLFYL7Vo9JXsy41WfKsq8ZdIBX6ZBPl4b_HzRgwmRnB92QojB4EcgjVBvig9uzhypofS35imKHOtuvFpi-2j89TekdCc_3Sp3BzJ7b-1itLzpFW0xPy-xqc6ixguexoV_y2mRa-ERmwr3S2lEUNOIA-49lqk1t8UKQKHpvOVBLoO5zu81yMtsqACkd6rI-QwPRKVUmeaq4xOVjl"/>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">שלום חן,</span>
+<span class="font-headline-sm text-headline-sm text-primary">בוקר טוב</span>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors relative">
+<span class="material-symbols-outlined text-on-surface">notifications</span>
+<span class="absolute top-2.5 right-2.5 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-32 pb-24 px-container-padding min-h-screen">
+<!-- Welcome Section -->
+<section class="mb-8">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-md text-headline-md text-on-surface">התאמות מוצעות עבורך</h2>
+<button class="text-primary font-label-md text-label-md">הכל</button>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                מצאנו עבורך מלווי שילוב המתאימים בדיוק לצרכים של ילדך.
+            </p>
+</section>
+<!-- Feed of Match Cards -->
+<div class="space-y-md">
+<!-- Match Card 1 -->
+<article class="glass-card rounded-xl p-md flex flex-col gap-md custom-shadow transition-transform active:scale-[0.98]">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-md">
+<div class="w-16 h-16 rounded-xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A professional and warm portrait of a smiling young woman with glasses, likely a special education student. The lighting is soft and natural, emphasizing a trustworthy and empathetic character. The background is a clean, bright, light-mode studio setting with soft pastel purple accents consistent with a high-end caregiving app aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDseTeDnZX_7iPyP3wxiRKxBNpc6Qoe0O48nTilKzMI3yNDNohtsyjx9J07Py5t7Cg663LfS3PIQKR9_L4BCxpA_3hMH7plXZ00gp75Q7Ze-RpzA2xYZ6tgv5NbCKBIPZ-4GjX5YzmxJeVRsB-lCcHkkOObaJirrKfpJH3rOs4OWbC_ND4PhFCZWg3GL1lpCpDoiq9cF-1rz_Rd9YYsH4yISfHSFgaI_CVER5s4-2ncwKyBDOu8prYEfH5cwAFW6nOMcR_uxOgAq7lD"/>
+</div>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">מיכל לוי</h3>
+<span class="font-label-md text-label-md text-secondary bg-secondary/10 px-2 py-0.5 rounded-full inline-block mt-1">95% התאמה</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline">favorite</button>
+</div>
+<div class="space-y-sm">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        סטודנטית לחינוך מיוחד שנה ג׳, 3 שנות ניסיון בליווי ילדים על הרצף.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">אוטיזם</span>
+<span class="px-3 py-1 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">ABA</span>
+<span class="px-3 py-1 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">וויסות חושי</span>
+</div>
+</div>
+<div class="mt-2">
+<button class="w-full h-12 bg-primary text-white rounded-xl font-label-md text-label-md flex items-center justify-center gap-2">
+                        צפייה בפרופיל
+                    </button>
+</div>
+</article>
+<!-- Match Card 2 -->
+<article class="glass-card rounded-xl p-md flex flex-col gap-md custom-shadow transition-transform active:scale-[0.98]">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-md">
+<div class="w-16 h-16 rounded-xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A medium shot of a kind-faced woman in her late 20s, looking friendly and professional. She is positioned against a clean white wall with a soft green plant in the corner. The visual style is warm minimalism, with soft lighting and a focused, trustworthy atmosphere suitable for a healthcare or caregiving application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_aqPeK5HY1o7FaD1Rc1nKoGT7R1_WpvXT-F6-xSRujqlj6RtFyxtUV-GtZ-ucVBUX7ZgEV_Z2U7hf45JRqVdVUnfOHD_f862ZtJEANrDbCH3vFaLdhhCMPVWj7HXpfQWwGRXj3tCL4ymM9oDqTAwZYvlBll8siMC5LrmfDHs-Cu2KLQWg4BUlG0RqBd939RcoL0wiE9Z5DGMU9Z6qgYQmO7pKoqdmSoPw89lDZyq9sXP3P5iROmyjAq9Pdu3ouMwrGZWA_iw_o4Dz"/>
+</div>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">דנה ישראלי</h3>
+<span class="font-label-md text-label-md text-secondary bg-secondary/10 px-2 py-0.5 rounded-full inline-block mt-1">92% התאמה</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline">favorite</button>
+</div>
+<div class="space-y-sm">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        מנתחת התנהגות מוסמכת עם ניסיון עשיר בשילוב בבתי ספר יסודיים.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">מנתחת התנהגות</span>
+<span class="px-3 py-1 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">יסודי</span>
+<span class="px-3 py-1 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">ליווי רגשי</span>
+</div>
+</div>
+<div class="mt-2">
+<button class="w-full h-12 bg-primary text-white rounded-xl font-label-md text-label-md flex items-center justify-center gap-2">
+                        צפייה בפרופיל
+                    </button>
+</div>
+</article>
+<!-- Match Card 3 -->
+<article class="glass-card rounded-xl p-md flex flex-col gap-md custom-shadow transition-transform active:scale-[0.98]">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-md">
+<div class="w-16 h-16 rounded-xl overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A portrait of a cheerful young woman with curly hair, sitting in a bright airy living room with natural wood elements. She is dressed in smart casual attire. The style is bright and airy, reflecting trust, warmth, and professionalism. Color palette includes light cream, soft purples and teal accents from the brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8N4kc5JFIeT-fpLGlaBmLUMSk1c38QntcRpdwvf5TIjsbC0Ut8FzVZQzh7_3sa5-FZpVe5giOWwYjm_spiDeobuDO7uxOoWSdtHKLU0FjdnMx7ncL14GOlOw2vu14tfhRPJgpPU6hZ6jUOVxCQi_J-__c7hSA9V4OKX-DqWi_43sroDgSp8K1huaAkTMJS6g9qk6eOFPNLktVLh8L5eetl5RXJnygTsAhpjGMLQUaUFo-Qo2qGET6H_Exd4-mVI3k8khWRnE5Cdd8"/>
+</div>
+<div class="flex flex-col">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">רותם כהן</h3>
+<span class="font-label-md text-label-md text-secondary bg-secondary/10 px-2 py-0.5 rounded-full inline-block mt-1">88% התאמה</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline">favorite</button>
+</div>
+<div class="space-y-sm">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                        מתמחה בריפוי בעיסוק, מתמקדת בשיפור מיומנויות חברתיות ועבודה קבוצתית.
+                    </p>
+<div class="flex flex-wrap gap-2">
+<span class="px-3 py-1 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">ריפוי בעיסוק</span>
+<span class="px-3 py-1 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">גיל הרך</span>
+<span class="px-3 py-1 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">חברתי</span>
+</div>
+</div>
+<div class="mt-2">
+<button class="w-full h-12 bg-primary text-white rounded-xl font-label-md text-label-md flex items-center justify-center gap-2">
+                        צפייה בפרופיל
+                    </button>
+</div>
+</article>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-md h-16 border-t border-outline-variant/30 flex justify-around items-center px-4 pb-safe">
+<a class="active-nav-item flex flex-col items-center justify-center gap-0.5 text-primary" href="#">
+<span class="material-symbols-outlined text-[24px]">home</span>
+<span class="font-label-sm text-label-sm font-bold">ראשי</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">chat</span>
+<span class="font-label-sm text-label-sm">הודעות</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-0.5 text-on-surface-variant hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-[24px]">person</span>
+<span class="font-label-sm text-label-sm">פרופיל</span>
+</a>
+</nav>
+<script>
+        // Micro-interaction for cards
+        document.querySelectorAll('article').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple scroll effect for header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-sm');
+                header.style.backgroundColor = 'rgba(251, 250, 247, 0.95)';
+            } else {
+                header.classList.remove('shadow-sm');
+                header.style.backgroundColor = 'rgba(251, 250, 247, 0.8)';
+            }
+        });
+    </script>
+</body></html>

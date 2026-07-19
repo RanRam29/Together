@@ -29,7 +29,7 @@ export default function ResetPasswordScreen() {
 
     try {
       await updatePassword(password);
-      Alert.alert("Success", t("auth.passwordUpdated"));
+      Alert.alert(t("common.success", "בוצע"), t("auth.passwordUpdated"));
       router.replace("/");
     } catch (err) {
       const message = err instanceof Error ? err.message : t("auth.authFailed");

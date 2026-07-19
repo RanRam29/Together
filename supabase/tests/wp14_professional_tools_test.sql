@@ -4,7 +4,8 @@ SELECT plan(9);
 
 -- 1. Setup Test Data
 -- Create a parent, child, professional, and match
-SELECT set_config('request.jwt.claims', format('{"sub": "%s", "role": "authenticated"}', (SELECT id FROM auth.users LIMIT 1)), true);
+INSERT INTO auth.users (id, email) VALUES ('a1111111-1111-1111-1111-111111111111', 'dummy@test.com') ON CONFLICT DO NOTHING;
+SELECT set_config('request.jwt.claims', format('{"sub": "%s", "role": "authenticated"}', 'a1111111-1111-1111-1111-111111111111'), true);
 
 -- 2. Test get_my_monthly_attendance
 -- Since the exact data depends on state, we test the shape

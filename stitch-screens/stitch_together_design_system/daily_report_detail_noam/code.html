@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Together - פרטי דוח יומי</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#f3eff9",
+                    "on-secondary-container": "#167159",
+                    "tertiary-container": "#824e00",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#e3dfff",
+                    "surface-variant": "#e5e1eb",
+                    "secondary": "#086b53",
+                    "on-primary-fixed-variant": "#3f35a3",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#dcd8e2",
+                    "secondary-fixed": "#a0f3d4",
+                    "tertiary-fixed": "#ffdcbb",
+                    "surface-container-highest": "#e5e1eb",
+                    "primary-fixed-dim": "#c5c0ff",
+                    "outline": "#787584",
+                    "primary-container": "#534ab7",
+                    "on-tertiary-fixed": "#2b1700",
+                    "primary": "#3b309e",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed": "#140067",
+                    "error-container": "#ffdad6",
+                    "secondary-container": "#a0f3d4",
+                    "surface-container-low": "#f6f2fc",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#474553",
+                    "on-background": "#1c1b22",
+                    "outline-variant": "#c8c4d5",
+                    "tertiary": "#623900",
+                    "on-secondary-fixed-variant": "#00513e",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#84d6b9",
+                    "on-secondary-fixed": "#002117",
+                    "surface-tint": "#584fbc",
+                    "on-surface": "#1c1b22",
+                    "inverse-primary": "#c5c0ff",
+                    "error": "#ba1a1a",
+                    "surface-container-high": "#ebe6f0",
+                    "inverse-surface": "#312f37",
+                    "surface-bright": "#fcf8ff",
+                    "surface": "#fcf8ff",
+                    "surface-container": "#f0ecf6",
+                    "tertiary-fixed-dim": "#ffb869",
+                    "on-error-container": "#93000a",
+                    "background": "#fcf8ff",
+                    "on-tertiary-container": "#ffc78c",
+                    "on-primary-container": "#d1ccff",
+                    "on-tertiary-fixed-variant": "#673d00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "14px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "md": "16px",
+                    "base": "4px",
+                    "gutter": "12px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "container-padding": "20px",
+                    "sm": "8px",
+                    "xl": "32px"
+            },
+            "fontFamily": {
+                    "label-md": ["Rubik"],
+                    "body-md": ["Rubik"],
+                    "headline-sm": ["Rubik"],
+                    "headline-md": ["Rubik"],
+                    "body-lg": ["Rubik"],
+                    "label-sm": ["Rubik"],
+                    "display-lg": ["Rubik"]
+            },
+            "fontSize": {
+                    "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                    "display-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #FBFAF7;
+            font-family: 'Rubik', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        .paper-border {
+            border: 1px solid #E5E2DA;
+        }
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="sticky top-0 z-50 bg-surface h-16 flex flex-row items-center justify-between px-container-padding border-b border-surface-variant">
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+</button>
+<h1 class="font-display-lg text-display-lg-mobile text-primary font-bold">פרטי דוח יומי</h1>
+</div>
+<img alt="Together Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4vdnaIk8GyzLv0MRBdziTCD_ZiTGdH7sfdeblRLKHyjZfgNsCjvo6Fk5LTgJONBE8tpCa7HSLv2az-0adKDo1zL6AOVGreoUSv8EX3KAYXAuSP08JCPGQagD7E_kq80fVPd7vfYEyk-u6RS2MnzpF1jOaCLG07lvBlUHO9vlY0OQiWSpJrG6mcPoKKzmOPFnoRohfHuq9_4xpBS35Nww2UNFuo01HW6bL4Mt45OeDIvu7FpxlMryFbDDwPxl16pXmYc_fWq9dvooH"/>
+</header>
+<main class="px-container-padding py-md space-y-md">
+<!-- Child Profile Summary Card -->
+<div class="bg-surface-container-lowest paper-border rounded-xl p-md flex items-center gap-md">
+<div class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="A warm, high-quality portrait of a smiling young boy named Noam with curly brown hair, wearing a soft green sweater. The background is a brightly lit, blurred primary school classroom with soft morning light streaming through windows. The visual style is professional, warm, and empathetic, utilizing a clean light-mode aesthetic consistent with high-end caregiving applications." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdg94m4SqcksySKMiolcW7TkY4NNwXju0hsUgzZGnD_TvBGiXA3CHkjMRx2HK7VlpUwRTuMl0s3rwBY6jkJgZaQXCqFrlW_EHxqkGtwe7tadZ3b3Pvmv4_dhIpyAI4IZ3y3eEVSSrPOU5yb7E6gq_XkyS3QqkfEe8-OBPyL9Dd70zQbprzLB5bJqvpVOqE0bO_PTZ7zC5pEJVHDKec2okAMB3c1ufDsVYpZsGz6fWAbd5GeS6zCpJcoF2J-bpCNO2UMyJv7II3f-ob"/>
+</div>
+<div class="flex flex-col">
+<h2 class="font-headline-sm text-on-surface">נעם</h2>
+<p class="font-label-md text-on-surface-variant">יום שלישי, 24 באוקטובר 2024</p>
+</div>
+</div>
+<!-- Mood Section -->
+<section class="bg-surface-container-lowest paper-border rounded-xl p-md">
+<div class="flex items-center justify-between mb-sm">
+<h3 class="font-label-md text-on-surface-variant">מצב רוח היום</h3>
+<span class="bg-secondary-container text-on-secondary-container font-label-sm px-3 py-1 rounded-full">מצוין</span>
+</div>
+<div class="flex items-center gap-2 justify-center py-base">
+<span class="material-symbols-outlined text-tertiary text-3xl fill-icon">star</span>
+<span class="material-symbols-outlined text-tertiary text-3xl fill-icon">star</span>
+<span class="material-symbols-outlined text-tertiary text-3xl fill-icon">star</span>
+<span class="material-symbols-outlined text-tertiary text-3xl fill-icon">star</span>
+<span class="material-symbols-outlined text-tertiary text-3xl fill-icon">star</span>
+</div>
+<p class="text-center font-body-md text-on-surface mt-sm">נעם הגיע הבוקר עם אנרגיות חיוביות וחיוך גדול</p>
+</section>
+<!-- Goals & Activities Summary -->
+<section class="space-y-sm">
+<h3 class="font-label-md text-on-surface-variant px-1">סיכום יעדים ופעילויות</h3>
+<div class="bg-surface-container-lowest paper-border rounded-xl divide-y divide-surface-variant">
+<div class="p-md flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container text-sm font-bold">check</span>
+</div>
+<span class="font-body-md text-on-surface">ישיבה במפגש בוקר</span>
+</div>
+<span class="font-label-sm text-secondary">בוצע בהצלחה</span>
+</div>
+<div class="p-md flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-6 h-6 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container text-sm font-bold">check</span>
+</div>
+<span class="font-body-md text-on-surface">שיתוף פעולה בהפסקה</span>
+</div>
+<span class="font-label-sm text-secondary">שיפור ניכר</span>
+</div>
+<div class="p-md flex items-center justify-between">
+<div class="flex items-center gap-sm">
+<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-sm">schedule</span>
+</div>
+<span class="font-body-md text-on-surface">עבודה פרטנית בחשבון</span>
+</div>
+<span class="font-label-sm text-outline">בתהליך</span>
+</div>
+</div>
+</section>
+<!-- Aide's Professional Note -->
+<section class="space-y-sm">
+<div class="flex items-center justify-between px-1">
+<h3 class="font-label-md text-on-surface-variant">דבר המשלבת</h3>
+<span class="font-label-sm text-primary">שירה כהן</span>
+</div>
+<div class="bg-surface-container-lowest paper-border rounded-xl p-lg relative overflow-hidden">
+<!-- Decorative element for LetterCard feel -->
+<div class="absolute top-0 right-0 w-1 bg-primary h-full"></div>
+<p class="font-body-md text-on-surface leading-relaxed text-justify">
+                    היום היה יום משמעותי מאוד עבור נעם. במהלך מפגש הבוקר, הוא הצליח לשבת בריכוז לאורך כל הפעילות ואף הצביע והשתתף בשיחה על נושא השבוע. 
+                    <br/><br/>
+                    בהפסקת עשר, נעם ניגש מיוזמתו לקבוצת ילדים ששיחקו בכדור ושאל אם יוכל להצטרף. זהו צעד ענק בביטחון החברתי שלו! במהלך השיעור האחרון הוא חווה רגע של תסכול סביב משימת כתיבה, אך בעזרת טכניקות הוויסות שלמדנו, הוא הצליח להירגע ולחזור לעבודה תוך דקות ספורות. אני גאה בו מאוד על המאמץ היום.
+                </p>
+<div class="mt-lg pt-md border-t border-surface-variant flex items-center gap-sm text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span class="font-label-sm">נשלח בשעה 14:30</span>
+</div>
+</div>
+</section>
+<!-- Spacer for FAB/Button -->
+<div class="h-24"></div>
+</main>
+<!-- Bottom Action Area -->
+<div class="fixed bottom-0 left-0 w-full bg-surface/80 backdrop-blur-md p-container-padding safe-area-bottom">
+<button class="w-full h-[52px] bg-primary text-on-primary font-headline-sm rounded-xl shadow-lg flex items-center justify-center gap-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined fill-icon">send</span>
+<span>שליחת הודעה למשלבת</span>
+</button>
+</div>
+<!-- Micro-interactions Script -->
+<script>
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('touchstart', function() {
+                this.classList.add('opacity-80');
+            });
+            button.addEventListener('touchend', function() {
+                this.classList.remove('opacity-80');
+            });
+        });
+    </script>
+</body></html>

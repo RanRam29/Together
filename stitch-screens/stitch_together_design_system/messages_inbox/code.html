@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="he"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Together - הודעות</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f6f2fc",
+                        "background": "#fcf8ff",
+                        "surface": "#fcf8ff",
+                        "outline": "#787584",
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e5e1eb",
+                        "primary": "#3b309e",
+                        "surface-tint": "#584fbc",
+                        "on-tertiary-fixed": "#2b1700",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#00513e",
+                        "surface-bright": "#fcf8ff",
+                        "primary-container": "#534ab7",
+                        "on-secondary-fixed": "#002117",
+                        "surface-container-high": "#ebe6f0",
+                        "on-secondary-container": "#167159",
+                        "inverse-surface": "#312f37",
+                        "inverse-primary": "#c5c0ff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#f0ecf6",
+                        "secondary-container": "#a0f3d4",
+                        "on-tertiary-container": "#ffc78c",
+                        "tertiary-fixed-dim": "#ffb869",
+                        "secondary-fixed": "#a0f3d4",
+                        "on-primary-fixed": "#140067",
+                        "on-background": "#1c1b22",
+                        "tertiary-container": "#824e00",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#673d00",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "tertiary": "#623900",
+                        "on-surface": "#1c1b22",
+                        "on-primary-fixed-variant": "#3f35a3",
+                        "on-primary-container": "#d1ccff",
+                        "on-primary": "#ffffff",
+                        "secondary": "#086b53",
+                        "tertiary-fixed": "#ffdcbb",
+                        "on-surface-variant": "#474553",
+                        "surface-dim": "#dcd8e2",
+                        "secondary-fixed-dim": "#84d6b9",
+                        "primary-fixed-dim": "#c5c0ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e5e1eb",
+                        "outline-variant": "#c8c4d5",
+                        "inverse-on-surface": "#f3eff9",
+                        "primary-fixed": "#e3dfff",
+                        "brand-cream": "#FBFAF7",
+                        "brand-border": "#E5E2DA"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px",
+                        "brand": "14px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "gutter": "12px",
+                        "xl": "32px",
+                        "container-padding": "20px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Rubik"],
+                        "body-lg": ["Rubik"],
+                        "headline-sm": ["Rubik"],
+                        "label-sm": ["Rubik"],
+                        "display-lg": ["Rubik"],
+                        "body-md": ["Rubik"],
+                        "headline-md": ["Rubik"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", {"lineHeight": "20px", "fontWeight": "500"}],
+                        "body-lg": ["18px", {"lineHeight": "26px", "fontWeight": "400"}],
+                        "headline-sm": ["20px", {"lineHeight": "28px", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "display-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #FBFAF7;
+            font-family: 'Rubik', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .unread-indicator {
+            background-color: #534AB7;
+        }
+        .safe-area-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .message-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .message-card:active {
+            background-color: #f0ecf6;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-on-surface overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white border-b border-brand-border h-16 flex items-center justify-between px-container-padding">
+<div class="flex items-center gap-sm">
+<button class="p-sm rounded-full hover:bg-surface-container-low transition-colors active:scale-95">
+<span class="material-symbols-outlined text-on-surface-variant">arrow_forward</span>
+</button>
+<h1 class="font-headline-md text-headline-md text-on-surface">הודעות</h1>
+</div>
+<div class="flex items-center gap-md">
+<button class="p-sm rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+<img alt="Together Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuGCGyqyHEcekOGXqewDAJJQNIPoPd2kEaeieI1Q7-9FeCuyaXaGrSHa9aqNmStAC7t7NDxILqNvkwyD3Pzv5zoY7GpjzoOOFUDf6MLXNeK6fS4TUZb-VVGDsz1uKbsgBbg0Hrs5PxCtfk31TiaUyxHaJ6Iwi0QViU25UdwxGERyCr9V9KHeLNosTBTdVoTPCIDMRV2Y5GbwiFqKxsog-_NDsBwyBo0dfAOOBMeihifU1xLZmerWW_3x8LPY55LObtJP7rvZ88HCE4"/>
+</div>
+</header>
+<!-- Main Content -->
+<main class="mt-16 mb-20 flex-1 px-container-padding py-md max-w-2xl mx-auto w-full">
+<!-- Filter Tabs / Chips -->
+<div class="flex gap-sm mb-lg overflow-x-auto no-scrollbar py-base">
+<button class="bg-primary text-white px-md py-sm rounded-full font-label-md text-label-md shadow-sm">הכל</button>
+<button class="bg-white border border-brand-border text-on-surface-variant px-md py-sm rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors">לא נקראו</button>
+<button class="bg-white border border-brand-border text-on-surface-variant px-md py-sm rounded-full font-label-md text-label-md hover:bg-surface-container transition-colors">מועדפים</button>
+</div>
+<!-- Messages List -->
+<div class="space-y-sm">
+<!-- Item 1 -->
+<div class="message-card bg-white border border-brand-border rounded-brand p-md flex gap-md cursor-pointer">
+<div class="relative flex-shrink-0">
+<div class="w-14 h-14 rounded-full bg-surface-container overflow-hidden border border-brand-border">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a kind-looking Israeli woman in her 40s with warm lighting and a neutral soft-focus home background. The image has a high-end photography feel, consistent with a premium caregiving service. Minimalist aesthetic, soft shadows, and clean natural colors." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJd-nHyC5Um4kNM3iB6W-Ld78PGLkIKxqVxAbCn3qgeyYfiXvXL3VO81hThob48yfbFCrCamdCb2vDsKgxcsmF5YhbBcSfnl-FesX4tUay4TSDxJXwBQRH1_iABy-m55RaYHYr13P5jgoT2JXCP4wg3gvpyYxfUn-9PQpPvA8S3bsX3O-ykCe3bTYQwsAx6o5K9ot_u7N8T11pIy5xSh0EmVgTjzVLg7dFL2tziEoDq7ckp6kLXJiX4tCvLd_8z4iZmTujp6b0r2zN"/>
+</div>
+<div class="absolute bottom-0 left-0 w-3.5 h-3.5 bg-secondary border-2 border-white rounded-full"></div>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-center">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">מיכל לוי</h3>
+<span class="font-label-sm text-label-sm text-primary font-bold">10:30</span>
+</div>
+<div class="flex justify-between items-center gap-sm">
+<p class="font-body-md text-body-md text-on-surface font-medium truncate">מצוין, נתאם למחר ב-16:00?</p>
+<div class="unread-indicator text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full flex-shrink-0">2</div>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="message-card bg-white border border-brand-border rounded-brand p-md flex gap-md cursor-pointer">
+<div class="relative flex-shrink-0">
+<div class="w-14 h-14 rounded-full bg-surface-container overflow-hidden border border-brand-border">
+<img class="w-full h-full object-cover" data-alt="A warm, empathetic close-up of a healthcare professional smiling gently. Her eyes convey trust and experience. The lighting is soft and golden-hour style, highlighting clean skin and a friendly demeanor. Modern minimalist UI context, creamy palette, professional quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlUpb2n6f9MlB7iwDLyrCd_dCMzfRF9e-hn3k-6AdNmhHIRq0V0BRX4S4tqbdMqVsmOMqbKqNaGlFzTn76VdK6qGMmMKUFil07XtU7PP4JQgqd4HvE_YLpspPiIXm-ZWyIECnfLFUBFeX7-n8Re6JfSyhAVIVCxQ4V3GqeS0XX_C4RkL9X7SR_GWh5xTRepWbaJXeXyatqZOC5eLZxMVoHYgZibTvQrpX_gAmrAXBAtEaqK0aGCFVpFB0a3s76DNGcvpIC8YFsNalj"/>
+</div>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-center">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">דנה ישראלי</h3>
+<span class="font-label-sm text-label-sm text-primary font-bold">אתמול</span>
+</div>
+<div class="flex justify-between items-center gap-sm">
+<p class="font-body-md text-body-md text-on-surface font-medium truncate">ראיתי את הפרופיל של נועם...</p>
+<div class="unread-indicator text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full flex-shrink-0">1</div>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="message-card bg-white border border-brand-border rounded-brand p-md flex gap-md cursor-pointer opacity-90">
+<div class="relative flex-shrink-0">
+<div class="w-14 h-14 rounded-full bg-surface-container overflow-hidden border border-brand-border">
+<img class="w-full h-full object-cover" data-alt="A studio portrait of a young male professional in a light linen shirt, looking directly at the camera with a calm and helpful expression. Warm, bright light-mode studio environment. Clean background in soft beige tones. High-end professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBj1BXNXcMnQ1CK6pruTgvbNn7e-wVzxzNeSCpSFoVAjoDSlFgaZv0SWoNFe06rynAMp_6VdVPXQGGQ7rbOiIWJpXhSr9Hdnx2i0j2atFL8r9e8n3gt4N3vjhNffmYguBp5ka0fWt33ozRqPEmDz0xIJ8UtrGV8wnVBzXFkGeDfdGoAxwzIUfqs9SwmVIU8G_2aIfsEX35q2FUveqGI0e2fdJTSSFjUEsw9SZ180zs95TnhfMnkHwqSC7cupki-w2QqdEb5MFEBucH6"/>
+</div>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-center">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">רותם כהן</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">09:15</span>
+</div>
+<div class="flex justify-between items-center gap-sm">
+<p class="font-body-md text-body-md text-on-surface-variant truncate">תודה על המידע הנוסף!</p>
+</div>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="message-card bg-white border border-brand-border rounded-brand p-md flex gap-md cursor-pointer opacity-90">
+<div class="relative flex-shrink-0">
+<div class="w-14 h-14 rounded-full bg-surface-container overflow-hidden border border-brand-border">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of an older Israeli gentleman with a kind smile, grey hair, wearing a high-quality navy blue sweater. Soft, empathetic lighting against a clean white wall. The mood is trustworthy and serene, perfect for a high-end care app." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-xvnW4pOhc_zE_JP78-r2e0kqh5Ssu0hQ1Dv1RltpLTC0Ng4c-vVVs9vNnaSyPwUUgevvUQw9xWpNkkFmO_yir3RkgXYhjpXWONVHztH0DpF4lLH7wPsdgfYjjfIJ9QrCQozD1yxtFcw6P8DSvXpeOSuwdbQd7CChp5lrou_SemqvAeTI6UiKme8xGWacbIxKH4U5XsZVINJbKFZdkuG_2ZJc_4Nqau24Xwn978ER27TWTLB2eLRvb0G4AmB9lmqdF3V5ZwaKP_Jz"/>
+</div>
+</div>
+<div class="flex-1 min-w-0 flex flex-col justify-center">
+<div class="flex justify-between items-baseline mb-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface truncate">יונתן כהן</h3>
+<span class="font-label-sm text-label-sm text-on-surface-variant">יום ג׳</span>
+</div>
+<div class="flex justify-between items-center gap-sm">
+<p class="font-body-md text-body-md text-on-surface-variant truncate">שלחתי לך את המסמכים המבוקשים.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (New Message) -->
+<button class="fixed bottom-24 left-6 w-14 h-14 bg-primary text-white rounded-2xl shadow-xl flex items-center justify-center transition-transform active:scale-90 z-40">
+<span class="material-symbols-outlined text-[28px]">edit_square</span>
+</button>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-white border-t border-brand-border h-16 flex justify-around items-center px-4 safe-area-bottom">
+<a class="flex flex-col items-center justify-center gap-1 text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">home</span>
+<span class="font-label-sm text-label-sm">ראשי</span>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-primary group" href="#">
+<span class="material-symbols-outlined font-bold group-active:scale-90 transition-transform" style="font-variation-settings: 'FILL' 1;">chat</span>
+<span class="font-label-sm text-label-sm font-bold">הודעות</span>
+<div class="w-1 h-1 bg-primary rounded-full absolute -top-1"></div>
+</a>
+<a class="flex flex-col items-center justify-center gap-1 text-on-surface-variant group" href="#">
+<span class="material-symbols-outlined group-active:scale-90 transition-transform">person</span>
+<span class="font-label-sm text-label-sm">פרופיל</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.message-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Future navigation logic
+            });
+        });
+
+        // Hide scrollbar but keep functionality
+        const style = document.createElement('style');
+        style.textContent = `
+            .no-scrollbar::-webkit-scrollbar { display: none; }
+            .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        `;
+        document.head.append(style);
+    </script>
+</body></html>
