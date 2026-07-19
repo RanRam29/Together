@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - '.github/workflows/**'
       - 'apps/**'
       - 'packages/**'
       - 'supabase/**'
@@ -14,6 +15,7 @@ on:
     branches:
       - main
     paths:
+      - '.github/workflows/**'
       - 'apps/**'
       - 'packages/**'
       - 'supabase/**'
