@@ -50,9 +50,9 @@ BEGIN
         (v_match_id, v_week_start + 1, 5, '{"focus": 5}'::jsonb, 'Test', 'Played well');
 
     -- Insert checkins for attendance
-    INSERT INTO public.checkins (match_id, is_valid, created_at) VALUES
-        (v_match_id, true, (v_week_start::timestamp AT TIME ZONE 'Asia/Jerusalem')),
-        (v_match_id, true, ((v_week_start + 1)::timestamp AT TIME ZONE 'Asia/Jerusalem'));
+    INSERT INTO public.checkins (match_id, location, is_valid, created_at) VALUES
+        (v_match_id, ST_SetSRID(ST_MakePoint(34.7818, 32.0853), 4326), true, (v_week_start::timestamp AT TIME ZONE 'Asia/Jerusalem')),
+        (v_match_id, ST_SetSRID(ST_MakePoint(34.7818, 32.0853), 4326), true, ((v_week_start + 1)::timestamp AT TIME ZONE 'Asia/Jerusalem'));
 END $$;
 
 -- Test 1: Parent can get the weekly summary

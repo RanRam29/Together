@@ -33,8 +33,8 @@ INSERT INTO matches (id, child_id, professional_id, started_at, metric_keys) VAL
   ('m2eebc99-0000-4ef8-bb6d-6bb9bd38d701', 'c2eebc99-0000-4ef8-bb6d-6bb9bd38d701', 'e2eebc99-0000-4ef8-bb6d-6bb9bd38d704', now() - interval '30 days', '{"regulation","transitions"}');
 
 -- Create match days off
-INSERT INTO match_days_off (match_id, date, reason) VALUES
-  ('m2eebc99-0000-4ef8-bb6d-6bb9bd38d701', (now() - interval '5 days')::date, 'holiday');
+INSERT INTO match_days_off (match_id, date, reported_by, reason) VALUES
+  ('m2eebc99-0000-4ef8-bb6d-6bb9bd38d701', (now() - interval '5 days')::date, 'f2eebc99-0000-4ef8-bb6d-6bb9bd38d704', 'holiday');
 
 -- Create valid checkins
 INSERT INTO checkins (match_id, location, is_valid, created_at) VALUES
