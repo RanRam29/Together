@@ -13,7 +13,6 @@ import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
 import { usePlatformMetrics } from "@/hooks/useAdminDashboard";
 import { BrandSpinner } from "@/components/motion/BrandSpinner";
-import { colors } from "@/lib/theme";
 
 
 export default function AdminDashboardScreen() {
@@ -40,23 +39,23 @@ export default function AdminDashboardScreen() {
 
   return (
     <ScrollView
-      className="flex-1 px-6 py-6"
+      className="flex-1 px-6 py-8"
       refreshControl={
         <RefreshControl
           refreshing={metrics.isRefetching}
           onRefresh={() => {
             void metrics.refetch();
           }}
-          tintColor={colors.purple}
-          colors={[colors.purple]}
+          tintColor="#534ab7"
+          colors={["#534ab7"]}
         />
       }
     >
-      <Text className="text-2xl font-bold text-ink mb-2 font-rubik text-right">
-        {t("staff.dashboardTitle")}
+      <Text className="text-[30px] leading-[38px] font-bold text-[#1c1b22] mb-2 font-rubik text-right">
+        {t("staff.dashboardTitle", "סקירה כללית")}
       </Text>
-      <Text className="text-sm text-ink-2 mb-6 text-right">
-        {t("staff.dashboardSubtitle")}
+      <Text className="text-base text-[#474553] mb-8 font-rubik text-right">
+        {t("staff.dashboardSubtitle", "הנתונים מעודכנים בזמן אמת")}
       </Text>
 
       {metrics.isLoading || metrics.isError ? (
@@ -67,56 +66,56 @@ export default function AdminDashboardScreen() {
           onRetry={() => void metrics.refetch()}
         />
       ) : m ? (
-        <View className="flex-row flex-wrap gap-3 justify-end">
+        <View className="flex-row flex-wrap gap-6 justify-end w-full">
           <MetricCard
-            label={t("staff.metricVerified")}
+            label={t("staff.metricVerified", "משלבות מאומתות")}
             value={m.verifiedProfessionals}
             highlight="success"
             onPress={() => router.push("/(staff)/verification" as never)}
           />
           <MetricCard
-            label={t("staff.metricPending")}
+            label={t("staff.metricPending", "ממתינות לאימות")}
             value={m.pendingVerification}
+            highlight="purple"
             onPress={() => router.push("/(staff)/verification" as never)}
           />
           <MetricCard
-            label={t("staff.metricSlaOverdue")}
+            label={t("staff.metricSlaOverdue", "חריגות SLA")}
             value={m.slaOverdue}
             highlight={m.slaOverdue > 0 ? "warning" : "default"}
             onPress={() => router.push("/(staff)/verification" as never)}
           />
           <MetricCard
-            label={t("staff.metricParents")}
+            label={t("staff.metricParents", "הורים פעילים")}
             value={m.activeParents}
             onPress={() => router.push("/(staff)/users" as never)}
           />
           <MetricCard
-            label={t("staff.metricChildren")}
+            label={t("staff.metricChildren", "ילדים רשומים")}
             value={m.activeChildren}
           />
           <MetricCard
-            label={t("staff.metricOpenRequests")}
+            label={t("staff.metricOpenRequests", "בקשות פתוחות")}
             value={m.openRequests}
           />
           <MetricCard
-            label={t("staff.metricActiveMatches")}
+            label={t("staff.metricActiveMatches", "התאמות פעילות")}
             value={m.activeMatches}
+            highlight="success"
             onPress={() => router.push("/(staff)/matches" as never)}
           />
           <MetricCard
-            label={t("staff.metricCheckinsToday")}
+            label={t("staff.metricCheckinsToday", "צ'ק-אין היום")}
             value={m.checkinsToday}
           />
           <MetricCard
-            label={t("staff.metricLogsToday")}
+            label={t("staff.metricLogsToday", "דיווחי יומן היום")}
             value={m.dailyLogsToday}
           />
         </View>
       ) : null}
 
-
-
-      <View className="h-8" />
+      <View className="h-12" />
     </ScrollView>
   );
 }

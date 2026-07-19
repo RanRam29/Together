@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import { View } from "react-native";
 
-import { StaffShell } from "@/components/admin/StaffShell";
+import { AdminLayout } from "@/components/admin/AdminLayout";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
 import { BrandSpinner } from "@/components/motion/BrandSpinner";
 
@@ -11,14 +11,14 @@ export default function StaffLayout() {
 
   if (!isReady || denied) {
     return (
-      <View className="flex-1 items-center justify-center bg-bg">
+      <View className="flex-1 items-center justify-center bg-surface-low">
         <BrandSpinner size="large" />
       </View>
     );
   }
 
   return (
-    <StaffShell>
+    <AdminLayout>
       <Stack screenOptions={{ headerShown: false, animation: "fade" }}>
         <Stack.Screen name="index" />
         <Stack.Screen name="dashboard" />
@@ -34,6 +34,6 @@ export default function StaffLayout() {
         <Stack.Screen name="config" />
         <Stack.Screen name="web-only" />
       </Stack>
-    </StaffShell>
+    </AdminLayout>
   );
 }
