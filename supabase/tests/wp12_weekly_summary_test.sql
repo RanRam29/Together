@@ -21,11 +21,10 @@ BEGIN
         (v_prof_profile_id, 'prof@test.com', '{"role": "professional"}'),
         (v_unrelated_parent_id, 'unrelated@test.com', '{"role": "parent"}');
 
-    -- Create profiles
-    INSERT INTO public.profiles (id, role, full_name) VALUES
-        (v_parent_id, 'parent', 'Parent 1'),
-        (v_prof_profile_id, 'professional', 'Prof 1'),
-        (v_unrelated_parent_id, 'parent', 'Parent Unrelated');
+    -- Update profiles
+    UPDATE public.profiles SET role = 'parent', full_name = 'Parent 1' WHERE id = v_parent_id;
+    UPDATE public.profiles SET role = 'professional', full_name = 'Prof 1' WHERE id = v_prof_profile_id;
+    UPDATE public.profiles SET role = 'parent', full_name = 'Parent Unrelated' WHERE id = v_unrelated_parent_id;
 
     -- Create child
     INSERT INTO public.children (id, parent_id, first_name, age, category, functioning_level, framework) VALUES

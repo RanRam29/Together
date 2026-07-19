@@ -18,9 +18,8 @@ INSERT INTO auth.users (id, email, encrypted_password, aud, role) VALUES
   ('a1eebc99-0000-4ef8-bb6d-6bb9bd38d701', 'dl-parent@test.local', crypt('pass123', gen_salt('bf')), 'authenticated', 'authenticated'),
   ('a1eebc99-0000-4ef8-bb6d-6bb9bd38d702', 'dl-prof@test.local', crypt('pass123', gen_salt('bf')), 'authenticated', 'authenticated');
 
-INSERT INTO profiles (id, role, full_name, phone) VALUES
-  ('a1eebc99-0000-4ef8-bb6d-6bb9bd38d701', 'parent', 'DL Parent', '0500000011'),
-  ('a1eebc99-0000-4ef8-bb6d-6bb9bd38d702', 'professional', 'DL Prof', '0500000012');
+UPDATE profiles SET role = 'parent', full_name = 'DL Parent', phone = '0500000011' WHERE id = 'a1eebc99-0000-4ef8-bb6d-6bb9bd38d701';
+UPDATE profiles SET role = 'professional', full_name = 'DL Prof', phone = '0500000012' WHERE id = 'a1eebc99-0000-4ef8-bb6d-6bb9bd38d702';
 
 INSERT INTO professionals (id, user_id, display_name) VALUES
   ('b1eebc99-0000-4ef8-bb6d-6bb9bd38d701', 'a1eebc99-0000-4ef8-bb6d-6bb9bd38d702', 'DL Prof');

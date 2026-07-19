@@ -12,11 +12,10 @@ INSERT INTO auth.users (id, email, phone, encrypted_password, aud, role) VALUES
   ('f2eebc99-0000-4ef8-bb6d-6bb9bd38d703', 'other-parent@test.local', '0500000003', crypt('pass123', gen_salt('bf')), 'authenticated', 'authenticated'),
   ('f2eebc99-0000-4ef8-bb6d-6bb9bd38d704', 'prof@test.local', '0500000004', crypt('pass123', gen_salt('bf')), 'authenticated', 'authenticated');
 
-INSERT INTO profiles (id, role, full_name, phone) VALUES
-  ('f2eebc99-0000-4ef8-bb6d-6bb9bd38d701', 'parent', 'Primary Parent', '0500000001'),
-  ('f2eebc99-0000-4ef8-bb6d-6bb9bd38d702', 'parent', 'Secondary Parent', '0500000002'),
-  ('f2eebc99-0000-4ef8-bb6d-6bb9bd38d703', 'parent', 'Other Parent', '0500000003'),
-  ('f2eebc99-0000-4ef8-bb6d-6bb9bd38d704', 'professional', 'Prof User', 'SECRET_PHONE_LEAK_0500000004');
+UPDATE profiles SET role = 'parent', full_name = 'Primary Parent', phone = '0500000001' WHERE id = 'f2eebc99-0000-4ef8-bb6d-6bb9bd38d701';
+UPDATE profiles SET role = 'parent', full_name = 'Secondary Parent', phone = '0500000002' WHERE id = 'f2eebc99-0000-4ef8-bb6d-6bb9bd38d702';
+UPDATE profiles SET role = 'parent', full_name = 'Other Parent', phone = '0500000003' WHERE id = 'f2eebc99-0000-4ef8-bb6d-6bb9bd38d703';
+UPDATE profiles SET role = 'professional', full_name = 'Prof User', phone = 'SECRET_PHONE_LEAK_0500000004' WHERE id = 'f2eebc99-0000-4ef8-bb6d-6bb9bd38d704';
 
 INSERT INTO professionals (id, user_id, display_name) VALUES
   ('e2eebc99-0000-4ef8-bb6d-6bb9bd38d704', 'f2eebc99-0000-4ef8-bb6d-6bb9bd38d704', 'Prof User Display');
