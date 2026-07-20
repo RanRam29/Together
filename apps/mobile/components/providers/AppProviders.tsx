@@ -1,5 +1,5 @@
 import { useEffect, useState, type ComponentType, type ReactNode } from "react";
-import { View, type ViewProps } from "react-native";
+import { Platform, View, type ViewProps } from "react-native";
 import {
   Rubik_400Regular,
   Rubik_500Medium,
@@ -34,6 +34,37 @@ const GestureHandlerRootView =
 // SplashReveal, so the handoff below is invisible) up until SplashReveal has mounted
 // and can take over the reveal animation with zero gap.
 void SplashScreen.preventAutoHideAsync();
+
+// Web font fix: on Vercel the bundled font files live under `/assets/__node_modules/…`,
+// and Vercel returns 403 for any path containing `node_modules`, so Rubik + the Material
+// icon font fail to load and all text falls back to a system font (the app "loses its
+// design"). We load Rubik (Hebrew + Latin subsets) and Material Icons from the Google
+// Fonts CDN and override the `.font-rubik*` utilities with uniquely-named web families,
+// injected at runtime so this wins regardless of how the app's own broken @font-face
+// (Rubik_400Regular…) is ordered. Web only; no-op on native.
+const WEB_FONT_FIX = `
+@font-face{font-family:'RubikWeb';font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/rubik/v31/iJWKBXyIfDnIV7nDrXyi0A.woff2') format('woff2');unicode-range:U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F;}
+@font-face{font-family:'RubikWeb';font-weight:400;font-display:swap;src:url('https://fonts.gstatic.com/s/rubik/v31/iJWKBXyIfDnIV7nBrXw.woff2') format('woff2');}
+@font-face{font-family:'RubikWebMedium';font-weight:500;font-display:swap;src:url('https://fonts.gstatic.com/s/rubik/v31/iJWKBXyIfDnIV7nDrXyi0A.woff2') format('woff2');unicode-range:U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F;}
+@font-face{font-family:'RubikWebMedium';font-weight:500;font-display:swap;src:url('https://fonts.gstatic.com/s/rubik/v31/iJWKBXyIfDnIV7nBrXw.woff2') format('woff2');}
+@font-face{font-family:'RubikWebBold';font-weight:700;font-display:swap;src:url('https://fonts.gstatic.com/s/rubik/v31/iJWKBXyIfDnIV7nDrXyi0A.woff2') format('woff2');unicode-range:U+0590-05FF,U+200C-2010,U+20AA,U+25CC,U+FB1D-FB4F;}
+@font-face{font-family:'RubikWebBold';font-weight:700;font-display:swap;src:url('https://fonts.gstatic.com/s/rubik/v31/iJWKBXyIfDnIV7nBrXw.woff2') format('woff2');}
+@font-face{font-family:'material';font-weight:400;font-display:block;src:url('https://fonts.gstatic.com/s/materialicons/v145/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2') format('woff2');}
+@font-face{font-family:'MaterialIcons';font-weight:400;font-display:block;src:url('https://fonts.gstatic.com/s/materialicons/v145/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2') format('woff2');}
+.font-rubik{font-family:'RubikWeb',sans-serif !important;}
+.font-rubik-medium{font-family:'RubikWebMedium','RubikWeb',sans-serif !important;}
+.font-rubik-bold{font-family:'RubikWebBold','RubikWeb',sans-serif !important;}
+`;
+
+function injectWebFonts() {
+  if (Platform.OS !== "web" || typeof document === "undefined") return;
+  if (document.getElementById("together-web-fonts")) return;
+  const style = document.createElement("style");
+  style.id = "together-web-fonts";
+  style.textContent = WEB_FONT_FIX;
+  document.head.appendChild(style);
+}
+injectWebFonts();
 
 function AppReady({ children }: { children: ReactNode }) {
   useAuthBootstrap();
