@@ -20,6 +20,7 @@ type RouteGroup =
 const AUTH_SETUP_SCREENS = new Set([
   "role-select",
   "login",
+  "signup",
   "verify-otp",
   "onboarding",
 ]);
@@ -48,6 +49,13 @@ export function useProtectedRoute() {
       isStaffUser(session, profile) || hasStaffProfileRole(profile);
 
     if (!session && !inAuthGroup) {
+      router.replace("/(auth)/login");
+      return;
+    }
+
+    // onboarding והשלמת פרופיל מחייבים session — מבקר לא־מחובר שהגיע ישירות
+    // (למשל בהקלדת כתובת) מוחזר להתחברות במקום לראות טופס שלא ניתן לשלוח
+    if (!session && inAuthGroup && subSegment === "onboarding") {
       router.replace("/(auth)/login");
       return;
     }

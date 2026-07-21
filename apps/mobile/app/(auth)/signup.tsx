@@ -1,0 +1,259 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { Alert, Pressable, Text, View, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { MaterialIcons } from "@expo/vector-icons";
+
+import { TextField } from "@/components/ui/Screen";
+import { AppLogo } from "@/components/ui/AppLogo";
+import { sendPhoneOtp, signUpWithEmail } from "@/lib/auth-api";
+import { isSupabaseConfigured } from "@/lib/supabase";
+import { isValidIsraeliPhone } from "@/lib/phone";
+import { changeAppLanguage } from "@/i18n";
+import { useLocaleStore } from "@/stores/auth-store";
+import { useOnboardingStore } from "@/stores/onboarding-store";
+import { AppPageWidth } from "@/components/ui/AppPageWidth";
+import { Button } from "@/components/ui/Button";
+
+export default function SignupScreen() {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { language, setLanguage } = useLocaleStore();
+  const { selectedRole, setPendingPhone } = useOnboardingStore();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [error, setError] = useState<string | undefined>();
+  const [loading, setLoading] = useState(false);
+  const [isPhoneMode, setIsPhoneMode] = useState(false);
+  const [confirmSent, setConfirmSent] = useState(false);
+
+  // הרשמה מחייבת בחירת תפקיד מראש — בלעדיה חוזרים לבחירה
+  useEffect(() => {
+    if (!selectedRole) router.replace("/(auth)/role-select");
+  }, [selectedRole, router]);
+
+  async function toggleLanguage() {
+    const next = language === "he" ? "en" : "he";
+    setLanguage(next);
+    const needsReload = await changeAppLanguage(next);
+    if (needsReload) {
+      Alert.alert(
+        t("common.language"),
+        language === "he"
+          ? "Restart the app to apply layout direction."
+          : "הפעילו מחדש את האפליקציה כדי להחיל כיוון תצוגה."
+      );
+    }
+  }
+
+  async function handleEmailSignup() {
+    if (!selectedRole) return router.replace("/(auth)/role-select");
+    if (!isSupabaseConfigured) return Alert.alert(t("common.error"), t("auth.supabaseMissing"));
+    if (!email.includes("@")) return setError(t("auth.invalidEmail"));
+    if (password.length < 6) return setError(t("auth.invalidPassword"));
+
+    setError(undefined);
+    setLoading(true);
+    try {
+      const data = await signUpWithEmail(email, password, selectedRole);
+      // אם אימות אימייל מופעל ב-Supabase לא מוחזר session — מציגים "בדקו את המייל".
+      // אחרת נכנסים ישר להשלמת הפרופיל.
+      if (data.session) {
+        router.replace("/(auth)/onboarding");
+      } else {
+        setConfirmSent(true);
+      }
+    } catch (err) {
+      const raw = err instanceof Error ? err.message : t("auth.authFailed");
+      const lower = raw.toLowerCase();
+      if (lower.includes("already registered") || lower.includes("already exists")) {
+        Alert.alert(t("common.error"), t("auth.emailAlreadyExists"));
+      } else {
+        Alert.alert(t("common.error"), raw.startsWith("auth.") ? t(raw) : raw);
+      }
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handlePhoneSignup() {
+    if (!selectedRole) return router.replace("/(auth)/role-select");
+    if (!isSupabaseConfigured) return Alert.alert(t("common.error"), t("auth.supabaseMissing"));
+    if (!isValidIsraeliPhone(phone)) return setError(t("auth.invalidPhone"));
+
+    setError(undefined);
+    setLoading(true);
+    try {
+      // הרשמה — יצירת משתמש חדש מותרת
+      await sendPhoneOtp(phone, selectedRole, { shouldCreateUser: true });
+      setPendingPhone(phone);
+      router.push("/(auth)/verify-otp");
+    } catch (err) {
+      const raw = err instanceof Error ? err.message : t("auth.authFailed");
+      Alert.alert(t("common.error"), raw.startsWith("auth.") ? t(raw) : raw);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <SafeAreaView className="flex-1 bg-bg" edges={["top", "bottom"]}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        className="flex-1"
+      >
+        <ScrollView className="flex-1" contentContainerClassName="flex-grow">
+          <AppPageWidth className="flex-grow px-6 py-4 flex flex-col items-center">
+
+            {/* Header / Language */}
+            <View className="w-full h-14 flex-row items-center justify-between">
+              {/* eslint-disable-next-line no-restricted-syntax -- inline back link, not a CTA */}
+              <Pressable
+                onPress={() => router.replace("/(auth)/role-select")}
+                className="p-2 active:opacity-70 rounded-full bg-surface-2"
+              >
+                <MaterialIcons name="arrow-forward" size={24} color="#3C3489" />
+              </Pressable>
+              {/* eslint-disable-next-line no-restricted-syntax -- language toggle chip, not a CTA; no matching Button variant */}
+              <Pressable
+                onPress={toggleLanguage}
+                className="flex-row items-center gap-2 px-3 py-1.5 bg-surface border border-border rounded-full active:opacity-80"
+              >
+                <MaterialIcons name="language" size={18} color="#5F5C55" />
+                <Text className="font-rubik-medium text-sm text-ink-2">
+                  עברית / English
+                </Text>
+              </Pressable>
+            </View>
+
+            {/* Hero / Logo */}
+            <View className="items-center mt-6 mb-8">
+              <View className="w-32 h-32 mb-4 items-center justify-center">
+                <AppLogo />
+              </View>
+              <Text className="font-rubik-bold text-2xl text-ink text-center">
+                {t("auth.signupTitle", "יצירת חשבון")}
+              </Text>
+              <Text className="font-rubik text-base text-ink-2 text-center mt-2">
+                {selectedRole === "professional"
+                  ? t("auth.roleProfessional", "אני משלבת")
+                  : t("auth.roleParent", "אני הורה")}
+              </Text>
+            </View>
+
+            {confirmSent ? (
+              <View className="w-full max-w-sm mx-auto">
+                <View className="bg-teal-bg p-5 rounded-[14px] border border-teal/20">
+                  <Text className="text-teal-ink text-center font-rubik-medium text-base">
+                    {t("auth.confirmEmailSent", "שלחנו לך אימייל לאימות. אשרו אותו ואז התחברו.")}
+                  </Text>
+                </View>
+                <Button
+                  label={t("auth.loginButton", "התחברות")}
+                  onPress={() => router.replace("/(auth)/login")}
+                  size="lg"
+                  className="w-full mt-6"
+                />
+              </View>
+            ) : (
+              <>
+                {/* Form Section */}
+                <View className="w-full space-y-6 max-w-sm w-full mx-auto">
+                  {isPhoneMode ? (
+                    <View className="mb-4">
+                      <TextField
+                        label={t("auth.phoneLabel", "מספר טלפון")}
+                        placeholder={t("auth.phonePlaceholder", "05X-XXXXXXX")}
+                        keyboardType="phone-pad"
+                        value={phone}
+                        onChangeText={setPhone}
+                        error={error}
+                        autoComplete="tel"
+                        textContentType="telephoneNumber"
+                      />
+                      <Button
+                        label={t("auth.sendOtp", "שליחת קוד")}
+                        onPress={handlePhoneSignup}
+                        loading={loading}
+                        size="lg"
+                        className="w-full mt-2 shadow-sm"
+                      />
+                    </View>
+                  ) : (
+                    <View className="mb-4">
+                      <TextField
+                        label={t("auth.emailLabel", "אימייל")}
+                        placeholder="example@email.com"
+                        keyboardType="email-address"
+                        value={email}
+                        onChangeText={setEmail}
+                        autoCapitalize="none"
+                        autoComplete="email"
+                        textContentType="emailAddress"
+                      />
+                      <View className="relative">
+                        <TextField
+                          label={t("auth.passwordLabel", "סיסמה")}
+                          placeholder="********"
+                          secureTextEntry
+                          showPasswordToggle
+                          value={password}
+                          onChangeText={setPassword}
+                          error={error}
+                          autoComplete="password-new"
+                          textContentType="newPassword"
+                        />
+                      </View>
+                      <Button
+                        label={t("auth.createAccountButton", "יצירת חשבון")}
+                        onPress={handleEmailSignup}
+                        loading={loading}
+                        size="lg"
+                        className="w-full mt-2 shadow-sm"
+                      />
+                    </View>
+                  )}
+
+                  {/* Divider */}
+                  <View className="flex-row items-center gap-4 py-4 w-full max-w-sm mx-auto">
+                    <View className="h-[1px] flex-1 bg-border" />
+                    <Text className="font-rubik text-sm text-ink-3">או</Text>
+                    <View className="h-[1px] flex-1 bg-border" />
+                  </View>
+
+                  {/* Alternate signup method */}
+                  <View className="gap-3 max-w-sm w-full mx-auto">
+                    <Button
+                      variant="neutral"
+                      label={isPhoneMode ? t("auth.signupWithEmail", "הרשמה עם אימייל") : t("auth.signupWithPhone", "הרשמה עם טלפון")}
+                      icon={<MaterialIcons name={isPhoneMode ? "email" : "smartphone"} size={24} color="#534AB7" />}
+                      onPress={() => { setError(undefined); setIsPhoneMode(!isPhoneMode); }}
+                      className="w-full"
+                    />
+                  </View>
+                </View>
+
+                {/* Footer */}
+                <View className="mt-auto pt-10 text-center flex-row justify-center gap-1">
+                  <Text className="font-rubik text-base text-ink-2">
+                    {t("auth.haveAccount", "כבר יש לך חשבון?")}
+                  </Text>
+                  {/* eslint-disable-next-line no-restricted-syntax -- inline text link, not a button */}
+                  <Pressable onPress={() => router.replace("/(auth)/login")}>
+                    <Text className="text-purple font-rubik-bold text-base hover:underline">
+                      {t("auth.loginButton", "התחברות")}
+                    </Text>
+                  </Pressable>
+                </View>
+              </>
+            )}
+
+          </AppPageWidth>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+}

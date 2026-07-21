@@ -11,6 +11,7 @@ import type { UserRole } from "@/lib/types";
 import { useLocaleStore } from "@/stores/auth-store";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 import { AppPageWidth } from "@/components/ui/AppPageWidth";
+import { Button } from "@/components/ui/Button";
 
 export default function RoleSelectScreen() {
   const { t } = useTranslation();
@@ -36,9 +37,9 @@ export default function RoleSelectScreen() {
     setSelectedRole(role);
   }
 
-  function continueToLogin() {
+  function continueToSignup() {
     if (!selectedRole) return;
-    router.replace("/(auth)/login");
+    router.replace("/(auth)/signup");
   }
 
   return (
@@ -52,7 +53,8 @@ export default function RoleSelectScreen() {
               <View className="w-24 h-8 justify-center items-start">
                 <AppLogo variant="compact" />
               </View>
-              <Pressable 
+              {/* eslint-disable-next-line no-restricted-syntax -- language toggle chip, not a CTA; no matching Button variant */}
+              <Pressable
                 onPress={toggleLanguage}
                 className="flex-row items-center gap-2 px-4 py-2 bg-surface-container-high rounded-full border border-outline-variant active:opacity-80"
               >
@@ -76,6 +78,7 @@ export default function RoleSelectScreen() {
             {/* Role Cards Grid */}
             <View className="space-y-4 gap-4">
               {/* Parent Card */}
+              {/* eslint-disable-next-line no-restricted-syntax -- role selection card (icon+title+desc+check), not a button */}
               <Pressable
                 onPress={() => pickRole("parent")}
                 className={`relative flex-row items-center gap-4 p-6 rounded-[14px] border transition-colors ${
@@ -111,6 +114,7 @@ export default function RoleSelectScreen() {
               </Pressable>
 
               {/* Professional Card */}
+              {/* eslint-disable-next-line no-restricted-syntax -- role selection card (icon+title+desc+check), not a button */}
               <Pressable
                 onPress={() => pickRole("professional")}
                 className={`relative flex-row items-center gap-4 p-6 rounded-[14px] border transition-colors ${
@@ -149,19 +153,17 @@ export default function RoleSelectScreen() {
 
           {/* Footer Area */}
           <View className="mt-12 items-center w-full gap-4 pb-6">
-            <Pressable
-              onPress={continueToLogin}
+            <Button
+              label={t("common.continue", "המשך")}
+              icon={<MaterialIcons name="arrow-back" size={20} color="#FFF" />}
+              iconPosition="trailing"
+              onPress={continueToSignup}
               disabled={!selectedRole}
-              className={`w-full h-[52px] rounded-[14px] flex-row items-center justify-center shadow-sm active:scale-[0.98] transition-transform ${
-                selectedRole ? "bg-purple" : "bg-purple/50"
-              }`}
-            >
-              <Text className="font-rubik-medium text-lg text-white mx-2">
-                {t("common.continue", "המשך")}
-              </Text>
-              <MaterialIcons name="arrow-back" size={20} color="#FFF" />
-            </Pressable>
-            
+              size="lg"
+              className="w-full shadow-sm"
+            />
+
+            {/* eslint-disable-next-line no-restricted-syntax -- inline text link, not a button */}
             <Pressable onPress={() => router.replace("/(auth)/login")} className="p-2">
               <Text className="font-rubik-medium text-base text-purple active:opacity-70">
                 {t("auth.backToLogin", "חזרה להתחברות")}

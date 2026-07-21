@@ -43,6 +43,7 @@ interface OnboardingState {
   pendingPhone: string;
   childDraft: ChildDraft | null;
   setSelectedRole: (role: UserRole) => void;
+  clearSelectedRole: () => void;
   setPendingPhone: (phone: string) => void;
   saveChildDraft: (draft: ChildDraft) => void;
   clearChildDraft: () => void;
@@ -56,6 +57,7 @@ export const useOnboardingStore = create<OnboardingState>()(
       pendingPhone: "",
       childDraft: null,
       setSelectedRole: (selectedRole) => set({ selectedRole }),
+      clearSelectedRole: () => set({ selectedRole: null }),
       setPendingPhone: (pendingPhone) => set({ pendingPhone }),
       saveChildDraft: (childDraft) => set({ childDraft }),
       clearChildDraft: () => set({ childDraft: null }),

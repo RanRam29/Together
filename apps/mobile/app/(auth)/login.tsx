@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Alert, Pressable, Text, View, ScrollView, KeyboardAvoidingView, Platform } from "react-native";
@@ -21,8 +21,8 @@ export default function LoginScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const { language, setLanguage } = useLocaleStore();
-  const { selectedRole, pendingPhone, setPendingPhone } = useOnboardingStore();
-  
+  const { pendingPhone, setPendingPhone, clearSelectedRole } = useOnboardingStore();
+
   // States
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,6 +30,12 @@ export default function LoginScreen() {
   const [error, setError] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
   const [isPhoneMode, setIsPhoneMode] = useState(false);
+
+  // מסך זה מיועד להתחברות בלבד — מנקים תפקיד שנבחר בהרשמה כדי שלא ידלוף
+  // לזרימת ההתחברות (למשל בחירת מסך onboarding שגוי או יצירת משתמש בטעות)
+  useEffect(() => {
+    clearSelectedRole();
+  }, [clearSelectedRole]);
 
   async function toggleLanguage() {
     const next = language === "he" ? "en" : "he";
@@ -79,11 +85,9 @@ export default function LoginScreen() {
     setError(undefined);
     setLoading(true);
     try {
-      // רק מי שהגיע מבחירת תפקיד נמצא בהרשמה ורשאי ליצור משתמש חדש;
-      // התחברות רגילה חוסמת יצירה כדי שרק משתמשים קיימים יוכלו להיכנס
-      await sendPhoneOtp(phone, selectedRole ?? "parent", {
-        shouldCreateUser: !!selectedRole,
-      });
+      // התחברות חוסמת יצירת משתמש — רק משתמשים קיימים נכנסים.
+      // הרשמה חדשה מתבצעת רק במסך signup. התפקיד כאן אינו בשימוש (לא יוצרים).
+      await sendPhoneOtp(phone, "parent", { shouldCreateUser: false });
       setPendingPhone(phone);
       router.push("/(auth)/verify-otp");
     } catch (err) {
