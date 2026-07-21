@@ -12,6 +12,13 @@ const buttonStyles = tv({
       "outline-destructive": "border-2 border-coral bg-transparent",
       ghost: "bg-transparent",
       destructive: "bg-coral",
+      // Neutral: white surface + neutral border (social / alternate-action buttons).
+      neutral: "bg-white border border-border",
+      // Tonal: soft tinted fill for lower-emphasis actions (matches Badge tones).
+      "tonal-primary": "bg-purple-bg",
+      "tonal-secondary": "bg-teal-bg",
+      "tonal-warning": "bg-amber-bg",
+      "tonal-destructive": "bg-coral-bg",
     },
     size: {
       sm: "px-4 py-2",
@@ -38,6 +45,11 @@ const textStyles = tv({
       "outline-destructive": "text-coral",
       ghost: "text-purple",
       destructive: "text-white",
+      neutral: "text-ink",
+      "tonal-primary": "text-purple-ink",
+      "tonal-secondary": "text-teal-ink",
+      "tonal-warning": "text-amber-ink",
+      "tonal-destructive": "text-coral-ink",
     },
     size: {
       sm: "text-sm",
@@ -51,28 +63,57 @@ const textStyles = tv({
   },
 });
 
-export interface ButtonProps extends TouchableOpacityProps, VariantProps<typeof buttonStyles> {
-  label: string;
-  loading?: boolean;
-  icon?: React.ReactNode;
-}
+// Spinner colour per variant — mirrors the text colour so the loading state
+// reads on the same fill. Values come from lib/theme.
+const SPINNER_COLOR: Record<string, string> = {
+  primary: "#FFFFFF",
+  secondary: "#FFFFFF",
+  destructive: "#FFFFFF",
+  outline: "#534AB7",
+  ghost: "#534AB7",
+  "outline-destructive": "#D85A30",
+  neutral: "#24221E",
+  "tonal-primary": "#3C3489",
+  "tonal-secondary": "#085041",
+  "tonal-warning": "#633806",
+  "tonal-destructive": "#712B13",
+};
+
+type ButtonBaseProps = Omit<TouchableOpacityProps, "children"> &
+  VariantProps<typeof buttonStyles> & {
+    loading?: boolean;
+    icon?: React.ReactNode;
+  };
+
+// A button either has a visible text label, or is icon-only — in which case an
+// accessibilityLabel is required so the control is still announced.
+export type ButtonProps =
+  | (ButtonBaseProps & { label: string })
+  | (ButtonBaseProps & { label?: undefined; icon: React.ReactNode; accessibilityLabel: string });
 
 export const Button = React.forwardRef<View, ButtonProps>(
   ({ label, variant, size, disabled, loading, icon, className, style, ...props }, ref) => {
+    const iconOnly = !label;
     return (
       <TouchableOpacity
         ref={ref}
         style={style}
-        className={buttonStyles({ variant, size, disabled: disabled || loading, className })}
+        className={buttonStyles({
+          variant,
+          size,
+          disabled: disabled || loading,
+          // Icon-only collapses to square padding; caller className still wins.
+          className: [iconOnly ? "p-3" : "", className].filter(Boolean).join(" ") || undefined,
+        })}
         disabled={disabled || loading}
         {...props}
       >
         {loading ? (
-          <ActivityIndicator color={variant === "outline" || variant === "ghost" ? "#534AB7" : variant === "outline-destructive" ? "#BA1A1A" : "#FFF"} />
+          <ActivityIndicator color={SPINNER_COLOR[variant ?? "primary"] ?? "#FFFFFF"} />
         ) : (
           <>
-            {icon && <View className="mr-2">{icon}</View>}
-            <Text className={textStyles({ variant, size })}>{label}</Text>
+            {icon && <View className={iconOnly ? "" : "mr-2"}>{icon}</View>}
+            {label ? <Text className={textStyles({ variant, size })}>{label}</Text> : null}
           </>
         )}
       </TouchableOpacity>

@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 
 import { AppSwitch } from "@/components/ui/AppSwitch";
+import { Button } from "@/components/ui/Button";
 import { ScreenShell } from "@/components/ui/Screen";
 import { LanguageToggle } from "@/components/ui/Form";
 import { changeAppLanguage } from "@/i18n";
@@ -211,14 +212,13 @@ export default function SettingsScreen() {
           {t("settings.version", { version: appVersion })}
         </Text>
 
-        {/* eslint-disable-next-line no-restricted-syntax -- soft/tonal destructive (logout); kit destructive is filled-only */}
-        <Pressable
+        <Button
+          variant="tonal-destructive"
+          label={t("settings.logoutAction")}
+          icon={<Ionicons name="log-out-outline" size={20} color="#712B13" />}
           onPress={handleLogout}
-          className="bg-coral/10 p-4 rounded-xl flex-row items-center justify-center gap-2 mt-4"
-        >
-          <Ionicons name="log-out-outline" size={20} color="#E04D40" />
-          <Text className="text-coral font-bold text-base">{t("settings.logoutAction")}</Text>
-        </Pressable>
+          className="mt-4"
+        />
       </ScrollView>
     </ScreenShell>
   );

@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  Pressable,
   RefreshControl,
   ScrollView,
   Text,
@@ -93,10 +92,13 @@ export default function ProfessionalHomeScreen() {
       title={t("professional.homeTitle")}
       subtitle={t("professional.homeSubtitle")}
       headerRight={
-        /* eslint-disable-next-line no-restricted-syntax -- icon-only header button; Button requires a text label */
-        <Pressable onPress={() => router.push("/settings")} className="p-2 -me-2 bg-surface rounded-full border border-border">
-          <Ionicons name="settings-outline" size={24} color="#0F6E56" />
-        </Pressable>
+        <Button
+          variant="neutral"
+          icon={<Ionicons name="settings-outline" size={24} color="#0F6E56" />}
+          accessibilityLabel={t("settings.title")}
+          onPress={() => router.push("/settings")}
+          className="p-2 -me-2 rounded-full bg-surface"
+        />
       }
     >
       <ScrollView

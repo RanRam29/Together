@@ -137,15 +137,13 @@ export default function ParentHomeScreen() {
       title={t("parent.homeTitle")}
       subtitle={subtitle}
       headerRight={
-        /* eslint-disable-next-line no-restricted-syntax -- icon-only header button; Button requires a text label */
-        <Pressable
-          onPress={() => router.push("/settings")}
-          className="p-2 -me-2 bg-surface rounded-full border border-border"
-          accessibilityRole="button"
+        <Button
+          variant="neutral"
+          icon={<Ionicons name="settings-outline" size={24} color={colors.purple} />}
           accessibilityLabel={t("settings.title")}
-        >
-          <Ionicons name="settings-outline" size={24} color={colors.purple} />
-        </Pressable>
+          onPress={() => router.push("/settings")}
+          className="p-2 -me-2 rounded-full bg-surface"
+        />
       }
     >
       <ApproveDisclosureSheet
@@ -214,19 +212,16 @@ export default function ParentHomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         {selectedChild?.published ? (
-          /* eslint-disable-next-line no-restricted-syntax -- teal tonal button; kit has no tonal/soft-secondary variant yet */
-          <Pressable
+          <Button
+            variant="tonal-secondary"
+            label={t("report.title", "דוח התקדמות (PDF)")}
             onPress={() =>
               router.push({
                 pathname: "/(parent)/progress-report",
                 params: { childId: selectedChild.id } } as never)
             }
-            className="rounded-card border border-teal py-3 items-center mb-6 active:opacity-90 bg-teal-bg"
-          >
-            <Text className="text-teal font-bold text-base font-rubik">
-              {t("report.title", "דוח התקדמות (PDF)")}
-            </Text>
-          </Pressable>
+            className="border border-teal mb-6"
+          />
         ) : null}
 
         {selectedChild && !selectedChild.published ? (
