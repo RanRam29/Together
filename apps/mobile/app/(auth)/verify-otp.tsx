@@ -15,6 +15,7 @@ import { isSupabaseConfigured } from "@/lib/supabase";
 import { useAuthStore } from "@/stores/auth-store";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 import { AppPageWidth } from "@/components/ui/AppPageWidth";
+import { Button } from "@/components/ui/Button";
 
 export default function VerifyOtpScreen() {
   const { t } = useTranslation();
@@ -125,12 +126,13 @@ export default function VerifyOtpScreen() {
             
             {/* Header */}
             <View className="w-full h-14 flex-row items-center justify-between mb-8">
-              <Pressable 
+              <Button
+                variant="ghost"
+                icon={<MaterialIcons name="arrow-back" size={24} color="#3C3489" />}
+                accessibilityLabel={t("common.back", "חזרה")}
                 onPress={() => router.back()}
-                className="p-2 active:opacity-70 rounded-full bg-surface-2"
-              >
-                <MaterialIcons name="arrow-back" size={24} color="#3C3489" />
-              </Pressable>
+                className="p-2 rounded-full bg-surface-2"
+              />
               <View className="h-8 justify-center">
                 <AppLogo variant="compact" />
               </View>
@@ -158,18 +160,16 @@ export default function VerifyOtpScreen() {
                 ) : null}
               </View>
 
-              <Pressable 
+              <Button
+                label={t("auth.verifyOtp", "אימות")}
                 onPress={handleVerify}
+                loading={loading}
                 disabled={loading || otp.length !== 6}
-                className={`w-full h-[52px] rounded-[14px] items-center justify-center shadow-sm active:opacity-80 transition-opacity ${
-                  otp.length === 6 ? "bg-purple" : "bg-purple/50"
-                }`}
-              >
-                <Text className="text-white font-rubik-medium text-lg">
-                  {loading ? "..." : t("auth.verifyOtp", "אימות")}
-                </Text>
-              </Pressable>
+                size="lg"
+                className="w-full shadow-sm"
+              />
 
+              {/* eslint-disable-next-line no-restricted-syntax -- resend text link with inline countdown, not a button */}
               <Pressable
                 onPress={handleResend}
                 disabled={resending || cooldown > 0}
@@ -190,6 +190,7 @@ export default function VerifyOtpScreen() {
 
             {/* Footer */}
             <View className="mt-auto pt-10">
+              {/* eslint-disable-next-line no-restricted-syntax -- inline text link, not a button */}
               <Pressable onPress={() => router.replace("/(auth)/login")} className="py-2">
                 <Text className="text-center text-ink-3 font-rubik">
                   {t("auth.changePhone", "החלף מספר טלפון")}

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import {
-  Pressable,
   RefreshControl,
   ScrollView,
   Text,
@@ -13,6 +12,7 @@ import { ApproveDisclosureSheet } from "@/components/parent/ApproveDisclosureShe
 import { InterestedRequestCards } from "@/components/parent/LetterCard";
 import { NextActionCard } from "@/components/shared/NextActionCard";
 import { PlaceholderCard, ScreenShell } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import { useChildren } from "@/hooks/useChildren";
 import { useNextActionNavigation } from "@/hooks/useNextActions";
 import {
@@ -230,47 +230,43 @@ export default function ParentRequestsScreen() {
 
                   {showActions ? (
                     <View className="flex-row flex-wrap gap-2 mt-4 justify-start">
-                      <Pressable
+                      <Button
+                        size="sm"
+                        label={t("parent.approveRequest")}
                         onPress={() => setPendingApproveId(request.id)}
                         disabled={
                           !canManage ||
                           approveRequest.isPending ||
                           rejectRequest.isPending
                         }
-                        className={`${!canManage ? "opacity-50" : ""} bg-purple rounded-full px-5 py-2 items-center justify-center active:opacity-90`}
-                      >
-                        <Text className="text-white text-sm font-semibold font-rubik">
-                          {t("parent.approveRequest")}
-                        </Text>
-                      </Pressable>
-                      <Pressable
+                        className="rounded-full"
+                      />
+                      <Button
+                        variant="outline-destructive"
+                        size="sm"
+                        label={t("parent.rejectRequest")}
                         onPress={() => handleReject(request.id)}
                         disabled={
                           !canManage ||
                           approveRequest.isPending ||
                           rejectRequest.isPending
                         }
-                        className={`${!canManage ? "opacity-50" : ""} rounded-full border border-coral px-4 py-2 items-center justify-center active:opacity-90`}
-                      >
-                        <Text className="text-coral text-sm font-semibold font-rubik">
-                          {t("parent.rejectRequest")}
-                        </Text>
-                      </Pressable>
+                        className="rounded-full"
+                      />
                     </View>
                   ) : request.status === "approved" ? (
                     <View className="mt-4 items-start">
-                      <Pressable
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        label={t("parent.viewIntroDetails")}
                         onPress={() =>
                           router.push({
                             pathname: "/(parent)/intro-detail",
                             params: { requestId: request.id } })
                         }
-                        className="bg-teal rounded-full px-5 py-2 items-center justify-center active:opacity-90"
-                      >
-                        <Text className="text-white text-sm font-semibold font-rubik">
-                          {t("parent.viewIntroDetails")}
-                        </Text>
-                      </Pressable>
+                        className="rounded-full"
+                      />
                     </View>
                   ) : null}
                 </View>

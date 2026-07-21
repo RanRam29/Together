@@ -10,6 +10,7 @@ const buttonStyles = tv({
       secondary: "bg-teal",
       outline: "border-2 border-purple bg-transparent",
       "outline-destructive": "border-2 border-coral bg-transparent",
+      "outline-warning": "border-2 border-amber bg-transparent",
       ghost: "bg-transparent",
       destructive: "bg-coral",
       // Neutral: white surface + neutral border (social / alternate-action buttons).
@@ -43,6 +44,7 @@ const textStyles = tv({
       secondary: "text-white",
       outline: "text-purple",
       "outline-destructive": "text-coral",
+      "outline-warning": "text-amber",
       ghost: "text-purple",
       destructive: "text-white",
       neutral: "text-ink",
@@ -72,6 +74,7 @@ const SPINNER_COLOR: Record<string, string> = {
   outline: "#534AB7",
   ghost: "#534AB7",
   "outline-destructive": "#D85A30",
+  "outline-warning": "#BA7517",
   neutral: "#24221E",
   "tonal-primary": "#3C3489",
   "tonal-secondary": "#085041",
@@ -83,6 +86,8 @@ type ButtonBaseProps = Omit<TouchableOpacityProps, "children"> &
   VariantProps<typeof buttonStyles> & {
     loading?: boolean;
     icon?: React.ReactNode;
+    /** Which side the icon sits on relative to the label. Default "leading". */
+    iconPosition?: "leading" | "trailing";
   };
 
 // A button either has a visible text label, or is icon-only — in which case an
@@ -92,8 +97,13 @@ export type ButtonProps =
   | (ButtonBaseProps & { label?: undefined; icon: React.ReactNode; accessibilityLabel: string });
 
 export const Button = React.forwardRef<View, ButtonProps>(
-  ({ label, variant, size, disabled, loading, icon, className, style, ...props }, ref) => {
+  ({ label, variant, size, disabled, loading, icon, iconPosition = "leading", className, style, ...props }, ref) => {
     const iconOnly = !label;
+    const trailing = iconPosition === "trailing";
+    const iconEl = icon ? (
+      <View className={iconOnly ? "" : trailing ? "ml-2" : "mr-2"}>{icon}</View>
+    ) : null;
+    const labelEl = label ? <Text className={textStyles({ variant, size })}>{label}</Text> : null;
     return (
       <TouchableOpacity
         ref={ref}
@@ -112,8 +122,8 @@ export const Button = React.forwardRef<View, ButtonProps>(
           <ActivityIndicator color={SPINNER_COLOR[variant ?? "primary"] ?? "#FFFFFF"} />
         ) : (
           <>
-            {icon && <View className={iconOnly ? "" : "mr-2"}>{icon}</View>}
-            {label ? <Text className={textStyles({ variant, size })}>{label}</Text> : null}
+            {trailing ? labelEl : iconEl}
+            {trailing ? iconEl : labelEl}
           </>
         )}
       </TouchableOpacity>

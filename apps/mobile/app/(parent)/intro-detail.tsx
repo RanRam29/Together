@@ -15,6 +15,7 @@ import { MetricSelector } from "@/components/active-match/MetricSelector";
 import { BrandSpinner } from "@/components/motion/BrandSpinner";
 import { MatchCelebrationModal } from "@/components/motion/MatchCelebrationModal";
 import { PrimaryButton, ScreenShell } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import { useCreateMatchFromRequest } from "@/hooks/useActiveMatch";
 import { useChildren } from "@/hooks/useChildren";
 import { useIntroContact } from "@/hooks/useIntroContact";
@@ -45,7 +46,6 @@ export default function IntroDetailScreen() {
   const canApprove = (child?.secondary_parent_permissions as any)?.can_approve ?? false;
   const canManage = !isSecondary || canApprove;
 
-  const professionalId = request?.professional_id;
   const { data: contact, isLoading: isLoadingContact } = useIntroContact(
     request?.status === "approved" ? requestId : undefined,
   );
@@ -252,12 +252,14 @@ export default function IntroDetailScreen() {
           <View className="flex-row gap-4 justify-center">
             {phone !== t("parent.phoneUnavailable") && (
               <>
+                {/* eslint-disable-next-line no-restricted-syntax -- contact-method chip (TIER 2 call), not a page CTA */}
                 <Pressable
                   onPress={() => Linking.openURL(`tel:${phone}`)}
                   className="bg-purple/10 px-6 py-3 rounded-full"
                 >
                   <Text className="text-purple font-semibold">חייג</Text>
                 </Pressable>
+                {/* eslint-disable-next-line no-restricted-syntax -- WhatsApp brand-green chip; colour is outside the kit palette */}
                 <Pressable
                   onPress={() => Linking.openURL(`whatsapp://send?phone=${phone}`)}
                   className="bg-green-500/10 px-6 py-3 rounded-full"
@@ -271,16 +273,17 @@ export default function IntroDetailScreen() {
 
         {!showDeclineInput ? (
           <View className="gap-3 mt-4 mb-8">
-            <Pressable
+            <Button
+              variant="secondary"
+              size="lg"
+              label="התחלנו לעבוד יחד! 🎉"
               onPress={handleStartWorking}
+              loading={createMatch.isPending}
               disabled={createMatch.isPending || !canManage}
-              className={`${!canManage ? "opacity-50" : ""} bg-teal py-4 rounded-full items-center active:opacity-90`}
-            >
-              <Text className="text-white font-bold text-lg font-rubik">
-                התחלנו לעבוד יחד! 🎉
-              </Text>
-            </Pressable>
+              className="rounded-full"
+            />
 
+            {/* eslint-disable-next-line no-restricted-syntax -- low-emphasis dismiss (ink-2 text); Button ghost is purple-only */}
             <Pressable
               onPress={() => setShowDeclineInput(true)}
               disabled={!canManage}
@@ -305,19 +308,19 @@ export default function IntroDetailScreen() {
               onChangeText={setDeclineReason}
             />
             <View className="flex-row flex-wrap gap-3 justify-end">
-              <Pressable
+              <Button
+                variant="destructive"
+                label="סיום התהליך"
                 onPress={handleDecline}
-                disabled={declineIntro.isPending}
-                className="bg-coral px-5 py-3 rounded-full items-center active:opacity-90"
-              >
-                <Text className="text-white font-semibold">סיום התהליך</Text>
-              </Pressable>
-              <Pressable
+                loading={declineIntro.isPending}
+                className="rounded-full"
+              />
+              <Button
+                variant="neutral"
+                label="חזור"
                 onPress={() => setShowDeclineInput(false)}
-                className="px-5 py-3 rounded-full items-center border border-ink-2 active:opacity-90"
-              >
-                <Text className="text-ink-2 font-semibold">חזור</Text>
-              </Pressable>
+                className="rounded-full"
+              />
             </View>
           </View>
         )}

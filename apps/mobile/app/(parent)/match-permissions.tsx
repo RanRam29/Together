@@ -1,8 +1,9 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, Text, View, Switch } from "react-native";
+import { Alert, ScrollView, Text, View, Switch } from "react-native";
 
 import { ScreenShell } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import {
   useChildDetailsPreview,
   useMatchById,
@@ -24,7 +25,6 @@ const HIDEABLE_FIELDS = [
 
 export default function MatchPermissionsScreen() {
   const { t } = useTranslation();
-  const router = useRouter();
   const session = useAuthStore((s) => s.session);
   const params = useLocalSearchParams<{ matchId?: string; childId?: string }>();
   const matchId = params.matchId ?? "";
@@ -165,25 +165,21 @@ export default function MatchPermissionsScreen() {
         {canManageVisibility ? (
           <>
             {isPaused ? (
-              <Pressable
+              <Button
+                variant="secondary"
+                label={t("permissions.resumeAction")}
                 onPress={handleResume}
                 disabled={setVisibility.isPending}
-                className="bg-teal rounded-full py-4 items-center mb-4 active:opacity-90"
-              >
-                <Text className="text-white font-bold font-rubik">
-                  {t("permissions.resumeAction")}
-                </Text>
-              </Pressable>
+                className="rounded-full mb-4"
+              />
             ) : (
-              <Pressable
+              <Button
+                variant="outline-warning"
+                label={t("permissions.pauseAction")}
                 onPress={handlePause}
                 disabled={setVisibility.isPending}
-                className="rounded-full border border-amber py-4 items-center mb-4 active:opacity-90"
-              >
-                <Text className="text-amber font-bold font-rubik">
-                  {t("permissions.pauseAction")}
-                </Text>
-              </Pressable>
+                className="rounded-full mb-4"
+              />
             )}
 
             <Text className="text-xs text-ink-2 text-center leading-5 px-4 mb-8">
