@@ -25,7 +25,9 @@ export function WebSidebar({ routes }: WebSidebarProps) {
   return (
     <View
       className="w-64 bg-surface border-e border-border h-full py-6 px-4 hidden md:flex"
-      style={{ minHeight: "100vh" }}
+      // 100vh is a web-only CSS unit (this sidebar is web-only: `hidden md:flex`);
+      // RN's ViewStyle types don't model it, so cast the value.
+      style={{ minHeight: "100vh" as any }}
     >
       <View className="mb-10 ps-2">
         <AppLogo variant="compact" onPress={() => router.push(routes[0].path)} />
