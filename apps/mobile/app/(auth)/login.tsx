@@ -15,6 +15,7 @@ import { changeAppLanguage } from "@/i18n";
 import { useLocaleStore } from "@/stores/auth-store";
 import { useOnboardingStore } from "@/stores/onboarding-store";
 import { AppPageWidth } from "@/components/ui/AppPageWidth";
+import { Button } from "@/components/ui/Button";
 
 export default function LoginScreen() {
   const { t } = useTranslation();
@@ -102,7 +103,8 @@ export default function LoginScreen() {
             
             {/* Header / Language */}
             <View className="w-full h-14 flex-row items-center justify-end">
-              <Pressable 
+              {/* eslint-disable-next-line no-restricted-syntax -- language toggle chip, not a CTA; no matching Button variant */}
+              <Pressable
                 onPress={toggleLanguage}
                 className="flex-row items-center gap-2 px-3 py-1.5 bg-surface border border-border rounded-full active:opacity-80"
               >
@@ -137,15 +139,13 @@ export default function LoginScreen() {
                     autoComplete="tel"
                     textContentType="telephoneNumber"
                   />
-                  <Pressable 
+                  <Button
+                    label={t("auth.sendOtp", "שלח קוד אימות")}
                     onPress={handlePhoneLogin}
-                    disabled={loading}
-                    className="w-full h-[52px] bg-purple rounded-[14px] items-center justify-center shadow-sm active:opacity-80 mt-2"
-                  >
-                    <Text className="text-white font-rubik-medium text-lg">
-                      {loading ? "..." : t("auth.sendOtp", "שלח קוד אימות")}
-                    </Text>
-                  </Pressable>
+                    loading={loading}
+                    size="lg"
+                    className="w-full mt-2 shadow-sm"
+                  />
                 </View>
               ) : (
                 <View className="mb-4">
@@ -172,21 +172,20 @@ export default function LoginScreen() {
                       textContentType="password"
                     />
                   </View>
+                  {/* eslint-disable-next-line no-restricted-syntax -- inline text link, not a button */}
                   <Pressable onPress={() => router.push("/(auth)/forgot-password")} className="self-start mt-1 mb-4">
                     <Text className="text-purple font-rubik-medium text-sm hover:underline">
                       {t("auth.forgotPassword", "שכחת סיסמה?")}
                     </Text>
                   </Pressable>
                   
-                  <Pressable 
+                  <Button
+                    label={t("auth.loginButton", "התחברות")}
                     onPress={handleEmailLogin}
-                    disabled={loading}
-                    className="w-full h-[52px] bg-purple rounded-[14px] items-center justify-center shadow-sm active:opacity-80"
-                  >
-                    <Text className="text-white font-rubik-medium text-lg">
-                      {loading ? "..." : t("auth.loginButton", "התחברות")}
-                    </Text>
-                  </Pressable>
+                    loading={loading}
+                    size="lg"
+                    className="w-full shadow-sm"
+                  />
                 </View>
               )}
 
@@ -199,7 +198,8 @@ export default function LoginScreen() {
 
               {/* Social / Alternate Logins */}
               <View className="gap-3 max-w-sm w-full mx-auto">
-                <Pressable 
+                {/* eslint-disable-next-line no-restricted-syntax -- neutral/white social button; kit has no neutral variant yet */}
+                <Pressable
                   onPress={handleGoogleLogin}
                   className="w-full h-[52px] flex-row items-center justify-center gap-3 rounded-[14px] bg-white border border-border active:bg-surface-2 transition-colors"
                 >
@@ -209,7 +209,8 @@ export default function LoginScreen() {
                   </Text>
                 </Pressable>
                 
-                <Pressable 
+                {/* eslint-disable-next-line no-restricted-syntax -- neutral/white toggle button; kit has no neutral variant yet */}
+                <Pressable
                   onPress={() => setIsPhoneMode(!isPhoneMode)}
                   className="w-full h-[52px] flex-row items-center justify-center gap-3 rounded-[14px] bg-white border border-border active:bg-surface-2 transition-colors"
                 >
@@ -226,6 +227,7 @@ export default function LoginScreen() {
               <Text className="font-rubik text-base text-ink-2">
                 {t("auth.noAccount", "אין לך חשבון?")}
               </Text>
+              {/* eslint-disable-next-line no-restricted-syntax -- inline text link, not a button */}
               <Pressable onPress={() => router.replace("/(auth)/role-select")}>
                 <Text className="text-purple font-rubik-bold text-base hover:underline">
                   {t("auth.signupButton", "הרשמה")}

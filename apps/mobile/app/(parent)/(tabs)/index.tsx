@@ -20,6 +20,7 @@ import { ActiveMatchBanner } from "@/components/shared/ActiveMatchBanner";
 import { NextActionCard } from "@/components/shared/NextActionCard";
 import { NextActionList } from "@/components/shared/NextActionList";
 import { PlaceholderCard, ScreenShell } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import { useActiveMatchForParent } from "@/hooks/useActiveMatch";
 import { useChildMatches } from "@/hooks/useChildMatches";
 import { useChildren } from "@/hooks/useChildren";
@@ -136,6 +137,7 @@ export default function ParentHomeScreen() {
       title={t("parent.homeTitle")}
       subtitle={subtitle}
       headerRight={
+        /* eslint-disable-next-line no-restricted-syntax -- icon-only header button; Button requires a text label */
         <Pressable
           onPress={() => router.push("/settings")}
           className="p-2 -me-2 bg-surface rounded-full border border-border"
@@ -212,6 +214,7 @@ export default function ParentHomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         {selectedChild?.published ? (
+          /* eslint-disable-next-line no-restricted-syntax -- teal tonal button; kit has no tonal/soft-secondary variant yet */
           <Pressable
             onPress={() =>
               router.push({
@@ -227,6 +230,7 @@ export default function ParentHomeScreen() {
         ) : null}
 
         {selectedChild && !selectedChild.published ? (
+          /* eslint-disable-next-line no-restricted-syntax -- tappable nudge banner (title+body), not a button */
           <Pressable
             onPress={() =>
               router.push("/(parent)/(tabs)/child-profile" as never)
@@ -263,12 +267,11 @@ export default function ParentHomeScreen() {
             <Text className="text-base text-ink-2 text-center leading-6 mb-8">
               אנחנו מחפשים עבורכם את המשלבת המושלמת. הפעלת התראות מבוססות אזור תעזור לנו לעדכן אותך כשמשלבת רלוונטית תצטרף.
             </Text>
-            <Pressable
+            <Button
+              label="להפעלת התראות אזוריות"
               onPress={() => router.push("/settings")}
-              className="bg-purple rounded-full py-4 px-8 items-center active:opacity-90 w-full"
-            >
-              <Text className="text-white font-bold font-rubik">להפעלת התראות אזוריות</Text>
-            </Pressable>
+              className="rounded-full w-full"
+            />
           </View>
         ) : (
           <View

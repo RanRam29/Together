@@ -174,6 +174,7 @@ export default function SettingsScreen() {
           <Text className="text-lg font-bold text-ink mb-4 font-rubik text-start">
             {t("guide.howToTitle")}
           </Text>
+          {/* eslint-disable-next-line no-restricted-syntax -- settings list-row link, not a button */}
           <Pressable
             onPress={() => router.push("/how-to-use" as never)}
             className="py-3 flex-row-reverse items-center justify-between"
@@ -189,6 +190,7 @@ export default function SettingsScreen() {
           <Text className="text-lg font-bold text-ink mb-4 font-rubik text-start">
             {t("settings.legalTitle")}
           </Text>
+          {/* eslint-disable-next-line no-restricted-syntax -- settings list-row link, not a button */}
           <Pressable
             onPress={() => router.push("/legal/privacy" as never)}
             className="py-3 border-b border-border/50"
@@ -197,6 +199,7 @@ export default function SettingsScreen() {
               {t("legal.privacyTitle")}
             </Text>
           </Pressable>
+          {/* eslint-disable-next-line no-restricted-syntax -- settings list-row link, not a button */}
           <Pressable onPress={() => router.push("/legal/terms" as never)} className="py-3">
             <Text className="text-base text-purple text-start font-rubik">
               {t("legal.termsTitle")}
@@ -208,6 +211,7 @@ export default function SettingsScreen() {
           {t("settings.version", { version: appVersion })}
         </Text>
 
+        {/* eslint-disable-next-line no-restricted-syntax -- soft/tonal destructive (logout); kit destructive is filled-only */}
         <Pressable
           onPress={handleLogout}
           className="bg-coral/10 p-4 rounded-xl flex-row items-center justify-center gap-2 mt-4"

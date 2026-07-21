@@ -14,7 +14,8 @@ import { ActiveMatchBanner } from "@/components/shared/ActiveMatchBanner";
 import { NextActionCard } from "@/components/shared/NextActionCard";
 import { NextActionList } from "@/components/shared/NextActionList";
 import { PendingInvitations } from "@/components/parent/PendingInvitations";
-import { PlaceholderCard, ScreenShell } from "@/components/ui/Screen";
+import { ScreenShell } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import { useActiveMatchForProfessional } from "@/hooks/useActiveMatch";
 import {
   useIncomingRequests,
@@ -92,6 +93,7 @@ export default function ProfessionalHomeScreen() {
       title={t("professional.homeTitle")}
       subtitle={t("professional.homeSubtitle")}
       headerRight={
+        /* eslint-disable-next-line no-restricted-syntax -- icon-only header button; Button requires a text label */
         <Pressable onPress={() => router.push("/settings")} className="p-2 -me-2 bg-surface rounded-full border border-border">
           <Ionicons name="settings-outline" size={24} color="#0F6E56" />
         </Pressable>
@@ -146,12 +148,12 @@ export default function ProfessionalHomeScreen() {
             <Text className="text-base text-ink-2 text-center leading-6 mb-8">
               זה הזמן לקחת יוזמה! אפשר לחפש משפחות וילדים שמחפשים משלבות באזור שלך.
             </Text>
-            <Pressable
+            <Button
+              variant="secondary"
+              label="לחיפוש משפחות וילדים"
               onPress={() => router.push("/(professional)/browse" as never)}
-              className="bg-teal rounded-full py-4 px-8 items-center active:opacity-90 w-full"
-            >
-              <Text className="text-white font-bold font-rubik">לחיפוש משפחות וילדים</Text>
-            </Pressable>
+              className="rounded-full w-full"
+            />
           </View>
         ) : (
           visibleRequests.map((request) => {
