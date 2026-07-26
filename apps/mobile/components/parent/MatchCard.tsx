@@ -20,7 +20,7 @@ import type { Child } from "@/lib/types";
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 interface ChildSelectorProps {
-  children: Child[];
+  items: Child[];
   selectedId: string | null;
   onSelect: (childId: string) => void;
   addLabel?: string;
@@ -97,7 +97,7 @@ function ChildChip({
 }
 
 export function ChildSelector({
-  children,
+  items,
   selectedId,
   onSelect,
   addLabel,
@@ -105,7 +105,7 @@ export function ChildSelector({
 }: ChildSelectorProps) {
   const chips = (
     <>
-      {children.map((child) => {
+      {items.map((child) => {
         const selected = child.id === selectedId;
         return (
           <ChildChip

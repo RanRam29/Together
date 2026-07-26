@@ -20,7 +20,7 @@ import {
 import { useDeleteDocument, useDocuments } from "@/hooks/useDocuments";
 import { useSubmitForVerification } from "@/hooks/useVerification";
 import { useMyProfessional } from "@/hooks/useProfessional";
-import { errorMessage, showError, showSuccess } from "@/lib/feedback";
+import { showError, showSuccess } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
 import { BrandSpinner } from "@/components/motion/BrandSpinner";
 

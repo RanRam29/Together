@@ -140,7 +140,7 @@ export default function ChildProfileScreen() {
     <ScreenShell title={t("parent.childProfile")}>
       {children.length > 0 ? (
         <ChildSelector
-          children={children}
+          items={children}
           selectedId={selectedChildId}
           onSelect={(id) => {
             setIsNew(false);

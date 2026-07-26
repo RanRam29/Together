@@ -1,5 +1,4 @@
 import { RefreshControl, ScrollView, Text, View, Pressable } from "react-native";
-import { useTranslation } from "react-i18next";
 import { useState, useMemo, useEffect } from "react";
 
 import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
@@ -35,7 +34,6 @@ const RANGES = [
 ];
 
 export default function AnalyticsScreen() {
-  const { t } = useTranslation();
   const { isReady, isAdmin } = useStaffRoute();
   const mfa = useAdminMfa(isAdmin);
   

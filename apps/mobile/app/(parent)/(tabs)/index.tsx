@@ -195,7 +195,7 @@ export default function ParentHomeScreen() {
 
       {children.length > 1 ? (
         <ChildSelector
-          children={children}
+          items={children}
           selectedId={selectedChildId}
           onSelect={setSelectedChildId}
         />

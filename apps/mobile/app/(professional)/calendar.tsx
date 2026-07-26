@@ -6,7 +6,7 @@ import { useMonthlyAttendance, useMarkDaysOffRange } from "@/hooks/useProfession
 import { BrandSpinner } from "@/components/motion/BrandSpinner";
 
 export default function ProfessionalCalendarScreen() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const now = new Date();
   
   const [currentWeekStart, setCurrentWeekStart] = useState(() => {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import { PlaceholderCard, PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
 import { SecondaryParentSettings } from "@/components/parent/SecondaryParentSettings";
@@ -16,7 +16,6 @@ import { BrandSpinner } from "@/components/motion/BrandSpinner";
 
 export default function ChildDetailsScreen() {
   const { t } = useTranslation();
-  const router = useRouter();
   const session = useAuthStore((s) => s.session);
   const parentId = session?.user?.id;
   const params = useLocalSearchParams<{ childId?: string }>();

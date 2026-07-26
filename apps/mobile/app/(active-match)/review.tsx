@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Alert, Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import { StarRating } from "@/components/shared/StarRating";
 import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";

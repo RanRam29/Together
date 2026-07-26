@@ -1,5 +1,4 @@
 import { useRouter } from "expo-router";
-import { useTranslation } from "react-i18next";
 import {
   Pressable,
   RefreshControl,
@@ -17,7 +16,6 @@ import { colors } from "@/lib/theme";
 
 
 export default function OpsDashboardScreen() {
-  const { t } = useTranslation();
   const router = useRouter();
   const { isReady, isAdmin } = useStaffRoute();
   const alerts = useLiveOpsAlerts();
@@ -94,7 +92,7 @@ export default function OpsDashboardScreen() {
       }
     >
       <Text className="text-2xl font-bold text-ink mb-2 font-rubik text-right">
-        חמ"ל פעיל (Live Ops)
+        {'חמ"ל פעיל (Live Ops)'}
       </Text>
       <Text className="text-sm text-ink-2 mb-6 text-right">
         תור משימות הדורש התערבות צוות באופן מיידי.
