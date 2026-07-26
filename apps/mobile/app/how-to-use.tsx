@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 
 import { BackButton } from "@/components/ui/BackButton";
+import { Button } from "@/components/ui/Button";
 import { UsageGuide } from "@/components/guide/UsageGuide";
 import { GUIDE_STEPS, guideRole } from "@/lib/guide-content";
 import { useAuthStore } from "@/stores/auth-store";
@@ -51,13 +52,13 @@ export default function HowToUseScreen() {
           </View>
         ))}
 
-        <Pressable
+        <Button
+          label={t("guide.replay")}
+          icon={<Ionicons name="play-circle-outline" size={20} color="#fff" />}
+          iconPosition="trailing"
           onPress={() => setReplay(true)}
-          className="bg-purple py-3 rounded-xl items-center mt-4 flex-row-reverse justify-center gap-2"
-        >
-          <Ionicons name="play-circle-outline" size={20} color="#fff" />
-          <Text className="text-white font-bold text-base font-rubik">{t("guide.replay")}</Text>
-        </Pressable>
+          className="rounded-xl mt-4"
+        />
       </ScrollView>
 
       {replay && (

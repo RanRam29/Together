@@ -54,6 +54,7 @@ export default function ForgotPasswordScreen() {
               className="w-full"
             />
           )}
+          {/* eslint-disable-next-line no-restricted-syntax -- inline text link, not a button */}
           <Pressable onPress={() => router.back()} className="py-2 items-center">
             <Text className="text-purple font-medium text-base font-rubik">
               {t("auth.backToLogin")}

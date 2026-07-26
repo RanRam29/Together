@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import { ChildSelector } from "@/components/parent/MatchCard";
 import { ChipSelect, SwitchRow } from "@/components/ui/ChipSelect";
 import { PrimaryButton, ScreenShell, TextField } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import {
   CITY_PRESETS,
   FRAMEWORK_TYPES,
@@ -244,19 +245,17 @@ export default function ChildProfileScreen() {
         </View>
 
         {!isNew && selectedChild ? (
-          <Pressable
+          <Button
+            variant="tonal-primary"
+            label={`${t("parent.openDetails")} →`}
             onPress={() =>
               router.push({
                 pathname: "/(parent)/child-details",
                 params: { childId: selectedChild.id },
               })
             }
-            className="rounded-card py-4 px-6 items-center border border-purple bg-purple-bg active:opacity-90 mb-10"
-          >
-            <Text className="text-purple-ink text-base font-semibold font-rubik">
-              {t("parent.openDetails")} →
-            </Text>
-          </Pressable>
+            className="border border-purple mb-10"
+          />
         ) : null}
       </ScrollView>
     </ScreenShell>
