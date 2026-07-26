@@ -288,6 +288,7 @@ export default function DailyLogFormScreen() {
 
             {dateOptions.map((opt) => (
 
+              /* eslint-disable-next-line no-restricted-syntax -- date-selection chip (retroactive log date), not a button */
               <Pressable
 
                 key={opt.value}

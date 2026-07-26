@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Alert, Platform, Pressable, ScrollView, Text, View } from "react-native";
 import { useState, useMemo } from "react";
@@ -6,6 +6,7 @@ import * as Print from 'expo-print';
 import * as Sharing from 'expo-sharing';
 
 import { ScreenShell } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import { useProgressReport } from "@/hooks/useProgressReport";
 import { supabase } from "@/lib/supabase";
 import { BrandSpinner } from "@/components/motion/BrandSpinner";
@@ -20,7 +21,6 @@ const RANGES = [
 
 export default function ProgressReportScreen() {
   const { t } = useTranslation();
-  const router = useRouter();
   const params = useLocalSearchParams<{ childId?: string }>();
   const childId = params.childId ?? "";
 
@@ -155,6 +155,7 @@ export default function ProgressReportScreen() {
           <Text className="text-sm font-semibold text-ink-2 mb-2 text-start">בחר טווח:</Text>
           <View className="flex-row gap-2 justify-start">
             {RANGES.map(r => (
+              /* eslint-disable-next-line no-restricted-syntax -- range-selection chip (single-select), not a button */
               <Pressable
                 key={r.id}
                 onPress={() => setRangeDays(r.days)}
@@ -219,14 +220,11 @@ export default function ProgressReportScreen() {
               </View>
             )}
 
-            <Pressable
+            <Button
+              label={t("report.exportAction", "שתף דוח ב-PDF")}
               onPress={handleExport}
-              className="bg-purple rounded-full py-4 items-center mb-8 active:opacity-90"
-            >
-              <Text className="text-white font-bold font-rubik text-base">
-                {t("report.exportAction", "שתף דוח ב-PDF")}
-              </Text>
-            </Pressable>
+              className="rounded-full mb-8"
+            />
           </>
         )}
       </ScrollView>

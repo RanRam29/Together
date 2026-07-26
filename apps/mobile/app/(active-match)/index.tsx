@@ -2,7 +2,6 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  Pressable,
   RefreshControl,
   ScrollView,
   Text,
@@ -16,6 +15,7 @@ import { TodayStatusCard } from "@/components/active-match/TodayStatusCard";
 import { TrendChart } from "@/components/active-match/TrendChart";
 import { WeeklySummaryCard } from "@/components/parent/WeeklySummaryCard";
 import { ScreenShell } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import { useActiveMatchForParent, useActiveMatchForProfessional, useEndMatch } from "@/hooks/useActiveMatch";
 import { useCheckin } from "@/hooks/useCheckin";
 import { useTodayCheckin } from "@/hooks/useCheckins";
@@ -28,6 +28,9 @@ import { AnalyticsEvents } from "@/lib/analytics/events";
 import { track } from "@/lib/analytics/track";
 import { confirmAction, errorMessage, showError } from "@/lib/feedback";
 import { useAuthStore } from "@/stores/auth-store";
+import { useMatchById } from "@/hooks/useMatchPermissions";
+import { BrandSpinner } from "@/components/motion/BrandSpinner";
+import { colors } from "@/lib/theme";
 
 function formatTime(date: Date, locale: string) {
   try {
@@ -49,11 +52,6 @@ function formatDate(dateString: string, locale: string) {
     return dateString;
   }
 }
-
-import { useMatchById } from "@/hooks/useMatchPermissions";
-import { BrandSpinner } from "@/components/motion/BrandSpinner";
-import { colors } from "@/lib/theme";
-
 
 function formatLogTime(iso: string, locale: string) {
   try {
@@ -209,14 +207,11 @@ export default function ActiveMatchScreen() {
           <Text className="text-ink-2 text-center mb-6 leading-6">
             {t("activeMatch.endedSubtitle", `נחפש מחליפה ל${childName}?`)}
           </Text>
-          <Pressable
+          <Button
+            label={t("activeMatch.findReplacement", "כן, בואו נחפש")}
             onPress={() => router.replace("/(parent)/(tabs)")}
-            className="rounded-full bg-purple px-6 py-3 active:opacity-90 w-full items-center"
-          >
-            <Text className="text-white font-bold text-base font-rubik">
-              {t("activeMatch.findReplacement", "כן, בואו נחפש")}
-            </Text>
-          </Pressable>
+            className="rounded-full w-full"
+          />
         </View>
       </ScreenShell>
     );
@@ -346,18 +341,16 @@ export default function ActiveMatchScreen() {
         ) : null}
 
         {!isProfessional && childId ? (
-          <Pressable
+          <Button
+            variant="tonal-secondary"
+            label={t("report.title", "דוח התקדמות (PDF)")}
             onPress={() =>
               router.push({
                 pathname: "/(parent)/progress-report",
                 params: { childId } } as never)
             }
-            className="rounded-card border border-teal py-3 items-center mb-6 active:opacity-90 bg-teal-bg"
-          >
-            <Text className="text-teal font-bold text-base font-rubik">
-              {t("report.title", "דוח התקדמות (PDF)")}
-            </Text>
-          </Pressable>
+            className="border border-teal mb-6"
+          />
         ) : null}
 
         <View className="flex-row items-center justify-between mt-2 mb-3">
@@ -365,18 +358,16 @@ export default function ActiveMatchScreen() {
             {t("activeMatch.logsTitle")}
           </Text>
           {isProfessional ? (
-            <Pressable
+            <Button
+              size="sm"
+              label={`+ ${t("activeMatch.newLog")}`}
               onPress={() =>
                 router.push({
                   pathname: "/(active-match)/daily-log-form",
                   params: { matchId } })
               }
-              className="rounded-full bg-purple px-4 py-2 active:opacity-90"
-            >
-              <Text className="text-white text-sm font-semibold font-rubik">
-                + {t("activeMatch.newLog")}
-              </Text>
-            </Pressable>
+              className="rounded-full"
+            />
           ) : null}
         </View>
 
@@ -407,7 +398,10 @@ export default function ActiveMatchScreen() {
         )}
 
         {!isProfessional ? (
-          <Pressable
+          <Button
+            variant="outline"
+            size="sm"
+            label={t("permissions.openAction")}
             onPress={() =>
               router.push({
                 pathname: "/(parent)/match-permissions",
@@ -415,26 +409,18 @@ export default function ActiveMatchScreen() {
                   matchId,
                   childId: childId ?? "" } } as never)
             }
-            className="rounded-card border border-purple py-3 items-center mb-4 active:opacity-90"
-          >
-            <Text className="text-purple font-semibold text-sm font-rubik">
-              {t("permissions.openAction")}
-            </Text>
-          </Pressable>
+            className="mb-4"
+          />
         ) : null}
 
         <View className="mt-8 mb-10">
-          <Pressable
+          <Button
+            variant="outline-destructive"
+            label={t("activeMatch.endAction")}
             onPress={handleEndMatch}
+            loading={endMatch.isPending}
             disabled={endMatch.isPending}
-            className="rounded-card border border-coral py-4 items-center active:opacity-90"
-          >
-            <Text className="text-coral font-semibold text-base font-rubik">
-              {endMatch.isPending
-                ? t("common.tryAgain")
-                : t("activeMatch.endAction")}
-            </Text>
-          </Pressable>
+          />
           <Text className="text-xs text-ink-2 text-center mt-2 leading-5">
             {t("activeMatch.endHelp")}
           </Text>
