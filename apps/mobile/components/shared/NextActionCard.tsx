@@ -1,9 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import type { NextActionDefinition } from "@/lib/navigation/types";
-import { isAppRtl, webPressableClass } from "@/lib/platform";
+import { isAppRtl } from "@/lib/platform";
+import { Button } from "@/components/ui/Button";
 
 const ICON_MAP: Record<
   NextActionDefinition["icon"],
@@ -20,26 +21,21 @@ const ICON_MAP: Record<
 
 const VARIANT_STYLES: Record<
   NextActionDefinition["variant"],
-  { bg: string; border: string; ink: string; ctaBg: string }
+  { bg: string; border: string; ink: string }
 > = {
-  purple: {
-    bg: "bg-purple-bg",
-    border: "border-purple",
-    ink: "text-purple-ink",
-    ctaBg: "bg-purple",
-  },
-  teal: {
-    bg: "bg-teal-bg",
-    border: "border-teal",
-    ink: "text-teal-ink",
-    ctaBg: "bg-teal",
-  },
-  amber: {
-    bg: "bg-amber-bg",
-    border: "border-amber",
-    ink: "text-amber-ink",
-    ctaBg: "bg-amber",
-  },
+  purple: { bg: "bg-purple-bg", border: "border-purple", ink: "text-purple-ink" },
+  teal: { bg: "bg-teal-bg", border: "border-teal", ink: "text-teal-ink" },
+  amber: { bg: "bg-amber-bg", border: "border-amber", ink: "text-amber-ink" },
+};
+
+// The card tint maps to the matching solid Button fill for the CTA.
+const CTA_VARIANT: Record<
+  NextActionDefinition["variant"],
+  "primary" | "secondary" | "warning"
+> = {
+  purple: "primary",
+  teal: "secondary",
+  amber: "warning",
 };
 
 interface NextActionCardProps {
@@ -74,14 +70,14 @@ export function NextActionCard({ action, onPress }: NextActionCardProps) {
           <Text className="text-sm text-ink-2 mt-1 leading-5 text-start">{reason}</Text>
         </View>
       </View>
-      <Pressable
+      <Button
+        variant={CTA_VARIANT[action.variant]}
+        label={cta}
+        icon={<Ionicons name={chevron} size={18} color="#FFFFFF" />}
+        iconPosition="trailing"
         onPress={onPress}
-        className={`rounded-full py-3.5 px-5 items-center flex-row justify-center gap-2 active:opacity-90 ${styles.ctaBg} ${webPressableClass}`}
-        accessibilityRole="button"
-      >
-        <Text className="text-white font-bold text-base font-rubik">{cta}</Text>
-        <Ionicons name={chevron} size={18} color="#FFFFFF" />
-      </Pressable>
+        className="rounded-full"
+      />
     </View>
   );
 }
