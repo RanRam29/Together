@@ -230,6 +230,7 @@ export default function AdminConfigScreen() {
                   className="bg-surface border border-border rounded-card p-4 mb-3"
                 >
                   <View className="flex-row justify-between items-center mb-3">
+                    {/* eslint-disable-next-line no-restricted-syntax -- is-core toggle chip, not a button */}
                     <Pressable
                       onPress={() =>
                         setMetricDraft((d) => ({

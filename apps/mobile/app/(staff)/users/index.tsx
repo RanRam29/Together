@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 
+import { Button } from "@/components/ui/Button";
 import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
 import type { AdminUserFilters } from "@/lib/api/admin-users";
 import { useStaffRoute } from "@/hooks/useStaffRoute";
@@ -77,6 +78,7 @@ export default function AdminUsersScreen() {
 
         <View className="flex-row flex-wrap justify-end gap-2 w-full md:w-auto">
           {ROLE_FILTERS.map((r) => (
+            /* eslint-disable-next-line no-restricted-syntax -- role filter chip (single-select), not a button */
             <Pressable
               key={r ?? "all"}
               onPress={() => setRole(r)}
@@ -95,6 +97,7 @@ export default function AdminUsersScreen() {
               </Text>
             </Pressable>
           ))}
+          {/* eslint-disable-next-line no-restricted-syntax -- suspended-only toggle chip, not a button */}
           <Pressable
             onPress={() => setSuspendedOnly((v) => !v)}
             className={`px-4 py-2 rounded-full border ${
@@ -148,12 +151,12 @@ export default function AdminUsersScreen() {
                   )}
                 </View>
                 <View className="flex-1 px-2 w-[10%] items-center">
-                  <Pressable
+                  <Button
+                    size="sm"
+                    label="נהל"
                     onPress={() => router.push(`/(staff)/users/${user.id}` as never)}
-                    className="bg-[#534ab7] px-4 py-2 rounded-[8px] active:opacity-80"
-                  >
-                    <Text className="text-white text-xs font-semibold font-rubik">נהל</Text>
-                  </Pressable>
+                    className="rounded-lg"
+                  />
                 </View>
               </View>
             ))}
@@ -161,6 +164,7 @@ export default function AdminUsersScreen() {
 
           <View className="md:hidden flex-col w-full">
             {users.map((user) => (
+              /* eslint-disable-next-line no-restricted-syntax -- tappable user row (mobile card), not a button */
               <Pressable
                 key={user.id}
                 onPress={() => router.push(`/(staff)/users/${user.id}` as never)}

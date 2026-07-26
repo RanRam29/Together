@@ -110,6 +110,7 @@ export default function OpsDashboardScreen() {
       ) : alerts.data && alerts.data.length > 0 ? (
         <View className="gap-3">
           {alerts.data.map((alert) => (
+            /* eslint-disable-next-line no-restricted-syntax -- tappable alert row, not a button */
             <Pressable
               key={alert.alert_id}
               onPress={() => handleAlertPress(alert)}

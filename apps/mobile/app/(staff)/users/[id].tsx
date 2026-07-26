@@ -156,6 +156,7 @@ export default function AdminUserDetailScreen() {
   return (
     <>
       <ScrollView className="flex-1 px-6 py-6">
+        {/* eslint-disable-next-line no-restricted-syntax -- inline back text link, not a button */}
         <Pressable
           onPress={() => router.back()}
           className="self-end mb-4 active:opacity-80"

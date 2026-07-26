@@ -80,6 +80,7 @@ export default function StaffVerificationScreen() {
       <View className="flex-row mb-6 bg-surface rounded-card border border-border p-1">
         {!isAdmin ? (
           <>
+            {/* eslint-disable-next-line no-restricted-syntax -- segmented tab, not a button */}
             <Pressable
               onPress={() => setTab("pool")}
               className={`flex-1 py-3 rounded-card items-center ${
@@ -94,6 +95,7 @@ export default function StaffVerificationScreen() {
                 {t("staff.tabPool", { count: pool.data?.length ?? 0 })}
               </Text>
             </Pressable>
+            {/* eslint-disable-next-line no-restricted-syntax -- segmented tab, not a button */}
             <Pressable
               onPress={() => setTab("mine")}
               className={`flex-1 py-3 rounded-card items-center ${
@@ -153,6 +155,7 @@ export default function StaffVerificationScreen() {
               key={item.id}
               className="bg-surface border border-border rounded-card p-4 mb-3"
             >
+              {/* eslint-disable-next-line no-restricted-syntax -- tappable review-queue row, not a button */}
               <Pressable
                 onPress={() => !isPool && openReview(item)}
                 disabled={isPool}

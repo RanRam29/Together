@@ -62,6 +62,7 @@ export default function AdminMatchesScreen() {
         {t("staff.matchesSubtitle")}
       </Text>
 
+      {/* eslint-disable-next-line no-restricted-syntax -- concerned-only toggle chip, not a button */}
       <Pressable
         onPress={() => setConcernedOnly((v) => !v)}
         className={`self-end px-4 py-2 rounded-full border mb-4 ${

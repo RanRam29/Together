@@ -8,6 +8,7 @@ const buttonStyles = tv({
     variant: {
       primary: "bg-purple",
       secondary: "bg-teal",
+      warning: "bg-amber",
       outline: "border-2 border-purple bg-transparent",
       "outline-secondary": "border-2 border-teal bg-transparent",
       "outline-destructive": "border-2 border-coral bg-transparent",
@@ -43,6 +44,7 @@ const textStyles = tv({
     variant: {
       primary: "text-white",
       secondary: "text-white",
+      warning: "text-white",
       outline: "text-purple",
       "outline-secondary": "text-teal",
       "outline-destructive": "text-coral",
@@ -72,6 +74,7 @@ const textStyles = tv({
 const SPINNER_COLOR: Record<string, string> = {
   primary: "#FFFFFF",
   secondary: "#FFFFFF",
+  warning: "#FFFFFF",
   destructive: "#FFFFFF",
   outline: "#534AB7",
   ghost: "#534AB7",

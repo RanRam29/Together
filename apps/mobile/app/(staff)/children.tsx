@@ -19,6 +19,7 @@ import {
   useAdminMatchRequests } from "@/hooks/useAdminRequests";
 import { useAdminMfa } from "@/hooks/useAdminMfa";
 import { daysSince } from "@/lib/api/admin-requests";
+import { Button } from "@/components/ui/Button";
 import { AdminMfaModal } from "@/components/admin/AdminMfaModal";
 import { StaffQueryFeedback } from "@/components/admin/StaffQueryFeedback";
 import type { AdminChildRow } from "@/lib/api/admin-children";
@@ -133,17 +134,16 @@ export default function AdminChildrenScreen() {
                 {child.functioning_level}
               </Text>
               {child.published ? (
-                <Pressable
+                <Button
+                  variant="outline-warning"
+                  size="sm"
+                  label={t("staff.unpublishAction")}
                   onPress={() => {
                     setTarget(child);
                     setReason("");
                   }}
-                  className="self-end rounded-card border border-amber px-4 py-2 active:opacity-90"
-                >
-                  <Text className="text-amber font-semibold text-sm font-rubik">
-                    {t("staff.unpublishAction")}
-                  </Text>
-                </Pressable>
+                  className="self-end"
+                />
               ) : null}
             </View>
           ))
@@ -157,6 +157,7 @@ export default function AdminChildrenScreen() {
           {t("staff.requestsSubtitle")}
         </Text>
 
+        {/* eslint-disable-next-line no-restricted-syntax -- stuck-only toggle chip, not a button */}
         <Pressable
           onPress={() => setStuckOnly((v) => !v)}
           className={`self-end px-4 py-2 rounded-full border mb-4 ${
@@ -225,21 +226,20 @@ export default function AdminChildrenScreen() {
               className="bg-bg border border-border rounded-card px-4 py-3 text-ink text-right min-h-[100px] mb-4"
             />
             <View className="flex-row gap-3 justify-end">
+              {/* eslint-disable-next-line no-restricted-syntax -- low-emphasis cancel (ink-2 text); Button ghost is purple-only */}
               <Pressable
                 onPress={() => setTarget(null)}
                 className="px-4 py-3"
               >
                 <Text className="text-ink-2 font-rubik">{t("common.cancel")}</Text>
               </Pressable>
-              <Pressable
+              <Button
+                variant="warning"
+                label={t("staff.unpublishAction")}
                 onPress={handleUnpublish}
+                loading={unpublish.isPending}
                 disabled={unpublish.isPending}
-                className="bg-amber rounded-card px-6 py-3 active:opacity-90"
-              >
-                <Text className="text-white font-semibold font-rubik">
-                  {t("staff.unpublishAction")}
-                </Text>
-              </Pressable>
+              />
             </View>
           </View>
         </View>

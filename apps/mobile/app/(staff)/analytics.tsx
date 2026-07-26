@@ -166,6 +166,7 @@ export default function AnalyticsScreen() {
               <Text className="text-sm font-semibold text-ink-2 mb-2 text-right">בחר מדד:</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row" contentContainerStyle={{ gap: 8, paddingHorizontal: 4 }}>
                 {METRICS.map(m => (
+                  /* eslint-disable-next-line no-restricted-syntax -- metric-selection chip (single-select), not a button */
                   <Pressable
                     key={m.id}
                     onPress={() => setMetric(m.id)}
@@ -181,6 +182,7 @@ export default function AnalyticsScreen() {
               <Text className="text-sm font-semibold text-ink-2 mb-2 text-right">בחר טווח:</Text>
               <View className="flex-row gap-2 justify-end">
                 {RANGES.map(r => (
+                  /* eslint-disable-next-line no-restricted-syntax -- range-selection chip (single-select), not a button */
                   <Pressable
                     key={r.id}
                     onPress={() => setRange(r.days)}
