@@ -59,6 +59,7 @@ export function RejectDocumentModal({
           </Text>
 
           {requiredDocs.map((doc) => (
+            /* eslint-disable-next-line no-restricted-syntax -- document-selection row (single-select), not a button */
             <Pressable
               key={doc.id}
               onPress={() => setSelectedId(doc.id)}

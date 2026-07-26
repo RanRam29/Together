@@ -30,6 +30,7 @@ export function MetricStepper({
         <Text className="text-sm text-ink-2 mt-1 leading-5">{description}</Text>
       ) : null}
       <View className="flex-row items-center justify-between mt-3">
+        {/* eslint-disable-next-line no-restricted-syntax -- numeric stepper decrement control, not a button */}
         <Pressable
           onPress={() => onChange(clamp(value - 1))}
           disabled={value <= min}
@@ -50,6 +51,7 @@ export function MetricStepper({
           {value}
         </Text>
 
+        {/* eslint-disable-next-line no-restricted-syntax -- numeric stepper increment control, not a button */}
         <Pressable
           onPress={() => onChange(clamp(value + 1))}
           disabled={value >= max}

@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 
+import { Button } from "@/components/ui/Button";
 import { BrandSpinner } from "@/components/motion/BrandSpinner";
 import type { DocumentUpload } from "@/lib/api/documents";
 import { getStaffDocumentUrl } from "@/lib/api/supervisor";
@@ -90,14 +91,11 @@ export function DocumentViewer({ document, label, onViewed }: DocumentViewerProp
           />
         </View>
       ) : url ? (
-        <Pressable
+        <Button
+          variant="tonal-primary"
+          label={t("admin.openDocument")}
           onPress={() => Linking.openURL(url)}
-          className="bg-purple-bg rounded-card py-3 px-4 items-center active:opacity-90"
-        >
-          <Text className="text-purple font-semibold font-rubik">
-            {t("admin.openDocument")}
-          </Text>
-        </Pressable>
+        />
       ) : null}
     </View>
   );

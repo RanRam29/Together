@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Modal, Pressable, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
+import { Button } from "@/components/ui/Button";
 import { SentConfirmationOverlay } from "@/components/shared/SentConfirmationOverlay";
 import { useFeedbackStore } from "@/stores/feedback-store";
 
@@ -73,6 +74,7 @@ export function ActionFeedbackHost() {
           className="absolute bottom-6 start-4 end-4 z-50"
           pointerEvents="box-none"
         >
+          {/* eslint-disable-next-line no-restricted-syntax -- tappable error toast (tap to dismiss), not a button */}
           <Pressable
             onPress={clearError}
             className="bg-coral rounded-card border border-coral px-4 py-3 shadow-sm active:opacity-90"
@@ -99,24 +101,18 @@ export function ActionFeedbackHost() {
               {confirm?.message}
             </Text>
             <View className="flex-row gap-3">
-              <Pressable
+              <Button
+                variant="neutral"
+                label={confirm?.cancelText ?? t("common.cancel")}
                 onPress={() => resolveConfirm(false)}
-                className="flex-1 rounded-card py-3 px-4 border border-border items-center active:opacity-90"
-              >
-                <Text className="text-ink-2 font-semibold font-rubik">
-                  {confirm?.cancelText ?? t("common.cancel")}
-                </Text>
-              </Pressable>
-              <Pressable
+                className="flex-1"
+              />
+              <Button
+                variant={confirm?.destructive ? "destructive" : "primary"}
+                label={confirm?.confirmText ?? t("common.continue")}
                 onPress={() => resolveConfirm(true)}
-                className={`flex-1 rounded-card py-3 px-4 items-center active:opacity-90 ${
-                  confirm?.destructive ? "bg-coral" : "bg-purple"
-                }`}
-              >
-                <Text className="text-white font-semibold font-rubik">
-                  {confirm?.confirmText ?? t("common.continue")}
-                </Text>
-              </Pressable>
+                className="flex-1"
+              />
             </View>
           </View>
         </View>

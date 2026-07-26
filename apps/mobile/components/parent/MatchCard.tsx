@@ -68,6 +68,7 @@ function ChildChip({
 
   if (!shouldAnimatePress()) {
     return (
+      // eslint-disable-next-line no-restricted-syntax -- child selection chip, not a button
       <Pressable
         onPress={() => {
           lightHaptic();
@@ -194,6 +195,7 @@ export function MatchCard({
   }
 
   const cardBody = (
+    // eslint-disable-next-line no-restricted-syntax -- tappable match card, not a button
     <Pressable
       onPress={() => {
         lightHaptic();

@@ -27,6 +27,7 @@ export function ActiveMatchBanner({
         <View className="flex-1">
           <Text className="text-lg font-bold text-white font-rubik text-start">{subtitle}</Text>
         </View>
+        {/* eslint-disable-next-line no-restricted-syntax -- translucent banner action chip (banner-specific styling), not a kit button */}
         <Pressable
           onPress={onPress}
           className={`shrink-0 bg-white/20 rounded-full px-4 py-2 active:opacity-90 flex-row items-center gap-1 ${webPressableClass}`}

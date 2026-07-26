@@ -59,6 +59,7 @@ export function ApproveDisclosureSheet({
             loading={loading}
             variant="purple"
           />
+          {/* eslint-disable-next-line no-restricted-syntax -- low-emphasis cancel text link, not a button */}
           <Pressable onPress={onCancel} className="mt-4 py-3 items-center">
             <Text className="text-ink-2 font-semibold font-rubik">{cancelLabel}</Text>
           </Pressable>

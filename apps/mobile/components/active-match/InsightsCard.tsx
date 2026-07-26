@@ -85,6 +85,7 @@ export function DailyLogRow({
   }
 
   return (
+    // eslint-disable-next-line no-restricted-syntax -- tappable insight card, not a button
     <Pressable
       onPress={onPress}
       className="bg-surface border border-border rounded-card p-4 mb-3 flex-row items-start gap-3 active:opacity-90"

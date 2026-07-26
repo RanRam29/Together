@@ -3,6 +3,7 @@ import { Modal, Pressable, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { Ionicons } from "@expo/vector-icons";
 
+import { Button } from "@/components/ui/Button";
 import { GUIDE_STEPS, guideRole } from "@/lib/guide-content";
 
 const PURPLE = "#534AB7";
@@ -33,6 +34,7 @@ export function UsageGuide({ role, onClose, showDontShowAgain = true }: UsageGui
       <View className="flex-1 items-center justify-center bg-black/50 px-6">
         <View className="w-full max-w-md bg-surface rounded-card border border-border p-6">
           {/* Skip (top-left in RTL) */}
+          {/* eslint-disable-next-line no-restricted-syntax -- skip text link, not a button */}
           <Pressable
             onPress={() => onClose({ dontShowAgain })}
             hitSlop={12}
@@ -76,6 +78,7 @@ export function UsageGuide({ role, onClose, showDontShowAgain = true }: UsageGui
 
           {/* "Don't show again" */}
           {showDontShowAgain && (
+            // eslint-disable-next-line no-restricted-syntax -- checkbox control, not a button
             <Pressable
               onPress={() => setDontShowAgain((v) => !v)}
               className="flex-row-reverse items-center justify-center gap-2 mb-4"
@@ -93,23 +96,18 @@ export function UsageGuide({ role, onClose, showDontShowAgain = true }: UsageGui
 
           {/* Nav */}
           <View className="flex-row-reverse items-center gap-3">
-            <Pressable
+            <Button
+              label={isLast ? t("guide.done") : t("guide.next")}
               onPress={() => (isLast ? onClose({ dontShowAgain }) : setIndex((i) => i + 1))}
-              className="flex-1 bg-purple py-3 rounded-xl items-center"
-              accessibilityRole="button"
-            >
-              <Text className="text-white font-bold text-base font-rubik">
-                {isLast ? t("guide.done") : t("guide.next")}
-              </Text>
-            </Pressable>
+              className="flex-1 rounded-xl"
+            />
             {index > 0 && (
-              <Pressable
+              <Button
+                variant="neutral"
+                label={t("guide.back")}
                 onPress={() => setIndex((i) => i - 1)}
-                className="px-4 py-3 rounded-xl items-center border border-border"
-                accessibilityRole="button"
-              >
-                <Text className="text-ink-2 font-rubik">{t("guide.back")}</Text>
-              </Pressable>
+                className="rounded-xl"
+              />
             )}
           </View>
         </View>

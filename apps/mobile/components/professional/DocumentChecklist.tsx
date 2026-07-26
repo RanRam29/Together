@@ -1,5 +1,6 @@
-import { Pressable, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
+import { Button } from "@/components/ui/Button";
 import type { DocChecklistItem } from "@/lib/verification";
 
 interface DocumentChecklistProps {
@@ -59,22 +60,22 @@ export function DocumentChecklist({
             ) : null}
 
             {showUpload ? (
-              <Pressable
-                onPress={() => onUpload(item.type)}
-                disabled={uploading || Boolean(uploadingType)}
-                className="self-end rounded-full bg-purple px-4 py-2 mt-1 active:opacity-90"
-              >
-                <Text className="text-white text-sm font-semibold font-rubik">
-                  {getUploadLabel
+              <Button
+                size="sm"
+                label={
+                  getUploadLabel
                     ? getUploadLabel(
                         item.status === "rejected" ? "rejected" : "missing",
                         uploading,
                       )
                     : uploading
                       ? "..."
-                      : "+"}
-                </Text>
-              </Pressable>
+                      : "+"
+                }
+                onPress={() => onUpload(item.type)}
+                disabled={uploading || Boolean(uploadingType)}
+                className="self-end rounded-full mt-1"
+              />
             ) : null}
           </View>
         );

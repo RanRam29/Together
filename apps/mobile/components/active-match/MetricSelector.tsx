@@ -30,6 +30,7 @@ export function MetricSelector({
           const isSelected = selected.includes(metric.key);
           const disabled = !isSelected && selected.length >= 3;
           return (
+            /* eslint-disable-next-line no-restricted-syntax -- metric selection chip, not a button */
             <Pressable
               key={metric.key}
               onPress={() => onToggle(metric.key)}

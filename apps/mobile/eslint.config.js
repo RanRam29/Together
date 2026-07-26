@@ -13,14 +13,12 @@ module.exports = defineConfig([
     ignores: ["dist/*"],
   },
   {
-    // Shared UI kit guardrail: flag raw touchables in screens so new work
-    // routes through @/components/ui. `warn` keeps it visible without blocking
-    // the tsc/lint gate; screens migrate incrementally across the Stitch waves.
-    // Scoped to app/** only — the kit components themselves are allowed to use
-    // the RN primitives. Cards can't be detected reliably in the AST (they are
-    // styled <View>s), so this covers buttons; card consistency relies on the
-    // exemplar screens + review.
-    files: ["app/**/*.{tsx,ts}"],
+    // Shared UI kit guardrail: flag raw touchables so new work routes through
+    // @/components/ui. `warn` keeps it visible without blocking the tsc/lint
+    // gate. Covers screens (app/**) and feature components (components/**).
+    // Cards can't be detected reliably in the AST (they are styled <View>s),
+    // so this covers buttons; card consistency relies on review.
+    files: ["app/**/*.{tsx,ts}", "components/**/*.{tsx,ts}"],
     rules: {
       "no-restricted-syntax": [
         "warn",
@@ -33,6 +31,14 @@ module.exports = defineConfig([
           message: uiKitMessage,
         },
       ],
+    },
+  },
+  {
+    // components/ui/** IS the kit — Button/Card/ChipSelect/Form/etc. legitimately
+    // build on the RN primitives. Exempt them from the guardrail.
+    files: ["components/ui/**/*.{tsx,ts}"],
+    rules: {
+      "no-restricted-syntax": "off",
     },
   },
 ]);

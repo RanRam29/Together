@@ -25,6 +25,7 @@ export function AdminShell({ children }: AdminShellProps) {
   return (
     <View className="flex-1 bg-bg min-h-screen">
       <View className="bg-surface border-b border-border px-6 py-4 flex-row items-center justify-between">
+        {/* eslint-disable-next-line no-restricted-syntax -- logout text link, not a button */}
         <Pressable onPress={handleLogout} className="active:opacity-80">
           <Text className="text-teal font-semibold font-rubik">
             {t("admin.logout")}

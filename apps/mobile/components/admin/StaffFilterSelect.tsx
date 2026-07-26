@@ -30,6 +30,7 @@ export function StaffFilterSelect({
   return (
     <View className="flex-1">
       <Text className="text-xs text-ink-2 mb-1 text-right font-rubik">{label}</Text>
+      {/* eslint-disable-next-line no-restricted-syntax -- dropdown select trigger, not a button */}
       <Pressable
         onPress={() => setOpen((v) => !v)}
         className="bg-surface border border-border rounded-card px-4 py-3 flex-row items-center justify-between active:opacity-90"
@@ -50,6 +51,7 @@ export function StaffFilterSelect({
       {open ? (
         <View className="bg-surface border border-border rounded-card mt-1 overflow-hidden">
           <ScrollView style={{ maxHeight: 180 }} nestedScrollEnabled>
+            {/* eslint-disable-next-line no-restricted-syntax -- dropdown option row, not a button */}
             <Pressable
               onPress={() => select("")}
               className={`px-4 py-3 border-b border-border active:opacity-90 ${
@@ -67,6 +69,7 @@ export function StaffFilterSelect({
             {options.map((option) => {
               const selected = value === option;
               return (
+                // eslint-disable-next-line no-restricted-syntax -- dropdown option row, not a button
                 <Pressable
                   key={option}
                   onPress={() => select(option)}

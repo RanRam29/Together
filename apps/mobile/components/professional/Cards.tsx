@@ -89,6 +89,7 @@ export function IncomingRequestCard({
   return (
     <View className="bg-surface border border-border rounded-card p-5 mb-4">
       <View className="flex-row items-center justify-between mb-1">
+        {/* eslint-disable-next-line no-restricted-syntax -- tappable child name (opens profile), not a button */}
         <Pressable
           onPress={onViewProfile}
           className={`active:opacity-80 ${webPressableClass}`}
@@ -120,6 +121,7 @@ export function IncomingRequestCard({
         <Text className="text-xs text-teal mt-2 text-start">{formattedMatchReason}</Text>
       ) : null}
 
+      {/* eslint-disable-next-line no-restricted-syntax -- inline view-profile text link, not a button */}
       <Pressable
         onPress={onViewProfile}
         className={`mt-4 self-start active:opacity-80 ${webPressableClass}`}

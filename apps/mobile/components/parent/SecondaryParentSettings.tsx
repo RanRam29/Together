@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/lib/supabase";
 import { PrimaryButton, TextField } from "@/components/ui/Screen";
+import { Button } from "@/components/ui/Button";
 import { useParentInvitations } from "@/hooks/useParentInvitations";
 import { useAuthStore } from "@/stores/auth-store";
 import type { Child } from "@/lib/types";
@@ -186,6 +187,7 @@ export function SecondaryParentSettings({ child }: { child: Child }) {
               
               <View className="mt-4 pt-4 border-t border-blue-200">
                 {!isTransferring ? (
+                  /* eslint-disable-next-line no-restricted-syntax -- low-emphasis destructive text link, not a button */
                   <Pressable onPress={() => setIsTransferring(true)} className="py-2 items-center">
                     <Text className="text-red-600 font-bold font-rubik text-base">{t("parent.transferPrimary", "העברת בעלות")}</Text>
                   </Pressable>
@@ -204,12 +206,22 @@ export function SecondaryParentSettings({ child }: { child: Child }) {
                       onChangeText={setTransferConfirmName}
                     />
                     <View className="mt-4 flex-row gap-2 justify-end">
-                      <Pressable onPress={() => setIsTransferring(false)} className="px-4 py-2 bg-gray-200 rounded-lg">
-                        <Text className="text-gray-800 font-bold">{t("cancel", "ביטול")}</Text>
-                      </Pressable>
-                      <Pressable onPress={handleTransfer} className="px-4 py-2 bg-red-600 rounded-lg" disabled={loading}>
-                        <Text className="text-white font-bold">{t("confirm", "אישור")}</Text>
-                      </Pressable>
+                      <Button
+                        variant="neutral"
+                        size="sm"
+                        label={t("cancel", "ביטול")}
+                        onPress={() => setIsTransferring(false)}
+                        className="rounded-lg"
+                      />
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        label={t("confirm", "אישור")}
+                        onPress={handleTransfer}
+                        loading={loading}
+                        disabled={loading}
+                        className="rounded-lg"
+                      />
                     </View>
                   </View>
                 )}

@@ -28,6 +28,7 @@ export function MoodPicker({
         {MOODS.map((mood) => {
           const selected = mood.value === value;
           return (
+            /* eslint-disable-next-line no-restricted-syntax -- mood selection control, not a button */
             <Pressable
               key={mood.value}
               onPress={() => onChange(mood.value)}

@@ -26,6 +26,7 @@ export function VerificationChecklist({
       {VERIFICATION_CHECKLIST_KEYS.map((key) => {
         const checked = state[key];
         return (
+          // eslint-disable-next-line no-restricted-syntax -- checklist toggle row (checkbox), not a button
           <Pressable
             key={key}
             onPress={() => onToggle(key)}

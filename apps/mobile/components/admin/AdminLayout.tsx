@@ -83,6 +83,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               activeSegment === item.segment ||
               (item.segment === "verification" && segments.includes("review"));
             return (
+              // eslint-disable-next-line no-restricted-syntax -- sidebar nav item, not a button
               <Pressable
                 key={item.key}
                 onPress={() => router.push(item.href as never)}
@@ -103,6 +104,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         </ScrollView>
 
         <View className="px-6 mt-4 pb-4">
+          {/* eslint-disable-next-line no-restricted-syntax -- logout text link, not a button */}
           <Pressable onPress={handleLogout} className="active:opacity-80 py-3">
             <Text className="text-[#ba1a1a] font-semibold text-right font-rubik">
               {t("staff.logout", "התנתק")}
@@ -116,6 +118,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         {/* Mobile Header (Hidden on Desktop) */}
         <View className="md:hidden bg-white border-b border-[#e5e1eb] py-4 w-full items-center">
           <View className="w-full px-6 flex-row items-center justify-between">
+            {/* eslint-disable-next-line no-restricted-syntax -- logout text link, not a button */}
             <Pressable onPress={handleLogout} className="active:opacity-80">
               <Text className="text-[#ba1a1a] font-semibold font-rubik">
                 {t("staff.logout", "התנתק")}
@@ -142,6 +145,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                     activeSegment === item.segment ||
                     (item.segment === "verification" && segments.includes("review"));
                   return (
+                    // eslint-disable-next-line no-restricted-syntax -- mobile nav tab, not a button
                     <Pressable
                       key={item.key}
                       onPress={() => router.push(item.href as never)}
@@ -166,6 +170,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
 
         {/* MFA Banner */}
         {isAdmin && mfa.needsMfa ? (
+          // eslint-disable-next-line no-restricted-syntax -- tappable MFA banner, not a button
           <Pressable
             onPress={() => mfa.setShowModal(true)}
             className="bg-[#ffdad6] border-b border-[#ba1a1a] py-3 active:opacity-90 w-full items-center"

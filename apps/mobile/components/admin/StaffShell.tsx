@@ -44,6 +44,7 @@ export function StaffShell({ children }: StaffShellProps) {
     <View className="flex-1 bg-bg min-h-screen">
       <View className="bg-surface border-b border-border py-4 w-full items-center">
         <StaffPageWidth className="px-6 flex-row items-center justify-between">
+          {/* eslint-disable-next-line no-restricted-syntax -- logout text link, not a button */}
           <Pressable onPress={handleLogout} className="active:opacity-80">
             <Text className="text-teal font-semibold font-rubik">
               {t("staff.logout")}
@@ -56,6 +57,7 @@ export function StaffShell({ children }: StaffShellProps) {
         </StaffPageWidth>
       </View>
       {isAdmin && mfa.needsMfa ? (
+        // eslint-disable-next-line no-restricted-syntax -- tappable MFA banner, not a button
         <Pressable
           onPress={() => mfa.setShowModal(true)}
           className="bg-amber/15 border-b border-amber py-3 active:opacity-90 w-full items-center"

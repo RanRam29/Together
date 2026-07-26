@@ -56,6 +56,7 @@ export function LetterCard({
       />
 
       {onDismiss ? (
+        // eslint-disable-next-line no-restricted-syntax -- low-emphasis dismiss text link, not a button
         <Pressable
           onPress={onDismiss}
           className={`mt-3 py-2 active:opacity-80 ${webPressableClass}`}

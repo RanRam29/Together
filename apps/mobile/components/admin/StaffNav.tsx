@@ -98,6 +98,7 @@ export function StaffNav() {
               activeSegment === item.segment ||
               (item.segment === "verification" && segments.includes("review"));
             return (
+              // eslint-disable-next-line no-restricted-syntax -- nav tab, not a button
               <Pressable
                 key={item.key}
                 onPress={() => router.push(item.href as never)}

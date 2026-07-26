@@ -22,6 +22,7 @@ export function NextActionList({ actions, onPress }: NextActionListProps) {
         {t("nba.secondaryEyebrow")}
       </Text>
       {actions.map((action, index) => (
+        // eslint-disable-next-line no-restricted-syntax -- secondary-actions list row, not a button
         <Pressable
           key={action.id}
           onPress={() => onPress(action)}

@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 
+import { Button } from "@/components/ui/Button";
 import { BrandSpinner } from "@/components/motion/BrandSpinner";
 import {
   enrollTotpFactor,
@@ -127,18 +128,16 @@ export function AdminMfaModal({ visible, onClose, onVerified }: AdminMfaModalPro
               ) : null}
 
               <View className="flex-row gap-3 justify-end">
+                {/* eslint-disable-next-line no-restricted-syntax -- low-emphasis cancel (ink-2 text); Button ghost is purple-only */}
                 <Pressable onPress={onClose} className="px-4 py-3">
                   <Text className="text-ink-2 font-rubik">{t("common.cancel")}</Text>
                 </Pressable>
-                <Pressable
+                <Button
+                  label={t("staff.mfaVerify")}
                   onPress={handleVerify}
+                  loading={verifying}
                   disabled={verifying || code.length < 6}
-                  className="bg-purple rounded-card px-6 py-3 active:opacity-90"
-                >
-                  <Text className="text-white font-semibold font-rubik">
-                    {verifying ? "…" : t("staff.mfaVerify")}
-                  </Text>
-                </Pressable>
+                />
               </View>
             </>
           )}

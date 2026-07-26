@@ -37,6 +37,7 @@ export function StarRating({
           }
 
           return (
+            /* eslint-disable-next-line no-restricted-syntax -- star rating control, not a button */
             <Pressable
               key={starValue}
               onPress={() => onChange(starValue)}
